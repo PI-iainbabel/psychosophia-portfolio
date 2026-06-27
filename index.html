@@ -1,21 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<nav style="background: #0f1b33; padding: 12px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; border-bottom: 3px solid #c9a84c; position: sticky; top: 0; z-index: 1000; font-family: 'Inter', sans-serif;">
-    <div style="display: flex; align-items: center; gap: 20px;">
-        <a href="https://pi-iainbabel.github.io/psychosophia-hub/" style="display: flex; align-items: center; gap: 8px; color: #c9a84c; text-decoration: none; font-weight: 600; font-size: 0.85rem; background: rgba(201,168,76,0.15); padding: 4px 14px; border-radius: 30px; border: 1px solid rgba(201,168,76,0.25);">
-            <i class="fas fa-arrow-left" style="font-size: 0.7rem;"></i> Portal
-        </a>
-        <span style="color: #fff; font-weight: 600; font-size: 0.9rem;">
-            <span style="background: linear-gradient(135deg, #c9a84c, #e8d48b); padding: 2px 8px; border-radius: 6px; color: #0f1b33; font-weight: 800;">Ψ</span>
-            Psychosophia Lab
-        </span>
-    </div>
-    <div style="display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center;">
-        <a href="../" style="color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.75rem; font-weight: 500; padding: 4px 10px; border-radius: 16px;">← Kembali ke Portofolio</a>
-    </div>
-</nav>
-    
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Psychosophia — Layanan Psikologi & Digital Lab</title>
@@ -169,6 +154,33 @@
             font-weight: 300;
             color: rgba(255, 255, 255, 0.7);
         }
+
+        /* ===== TOMBOL KEMBALI KE PORTAL ===== */
+        .btn-back-portal {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(201, 168, 76, 0.15);
+            color: var(--gold-light);
+            padding: 8px 18px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border: 1px solid rgba(201, 168, 76, 0.2);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .btn-back-portal:hover {
+            background: rgba(201, 168, 76, 0.25);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(201, 168, 76, 0.15);
+        }
+        .btn-back-portal i {
+            font-size: 0.8rem;
+        }
+
+        /* ===== NAV LINKS ===== */
         .nav-links {
             display: flex;
             gap: 32px;
@@ -225,6 +237,19 @@
             transform: rotate(-45deg) translate(5px, -5px);
         }
 
+        @media (max-width: 1024px) {
+            .nav-links {
+                gap: 20px;
+            }
+            .nav-links a {
+                font-size: 0.8rem;
+            }
+            .btn-back-portal {
+                font-size: 0.75rem;
+                padding: 6px 14px;
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-links {
                 position: fixed;
@@ -258,6 +283,10 @@
                 width: 34px;
                 height: 34px;
                 font-size: 1rem;
+            }
+            .btn-back-portal {
+                font-size: 0.7rem;
+                padding: 4px 12px;
             }
         }
 
@@ -862,7 +891,7 @@
             margin-top: 4px;
         }
 
-        /* ===== DIGITAL LAB (BARU) ===== */
+        /* ===== DIGITAL LAB ===== */
         .digitallab-section {
             background: #fcfaf5;
         }
@@ -1294,6 +1323,12 @@
                 <div class="brand-icon">Ψ</div>
                 Psychosophia <span>· IAIN SAS</span>
             </a>
+
+            <!-- ===== TOMBOL KEMBALI KE PORTAL ===== -->
+            <a href="https://pi-iainbabel.github.io/psychosophia-hub/" class="btn-back-portal" target="_self">
+                <i class="fas fa-arrow-left"></i> Kembali ke Portal
+            </a>
+
             <ul class="nav-links" id="navLinks">
                 <li><a href="#units">Unit</a></li>
                 <li><a href="#matrix">Aktivitas</a></li>
@@ -1589,7 +1624,6 @@
                         </div>
                     </div>
 
-                    <!-- 👇 TAMBAHAN: GHASAB -->
                     <div class="lab-card">
                         <span class="lab-icon">🕌</span>
                         <span class="lab-category">Riset</span>
@@ -1600,7 +1634,6 @@
                             <span class="lab-status live">Live</span>
                         </div>
                     </div>
-                    <!-- 👆 AKHIR TAMBAHAN -->
 
                     <div class="lab-card">
                         <span class="lab-icon">🏃</span>
