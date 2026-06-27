@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buku Saku Digital - RumahHati</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest">
+    </script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cozy: {
+                            cream: '#FAF7F2',
+                            creamDark: '#F3EFE9',
+                            sage: '#4E6E58',
+                            sageLight: '#E8ECE6',
+                            clay: '#824936',
+                            clayLight: '#F5ECE9',
+                            gold: '#D4AF37',
+                            goldLight: '#F9F4E8',
+                            slate: '#2C3531',
+                            dimBg: '#1C1F1E',
+                            dimCard: '#242928'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF7F2;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #1C1F1E;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D4D8CE;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #3B4441;
+        }
+
+        .brand-image {
+            background: linear-gradient(145deg, #f3efe9, #e8ece6);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            color: #4E6E58;
+            text-align: center;
+            padding: 1rem;
+            min-height: 120px;
+            border: 1px solid #e0e4dd;
+            transition: all 0.2s;
+        }
+        .dark .brand-image {
+            background: linear-gradient(145deg, #2a302e, #1f2422);
+            border-color: #3a4240;
+            color: #c4cfc7;
+        }
+        .brand-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            display: block;
+        }
+
+        .toc-link.active {
+            background-color: #4E6E58;
+            color: #ffffff !important;
+            box-shadow: 0 2px 8px rgba(78, 110, 88, 0.25);
+        }
+        .dark .toc-link.active {
+            background-color: #4E6E58;
+            color: #ffffff !important;
+        }
+        .toc-link.active i {
+            color: #ffffff !important;
+        }
+
+        .habit-check {
+            transition: all 0.2s ease;
+        }
+        .habit-check i {
+            transition: opacity 0.2s ease;
+        }
+    </style>
+</head>
+<body class="bg-cozy-cream text-stone-800 font-sans min-h-screen flex flex-col antialiased dark:bg-cozy-dimBg dark:text-stone-300">
+
+    <!-- ===== HEADER ===== -->
+    <header class="bg-gradient-to-br from-cozy-goldLight via-cozy-cream to-cozy-clayLight dark:from-stone-900 dark:via-cozy-dimCard dark:to-stone-900 py-10 px-6 md:px-12 border-b border-orange-100/50 dark:border-stone-800/80 relative overflow-hidden flex-shrink-0">
+        <div class="absolute -top-10 -right-10 w-64 h-64 bg-cozy-gold/10 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-10 -left-10 w-64 h-64 bg-cozy-sage/10 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-4 relative z-10">
+            <div class="flex items-center gap-3">
+                <span class="text-4xl">🏡</span>
+                <div>
+                    <h1 class="font-serif font-extrabold text-3xl md:text-4xl text-stone-900 dark:text-white">RumahHati</h1>
+                    <p class="text-sm md:text-base text-stone-500 dark:text-stone-400 font-medium font-serif italic">
+                        Buku Saku Panduan Ketahanan Hubungan Pasangan
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 flex-wrap">
+                <button onclick="toggleDimMode()" class="px-5 py-3 bg-white dark:bg-stone-800 border border-stone-200/60 dark:border-stone-700 rounded-xl text-sm font-bold shadow-xs flex items-center gap-2 hover:bg-stone-50 dark:hover:bg-stone-700 transition" title="Ubah Mode Cahaya">
+                    <span class="flex items-center gap-1.5 dark:hidden">
+                        <i data-lucide="moon" class="w-4 h-4 text-cozy-clay"></i> Mode Senja
+                    </span>
+                    <span class="hidden dark:flex items-center gap-1.5">
+                        <i data-lucide="sun" class="w-4 h-4 text-cozy-gold"></i> Mode Hangat
+                    </span>
+                </button>
+                <a href="https://rumahhati-psga.lovable.app" target="_blank" class="px-6 py-3 bg-cozy-sage hover:bg-cozy-sage/90 text-white rounded-xl font-bold text-sm shadow-md shadow-cozy-sage/10 flex items-center gap-1.5 transition">
+                    Coba Aplikasi <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== MAIN LAYOUT ===== -->
+    <div class="max-w-7xl w-full mx-auto px-4 md:px-8 py-8 flex flex-col lg:flex-row gap-8 flex-grow">
+
+        <!-- ===== SIDEBAR KIRI ===== -->
+        <aside class="w-full lg:w-[280px] xl:w-1/4 order-1 lg:order-1 space-y-6 flex-shrink-0">
+
+            <div class="bg-white dark:bg-cozy-dimCard rounded-3xl border border-stone-200/60 dark:border-stone-800/80 shadow-xs overflow-hidden p-4">
+                <div class="brand-image">
+                    <img src="1000078508.png" alt="PSGA IAIN SAS & Psychosophia Behavioral Lab — Kolaborasi Riset & Inovasi" loading="lazy" />
+                </div>
+                <div class="mt-3 text-center">
+                    <p class="text-xs font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider">Kolaborasi Riset &amp; Inovasi</p>
+                    <p class="text-sm font-serif text-stone-600 dark:text-stone-400 leading-tight mt-0.5">
+                        PSGA &amp; Psychosophia Behavioral Lab
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-cozy-dimCard p-5 rounded-3xl border border-stone-200/60 dark:border-stone-800/80 shadow-xs">
+                <h3 class="text-xs font-extrabold text-stone-400 dark:text-stone-500 uppercase tracking-wider mb-4 px-1 flex items-center gap-2">
+                    <i data-lucide="menu" class="w-4 h-4"></i> Daftar Isi
+                </h3>
+                <nav id="toc-nav" class="flex flex-col gap-1 text-sm font-semibold text-stone-600 dark:text-stone-400">
+                    <a href="#tentang" class="toc-link flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-cozy-creamDark dark:hover:bg-stone-900 hover:text-stone-950 dark:hover:text-white transition-all">
+                        <i data-lucide="info" class="w-4 h-4 text-cozy-sage flex-shrink-0"></i> 1. Tentang Aplikasi
+                    </a>
+                    <a href="#teori" class="toc-link flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-cozy-creamDark dark:hover:bg-stone-900 hover:text-stone-950 dark:hover:text-white transition-all">
+                        <i data-lucide="book-open" class="w-4 h-4 text-cozy-sage flex-shrink-0"></i> 2. Kerangka Teori
+                    </a>
+                    <a href="#cara-pakai" class="toc-link flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-cozy-creamDark dark:hover:bg-stone-900 hover:text-stone-950 dark:hover:text-white transition-all">
+                        <i data-lucide="navigation-2" class="w-4 h-4 text-cozy-sage flex-shrink-0"></i> 3. Langkah Praktis
+                    </a>
+                    <a href="#interpretasi" class="toc-link flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-cozy-creamDark dark:hover:bg-stone-900 hover:text-stone-950 dark:hover:text-white transition-all">
+                        <i data-lucide="activity" class="w-4 h-4 text-cozy-sage flex-shrink-0"></i> 4. Interpretasi Skor
+                    </a>
+                    <a href="#panduan-pengguna" class="toc-link flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-cozy-creamDark dark:hover:bg-stone-900 hover:text-stone-950 dark:hover:text-white transition-all">
+                        <i data-lucide="heart-handshake" class="w-4 h-4 text-cozy-sage flex-shrink-0"></i> 5. Kebiasaan Mikro
+                    </a>
+                    <a href="#panduan-admin" class="toc-link flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-cozy-creamDark dark:hover:bg-stone-900 hover:text-stone-950 dark:hover:text-white transition-all">
+                        <i data-lucide="database" class="w-4 h-4 text-cozy-sage flex-shrink-0"></i> 6. Dasbor &amp; Konselor
+                    </a>
+                    <a href="#faq" class="toc-link flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-cozy-creamDark dark:hover:bg-stone-900 hover:text-stone-950 dark:hover:text-white transition-all">
+                        <i data-lucide="help-circle" class="w-4 h-4 text-cozy-sage flex-shrink-0"></i> 7. Pertanyaan Umum
+                    </a>
+                </nav>
+
+                <div class="mt-6 pt-4 border-t border-stone-100 dark:border-stone-800 text-xs text-stone-400 dark:text-stone-500 space-y-1">
+                    <p class="font-bold uppercase text-[10px] tracking-wider">Protokol Validitas</p>
+                    <p class="leading-relaxed">Asesmen berbasis bukti psikometrik teoretis terstandarisasi untuk merawat kesehatan hubungan.</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ===== KONTEN UTAMA ===== -->
+        <main class="w-full lg:flex-1 order-2 lg:order-2 space-y-16">
+
+            <!-- 1. TENTANG -->
+            <section id="tentang" class="scroll-mt-8 space-y-6">
+                <div class="flex items-center gap-3 border-b border-stone-200/50 dark:border-stone-800 pb-4">
+                    <span class="text-cozy-clay bg-cozy-clayLight dark:bg-stone-800 p-3 rounded-2xl text-2xl">ℹ️</span>
+                    <div>
+                        <h2 class="font-serif text-3xl md:text-4xl font-extrabold text-stone-950 dark:text-white">Tentang RumahHati</h2>
+                        <p class="text-sm text-stone-400">Pencegahan Primer, Deteksi Dini &amp; Penguatan Relasi Pasangan</p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-cozy-dimCard p-8 rounded-3xl border border-stone-100 dark:border-stone-800/80 shadow-xs relative overflow-hidden">
+                    <div class="prose max-w-none text-stone-600 dark:text-stone-400 text-base md:text-lg leading-relaxed space-y-4">
+                        <p>
+                            <strong>RumahHati</strong> adalah aplikasi asesmen mandiri inovatif yang dirancang khusus untuk memetakan dan mengukur derajat kesehatan relasi pasangan. Aplikasi ini dikembangkan untuk mengawal perjalanan hubungan agar berjalan harmonis, aman, dan meminimalkan bias defensif yang kerap muncul pada evaluasi klinis konvensional.
+                        </p>
+                        <p>
+                            Melalui pendekatan ilmiah yang humanis, RumahHati mengusung tiga misi utama di masyarakat:
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                        <div class="p-5 bg-cozy-cream/40 dark:bg-stone-900/40 rounded-2xl border border-stone-150/40 dark:border-stone-800">
+                            <span class="text-2xl">🛡️</span>
+                            <h4 class="font-serif font-bold text-stone-800 dark:text-white text-base mt-2 mb-1">Pencegahan Primer KDRT</h4>
+                            <p class="text-sm text-stone-500 leading-relaxed">
+                                Memetakan ketidakseimbangan hubungan dan bibit stres emosional sejak awal sebelum berujung pada tindak kekerasan.
+                            </p>
+                        </div>
+                        <div class="p-5 bg-cozy-cream/40 dark:bg-stone-900/40 rounded-2xl border border-stone-150/40 dark:border-stone-800">
+                            <span class="text-2xl">🌱</span>
+                            <h4 class="font-serif font-bold text-stone-800 dark:text-white text-base mt-2 mb-1">Kesadaran Mandiri Pasangan</h4>
+                            <p class="text-sm text-stone-500 leading-relaxed">
+                                Memberikan ruang refleksi jujur bagi pasangan untuk menyadari kualitas kedekatan dan keadilan peran mereka secara objektif.
+                            </p>
+                        </div>
+                        <div class="p-5 bg-cozy-cream/40 dark:bg-stone-900/40 rounded-2xl border border-stone-150/40 dark:border-stone-800">
+                            <span class="text-2xl">📊</span>
+                            <h4 class="font-serif font-bold text-stone-800 dark:text-white text-base mt-2 mb-1">Dukungan Berbasis Data</h4>
+                            <p class="text-sm text-stone-500 leading-relaxed">
+                                Memfasilitasi konselor dan guru BK dengan data agregat tanpa nama guna menyusun langkah intervensi kelompok yang presisi.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. TEORI -->
+            <section id="teori" class="scroll-mt-8 space-y-6">
+                <div class="flex items-center gap-3 border-b border-stone-200/50 dark:border-stone-800 pb-4">
+                    <span class="text-cozy-clay bg-cozy-clayLight dark:bg-stone-800 p-3 rounded-2xl text-2xl">📚</span>
+                    <div>
+                        <h2 class="font-serif text-3xl md:text-4xl font-extrabold text-stone-950 dark:text-white">Kerangka Teori Relasi</h2>
+                        <p class="text-sm text-stone-400">Dasar Ilmiah Keseimbangan dan Kematangan Relasi Hubungan</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white dark:bg-cozy-dimCard p-7 rounded-3xl border border-stone-100 dark:border-stone-800/80 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-extrabold text-cozy-clay uppercase tracking-wider">Social Exchange Theory (SET)</span>
+                            <span class="text-xs text-stone-400">Thibaut &amp; Kelley / Homans</span>
+                        </div>
+                        <h3 class="font-serif text-xl font-bold text-stone-900 dark:text-white">Matriks Timbal Balik &amp; Keadilan Peran</h3>
+                        <p class="text-sm text-stone-500 leading-relaxed">
+                            Diprakarsai secara monumental oleh <strong>John Thibaut &amp; Harold Kelley (1959)</strong> serta <strong>George Homans (1961)</strong>, teori ini berargumen bahwa kelangsungan hubungan ditentukan oleh hasil evaluasi kognitif terhadap <strong>Manfaat (Benefits)</strong> yang diterima dibanding <strong>Biaya (Costs)</strong> emosional atau material yang dikeluarkan.
+                        </p>
+
+                        <div class="bg-stone-50 dark:bg-stone-900 p-5 rounded-xl border border-stone-150/60 dark:border-stone-800">
+                            <h5 class="text-sm font-bold text-stone-800 dark:text-white mb-1.5 flex items-center gap-1.5">
+                                <i data-lucide="clipboard-list" class="w-4 h-4 text-cozy-sage"></i> Tinjauan Literatur Hilirisasi EWS KDRT
+                            </h5>
+                            <p class="text-xs text-stone-500 leading-relaxed">
+                                Studi psikologi sosial kontemporer membuktikan bahwa tingginya biaya hubungan (<em>costs</em>) yang tidak diimbangi oleh manfaat emosional (<em>benefits</em>) menciptakan kondisi ketidakseimbangan relasi kronis. Di bawah kerangka Thibaut &amp; Kelley, jika kepuasan berada di bawah Tingkat Perbandingan (<em>CL</em>) namun melampaui Tingkat Perbandingan Alternatif (<em>CL<sub>alt</sub></em>), pasangan terjebak dalam perangkap relasi non-sukarela (<em>entrapment</em>). Pengukuran parameter ini secara berkala melalui sistem RumahHati bertindak sebagai <em>Early Warning System</em> (EWS) taktis untuk mendeteksi ancaman kekerasan dalam rumah tangga (KDRT) psikis maupun fisik secara senyap.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-cozy-dimCard p-7 rounded-3xl border border-stone-100 dark:border-stone-800/80 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-xs font-extrabold text-cozy-sage uppercase tracking-wider">Triangular Love Scale (TLS)</span>
+                                <span class="text-xs text-stone-400">Robert Sternberg, 1986</span>
+                            </div>
+                            <h3 class="font-serif text-xl font-bold text-stone-900 dark:text-white mb-3">Tiga Pilar Energi Cinta</h3>
+                            <p class="text-sm text-stone-500 leading-relaxed mb-4">
+                                Robert Sternberg merumuskan bahwa kedalaman dan kelangsungan hubungan cinta romantis ditopang secara dinamis oleh konfigurasi tiga pilar utama:
+                            </p>
+
+                            <div class="space-y-3">
+                                <div class="flex gap-3">
+                                    <span class="p-2 bg-rose-50 dark:bg-stone-800 rounded-lg text-rose-500 text-sm font-bold">I</span>
+                                    <div>
+                                        <h5 class="text-sm font-bold text-stone-800 dark:text-white">Keintiman (Intimacy)</h5>
+                                        <p class="text-xs text-stone-500">Kedekatan emosional, kehangatan, rasa aman, dan saling percaya.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <span class="p-2 bg-amber-50 dark:bg-stone-800 rounded-lg text-amber-500 text-sm font-bold">P</span>
+                                    <div>
+                                        <h5 class="text-sm font-bold text-stone-800 dark:text-white">Gairah (Passion)</h5>
+                                        <p class="text-xs text-stone-500">Daya tarik fisik, ketertarikan seksual, dan romansa neurobiologis.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <span class="p-2 bg-sky-50 dark:bg-stone-800 rounded-lg text-sky-500 text-sm font-bold">C</span>
+                                    <div>
+                                        <h5 class="text-sm font-bold text-stone-800 dark:text-white">Komitmen (Commitment)</h5>
+                                        <p class="text-xs text-stone-500">Keputusan kognitif jangka panjang untuk merawat dan bertahan bersama.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 bg-cozy-goldLight dark:bg-stone-900 p-4 rounded-xl border border-cozy-gold/20 flex items-center gap-3">
+                            <span class="text-2xl">🏆</span>
+                            <div>
+                                <h6 class="text-sm font-bold text-stone-800 dark:text-white">Cinta Sempurna (Consummate Love)</h6>
+                                <p class="text-xs text-stone-500">Gabungan ideal dan seimbang dari pilar Keintiman, Gairah, dan Komitmen.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-cozy-dimCard p-5 rounded-2xl border border-stone-100 dark:border-stone-800 text-xs text-stone-500 space-y-2">
+                    <p class="font-bold uppercase tracking-wider text-stone-400">Daftar Rujukan Teoretis:</p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Thibaut, J. W., &amp; Kelley, H. H. (1959). <em>The social psychology of groups</em>. John Wiley &amp; Sons.</li>
+                        <li>Homans, G. C. (1961). <em>Social behavior: Its elementary forms</em>. Harcourt, Brace &amp; World.</li>
+                        <li>Sternberg, R. J. (1986). A triangular theory of love. <em>Psychological Review</em>, 93(2), 119-135.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- 3. CARA PAKAI -->
+            <section id="cara-pakai" class="scroll-mt-8 space-y-6">
+                <div class="flex items-center gap-3 border-b border-stone-200/50 dark:border-stone-800 pb-4">
+                    <span class="text-cozy-clay bg-cozy-clayLight dark:bg-stone-800 p-3 rounded-2xl text-2xl">🚀</span>
+                    <div>
+                        <h2 class="font-serif text-3xl md:text-4xl font-extrabold text-stone-950 dark:text-white">Langkah Penggunaan Asesmen</h2>
+                        <p class="text-sm text-stone-400">Alur Pengisian Sederhana, Singkat &amp; Bebas Stress</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white dark:bg-cozy-dimCard p-6 rounded-2xl border border-stone-100 dark:border-stone-800 relative">
+                        <span class="absolute -top-3 -left-3 h-9 w-9 bg-cozy-clay text-white rounded-full flex items-center justify-center font-bold text-base">1</span>
+                        <h4 class="font-serif font-bold text-stone-900 dark:text-white mt-2 mb-2 text-base">Buka Aplikasi</h4>
+                        <p class="text-sm text-stone-500 leading-relaxed mb-4">
+                            Kunjungi tautan web RumahHati di gawai pintar Anda secara mandiri.
+                        </p>
+                        <a href="https://rumahhati-psga.lovable.app" target="_blank" class="text-sm font-bold text-cozy-clay dark:text-cozy-gold flex items-center gap-1 hover:underline">
+                            Buka RumahHati <i data-lucide="external-link" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+
+                    <div class="bg-white dark:bg-cozy-dimCard p-6 rounded-2xl border border-stone-100 dark:border-stone-800 relative">
+                        <span class="absolute -top-3 -left-3 h-9 w-9 bg-cozy-clay text-white rounded-full flex items-center justify-center font-bold text-base">2</span>
+                        <h4 class="font-serif font-bold text-stone-900 dark:text-white mt-2 mb-2 text-base">Jawab 8 Soal SET</h4>
+                        <p class="text-sm text-stone-500 leading-relaxed">
+                            Berikan tanggapan spontan dan jujur pada skala 1-5 mengenai pengorbanan dan kenyamanan relasi Anda.
+                        </p>
+                    </div>
+
+                    <div class="bg-white dark:bg-cozy-dimCard p-6 rounded-2xl border border-stone-100 dark:border-stone-800 relative">
+                        <span class="absolute -top-3 -left-3 h-9 w-9 bg-cozy-clay text-white rounded-full flex items-center justify-center font-bold text-base">3</span>
+                        <h4 class="font-serif font-bold text-stone-900 dark:text-white mt-2 mb-2 text-base">Lihat Kuadran Hasil</h4>
+                        <p class="text-sm text-stone-500 leading-relaxed">
+                            Bagan kuadran interaktif akan langsung menyajikan titik koordinat relasi Anda secara real-time.
+                        </p>
+                    </div>
+
+                    <div class="bg-white dark:bg-cozy-dimCard p-6 rounded-2xl border border-stone-100 dark:border-stone-800 relative">
+                        <span class="absolute -top-3 -left-3 h-9 w-9 bg-cozy-clay text-white rounded-full flex items-center justify-center font-bold text-base">4</span>
+                        <h4 class="font-serif font-bold text-stone-900 dark:text-white mt-2 mb-2 text-base">Eksplorasi Cinta TLS</h4>
+                        <p class="text-sm text-stone-500 leading-relaxed">
+                            Lanjutkan ke pengisian 15 butir kuis TLS untuk mengenali spektrum cinta dominan dalam relasi.
+                        </p>
+                    </div>
+
+                    <div class="bg-white dark:bg-cozy-dimCard p-6 rounded-2xl border border-stone-100 dark:border-stone-800 relative">
+                        <span class="absolute -top-3 -left-3 h-9 w-9 bg-cozy-clay text-white rounded-full flex items-center justify-center font-bold text-base">5</span>
+                        <h4 class="font-serif font-bold text-stone-900 dark:text-white mt-2 mb-2 text-base">Saran &amp; Rekomendasi</h4>
+                        <p class="text-sm text-stone-500 leading-relaxed">
+                            Pelajari ulasan rekomendasi praktis dari pakar yang disesuaikan dengan posisi kuadran Anda.
+                        </p>
+                    </div>
+
+                    <div class="bg-white dark:bg-cozy-dimCard p-6 rounded-2xl border border-stone-100 dark:border-stone-800 relative">
+                        <span class="absolute -top-3 -left-3 h-9 w-9 bg-cozy-clay text-white rounded-full flex items-center justify-center font-bold text-base">6</span>
+                        <h4 class="font-serif font-bold text-stone-900 dark:text-white mt-2 mb-2 text-base">Penyimpanan Anonim</h4>
+                        <p class="text-sm text-stone-500 leading-relaxed">
+                            Hasil asesmen akan diarsipkan tanpa identitas demi menunjang pengkajian sains terbuka (<em>open science</em>).
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. INTERPRETASI -->
+            <section id="interpretasi" class="scroll-mt-8 space-y-6">
+                <div class="flex items-center gap-3 border-b border-stone-200/50 dark:border-stone-800 pb-4">
+                    <span class="text-cozy-clay bg-cozy-clayLight dark:bg-stone-800 p-3 rounded-2xl text-2xl">📊</span>
+                    <div>
+                        <h2 class="font-serif text-3xl md:text-4xl font-extrabold text-stone-950 dark:text-white">Interpretasi Skor Asesmen</h2>
+                        <p class="text-sm text-stone-400">Peta Detail Klasifikasi Teori SET dan TLS</p>
+                    </div>
+                </div>
+
+                <div class="bg-cozy-creamDark dark:bg-stone-900/40 p-6 rounded-3xl border border-stone-200/50 dark:border-stone-800 mb-6">
+                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
+                        <div>
+                            <span class="text-xs font-bold text-cozy-clay dark:text-cozy-gold uppercase">Simulator Hasil Refleksi</span>
+                            <h3 class="font-serif text-xl font-bold text-stone-900 dark:text-white">Visualisasikan Zona Relasimu</h3>
+                        </div>
+                        <div class="p-2.5 bg-white dark:bg-stone-800 rounded-xl text-sm font-semibold">
+                            Simulasi K-Index: <span id="sim-index-display" class="text-cozy-clay font-bold">Sejahtera</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <div class="flex justify-between text-sm font-bold text-stone-600 dark:text-stone-400 mb-1">
+                                <span>Manfaat Relasi (Benefits)</span>
+                                <span id="label-benefits">Sedang (3)</span>
+                            </div>
+                            <input type="range" min="1" max="5" value="3" class="w-full h-2 bg-stone-200 dark:bg-stone-700 rounded-lg appearance-none cursor-pointer accent-cozy-sage" oninput="updateSetSimulator('benefits', this.value)" />
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm font-bold text-stone-600 dark:text-stone-400 mb-1">
+                                <span>Kekuatan Alternatif Lain</span>
+                                <span id="label-alternatives">Sedang (3)</span>
+                            </div>
+                            <input type="range" min="1" max="5" value="3" class="w-full h-2 bg-stone-200 dark:bg-stone-700 rounded-lg appearance-none cursor-pointer accent-cozy-clay" oninput="updateSetSimulator('alternatives', this.value)" />
+                        </div>
+                    </div>
+
+                    <div class="p-5 bg-white dark:bg-cozy-dimCard border border-stone-100 dark:border-stone-800 rounded-2xl" id="sim-result-card">
+                        <h4 class="font-serif font-bold text-stone-800 dark:text-white text-base mb-1" id="sim-title">Zona Sejahtera</h4>
+                        <p class="text-sm text-stone-500 leading-relaxed" id="sim-desc">
+                            Hubungan stabil dan bahagia. Kebutuhan dasar tercukupi dengan baik dan relasi saling menguntungkan.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-cozy-dimCard rounded-3xl border border-stone-100 dark:border-stone-800/80 overflow-hidden shadow-xs">
+                    <div class="p-5 border-b border-stone-100 dark:border-stone-800 bg-stone-50/50 dark:bg-stone-900/30">
+                        <h3 class="font-serif font-bold text-stone-900 dark:text-white text-lg">Matriks 4 Zona Hubungan (SET)</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm md:text-base">
+                            <thead>
+                                <tr class="border-b border-stone-200 dark:border-stone-800 text-stone-400 uppercase tracking-wider text-xs">
+                                    <th class="p-4 font-bold">Zona</th>
+                                    <th class="p-4 font-bold">Arti Logis</th>
+                                    <th class="p-4 font-bold">Rekomendasi Utama &amp; Ketersediaan Fitur</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-100 dark:divide-stone-800 text-stone-600 dark:text-stone-400">
+                                <tr>
+                                    <td class="p-4 font-bold text-green-700 dark:text-green-400">🟢 Sejahtera</td>
+                                    <td class="p-4">Kepuasan tinggi, komitmen kuat, minim ancaman luar.</td>
+                                    <td class="p-4">Pertahankan apresiasi kecil sehari-hari dan jaga waktu bersama pasangan. <br /><span class="text-xs font-semibold text-stone-400">(Tersedia di diagram kuadran aplikasi RumahHati)</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-bold text-blue-700 dark:text-blue-400">🔵 Rentan</td>
+                                    <td class="p-4">Puas dengan hubungan saat ini, namun sangat mudah goyah jika ada godaan alternatif luar.</td>
+                                    <td class="p-4">Tingkatkan kualitas keintiman eksklusif, kurangi paparan pemicu eksternal. <br /><span class="text-xs font-semibold text-stone-400">(Tersedia di diagram kuadran aplikasi RumahHati)</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-bold text-yellow-700 dark:text-yellow-400">🟡 Penjara (Mapan/Sengsara)</td>
+                                    <td class="p-4">Sangat tidak puas (manfaat rendah, biaya tinggi), tetapi terpaksa bertahan karena ketiadaan opsi luar/alternatif.</td>
+                                    <td class="p-4"><strong class="text-cozy-clay">Terpetakan Eksplisit di Aplikasi:</strong> Konseling individu untuk memetakan opsi sehat, cari dukungan konselor/BK terpercaya guna memecah siklus jebakan psikologis. <br /><span class="text-xs font-semibold text-stone-400">(Tersedia di diagram kuadran aplikasi RumahHati)</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-bold text-rose-700 dark:text-rose-400">🔴 Risiko Tinggi</td>
+                                    <td class="p-4">Sangat tidak bahagia dengan pasangan saat ini, dan terdapat potensi opsi luar yang lebih menjanjikan.</td>
+                                    <td class="p-4">Sangat disarankan segera berkonsultasi ke konselor pernikahan profesional atau guru BK guna menghindari eskalasi destruktif. <br /><span class="text-xs font-semibold text-stone-400">(Tersedia di diagram kuadran aplikasi RumahHati)</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-cozy-dimCard rounded-3xl border border-stone-100 dark:border-stone-800/80 overflow-hidden shadow-xs">
+                    <div class="p-5 border-b border-stone-100 dark:border-stone-800 bg-stone-50/50 dark:bg-stone-900/30">
+                        <h3 class="font-serif font-bold text-stone-900 dark:text-white text-lg">8 Spektrum Hubungan Cinta (Sternberg, 1986)</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm md:text-base">
+                            <thead>
+                                <tr class="border-b border-stone-200 dark:border-stone-800 text-stone-400 uppercase tracking-wider text-xs">
+                                    <th class="p-4 font-bold">Tipe Cinta</th>
+                                    <th class="p-4 font-bold text-center">Keintiman (I)</th>
+                                    <th class="p-4 font-bold text-center">Gairah (P)</th>
+                                    <th class="p-4 font-bold text-center">Komitmen (C)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-100 dark:divide-stone-800 text-stone-600 dark:text-stone-400">
+                                <tr class="bg-stone-50/30 dark:bg-stone-900/10">
+                                    <td class="p-4 font-semibold text-stone-450">1. Bukan Cinta (Non-love)</td>
+                                    <td class="p-4 text-center text-stone-350">-</td>
+                                    <td class="p-4 text-center text-stone-350">-</td>
+                                    <td class="p-4 text-center text-stone-350">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-semibold">2. Suka (Liking)</td>
+                                    <td class="p-4 text-center text-green-500 font-bold">✓</td>
+                                    <td class="p-4 text-center text-stone-350">-</td>
+                                    <td class="p-4 text-center text-stone-350">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-semibold">3. Cinta Gila (Infatuation)</td>
+                                    <td class="p-4 text-center text-stone-350">-</td>
+                                    <td class="p-4 text-center text-amber-500 font-bold">✓</td>
+                                    <td class="p-4 text-center text-stone-350">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-semibold">4. Cinta Kosong (Empty Love)</td>
+                                    <td class="p-4 text-center text-stone-350">-</td>
+                                    <td class="p-4 text-center text-stone-350">-</td>
+                                    <td class="p-4 text-center text-sky-500 font-bold">✓</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-semibold">5. Cinta Romantis (Romantic Love)</td>
+                                    <td class="p-4 text-center text-green-500 font-bold">✓</td>
+                                    <td class="p-4 text-center text-amber-500 font-bold">✓</td>
+                                    <td class="p-4 text-center text-stone-350">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-semibold">6. Cinta Persahabatan (Companionate Love)</td>
+                                    <td class="p-4 text-center text-green-500 font-bold">✓</td>
+                                    <td class="p-4 text-center text-stone-350">-</td>
+                                    <td class="p-4 text-center text-sky-500 font-bold">✓</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-semibold">7. Cinta Bodoh (Fatuous Love)</td>
+                                    <td class="p-4 text-center text-stone-350">-</td>
+                                    <td class="p-4 text-center text-amber-500 font-bold">✓</td>
+                                    <td class="p-4 text-center text-sky-500 font-bold">✓</td>
+                                </tr>
+                                <tr class="bg-cozy-goldLight/20 dark:bg-stone-900/30">
+                                    <td class="p-4 font-bold text-cozy-clay dark:text-cozy-gold">8. Cinta Sempurna (Consummate Love)</td>
+                                    <td class="p-4 text-center text-green-500 font-bold">✓</td>
+                                    <td class="p-4 text-center text-amber-500 font-bold">✓</td>
+                                    <td class="p-4 text-center text-sky-500 font-bold">✓</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. KEBIASAAN MIKRO -->
+            <section id="panduan-pengguna" class="scroll-mt-8 space-y-6">
+                <div class="flex items-center gap-3 border-b border-stone-200/50 dark:border-stone-800 pb-4">
+                    <span class="text-cozy-clay bg-cozy-clayLight dark:bg-stone-800 p-3 rounded-2xl text-2xl">🧘</span>
+                    <div>
+                        <h2 class="font-serif text-3xl md:text-4xl font-extrabold text-stone-950 dark:text-white">Papan Kebiasaan Mikro</h2>
+                        <p class="text-sm text-stone-400">Tindakan Sederhana Harian dengan Dampak Psikologis Besar</p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-cozy-dimCard p-7 rounded-3xl border border-stone-100 dark:border-stone-800/80">
+                    <p class="text-sm text-stone-500 leading-relaxed mb-6">
+                        Sains perilaku menunjukkan bahwa niat besar sering kali gagal tanpa penyederhanaan langkah. Alih-alih merencanakan perubahan radikal, terapkan <strong>Loop Kebiasaan Mikro</strong> ini untuk memperkokoh ketahanan hubungan:
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div onclick="toggleHabit(this)" class="p-5 rounded-2xl border border-stone-100 dark:border-stone-800 hover:border-cozy-sage cursor-pointer transition flex items-start gap-3">
+                            <div class="habit-check h-6 w-6 rounded-md border-2 border-stone-300 flex-shrink-0 flex items-center justify-center text-white bg-transparent transition">
+                                <i data-lucide="check" class="w-4 h-4 hidden"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-serif font-bold text-stone-900 dark:text-white text-base mb-1">Ritual 30 Menit Tanpa Gawai</h5>
+                                <p class="text-sm text-stone-500 leading-normal">
+                                    Luangkan waktu mengobrol berdua setiap malam tanpa menatap layar ponsel. Cukup ceritakan hal menyenangkan hari ini.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div onclick="toggleHabit(this)" class="p-5 rounded-2xl border border-stone-100 dark:border-stone-800 hover:border-cozy-sage cursor-pointer transition flex items-start gap-3">
+                            <div class="habit-check h-6 w-6 rounded-md border-2 border-stone-300 flex-shrink-0 flex items-center justify-center text-white bg-transparent transition">
+                                <i data-lucide="check" class="w-4 h-4 hidden"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-serif font-bold text-stone-900 dark:text-white text-base mb-1">Apresiasi Verbal Harian</h5>
+                                <p class="text-sm text-stone-500 leading-normal">
+                                    Ucapkan terima kasih yang tulus untuk bantuan kecil pasangan (seperti menyeduh teh, menjemput anak, atau merapikan meja).
+                                </p>
+                            </div>
+                        </div>
+
+                        <div onclick="toggleHabit(this)" class="p-5 rounded-2xl border border-stone-100 dark:border-stone-800 hover:border-cozy-sage cursor-pointer transition flex items-start gap-3">
+                            <div class="habit-check h-6 w-6 rounded-md border-2 border-stone-300 flex-shrink-0 flex items-center justify-center text-white bg-transparent transition">
+                                <i data-lucide="check" class="w-4 h-4 hidden"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-serif font-bold text-stone-900 dark:text-white text-base mb-1">Malam Kencan Bulanan (Date Night)</h5>
+                                <p class="text-sm text-stone-500 leading-normal">
+                                    Jadwalkan waktu keluar berdua tanpa membahas topik masalah pekerjaan atau konflik domestik rumah tangga.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div onclick="toggleHabit(this)" class="p-5 rounded-2xl border border-stone-100 dark:border-stone-800 hover:border-cozy-sage cursor-pointer transition flex items-start gap-3">
+                            <div class="habit-check h-6 w-6 rounded-md border-2 border-stone-300 flex-shrink-0 flex items-center justify-center text-white bg-transparent transition">
+                                <i data-lucide="check" class="w-4 h-4 hidden"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-serif font-bold text-stone-900 dark:text-white text-base mb-1">Active-Constructive Responding</h5>
+                                <p class="text-sm text-stone-500 leading-normal">
+                                    Berikan respon antusias sejati saat pasangan menceritakan kabar baik, dukung emosinya sebelum menganalisis logikanya.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-red-50 dark:bg-rose-950/20 border border-red-200 dark:border-rose-900 rounded-3xl p-7 flex flex-col md:flex-row gap-4 items-start">
+                    <span class="text-4xl">⚠️</span>
+                    <div>
+                        <h4 class="font-serif font-bold text-red-950 dark:text-red-300 text-lg mb-1">Kapan Harus Mencari Bantuan Profesional?</h4>
+                        <p class="text-sm text-stone-600 dark:text-rose-400/80 leading-relaxed mb-4">
+                            Teknologi adalah pemandu awal, namun bukan pengganti mata rantai penolong utama. Hubungi hotline atau konselor terdekat jika:
+                        </p>
+                        <ul class="list-disc pl-5 text-sm text-stone-500 dark:text-rose-300/80 space-y-1 mb-4">
+                            <li>Hubungan terkonfirmasi berada di zona <strong>Penjara</strong> atau <strong>Risiko Tinggi</strong> berturut-turut.</li>
+                            <li>Rata-rata skor Keintiman (Intimacy) jatuh di bawah angka <strong>2.5</strong>.</li>
+                            <li>Terjadi tindakan kekerasan verbal, psikis, atau fisik (KDRT).</li>
+                        </ul>
+                        <div class="inline-flex gap-4 flex-wrap">
+                            <a href="tel:129" class="text-sm font-extrabold text-red-800 dark:text-red-400 hover:underline">SAPA 129 (Hotline Nasional)</a>
+                            <span class="text-stone-300">|</span>
+                            <a href="https://rumahhati-psga.lovable.app/kredit" target="_blank" class="text-sm font-extrabold text-red-800 dark:text-red-400 hover:underline">Konselor PSGA IAIN Babel</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. PANDUAN ADMIN -->
+            <section id="panduan-admin" class="scroll-mt-8 space-y-6">
+                <div class="flex items-center gap-3 border-b border-stone-200/50 dark:border-stone-800 pb-4">
+                    <span class="text-cozy-clay bg-cozy-clayLight dark:bg-stone-800 p-3 rounded-2xl text-2xl">👥</span>
+                    <div>
+                        <h2 class="font-serif text-3xl md:text-4xl font-extrabold text-stone-950 dark:text-white">Dasbor Pengawasan &amp; Konselor</h2>
+                        <p class="text-sm text-stone-400">Panduan Pengolahan Data Agregat untuk Pengambil Kebijakan</p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-cozy-dimCard p-7 rounded-3xl border border-stone-100 dark:border-stone-800/80 space-y-6">
+                    <div class="prose text-sm text-stone-500 dark:text-stone-400 leading-relaxed">
+                        <p>
+                            Para konselor, perwakilan PSGA, serta guru BK dapat mengunduh dan menganalisis data mentah yang terkumpul melalui integrasi basis data Google Sheets secara berkala. Analisis ini berfungsi melahirkan peta kerentanan sosial regional.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="p-5 rounded-2xl bg-cozy-creamDark dark:bg-stone-900/40 border border-stone-200/50 dark:border-stone-800">
+                            <h4 class="font-serif font-bold text-stone-800 dark:text-white text-sm mb-3 flex items-center gap-1.5">
+                                <i data-lucide="line-chart" class="w-4 h-4 text-cozy-clay"></i> Metrik Utama yang Perlu Dipantau:
+                            </h4>
+                            <ul class="list-disc pl-5 text-sm text-stone-500 space-y-2">
+                                <li><strong>Tren Indeks Kerentanan:</strong> Rasio perbandingan kuadran Sejahtera vs Risiko Tinggi setiap akhir semester.</li>
+                                <li><strong>Distribusi Jenis Cinta:</strong> Menemukan tipe relasi cinta yang dominan pada klaster demografis tertentu.</li>
+                                <li><strong>Korelasi Umur Pernikahan:</strong> Melacak kerentanan kritis berdasarkan durasi hubungan pasutri.</li>
+                            </ul>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-cozy-creamDark dark:bg-stone-900/40 border border-stone-200/50 dark:border-stone-800 flex flex-col justify-between">
+                            <div>
+                                <h4 class="font-serif font-bold text-stone-800 dark:text-white text-sm mb-3 flex items-center gap-1.5">
+                                    <i data-lucide="shield" class="w-4 h-4 text-cozy-clay"></i> Protokol Etika &amp; Privasi Data:
+                                </h4>
+                                <p class="text-sm text-stone-500 leading-relaxed">
+                                    Seluruh baris data wajib bersifat anonim dan terenkripsi. Dilarang keras mencoba melacak balik riwayat data demi menjaga asas kerahasiaan klien secara penuh.
+                                </p>
+                            </div>
+                            <a href="https://rumahhati-psga.lovable.app" target="_blank" class="text-sm font-bold text-cozy-clay dark:text-cozy-gold hover:underline flex items-center gap-1 mt-4">
+                                Kunjungi Dasbor Utama RumahHati <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. FAQ -->
+            <section id="faq" class="scroll-mt-8 space-y-6">
+                <div class="flex items-center gap-3 border-b border-stone-200/50 dark:border-stone-800 pb-4">
+                    <span class="text-cozy-clay bg-cozy-clayLight dark:bg-stone-800 p-3 rounded-2xl text-2xl">❓</span>
+                    <div>
+                        <h2 class="font-serif text-3xl md:text-4xl font-extrabold text-stone-950 dark:text-white">Pertanyaan Umum (FAQ)</h2>
+                        <p class="text-sm text-stone-400">Kumpulan Informasi Singkat Seputar Asesmen</p>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="bg-white dark:bg-cozy-dimCard rounded-2xl border border-stone-100 dark:border-stone-800/80 overflow-hidden">
+                        <button onclick="toggleFaq(1)" class="w-full flex justify-between items-center px-6 py-4 text-left font-serif font-bold text-base md:text-lg text-stone-800 dark:text-white hover:bg-stone-50 dark:hover:bg-stone-900 transition focus:outline-none">
+                            <span>Apakah kerahasiaan data saya terjamin aman?</span>
+                            <i data-lucide="chevron-down" id="faq-icon-1" class="w-5 h-5 text-stone-400 transition-transform"></i>
+                        </button>
+                        <div id="faq-ans-1" class="hidden px-6 pb-5 pt-1 text-sm md:text-base text-stone-500 leading-relaxed border-t border-stone-50 dark:border-stone-900/50">
+                            Sangat aman. Aplikasi RumahHati tidak mengumpulkan nomor HP, alamat e-mail, nama, atau alamat fisik pengguna. Seluruh kalkulasi murni menggunakan skema angka anonim demi menjaga keamanan privasi pasangan.
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-cozy-dimCard rounded-2xl border border-stone-100 dark:border-stone-800/80 overflow-hidden">
+                        <button onclick="toggleFaq(2)" class="w-full flex justify-between items-center px-6 py-4 text-left font-serif font-bold text-base md:text-lg text-stone-800 dark:text-white hover:bg-stone-50 dark:hover:bg-stone-900 transition focus:outline-none">
+                            <span>Apakah aplikasi ini mampu menggantikan peran psikolog?</span>
+                            <i data-lucide="chevron-down" id="faq-icon-2" class="w-5 h-5 text-stone-400 transition-transform"></i>
+                        </button>
+                        <div id="faq-ans-2" class="hidden px-6 pb-5 pt-1 text-sm md:text-base text-stone-500 leading-relaxed border-t border-stone-50 dark:border-stone-900/50">
+                            Tidak. RumahHati berfungsi murni sebagai alat deteksi dini atau <em>skrining awal</em> mandiri untuk merefleksikan kondisi hubungan saat ini. Diagnosis resmi serta intervensi klinis tatap muka tetap merupakan kewenangan mutlak konselor, psikolog, dan psikiater berlisensi.
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-cozy-dimCard rounded-2xl border border-stone-100 dark:border-stone-800/80 overflow-hidden">
+                        <button onclick="toggleFaq(3)" class="w-full flex justify-between items-center px-6 py-4 text-left font-serif font-bold text-base md:text-lg text-stone-800 dark:text-white hover:bg-stone-50 dark:hover:bg-stone-900 transition focus:outline-none">
+                            <span>Berapa lama durasi pengisian survei ini?</span>
+                            <i data-lucide="chevron-down" id="faq-icon-3" class="w-5 h-5 text-stone-400 transition-transform"></i>
+                        </button>
+                        <div id="faq-ans-3" class="hidden px-6 pb-5 pt-1 text-sm md:text-base text-stone-500 leading-relaxed border-t border-stone-50 dark:border-stone-900/50">
+                            Asesmen SET (Transaksi Sosial) hanya membutuhkan durasi 3-4 menit (8 pertanyaan singkat). Apabila Anda memilih untuk melanjutkan ke kuis TLS (Segitiga Cinta), Anda hanya memerlukan waktu tambahan sekitar 5 menit (15 pertanyaan).
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-cozy-dimCard rounded-2xl border border-stone-100 dark:border-stone-800/80 overflow-hidden">
+                        <button onclick="toggleFaq(4)" class="w-full flex justify-between items-center px-6 py-4 text-left font-serif font-bold text-base md:text-lg text-stone-800 dark:text-white hover:bg-stone-50 dark:hover:bg-stone-900 transition focus:outline-none">
+                            <span>Bolehkah saya mengisi asesmen ini berulang kali?</span>
+                            <i data-lucide="chevron-down" id="faq-icon-4" class="w-5 h-5 text-stone-400 transition-transform"></i>
+                        </button>
+                        <div id="faq-ans-4" class="hidden px-6 pb-5 pt-1 text-sm md:text-base text-stone-500 leading-relaxed border-t border-stone-50 dark:border-stone-900/50">
+                            Tentu saja boleh! Bahkan sangat dianjurkan mengisi kuesioner ini secara periodik (misalnya setiap 3 atau 6 bulan sekali) guna melacak dinamika kepuasan dan ketahanan hubungan Anda di sepanjang perjalanan hidup pernikahan.
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-cozy-dimCard rounded-2xl border border-stone-100 dark:border-stone-800/80 overflow-hidden">
+                        <button onclick="toggleFaq(5)" class="w-full flex justify-between items-center px-6 py-4 text-left font-serif font-bold text-base md:text-lg text-stone-800 dark:text-white hover:bg-stone-50 dark:hover:bg-stone-900 transition focus:outline-none">
+                            <span>Bagaimana jika saya sedang tidak berada dalam hubungan pernikahan?</span>
+                            <i data-lucide="chevron-down" id="faq-icon-5" class="w-5 h-5 text-stone-400 transition-transform"></i>
+                        </button>
+                        <div id="faq-ans-5" class="hidden px-6 pb-5 pt-1 text-sm md:text-base text-stone-500 leading-relaxed border-t border-stone-50 dark:border-stone-900/50">
+                            Anda tetap dapat mengisi pertanyaan-pertanyaan di dalam aplikasi ini dengan memproyeksikan standar relasi ideal yang Anda bayangkan, demi menganalisis perspektif nilai-nilai diri sendiri sebelum berkomitmen di masa depan.
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-cozy-dimCard rounded-2xl border border-stone-100 dark:border-stone-800/80 overflow-hidden">
+                        <button onclick="toggleFaq(6)" class="w-full flex justify-between items-center px-6 py-4 text-left font-serif font-bold text-base md:text-lg text-stone-800 dark:text-white hover:bg-stone-50 dark:hover:bg-stone-900 transition focus:outline-none">
+                            <span>Siapakah pihak pengembang utama aplikasi RumahHati?</span>
+                            <i data-lucide="chevron-down" id="faq-icon-6" class="w-5 h-5 text-stone-400 transition-transform"></i>
+                        </button>
+                        <div id="faq-ans-6" class="hidden px-6 pb-5 pt-1 text-sm md:text-base text-stone-500 leading-relaxed border-t border-stone-50 dark:border-stone-900/50">
+                            Aplikasi RumahHati dikembangkan oleh <strong>Pusat Studi Gender dan Anak (PSGA) IAIN SAS Bangka Belitung</strong> berkolaborasi erat dengan <strong>Psychosophia Behavioral Lab</strong>. Kolaborasi ini bertujuan untuk menguatkan ketahanan hubungan pasangan dan melahirkan kebijakan kesejahteraan mental yang relevan di tingkat lokal.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="bg-white dark:bg-cozy-dimCard border-t border-stone-100 dark:border-stone-800/80 py-12 px-6 w-full text-center relative z-10 flex-shrink-0">
+        <div class="max-w-4xl mx-auto space-y-6">
+            <div class="flex justify-center max-w-[320px] mx-auto">
+                <img src="1000078508.png" alt="Kolaborasi Riset dan Inovasi PSGA & Psychosophia Behavioral Lab" class="w-full h-auto rounded-xl border border-stone-200/60 dark:border-stone-800/60" loading="lazy" />
+            </div>
+            <p class="text-xs font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider">Didukung &amp; Dikembangkan Oleh</p>
+            <h4 class="text-lg md:text-xl font-serif font-extrabold text-stone-800 dark:text-white">Pusat Studi Gender dan Anak (PSGA) &amp; Psychosophia Behavioral Lab</h4>
+            <p class="text-sm text-stone-500 dark:text-stone-400 max-w-md mx-auto">
+                Program Studi Psikologi Islam • Institut Agama Islam Negeri Syaikh Abdurrahman Siddik (IAIN SAS) Bangka Belitung
+            </p>
+            <div class="border-t border-stone-100 dark:border-stone-800/60 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-stone-400 dark:text-stone-500">
+                <p>© 2026 RumahHati. All rights reserved.</p>
+                <div class="flex gap-4">
+                    <a href="https://rumahhati-psga.lovable.app" target="_blank" class="hover:text-cozy-clay dark:hover:text-cozy-gold transition-all font-semibold">Tautan Aplikasi</a>
+                    <a href="https://rumahhati-psga.lovable.app/kredit" target="_blank" class="hover:text-cozy-clay dark:hover:text-cozy-gold transition-all font-semibold">Kredit &amp; Kontributor</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        lucide.createIcons();
+
+        function toggleDimMode() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('cozy-theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('cozy-theme', 'dark');
+            }
+        }
+        if (localStorage.getItem('cozy-theme') === 'dark' ||
+            (!('cozy-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        }
+
+        const simState = { benefits: 3, alternatives: 3 };
+
+        function updateSetSimulator(key, value) {
+            const intVal = parseInt(value);
+            simState[key] = intVal;
+            const labels = ["Sangat Rendah (1)", "Rendah (2)", "Sedang (3)", "Tinggi (4)", "Sangat Tinggi (5)"];
+            document.getElementById(`label-${key}`).innerText = labels[intVal - 1];
+
+            const indexDisplay = document.getElementById('sim-index-display');
+            const titleEl = document.getElementById('sim-title');
+            const descEl = document.getElementById('sim-desc');
+            const cardEl = document.getElementById('sim-result-card');
+
+            const b = simState.benefits;
+            const a = simState.alternatives;
+
+            if (b >= 3 && a < 3) {
+                indexDisplay.innerText = "Sejahtera";
+                indexDisplay.className = "text-emerald-600 font-extrabold";
+                titleEl.innerText = "🟢 Zona Sejahtera";
+                descEl.innerText =
+                    "Hubungan stabil dan sangat harmonis. Kebutuhan timbal balik terpenuhi dengan baik dan kedua belah pihak minim godaan eksternal. (Fitur bagan kuadran ini tersedia secara real-time di aplikasi RumahHati).";
+                cardEl.className = "p-5 border border-green-100 bg-green-50/40 dark:bg-green-950/20 dark:border-green-900 rounded-2xl";
+            } else if (b >= 3 && a >= 3) {
+                indexDisplay.innerText = "Rentan";
+                indexDisplay.className = "text-blue-600 font-extrabold";
+                titleEl.innerText = "🔵 Zona Rentan";
+                descEl.innerText =
+                    "Puas dengan relasi domestik, tetapi terdapat potensi keretakan komitmen karena hadirnya godaan eksternal atau tawaran karir luar yang menarik. (Fitur bagan kuadran ini tersedia secara real-time di aplikasi RumahHati).";
+                cardEl.className = "p-5 border border-blue-100 bg-blue-50/40 dark:bg-blue-950/20 dark:border-blue-900 rounded-2xl";
+            } else if (b < 3 && a < 3) {
+                indexDisplay.innerText = "Penjara";
+                indexDisplay.className = "text-yellow-600 font-extrabold";
+                titleEl.innerText = "🟡 Zona Penjara (Entrapment)";
+                descEl.innerText =
+                    "Relasi kurang memuaskan secara emosional, namun pasangan terpaksa bertahan karena merasa tidak memiliki opsi alternatif hidup yang aman atau layak. (ZONA INI TERSEDIA SECARA AKURAT PADA GRAFIK KUADRAN DI APLIKASI RUMAHHATI).";
+                cardEl.className = "p-5 border border-yellow-100 bg-yellow-50/40 dark:bg-yellow-950/20 dark:border-yellow-900 rounded-2xl";
+            } else {
+                indexDisplay.innerText = "Risiko Tinggi";
+                indexDisplay.className = "text-rose-600 font-extrabold";
+                titleEl.innerText = "🔴 Zona Risiko Tinggi";
+                descEl.innerText =
+                    "Kepuasan emosional relasi sangan tipis dan godaan luar terbilang tinggi. Sangat disarankan berkonsultasi langsung ke konselor. (Fitur bagan kuadran ini tersedia secara real-time di aplikasi RumahHati).";
+                cardEl.className = "p-5 border border-rose-100 bg-rose-50/40 dark:bg-rose-950/20 dark:border-rose-900 rounded-2xl";
+            }
+        }
+
+        function toggleHabit(element) {
+            const check = element.querySelector('.habit-check');
+            const isChecked = check.classList.contains('bg-cozy-sage');
+            if (isChecked) {
+                check.classList.remove('bg-cozy-sage', 'border-cozy-sage');
+                check.classList.add('border-stone-300', 'bg-transparent');
+                check.querySelector('i').classList.add('hidden');
+                element.classList.remove('border-cozy-sage');
+            } else {
+                check.classList.add('bg-cozy-sage', 'border-cozy-sage');
+                check.classList.remove('border-stone-300', 'bg-transparent');
+                check.querySelector('i').classList.remove('hidden');
+                element.classList.add('border-cozy-sage');
+            }
+        }
+
+        function toggleFaq(id) {
+            const ans = document.getElementById(`faq-ans-${id}`);
+            const icon = document.getElementById(`faq-icon-${id}`);
+            const isHidden = ans.classList.contains('hidden');
+            for (let i = 1; i <= 6; i++) {
+                document.getElementById(`faq-ans-${i}`).classList.add('hidden');
+                document.getElementById(`faq-icon-${i}`).classList.remove('rotate-180');
+            }
+            if (isHidden) {
+                ans.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    const link = document.querySelector(`.toc-link[href="#${id}"]`);
+                    if (link) {
+                        if (entry.isIntersecting) {
+                            document.querySelectorAll('.toc-link').forEach(l => {
+                                l.classList.remove('active');
+                            });
+                            link.classList.add('active');
+                        }
+                    }
+                });
+            }, { threshold: 0.25 });
+
+            document.querySelectorAll('section[id]').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+
+</body>
+</html>

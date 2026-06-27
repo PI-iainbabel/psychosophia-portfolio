@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buku Saku Mitra - Teman Sophia</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest">
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        h1,
+        h2,
+        h3,
+        .font-cozy {
+            font-family: 'Quicksand', sans-serif;
+        }
+        .bg-cozy-cream {
+            background-color: #FAF6F0;
+        }
+        .bg-pastel-pink {
+            background-color: #FEEAE6;
+        }
+        .bg-pastel-green {
+            background-color: #E8F5E9;
+        }
+        .bg-pastel-blue {
+            background-color: #E3F2FD;
+        }
+        .bg-pastel-purple {
+            background-color: #F3E5F5;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #FAF6F0;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E5D9C9;
+            border-radius: 10px;
+        }
+        /* animasi tambahan untuk logo */
+        .logo-glow {
+            filter: drop-shadow(0 4px 8px rgba(190, 100, 100, 0.15));
+            transition: filter 0.3s;
+        }
+        .logo-glow:hover {
+            filter: drop-shadow(0 6px 12px rgba(190, 100, 100, 0.25));
+        }
+    </style>
+</head>
+<body class="bg-cozy-cream text-stone-800 min-h-screen flex flex-col selection:bg-rose-200 selection:text-rose-900">
+
+    <!-- ===== HEADER dengan Logo Psychosophia ===== -->
+    <header class="relative overflow-hidden bg-gradient-to-r from-rose-100 via-amber-50 to-teal-50 border-b border-orange-100 py-8 px-6">
+        <div class="absolute inset-0 opacity-40">
+            <div class="absolute w-48 h-48 rounded-full bg-rose-200 blur-3xl -top-10 -left-10"></div>
+            <div class="absolute w-64 h-64 rounded-full bg-teal-100 blur-3xl -bottom-20 -right-10"></div>
+            <div class="absolute w-36 h-36 rounded-full bg-amber-200 blur-2xl top-1/2 left-1/3"></div>
+        </div>
+
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 relative z-10">
+            <!-- Kiri: Judul & tagline -->
+            <div class="text-center md:text-left">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-rose-200 text-rose-800 mb-2">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Edisi Khusus Mitra Pengguna
+                </span>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-stone-900 leading-tight">
+                    Buku Saku <span class="text-rose-500">Teman Sophia</span> 🍃
+                </h1>
+                <p class="text-base text-stone-600 font-medium max-w-xl mt-1">
+                    Panduan praktis & interaktif mendampingi kesehatan mental remaja
+                </p>
+            </div>
+
+            <!-- Kanan: Logo Psychosophia Behavioral Lab -->
+            <div class="flex-shrink-0">
+                <div class="bg-white/80 backdrop-blur-sm p-2 rounded-2xl shadow-md border border-stone-200/60 logo-glow">
+                    <img src="psychosophia-logo.png" alt="Psychosophia Behavioral Lab" class="h-16 md:h-20 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                    <div class="hidden text-xs text-stone-500 font-semibold px-2 py-1">Psychosophia Lab</div>
+                </div>
+                <p class="text-[10px] text-stone-400 text-center mt-1 font-medium tracking-wider">Psychosophia Behavioral Lab</p>
+            </div>
+        </div>
+
+        <!-- Badge afiliasi tambahan (tetap ada) -->
+        <div class="max-w-6xl mx-auto mt-3 flex flex-wrap justify-center md:justify-start gap-2 text-xs text-stone-500 font-semibold relative z-10">
+            <span class="bg-white/80 backdrop-blur px-3 py-1.5 rounded-full shadow-sm border border-stone-200/50 flex items-center gap-1">
+                🔬 Psychosophia Behavioral Lab
+            </span>
+            <span class="bg-white/80 backdrop-blur px-3 py-1.5 rounded-full shadow-sm border border-stone-200/50 flex items-center gap-1">
+                🕌 Psikologi Islam IAIN SAS Babel
+            </span>
+        </div>
+    </header>
+
+    <!-- ===== MAIN CONTAINER ===== -->
+    <main class="max-w-6xl w-full mx-auto px-4 py-8 flex-grow grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (sama seperti sebelumnya) -->
+        <aside class="lg:col-span-1">
+            <div class="sticky top-6 bg-white p-5 rounded-3xl border border-orange-100/80 shadow-md shadow-amber-900/5">
+                <h3 class="text-sm font-bold text-stone-400 uppercase tracking-wider mb-4 px-2">Daftar Isi Buku Saku</h3>
+
+                <nav class="hidden lg:flex flex-col gap-2">
+                    <button onclick="switchTab('mengenal')" id="btn-mengenal" class="tab-btn w-full text-left px-4 py-3 rounded-2xl font-semibold flex items-center gap-3 transition-all bg-rose-500 text-white shadow-lg shadow-rose-500/20">
+                        <i data-lucide="smile" class="w-5 h-5"></i> Mengenal Sophia
+                    </button>
+                    <button onclick="switchTab('urgensi')" id="btn-urgensi" class="tab-btn w-full text-left px-4 py-3 rounded-2xl font-semibold flex items-center gap-3 text-stone-600 hover:bg-stone-50 transition-all">
+                        <i data-lucide="help-circle" class="w-5 h-5"></i> Mengapa AI Chat?
+                    </button>
+                    <button onclick="switchTab('protokol')" id="btn-protokol" class="tab-btn w-full text-left px-4 py-3 rounded-2xl font-semibold flex items-center gap-3 text-stone-600 hover:bg-stone-50 transition-all">
+                        <i data-lucide="activity" class="w-5 h-5"></i> Skor & Tindak Lanjut
+                    </button>
+                    <button onclick="switchTab('simulator')" id="btn-simulator" class="tab-btn w-full text-left px-4 py-3 rounded-2xl font-semibold flex items-center gap-3 text-stone-600 hover:bg-stone-50 transition-all">
+                        <span class="flex h-2 w-2 relative">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
+                        </span>
+                        <i data-lucide="sliders" class="w-5 h-5"></i> GAD-7 Simulator
+                    </button>
+                    <button onclick="switchTab('distribusi')" id="btn-distribusi" class="tab-btn w-full text-left px-4 py-3 rounded-2xl font-semibold flex items-center gap-3 text-stone-600 hover:bg-stone-50 transition-all">
+                        <i data-lucide="share-2" class="w-5 h-5"></i> Panduan Distribusi
+                    </button>
+                    <button onclick="switchTab('kuis')" id="btn-kuis" class="tab-btn w-full text-left px-4 py-3 rounded-2xl font-semibold flex items-center gap-3 text-stone-600 hover:bg-stone-50 transition-all">
+                        <i data-lucide="award" class="w-5 h-5"></i> Kuis Pemahaman
+                    </button>
+                    <button onclick="switchTab('disclaimer')" id="btn-disclaimer" class="tab-btn w-full text-left px-4 py-3 rounded-2xl font-semibold flex items-center gap-3 text-stone-600 hover:bg-stone-50 transition-all">
+                        <i data-lucide="shield-alert" class="w-5 h-5"></i> Batasan Etis
+                    </button>
+                </nav>
+
+                <!-- Mobile dropdown -->
+                <div class="lg:hidden">
+                    <label for="mobile-nav" class="block text-xs font-bold text-stone-500 mb-2">Pilih Halaman:</label>
+                    <select id="mobile-nav" onchange="switchTab(this.value)" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2.5 font-semibold text-stone-700 focus:outline-none focus:ring-2 focus:ring-rose-500">
+                        <option value="mengenal">🌿 Mengenal Sophia</option>
+                        <option value="urgensi">❓ Mengapa AI Chat?</option>
+                        <option value="protokol">📊 Skor & Tindak Lanjut</option>
+                        <option value="simulator">🎮 GAD-7 Simulator</option>
+                        <option value="distribusi">📢 Panduan Distribusi</option>
+                        <option value="kuis">✍️ Kuis Pemahaman</option>
+                        <option value="disclaimer">⚠️ Batasan Etis</option>
+                    </select>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ===== KONTEN UTAMA (7 tab, tidak diubah isinya, hanya struktur) ===== -->
+        <section class="lg:col-span-3">
+
+            <!-- TAB 1: MENGENAL SOPHIA -->
+            <div id="content-mengenal" class="tab-content block animate-fadeIn">
+                <div class="bg-white p-6 md:p-8 rounded-3xl border border-orange-100/80 shadow-md shadow-amber-900/5">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="p-3 bg-rose-50 text-rose-500 rounded-2xl">
+                            <i data-lucide="smile" class="w-6 h-6"></i>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-stone-900">Mengenal Teman Sophia</h2>
+                    </div>
+
+                    <div class="prose text-stone-600 leading-relaxed mb-6 space-y-4">
+                        <p class="text-lg text-stone-700">
+                            Hi Mitra Sahabat! Selamat datang di ekosistem <strong>Teman Sophia</strong>.
+                        </p>
+                        <p>
+                            Teman Sophia adalah aplikasi chatbot berbasis <em>Artificial Intelligence (AI)</em> yang didesain ramah anak muda untuk memetakan atau menyaring gejala kecemasan umum secara lebih fleksibel, asyik, dan aman.
+                        </p>
+                        <p>
+                            Aplikasi ini merupakan karya kolaboratif berharga dari <strong>Psychosophia Behavioral Lab</strong>, sebuah laboratorium riset intervensi perilaku terintegrasi di bawah <strong>Program Studi Psikologi Islam, IAIN SAS Bangka Belitung</strong>.
+                        </p>
+                    </div>
+
+                    <div class="bg-rose-50/50 border border-rose-100 rounded-2xl p-5 mb-8">
+                        <h4 class="font-bold text-rose-800 flex items-center gap-1.5 mb-2 text-sm">
+                            <i data-lucide="check-circle-2" class="w-4 h-4"></i> METODE DYNAMIC ORGANIC SCREENING (DOS)
+                        </h4>
+                        <p class="text-sm text-stone-600 leading-relaxed">
+                            Daripada menampilkan halaman ujian atau kisi-kisi form yang bikin pusing, Teman Sophia memancing anak muda untuk "curhat" secara organik. Kami mengukur 7 gejala GAD-7 melalui algoritma percakapan alami di latar belakang secara halus.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row items-center justify-between p-5 bg-stone-50 border border-stone-200/60 rounded-2xl gap-4">
+                        <div>
+                            <p class="text-xs font-semibold text-stone-400 uppercase">Aplikasi Dapat Diakses Bebas di:</p>
+                            <a href="https://teman-sophia.lovable.app" target="_blank" class="text-rose-500 font-bold text-lg hover:underline flex items-center gap-1">
+                                teman-sophia.lovable.app <i data-lucide="external-link" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                        <a href="https://teman-sophia.lovable.app/about" target="_blank" class="bg-rose-500 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-md hover:bg-rose-600 transition-all">
+                            Pelajari Aplikasi
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: URGENSI -->
+            <div id="content-urgensi" class="tab-content hidden">
+                <div class="bg-white p-6 md:p-8 rounded-3xl border border-orange-100/80 shadow-md shadow-amber-900/5">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="p-3 bg-amber-50 text-amber-500 rounded-2xl">
+                            <i data-lucide="help-circle" class="w-6 h-6"></i>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-stone-900">Mengapa Harus AI Chat?</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="border border-stone-100 rounded-2xl p-5 hover:shadow-md transition-all">
+                            <span class="text-3xl">🛡️</span>
+                            <h4 class="font-bold text-stone-800 mt-3 mb-1 text-base">Minim Hambatan Defensif</h4>
+                            <p class="text-sm text-stone-500 leading-relaxed">
+                                Anak muda malas mengisi instrumen resmi karena takut dilabeli cemas. Lewat AI chat, mereka merasa didengar dan divalidasi.
+                            </p>
+                        </div>
+                        <div class="border border-stone-100 rounded-2xl p-5 hover:shadow-md transition-all">
+                            <span class="text-3xl">☕</span>
+                            <h4 class="font-bold text-stone-800 mt-3 mb-1 text-base">Akses Mandiri 24/7</h4>
+                            <p class="text-sm text-stone-500 leading-relaxed">
+                                Tidak perlu mendaftar ribet atau antre ke ruang konseling. Skrinning bisa dicoba sambil santai di kamar atau kedai kopi.
+                            </p>
+                        </div>
+                        <div class="border border-stone-100 rounded-2xl p-5 hover:shadow-md transition-all">
+                            <span class="text-3xl">🤍</span>
+                            <h4 class="font-bold text-stone-800 mt-3 mb-1 text-base">Tanpa Stigma Sosial</h4>
+                            <p class="text-sm text-stone-500 leading-relaxed">
+                                Menghilangkan rasa takut dihakimi. AI bertindak murni sebagai "teman curhat" tanpa prasangka apa pun.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-stone-100 pt-6">
+                        <blockquote class="border-l-4 border-amber-300 pl-4 italic text-stone-500 text-sm">
+                            "Riset menunjukkan bahwa tingkat keterbukaan diri (self-disclosure) remaja meningkat hingga 60% ketika berinteraksi dengan AI yang berempati dibandingkan jika mengisi survei klinis standar."
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: PROTOKOL -->
+            <div id="content-protokol" class="tab-content hidden">
+                <div class="bg-white p-6 md:p-8 rounded-3xl border border-orange-100/80 shadow-md shadow-amber-900/5">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="p-3 bg-teal-50 text-teal-500 rounded-2xl">
+                            <i data-lucide="activity" class="w-6 h-6"></i>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-stone-900">Tafsir Skor & Protokol</h2>
+                    </div>
+
+                    <p class="text-stone-600 mb-6 leading-relaxed text-sm md:text-base">
+                        Setelah remaja menyelesaikan alur percakapan dengan Sophia, akumulasi skor akhir berkisar antara <strong>0 sampai 21</strong>. Gunakan pedoman di bawah ini sebagai langkah tindak lanjut:
+                    </p>
+
+                    <div class="space-y-4">
+                        <div class="flex flex-col md:flex-row gap-4 p-5 rounded-2xl bg-green-50 border border-green-100">
+                            <div class="md:w-1/4 flex flex-col justify-center items-center bg-white p-3 rounded-xl border border-green-100">
+                                <span class="text-xs font-bold text-green-700 uppercase">Skor 0 - 4</span>
+                                <span class="text-xl font-bold text-green-800">Minimal</span>
+                            </div>
+                            <div class="md:w-3/4">
+                                <h4 class="font-bold text-green-900 text-sm md:text-base mb-1">Edukasi & Apresiasi Suportif</h4>
+                                <p class="text-xs md:text-sm text-green-800 leading-relaxed">
+                                    Kondisi emosi remaja cenderung stabil. Berikan apresiasi kepada mereka agar terus melanjutkan pola hidup seimbang dan cara berpikir yang sehat.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row gap-4 p-5 rounded-2xl bg-sky-50 border border-sky-100">
+                            <div class="md:w-1/4 flex flex-col justify-center items-center bg-white p-3 rounded-xl border border-sky-100">
+                                <span class="text-xs font-bold text-sky-700 uppercase">Skor 5 - 9</span>
+                                <span class="text-xl font-bold text-sky-800">Ringan</span>
+                            </div>
+                            <div class="md:w-3/4">
+                                <h4 class="font-bold text-sky-900 text-sm md:text-base mb-1">Dukungan Sebaya & Relaksasi</h4>
+                                <p class="text-xs md:text-sm text-sky-800 leading-relaxed">
+                                    Mulai ada tekanan harian yang mengganggu. Bantu mereka meregulasi emosi melalui latihan napas dalam, meditasi mandiri, jurnaling, atau mengobrol santai dengan sahabat/konselor sebaya.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row gap-4 p-5 rounded-2xl bg-orange-50 border border-orange-100">
+                            <div class="md:w-1/4 flex flex-col justify-center items-center bg-white p-3 rounded-xl border border-orange-100">
+                                <span class="text-xs font-bold text-orange-700 uppercase">Skor 10 - 14</span>
+                                <span class="text-xl font-bold text-orange-800">Sedang</span>
+                            </div>
+                            <div class="md:w-3/4">
+                                <h4 class="font-bold text-orange-900 text-sm md:text-base mb-1">Konseling Tatap Muka</h4>
+                                <p class="text-xs md:text-sm text-orange-800 leading-relaxed">
+                                    Kecemasan mulai mengganggu aktivitas atau sekolah. Mitra disarankan mengagendakan waktu khusus untuk mengajak remaja melakukan konsultasi tatap muka dengan konselor, guru BK, atau profesional terpercaya.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row gap-4 p-5 rounded-2xl bg-rose-50 border border-rose-100">
+                            <div class="md:w-1/4 flex flex-col justify-center items-center bg-white p-3 rounded-xl border border-rose-100">
+                                <span class="text-xs font-bold text-rose-700 uppercase">Skor 15 - 21</span>
+                                <span class="text-xl font-bold text-rose-800">Berat</span>
+                            </div>
+                            <div class="md:w-3/4">
+                                <h4 class="font-bold text-rose-900 text-sm md:text-base mb-1">Rujukan Profesional (Klinis)</h4>
+                                <p class="text-xs md:text-sm text-rose-800 leading-relaxed">
+                                    Distres psikologis sangat membebani. Sangat disarankan mendampingi mereka menemui profesional resmi secara langsung (Psikolog, Psikiater, atau layanan Puskesmas/RS terdekat).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: SIMULATOR (GAD-7) -->
+            <div id="content-simulator" class="tab-content hidden">
+                <div class="bg-white p-6 md:p-8 rounded-3xl border border-orange-100/80 shadow-md shadow-amber-900/5">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="p-3 bg-purple-50 text-purple-500 rounded-2xl">
+                            <i data-lucide="sliders" class="w-6 h-6"></i>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-stone-900">GAD-7 Simulator Interaktif</h2>
+                    </div>
+                    <p class="text-stone-500 text-sm mb-6 leading-relaxed">
+                        Gunakan simulator ini untuk melatih pemahaman Anda tentang cara kerja penilaian GAD-7. Geser nilai di setiap indikator sesuai temuan klinis dalam curhatan pengguna.
+                    </p>
+
+                    <div class="space-y-4 mb-8 bg-stone-50 p-4 md:p-6 rounded-2xl border border-stone-200/50">
+                        <!-- 7 pertanyaan slider, sama seperti sebelumnya -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="text-sm font-bold text-stone-700">1. Merasa gugup, cemas, atau gelisah</label>
+                                <span class="text-xs font-bold text-rose-500" id="val-label-1">Tidak Pernah (0)</span>
+                            </div>
+                            <input type="range" min="0" max="3" value="0" class="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-rose-500" oninput="updateSimScore(1, this.value)">
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="text-sm font-bold text-stone-700">2. Tidak mampu menghentikan/mengendalikan khawatir</label>
+                                <span class="text-xs font-bold text-rose-500" id="val-label-2">Tidak Pernah (0)</span>
+                            </div>
+                            <input type="range" min="0" max="3" value="0" class="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-rose-500" oninput="updateSimScore(2, this.value)">
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="text-sm font-bold text-stone-700">3. Terlalu mengkhawatirkan berbagai hal berbeda</label>
+                                <span class="text-xs font-bold text-rose-500" id="val-label-3">Tidak Pernah (0)</span>
+                            </div>
+                            <input type="range" min="0" max="3" value="0" class="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-rose-500" oninput="updateSimScore(3, this.value)">
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="text-sm font-bold text-stone-700">4. Kesulitan untuk bersantai atau rileks</label>
+                                <span class="text-xs font-bold text-rose-500" id="val-label-4">Tidak Pernah (0)</span>
+                            </div>
+                            <input type="range" min="0" max="3" value="0" class="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-rose-500" oninput="updateSimScore(4, this.value)">
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="text-sm font-bold text-stone-700">5. Gelisah hebat hingga sulit untuk duduk diam</label>
+                                <span class="text-xs font-bold text-rose-500" id="val-label-5">Tidak Pernah (0)</span>
+                            </div>
+                            <input type="range" min="0" max="3" value="0" class="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-rose-500" oninput="updateSimScore(5, this.value)">
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="text-sm font-bold text-stone-700">6. Menjadi mudah jengkel, sensitif, atau marah</label>
+                                <span class="text-xs font-bold text-rose-500" id="val-label-6">Tidak Pernah (0)</span>
+                            </div>
+                            <input type="range" min="0" max="3" value="0" class="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-rose-500" oninput="updateSimScore(6, this.value)">
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="text-sm font-bold text-stone-700">7. Merasa takut seolah hal buruk bakal terjadi</label>
+                                <span class="text-xs font-bold text-rose-500" id="val-label-7">Tidak Pernah (0)</span>
+                            </div>
+                            <input type="range" min="0" max="3" value="0" class="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-rose-500" oninput="updateSimScore(7, this.value)">
+                        </div>
+                    </div>
+
+                    <div class="border-t border-stone-100 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div>
+                            <p class="text-xs font-bold text-stone-400 uppercase">Perkiraan Hasil Total:</p>
+                            <span class="text-5xl font-extrabold text-stone-800" id="sim-total-display">0</span>
+                            <span class="text-lg font-bold text-rose-500 ml-2" id="sim-status-display">Minimal</span>
+                        </div>
+                        <div class="p-4 rounded-xl text-xs md:text-sm font-semibold max-w-sm" id="sim-rec-box" style="background-color: #E8F5E9; color: #1B5E20;">
+                            Apresiasi & edukasi remaja agar terus melanjutkan gaya hidup sehat.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 5: DISTRIBUSI -->
+            <div id="content-distribusi" class="tab-content hidden">
+                <div class="bg-white p-6 md:p-8 rounded-3xl border border-orange-100/80 shadow-md shadow-amber-900/5">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="p-3 bg-blue-50 text-blue-500 rounded-2xl">
+                            <i data-lucide="share-2" class="w-6 h-6"></i>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-stone-900">Panduan Distribusi</h2>
+                    </div>
+
+                    <p class="text-stone-600 mb-6 leading-relaxed text-sm md:text-base">
+                        Sebarkan aplikasi "Teman Sophia" ke ruang aman para remaja menggunakan strategi interaksi yang asyik di bawah ini:
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="border border-stone-150 rounded-2xl p-5 bg-stone-50/40">
+                            <span class="text-2xl">💬</span>
+                            <h4 class="font-bold text-stone-800 mt-2 mb-1 text-sm">Copywriting Kasual</h4>
+                            <p class="text-xs text-stone-500 leading-relaxed">
+                                Kirim pesan santai ke grup-grup chat seperti WhatsApp atau Discord: <em>"Lagi hektik parah gara-gara ujian? Yok, ngobrol bentar sama Sophia di link ini buat ngecek tingkat stres kamu!"</em>
+                            </p>
+                        </div>
+                        <div class="border border-stone-150 rounded-2xl p-5 bg-stone-50/40">
+                            <span class="text-2xl">🏷️</span>
+                            <h4 class="font-bold text-stone-800 mt-2 mb-1 text-sm">QR Code Mading & Cafe</h4>
+                            <p class="text-xs text-stone-500 leading-relaxed">
+                                Tempel poster atau stiker kecil berisikan QR Code di mading sekolah, kedai kopi/kafe langganan tempat nugas anak muda, maupun asrama pesantren.
+                            </p>
+                        </div>
+                        <div class="border border-stone-150 rounded-2xl p-5 bg-stone-50/40">
+                            <span class="text-2xl">📊</span>
+                            <h4 class="font-bold text-stone-800 mt-2 mb-1 text-sm">Pelacakan Berkala</h4>
+                            <p class="text-xs text-stone-500 leading-relaxed">
+                                Jadwalkan pengisian secara massal namun santai menjelang musim ujian sekolah guna memetakan tingkat kerentanan kesejahteraan mental di institusi Anda.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 6: KUIS -->
+            <div id="content-kuis" class="tab-content hidden">
+                <div class="bg-white p-6 md:p-8 rounded-3xl border border-orange-100/80 shadow-md shadow-amber-900/5">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="p-3 bg-rose-50 text-rose-500 rounded-2xl">
+                            <i data-lucide="award" class="w-6 h-6"></i>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-stone-900">Uji Pemahaman Mitra</h2>
+                    </div>
+
+                    <div id="quiz-container">
+                        <!-- Question 1 -->
+                        <div class="quiz-step" id="q-step-1">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="text-xs font-bold text-rose-500">Pertanyaan 1 dari 3</span>
+                                <span class="text-xs text-stone-400">Pilihan Ganda</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-stone-800 mb-4 leading-snug">
+                                Apa keunggulan utama dari metode Dynamic Organic Screening pada Teman Sophia dibanding form standar?
+                            </h3>
+                            <div class="space-y-3">
+                                <button onclick="checkAnswer(1, 'A', 'Akurat sekali! Obrolan kasual merangsang keterbukaan remaja secara sukarela tanpa takut dicap negatif.')" class="quiz-opt w-full text-left p-4 rounded-xl border border-stone-200 hover:bg-rose-50 hover:border-rose-300 transition-all text-sm font-medium">
+                                    A. Meminimalkan hambatan defensif remaja dengan berinteraksi secara santai.
+                                </button>
+                                <button onclick="checkAnswer(1, 'B', 'Kurang tepat. Teman Sophia bukan alat terapi klinis, melainkan screening awal.')" class="quiz-opt w-full text-left p-4 rounded-xl border border-stone-200 hover:bg-rose-50 hover:border-rose-300 transition-all text-sm font-medium">
+                                    B. Menghapus kecemasan dalam 2 menit menggunakan obat-obatan.
+                                </button>
+                                <button onclick="checkAnswer(1, 'C', 'Salah. Diagnosis akhir tetap wewenang profesional.')" class="quiz-opt w-full text-left p-4 rounded-xl border border-stone-200 hover:bg-rose-50 hover:border-rose-300 transition-all text-sm font-medium">
+                                    C. Memberikan diagnosis akhir yang validitasnya setara psikiater klinis.
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Question 2 -->
+                        <div class="quiz-step hidden" id="q-step-2">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="text-xs font-bold text-rose-500">Pertanyaan 2 dari 3</span>
+                                <span class="text-xs text-stone-400">Pilihan Ganda</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-stone-800 mb-4 leading-snug">
+                                Jika seorang siswa membawa hasil evaluasi Teman Sophia dengan skor akhir 16, apa tindakan rujukan yang wajib Anda ambil?
+                            </h3>
+                            <div class="space-y-3">
+                                <button onclick="checkAnswer(2, 'A', 'Kurang tepat. Skor 16 termasuk kategori Kecemasan Berat dan membutuhkan bantuan medis/profesional.')" class="quiz-opt w-full text-left p-4 rounded-xl border border-stone-200 hover:bg-rose-50 hover:border-rose-300 transition-all text-sm font-medium">
+                                    A. Memberikan cokelat hangat dan menyuruhnya tidur lebih awal.
+                                </button>
+                                <button onclick="checkAnswer(2, 'B', 'Luar biasa! Skor 15-21 menuntut adanya rujukan serta pendampingan langsung ke psikolog atau fasilitas kesehatan terdekat.')" class="quiz-opt w-full text-left p-4 rounded-xl border border-stone-200 hover:bg-rose-50 hover:border-rose-300 transition-all text-sm font-medium">
+                                    B. Mendampingi/mengarahkan dia menemui tenaga profesional (psikolog/dokter/puskesmas).
+                                </button>
+                                <button onclick="checkAnswer(2, 'C', 'Salah besar! Masalah kesejahteraan mental jangan diabaikan karena bisa berdampak serius.')" class="quiz-opt w-full text-left p-4 rounded-xl border border-stone-200 hover:bg-rose-50 hover:border-rose-300 transition-all text-sm font-medium">
+                                    C. Menasihati siswa tersebut agar mengabaikannya karena itu cuma perasaan saja.
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Question 3 -->
+                        <div class="quiz-step hidden" id="q-step-3">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="text-xs font-bold text-rose-500">Pertanyaan 3 dari 3</span>
+                                <span class="text-xs text-stone-400">Pilihan Ganda</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-stone-800 mb-4 leading-snug">
+                                Di mana batas tanggung jawab etis kita sebagai mitra pengguna ketika menggunakan asisten kecemasan digital ini?
+                            </h3>
+                            <div class="space-y-3">
+                                <button onclick="checkAnswer(3, 'A', 'Salah. Ini melanggar etika privasi dan asas kepercayaan.')" class="quiz-opt w-full text-left p-4 rounded-xl border border-stone-200 hover:bg-rose-50 hover:border-rose-300 transition-all text-sm font-medium">
+                                    A. Menyebarkan hasil tangkapan layar ceritanya agar semua guru waspada.
+                                </button>
+                                <button onclick="checkAnswer(3, 'B', 'Tepat! Menjaga kerahasiaan dan memahami batasan bahwa bot ini hanyalah alat deteksi dini (screening), bukan penentu diagnosis akhir.')" class="quiz-opt w-full text-left p-4 rounded-xl border border-stone-200 hover:bg-rose-50 hover:border-rose-300 transition-all text-sm font-medium">
+                                    B. Menjaga kerahasiaan curhatan remaja dan membatasi diri agar tidak berasumsi mendiagnosis gangguan secara langsung.
+                                </button>
+                                <button onclick="checkAnswer(3, 'C', 'Salah. Kehadiran manusia sebagai kawan cerita nyata tetap esensial.')" class="quiz-opt w-full text-left p-4 rounded-xl border border-stone-200 hover:bg-rose-50 hover:border-rose-300 transition-all text-sm font-medium">
+                                    C. Menolak mendengar cerita mereka lagi karena "Teman Sophia" dianggap sudah menyelesaikan semua solusi.
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Feedback Box -->
+                        <div id="quiz-feedback" class="hidden mt-6 p-4 rounded-xl border transition-all text-sm flex items-start gap-2.5">
+                            <i data-lucide="help-circle" class="w-5 h-5 flex-shrink-0 mt-0.5" id="feedback-icon"></i>
+                            <div>
+                                <p class="font-bold mb-1" id="feedback-title"></p>
+                                <p id="feedback-text"></p>
+                                <button onclick="nextQuizStep()" class="mt-3 bg-stone-900 text-white px-4 py-1.5 rounded-lg text-xs font-semibold hover:bg-stone-800 transition-all">
+                                    Lanjutkan
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Final -->
+                        <div id="quiz-final" class="hidden text-center py-6">
+                            <span class="text-5xl">🏆</span>
+                            <h3 class="text-xl font-bold text-stone-800 mt-4 mb-2">Selamat! Anda Lulus Kuis Kesiapan</h3>
+                            <p class="text-sm text-stone-500 max-w-sm mx-auto mb-6">
+                                Anda kini memiliki pemahaman yang solid untuk mendampingi remaja menggunakan Teman Sophia.
+                            </p>
+                            <button onclick="resetQuiz()" class="border border-stone-200 px-4 py-2 rounded-xl text-xs font-semibold text-stone-600 hover:bg-stone-50 transition-all">
+                                Ulangi Kuis
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 7: DISCLAIMER -->
+            <div id="content-disclaimer" class="tab-content hidden">
+                <div class="bg-white p-6 md:p-8 rounded-3xl border border-orange-100/80 shadow-md shadow-amber-900/5">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="p-3 bg-red-50 text-red-500 rounded-2xl">
+                            <i data-lucide="shield-alert" class="w-6 h-6"></i>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-stone-900">Batasan Etis & Disclaimer</h2>
+                    </div>
+
+                    <div class="space-y-4 text-stone-600 text-sm md:text-base leading-relaxed">
+                        <div class="flex gap-3">
+                            <span class="text-rose-500 font-bold text-lg">1.</span>
+                            <p>
+                                <strong>Bukan Diagnostik Medis Resmi:</strong> Layanan skrining Teman Sophia murni digunakan sebagai instrumen identifikasi awal dan edukasi psikologis, bukan sebagai pengganti verifikasi diagnosis psikofisiologis resmi.
+                            </p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="text-rose-500 font-bold text-lg">2.</span>
+                            <p>
+                                <strong>Asas Rahasia Informasi:</strong> Segala isi perbincangan dan data masukan emosional remaja bersifat aman secara privasi. Mitra dilarang menyebarluaskan riwayat dialog tanpa izin eksplisit yang sah.
+                            </p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="text-rose-500 font-bold text-lg">3.</span>
+                            <p>
+                                <strong>Protokol Krisis Aktif:</strong> Chatbot tidak didesain untuk menangani situasi darurat klinis tingkat lanjut seperti percobaan menyakiti diri sendiri <em>(self-harm/suicidal ideation)</em>. Jika terdeteksi kondisi darurat, lakukan intervensi tatap muka secara langsung secepatnya.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- ===== FOOTER dengan Logo Psychosophia ===== -->
+    <footer class="bg-white border-t border-orange-100/60 py-10 px-6 mt-12 text-center relative z-10">
+        <div class="max-w-4xl mx-auto">
+            <!-- Logo besar di footer -->
+            <div class="flex justify-center mb-4">
+                <div class="bg-stone-50/80 p-3 rounded-2xl shadow-sm border border-stone-200/60 logo-glow">
+                    <img src="psychosophia-logo.png" alt="Psychosophia Behavioral Lab" class="h-16 md:h-20 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                    <div class="hidden text-xs text-stone-500 font-semibold px-2 py-1">Psychosophia Lab</div>
+                </div>
+            </div>
+
+            <p class="text-xs font-bold text-stone-400 uppercase tracking-wider mb-2">Pengembang Utama</p>
+            <h4 class="text-lg font-bold text-stone-800">Psychosophia Behavioral Lab</h4>
+            <p class="text-sm text-stone-500 mt-1 mb-6">
+                Program Studi Psikologi Islam • Institut Agama Islam Negeri Syaikh Abdurrahman Siddik (IAIN SAS) Bangka Belitung
+            </p>
+            <div class="border-t border-stone-100 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-stone-400">
+                <p>© 2026 Teman Sophia. All rights reserved.</p>
+                <div class="flex gap-4">
+                    <a href="https://teman-sophia.lovable.app" target="_blank" class="hover:text-rose-500 transition-all font-semibold">Tautan Aplikasi</a>
+                    <a href="https://teman-sophia.lovable.app/about" target="_blank" class="hover:text-rose-500 transition-all font-semibold">Hubungi Kami</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS (sama seperti sebelumnya, hanya ditambah inisialisasi) ===== -->
+    <script>
+        lucide.createIcons();
+
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+                content.classList.remove('block');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-rose-500', 'text-white', 'shadow-lg', 'shadow-rose-500/20');
+                btn.classList.add('text-stone-600', 'hover:bg-stone-50');
+            });
+            const targetContent = document.getElementById('content-' + tabName);
+            if (targetContent) {
+                targetContent.classList.remove('hidden');
+                targetContent.classList.add('block');
+            }
+            const targetBtn = document.getElementById('btn-' + tabName);
+            if (targetBtn) {
+                targetBtn.classList.add('bg-rose-500', 'text-white', 'shadow-lg', 'shadow-rose-500/20');
+                targetBtn.classList.remove('text-stone-600', 'hover:bg-stone-50');
+            }
+            const mobileNav = document.getElementById('mobile-nav');
+            if (mobileNav) mobileNav.value = tabName;
+        }
+
+        // Simulator
+        const simScores = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0 };
+        const valTexts = ["Tidak Pernah (0)", "Beberapa Hari (1)", "Lebih dari Separuh Waktu (2)", "Hampir Setiap Hari (3)"];
+
+        function updateSimScore(qNum, value) {
+            const intVal = parseInt(value);
+            simScores[qNum] = intVal;
+            document.getElementById(`val-label-${qNum}`).innerText = valTexts[intVal];
+            let total = 0;
+            for (let q in simScores) total += simScores[q];
+            document.getElementById('sim-total-display').innerText = total;
+            const statusLabel = document.getElementById('sim-status-display');
+            const recBox = document.getElementById('sim-rec-box');
+            if (total <= 4) {
+                statusLabel.innerText = "Minimal";
+                statusLabel.className = "text-lg font-bold text-green-600 ml-2";
+                recBox.style.backgroundColor = "#E8F5E9";
+                recBox.style.color = "#1B5E20";
+                recBox.innerText = "Kondisi stabil. Berikan apresiasi & edukasi remaja agar terus melanjutkan gaya hidup sehat.";
+            } else if (total <= 9) {
+                statusLabel.innerText = "Ringan";
+                statusLabel.className = "text-lg font-bold text-blue-500 ml-2";
+                recBox.style.backgroundColor = "#E3F2FD";
+                recBox.style.color = "#0D47A1";
+                recBox.innerText = "Ada tekanan harian ringan. Sarankan teknik napas, relaksasi berkala, atau jurnaling.";
+            } else if (total <= 14) {
+                statusLabel.innerText = "Sedang";
+                statusLabel.className = "text-lg font-bold text-orange-500 ml-2";
+                recBox.style.backgroundColor = "#FFF3E0";
+                recBox.style.color = "#E65100";
+                recBox.innerText = "Mulai mengganggu aktivitas. Sebaiknya jadwalkan waktu konsultasi tatap muka dengan BK/konselor.";
+            } else {
+                statusLabel.innerText = "Berat";
+                statusLabel.className = "text-lg font-bold text-rose-500 ml-2 animate-bounce";
+                recBox.style.backgroundColor = "#FFEBEE";
+                recBox.style.color = "#B71C1C";
+                recBox.innerText = "Butuh penanganan cepat! Segera koordinasikan pendampingan rujukan langsung ke Psikolog/Psikiater.";
+            }
+        }
+
+        // Quiz
+        let currentQuizStep = 1;
+        const quizResults = { 1: null, 2: null, 3: null };
+
+        function checkAnswer(step, answer, explanation) {
+            quizResults[step] = answer;
+            const feedbackBox = document.getElementById('quiz-feedback');
+            const feedbackTitle = document.getElementById('feedback-title');
+            const feedbackText = document.getElementById('feedback-text');
+            const feedbackIcon = document.getElementById('feedback-icon');
+            feedbackBox.classList.remove('hidden');
+            const isCorrect = (step === 1 && answer === 'A') || (step === 2 && answer === 'B') || (step === 3 && answer === 'B');
+            if (isCorrect) {
+                feedbackBox.className = "mt-6 p-4 rounded-xl border bg-green-50 border-green-200 text-green-800 transition-all text-sm flex items-start gap-2.5";
+                feedbackTitle.innerText = "Yuhu, Betul Banget! 🎉";
+                feedbackIcon.setAttribute('data-lucide', 'check-circle-2');
+            } else {
+                feedbackBox.className = "mt-6 p-4 rounded-xl border bg-amber-50 border-amber-200 text-amber-800 transition-all text-sm flex items-start gap-2.5";
+                feedbackTitle.innerText = "Kurang Pas Nih, Yuk Pelajari Lagi 💡";
+                feedbackIcon.setAttribute('data-lucide', 'help-circle');
+            }
+            feedbackText.innerText = explanation;
+            lucide.createIcons();
+            const currentStepEl = document.getElementById(`q-step-${step}`);
+            currentStepEl.querySelectorAll('.quiz-opt').forEach(btn => {
+                btn.disabled = true;
+                btn.style.opacity = "0.5";
+            });
+        }
+
+        function nextQuizStep() {
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            document.getElementById(`q-step-${currentQuizStep}`).classList.add('hidden');
+            if (currentQuizStep < 3) {
+                currentQuizStep++;
+                document.getElementById(`q-step-${currentQuizStep}`).classList.remove('hidden');
+            } else {
+                document.getElementById('quiz-final').classList.remove('hidden');
+            }
+        }
+
+        function resetQuiz() {
+            currentQuizStep = 1;
+            document.getElementById('quiz-final').classList.add('hidden');
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            for (let i = 1; i <= 3; i++) {
+                const el = document.getElementById(`q-step-${i}`);
+                if (i === 1) el.classList.remove('hidden');
+                else el.classList.add('hidden');
+                el.querySelectorAll('.quiz-opt').forEach(btn => {
+                    btn.disabled = false;
+                    btn.style.opacity = "1";
+                });
+            }
+        }
+
+        // Set default active tab
+        switchTab('mengenal');
+    </script>
+
+</body>
+</html>
