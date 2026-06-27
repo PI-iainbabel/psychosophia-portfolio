@@ -949,6 +949,10 @@
             background: rgba(45, 143, 138, 0.08);
             color: var(--teal-light);
         }
+        .lab-status.live {
+            background: rgba(45, 143, 138, 0.15);
+            color: var(--teal);
+        }
 
         .lab-category-block {
             margin-bottom: 48px;
@@ -1524,7 +1528,7 @@
         </div>
     </section>
 
-    <!-- ===== DIGITAL LAB (BARU — PILOT PROJECT) ===== -->
+    <!-- ===== DIGITAL LAB ===== -->
     <section class="section digitallab-section" id="digitallab">
         <div class="container">
             <div class="section-header reveal">
@@ -1544,17 +1548,7 @@
                         <p>Diagnostik kesiapan kuliah berbasis Theory of Planned Behavior (Ajzen, 1991).</p>
                         <div class="lab-footer-links">
                             <a href="https://kompas-kampus.netlify.app" target="_blank"><i class="fas fa-arrow-right"></i> Coba Demo</a>
-                            <span class="lab-status pilot">Pilot</span>
-                        </div>
-                    </div>
-
-                    <div class="lab-card">
-                        <span class="lab-icon">🗺️</span>
-                        <span class="lab-category">EWS Sosial</span>
-                        <h4>Radar Sosial</h4>
-                        <p>Early Warning System dinamika sosial &amp; jaringan siswa berbasis Social Network Analysis (SNA).</p>
-                        <div class="lab-footer-links">
-                            <span class="lab-status dev">Development</span>
+                            <span class="lab-status live">Live</span>
                         </div>
                     </div>
 
@@ -1565,7 +1559,7 @@
                         <p>Chatbot skrining kecemasan remaja (GAD-7) dengan pendekatan percakapan alami.</p>
                         <div class="lab-footer-links">
                             <a href="https://psychosophia-bot.lovable.app" target="_blank"><i class="fas fa-arrow-right"></i> Coba Demo</a>
-                            <span class="lab-status pilot">Pilot</span>
+                            <span class="lab-status live">Live</span>
                         </div>
                     </div>
 
@@ -1576,6 +1570,63 @@
                         <p>Asesmen ketahanan hubungan pasangan berbasis Social Exchange Theory &amp; Triangular Love Scale.</p>
                         <div class="lab-footer-links">
                             <a href="https://rumahhati-psga.lovable.app" target="_blank"><i class="fas fa-arrow-right"></i> Coba Demo</a>
+                            <span class="lab-status live">Live</span>
+                        </div>
+                    </div>
+
+                    <!-- 👇 TAMBAHAN: GHASAB -->
+                    <div class="lab-card">
+                        <span class="lab-icon">🕌</span>
+                        <span class="lab-category">Riset</span>
+                        <h4>Ghasab</h4>
+                        <p>Alat enumerator untuk riset psikologi ulayat dan psikologi pesantren berbasis nilai lokal.</p>
+                        <div class="lab-footer-links">
+                            <a href="https://ghasab.lovable.app" target="_blank"><i class="fas fa-arrow-right"></i> Buka</a>
+                            <span class="lab-status live">Live</span>
+                        </div>
+                    </div>
+                    <!-- 👆 AKHIR TAMBAHAN -->
+
+                    <div class="lab-card">
+                        <span class="lab-icon">🏃</span>
+                        <span class="lab-category">Dinamika Sosial</span>
+                        <h4>Chasing Simulator</h4>
+                        <p>Simulasi perilaku mengejar (chasing) dalam konteks interaksi sosial dan pengambilan keputusan.</p>
+                        <div class="lab-footer-links">
+                            <a href="https://riset-simulasi-chasing.netlify.app" target="_blank"><i class="fas fa-arrow-right"></i> Coba Demo</a>
+                            <span class="lab-status live">Live</span>
+                        </div>
+                    </div>
+
+                    <div class="lab-card">
+                        <span class="lab-icon">📊</span>
+                        <span class="lab-category">Heatmap</span>
+                        <h4>Heatmap SDGs</h4>
+                        <p>Visualisasi pemetaan indikator SDGs berbasis data wilayah.</p>
+                        <div class="lab-footer-links">
+                            <a href="./lab/heatmap_sdgs_v.1.2.html"><i class="fas fa-arrow-right"></i> Buka</a>
+                            <span class="lab-status pilot">Pilot</span>
+                        </div>
+                    </div>
+
+                    <div class="lab-card">
+                        <span class="lab-icon">⚖️</span>
+                        <span class="lab-category">Asesmen</span>
+                        <h4>IAT Gender</h4>
+                        <p>Implicit Association Test untuk mengukur bias gender implisit.</p>
+                        <div class="lab-footer-links">
+                            <a href="./lab/iat_gender.html"><i class="fas fa-arrow-right"></i> Buka</a>
+                            <span class="lab-status dev">Development</span>
+                        </div>
+                    </div>
+
+                    <div class="lab-card">
+                        <span class="lab-icon">🎈</span>
+                        <span class="lab-category">Risk Taking</span>
+                        <h4>BART</h4>
+                        <p>Balloon Analogue Risk Task — simulasi pengambilan risiko.</p>
+                        <div class="lab-footer-links">
+                            <a href="./lab/bart.html"><i class="fas fa-arrow-right"></i> Buka</a>
                             <span class="lab-status pilot">Pilot</span>
                         </div>
                     </div>
@@ -1592,7 +1643,8 @@
                         <h4>Moral Disengagement Hub</h4>
                         <p>Simulator interaktif 8 mekanisme pelepasan moral Albert Bandura dalam konteks akademik.</p>
                         <div class="lab-footer-links">
-                            <span class="lab-status dev">Development</span>
+                            <a href="./lab/bandura-moral-disengagement-hub.html"><i class="fas fa-arrow-right"></i> Buka</a>
+                            <span class="lab-status pilot">Pilot</span>
                         </div>
                     </div>
 
@@ -1602,18 +1654,8 @@
                         <h4>MD Tracker: KDRT</h4>
                         <p>Simulasi rasionalisasi kekerasan domestik dan eksploitasi anak berbasis moral disengagement.</p>
                         <div class="lab-footer-links">
+                            <a href="./lab/moral-disengagement-tracker-for-violence.html"><i class="fas fa-arrow-right"></i> Buka</a>
                             <span class="lab-status riset">Research</span>
-                        </div>
-                    </div>
-
-                    <div class="lab-card">
-                        <span class="lab-icon">🏃</span>
-                        <span class="lab-category">Dinamika Sosial</span>
-                        <h4>Chasing Simulator</h4>
-                        <p>Simulasi perilaku mengejar (chasing) dalam konteks interaksi sosial dan pengambilan keputusan.</p>
-                        <div class="lab-footer-links">
-                            <a href="https://riset-simulasi-chasing.netlify.app" target="_blank"><i class="fas fa-arrow-right"></i> Coba Demo</a>
-                            <span class="lab-status pilot">Pilot</span>
                         </div>
                     </div>
 
@@ -1623,53 +1665,102 @@
                         <h4>Social Norms Simulator</h4>
                         <p>Eksperimen norma sosial berbasis teori Cristina Bicchieri (Norms in the Wild).</p>
                         <div class="lab-footer-links">
+                            <a href="./lab/simulator_diagnostics_social_norms.html"><i class="fas fa-arrow-right"></i> Buka</a>
                             <span class="lab-status dev">Development</span>
+                        </div>
+                    </div>
+
+                    <div class="lab-card">
+                        <span class="lab-icon">🧠</span>
+                        <span class="lab-category">Strukturasi</span>
+                        <h4>Audit Strukturasi Giddens</h4>
+                        <p>Analisis kerangka strukturasi Anthony Giddens untuk riset sosial.</p>
+                        <div class="lab-footer-links">
+                            <a href="./lab/audit-strukturasi-kerangka-giddens.html"><i class="fas fa-arrow-right"></i> Buka</a>
+                            <span class="lab-status riset">Research</span>
+                        </div>
+                    </div>
+
+                    <div class="lab-card">
+                        <span class="lab-icon">🔄</span>
+                        <span class="lab-category">Sosioanalisis</span>
+                        <h4>Sosioanalisis</h4>
+                        <p>Alat analisis jaringan sosial dan dinamika kelompok.</p>
+                        <div class="lab-footer-links">
+                            <a href="./lab/sosioanalisis.html"><i class="fas fa-arrow-right"></i> Buka</a>
+                            <span class="lab-status dev">Development</span>
+                        </div>
+                    </div>
+
+                    <div class="lab-card">
+                        <span class="lab-icon">🎯</span>
+                        <span class="lab-category">Akrobatik Moral</span>
+                        <h4>Simulator Akrobatik</h4>
+                        <p>Alat diagnostik akrobatik moral berbasis MF × MD.</p>
+                        <div class="lab-footer-links">
+                            <a href="./lab/simulator_akrobatik.html"><i class="fas fa-arrow-right"></i> Buka</a>
+                            <span class="lab-status pilot">Pilot</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Kategori C: Edukasi & Intervensi -->
+            <!-- Kategori C: Edukasi & Buku Saku -->
             <div class="lab-category-block reveal">
-                <h3><i class="fas fa-graduation-cap"></i> Edukasi &amp; Intervensi</h3>
+                <h3><i class="fas fa-graduation-cap"></i> Edukasi &amp; Buku Saku</h3>
                 <div class="lab-grid">
                     <div class="lab-card">
                         <span class="lab-icon">📘</span>
-                        <span class="lab-category">Buku Saku Digital</span>
+                        <span class="lab-category">Buku Saku</span>
                         <h4>Grammar of Society</h4>
                         <p>Materi interaktif ringkasan The Grammar of Society (Bicchieri) dengan navigasi slide.</p>
                         <div class="lab-footer-links">
-                            <span class="lab-status dev">Development</span>
+                            <a href="./lab/materi_social_grammar_bicchieri.html"><i class="fas fa-arrow-right"></i> Buka</a>
+                            <span class="lab-status pilot">Pilot</span>
                         </div>
                     </div>
 
                     <div class="lab-card">
                         <span class="lab-icon">🌿</span>
-                        <span class="lab-category">Buku Saku Digital</span>
+                        <span class="lab-category">Buku Saku</span>
                         <h4>Norms in the Wild</h4>
-                        <p>Ringkasan + simulator norma sosial dari buku Cristina Bicchieri untuk mahasiswa ilmu perilaku.</p>
+                        <p>Ringkasan + simulator norma sosial dari buku Cristina Bicchieri.</p>
                         <div class="lab-footer-links">
-                            <span class="lab-status dev">Development</span>
+                            <a href="./lab/materi_norms_in_the_wild_bicchieri.html"><i class="fas fa-arrow-right"></i> Buka</a>
+                            <span class="lab-status pilot">Pilot</span>
                         </div>
                     </div>
 
                     <div class="lab-card">
                         <span class="lab-icon">📋</span>
-                        <span class="lab-category">Panduan Guru BK</span>
-                        <h4>Buku Saku Guru BK</h4>
-                        <p>Panduan dashboard monitoring, filter profil siswa, dan strategi intervensi berbasis data.</p>
+                        <span class="lab-category">Buku Saku</span>
+                        <h4>Kompas Kampus (Guru BK)</h4>
+                        <p>Panduan dashboard monitoring dan intervensi berbasis data untuk guru BK.</p>
                         <div class="lab-footer-links">
-                            <span class="lab-status dev">Development</span>
+                            <a href="./lab/buku_saku_kompas_kampus/"><i class="fas fa-arrow-right"></i> Buka</a>
+                            <span class="lab-status pilot">Pilot</span>
                         </div>
                     </div>
 
                     <div class="lab-card">
-                        <span class="lab-icon">🧪</span>
-                        <span class="lab-category">Diagnostik Moral</span>
-                        <h4>Zona Abu-Abu Integritas</h4>
-                        <p>Alat diagnosa akrobatik moral berbasis Moral Foundations Theory × Moral Disengagement.</p>
+                        <span class="lab-icon">🤝</span>
+                        <span class="lab-category">Buku Saku</span>
+                        <h4>Teman Sophia</h4>
+                        <p>Buku saku mitra untuk mendampingi remaja menggunakan chatbot kecemasan.</p>
                         <div class="lab-footer-links">
-                            <span class="lab-status dev">Development</span>
+                            <a href="./lab/buku_saku_teman-sophia.html"><i class="fas fa-arrow-right"></i> Buka</a>
+                            <span class="lab-status pilot">Pilot</span>
+                        </div>
+                    </div>
+
+                    <div class="lab-card">
+                        <span class="lab-icon">🏡</span>
+                        <span class="lab-category">Buku Saku</span>
+                        <h4>RumahHati</h4>
+                        <p>Panduan asesmen ketahanan hubungan pasangan untuk konselor.</p>
+                        <div class="lab-footer-links">
+                            <a href="./lab/buku_saku_rumahhati.html"><i class="fas fa-arrow-right"></i> Buka</a>
+                            <span class="lab-status pilot">Pilot</span>
                         </div>
                     </div>
                 </div>
