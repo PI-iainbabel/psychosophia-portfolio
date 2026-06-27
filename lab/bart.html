@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permainan Balon - PSGA & Psychosophia Behavioral Lab, Prodi Psikologi Islam, IAIN SAS Bangka Belitung</title>
+    <style>
+        :root {
+            --bg: #f0f4f8;
+            --card: #ffffff;
+            --text: #2d3748;
+            --text-light: #5a6c7d;
+            --primary: #4f6ef7;
+            --primary-hover: #3b54d4;
+            --pump: #f59e0b;
+            --pump-hover: #d97706;
+            --save: #10b981;
+            --save-hover: #059669;
+            --danger: #ef4444;
+            --balloon-red: #e53e3e;
+            --balloon-blue: #3182ce;
+            --balloon-green: #38a169;
+            --balloon-purple: #805ad5;
+            --balloon-orange: #dd6b20;
+            --balloon-pink: #d53f8c;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            --radius: 20px;
+            --font: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font);
+            background: linear-gradient(160deg, #e8f0fe 0%, #f0f4f8 30%, #fdf2f8 70%, #fef3c7 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .container {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 520px;
+            padding: 28px 24px 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Screen management */
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+        .screen.active {
+            display: flex;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.3px;
+        }
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        p, li {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            text-align: left;
+            max-width: 100%;
+        }
+        .label-sm {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: #8899aa;
+        }
+
+        /* Form */
+        .form-group {
+            width: 100%;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: var(--text);
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: var(--font);
+            background: #fafbfc;
+            transition: border 0.2s;
+            color: var(--text);
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 110, 247, 0.1);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: var(--font);
+            letter-spacing: 0.2px;
+            min-width: 130px;
+            text-decoration: none;
+        }
+        .btn:active {
+            transform: scale(0.96);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(79, 110, 247, 0.35);
+        }
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        .btn-outline:hover {
+            background: #eef2ff;
+        }
+        .btn-pump {
+            background: var(--pump);
+            color: #fff;
+            font-size: 1.15rem;
+            padding: 16px 36px;
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+            flex: 1;
+            max-width: 200px;
+        }
+        .btn-pump:hover {
+            background: var(--pump-hover);
+        }
+        .btn-save {
+            background: var(--save);
+            color: #fff;
+            font-size: 1.05rem;
+            padding: 14px 28px;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+            flex: 1;
+            max-width: 180px;
+        }
+        .btn-save:hover {
+            background: var(--save-hover);
+        }
+        .btn-row {
+            display: flex;
+            gap: 14px;
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Condition badge */
+        .condition-badge {
+            display: inline-block;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            margin-bottom: 4px;
+        }
+        .badge-finansial {
+            background: #fef3c7;
+            color: #b45309;
+            border: 2px solid #fcd34d;
+        }
+        .badge-sosial {
+            background: #e0f2fe;
+            color: #0369a1;
+            border: 2px solid #7dd3fc;
+        }
+
+        /* Balloon area */
+        .balloon-stage {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 4px 0;
+        }
+        .balloon-wrapper {
+            position: relative;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .balloon-body {
+            width: 110px;
+            height: 130px;
+            border-radius: 50% 50% 50% 50% / 45% 45% 55% 55%;
+            position: relative;
+            box-shadow: inset -10px -8px 0 rgba(0, 0, 0, 0.08),
+                inset 8px -4px 0 rgba(255, 255, 255, 0.35),
+                0 8px 30px rgba(0, 0, 0, 0.18);
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: default;
+        }
+        .balloon-highlight {
+            position: absolute;
+            width: 28px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.55);
+            border-radius: 50%;
+            top: 18px;
+            left: 20px;
+            transform: rotate(-20deg);
+            pointer-events: none;
+        }
+        .balloon-knot {
+            position: absolute;
+            bottom: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 16px solid currentColor;
+            pointer-events: none;
+        }
+        .balloon-string {
+            position: absolute;
+            bottom: -90px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 75px;
+            background: #888;
+            pointer-events: none;
+            border-radius: 1px;
+        }
+
+        /* Points floating */
+        .points-float {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: #fbbf24;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 5;
+            pointer-events: none;
+            transition: all 0.2s;
+        }
+
+        /* Progress */
+        .progress-text {
+            font-size: 0.85rem;
+            color: #8899aa;
+            font-weight: 600;
+        }
+        .progress-dots {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            transition: all 0.3s;
+        }
+        .dot.done {
+            background: var(--save);
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+        }
+        .dot.exploded {
+            background: var(--danger);
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+        }
+        .dot.current {
+            background: var(--pump);
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.6);
+            animation: pulse-dot 1s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                box-shadow: 0 0 6px rgba(245, 158, 11, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 16px rgba(245, 158, 11, 0.8);
+            }
+        }
+
+        /* Explosion overlay */
+        .pop-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--danger);
+            pointer-events: none;
+            z-index: 20;
+            transition: none;
+        }
+        .pop-overlay.animate {
+            animation: pop-burst 0.7s ease-out forwards;
+        }
+        @keyframes pop-burst {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 1;
+            }
+            40% {
+                transform: translate(-50%, -50%) scale(1.8);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(2.5);
+                opacity: 0;
+            }
+        }
+
+        /* Particles */
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 18;
+        }
+
+        /* Shake */
+        .shake {
+            animation: shake 0.5s ease-out;
+        }
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            15% {
+                transform: translateX(-8px);
+            }
+            30% {
+                transform: translateX(8px);
+            }
+            45% {
+                transform: translateX(-5px);
+            }
+            60% {
+                transform: translateX(5px);
+            }
+            75% {
+                transform: translateX(-2px);
+            }
+            90% {
+                transform: translateX(2px);
+            }
+        }
+
+        /* Total score display */
+        .total-score {
+            background: #f1f5f9;
+            border-radius: 14px;
+            padding: 10px 20px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text);
+        }
+        .total-score span {
+            color: var(--primary);
+            font-size: 1.3rem;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1e293b;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            z-index: 100;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Completion screen */
+        .completion-icon {
+            font-size: 4rem;
+            animation: bounce-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.15);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            text-align: left;
+        }
+        .summary-table th,
+        .summary-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .summary-table th {
+            font-weight: 700;
+            color: var(--text);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Rules / Debriefing lists */
+        .rules-list {
+            text-align: left;
+            padding-left: 20px;
+        }
+        .rules-list li {
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            min-width: auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 400px) {
+            .container {
+                padding: 20px 14px 16px;
+                border-radius: 16px;
+            }
+            .balloon-stage {
+                height: 230px;
+            }
+            .balloon-body {
+                width: 85px;
+                height: 100px;
+            }
+            .balloon-string {
+                height: 55px;
+                bottom: -65px;
+            }
+            .balloon-knot {
+                border-left-width: 7px;
+                border-right-width: 7px;
+                border-top-width: 12px;
+                bottom: -10px;
+            }
+            .balloon-highlight {
+                width: 20px;
+                height: 26px;
+                top: 14px;
+                left: 14px;
+            }
+            .btn-pump {
+                font-size: 1rem;
+                padding: 14px 24px;
+            }
+            .btn-save {
+                font-size: 0.9rem;
+                padding: 12px 20px;
+            }
+            .points-float {
+                font-size: 0.9rem;
+                padding: 4px 12px;
+                top: -22px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainContainer">
+        <!-- ==================== WELCOME SCREEN ==================== -->
+        <div class="screen active" id="welcomeScreen">
+            <h1>🎈 Permainan Balon</h1>
+            <p>Isi data diri kamu dulu ya!<br>Semua data bersifat <strong>rahasia</strong> dan hanya untuk riset.</p>
+            <div class="form-group">
+                <label for="participantId">ID Partisipan</label>
+                <input type="text" id="participantId" placeholder="Kosongkan untuk ID otomatis">
+            </div>
+            <div class="form-group">
+                <label for="age">Usia (tahun)</label>
+                <input type="number" id="age" placeholder="Misal: 16" min="5" max="99" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" required>
+                    <option value="">-- Pilih --</option>
+                    <option value="Laki-laki">Laki-laki</option>
+                    <option value="Perempuan">Perempuan</option>
+                    <option value="Lainnya">Lainnya / Tidak menyebutkan</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" onclick="startGame()" id="btnStart">
+                🚀 Mulai Permainan
+            </button>
+            <button class="btn btn-outline btn-small" onclick="navigateTo('rulesScreen')">
+                📋 Aturan Permainan
+            </button>
+            <button class="btn btn-outline btn-small" onclick="navigateTo('developerScreen')" style="margin-top:4px;">
+                👨‍💻 Info Pengembang
+            </button>
+        </div>
+
+        <!-- ==================== RULES SCREEN ==================== -->
+        <div class="screen" id="rulesScreen">
+            <h2>📋 Aturan Permainan Balon</h2>
+            <ul class="rules-list">
+                <li>Kamu akan melihat sebuah balon di layar.</li>
+                <li>Setiap kali kamu menekan tombol <strong>Pompa</strong>, balon akan membesar dan poin sementara bertambah <strong>+10</strong>.</li>
+                <li>Tapi hati‑hati: semakin banyak pompaan, semakin besar kemungkinan balon <strong>meledak</strong>.</li>
+                <li>Jika balon meletus, <strong>semua poin di balon itu hilang</strong> dan kamu lanjut ke balon berikutnya.</li>
+                <li>Kamu bisa memilih <strong>Simpan Poin</strong> kapan saja sebelum balon meletus – poin itu akan ditambahkan ke total skormu.</li>
+                <li>Kamu akan bermain dengan <strong>15 balon</strong>. Tujuanmu adalah mengumpulkan poin sebanyak‑banyaknya.</li>
+                <li>Tidak ada jawaban benar atau salah – mainlah sesuai instingmu!</li>
+            </ul>
+            <button class="btn btn-primary" onclick="navigateTo('welcomeScreen')">
+                ⬅ Kembali ke Menu Awal
+            </button>
+        </div>
+
+        <!-- ==================== DEVELOPER SCREEN ==================== -->
+        <div class="screen" id="developerScreen">
+            <h2>👨‍💻 Informasi Pengembang</h2>
+            <div style="text-align:left; max-width:100%;">
+                <p><strong>Instrumen Riset ini dikembangkan oleh Psychosophia Behavioral Lab, Prodi Psikologi Islam IAIN SAS Bangka Belitung sebagai lab-riset pengembangan alat dan pengolahan data, serta analisis. Riset dijalankan oleh PSGA (Pusat Studi Gender dan Anak) </strong></p>
+                <p><strong>Kontak riset:</strong> Silakan hubungi peneliti PSGA untuk informasi lebih lanjut.</p>
+            </div>
+            <button class="btn btn-primary" onclick="navigateTo('welcomeScreen')">
+                ⬅ Kembali ke Menu Awal
+            </button>
+        </div>
+
+        <!-- ==================== GAME SCREEN ==================== -->
+        <div class="screen" id="gameScreen">
+            <div class="condition-badge" id="conditionBadge"></div>
+            <p class="progress-text" id="progressText">Balon 1 / 15</p>
+            <div class="progress-dots" id="progressDots"></div>
+
+            <!-- Balloon stage -->
+            <div class="balloon-stage" id="balloonStage">
+                <div class="balloon-wrapper" id="balloonWrapper">
+                    <div class="points-float" id="pointsFloat">+0 poin</div>
+                    <div class="balloon-body" id="balloonBody">
+                        <div class="balloon-highlight"></div>
+                    </div>
+                    <div class="balloon-knot" id="balloonKnot"></div>
+                    <div class="balloon-string"></div>
+                </div>
+                <div class="pop-overlay" id="popOverlay">💥</div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="btn-row">
+                <button class="btn btn-pump" id="btnPump" onclick="pumpBalloon()">
+                    🎈 Pompa
+                </button>
+                <button class="btn btn-save" id="btnSave" onclick="savePoints()">
+                    💰 Simpan Poin
+                </button>
+            </div>
+
+            <!-- Total score -->
+            <div class="total-score">
+                ⭐ Total Poin: <span id="totalScoreDisplay">0</span>
+            </div>
+        </div>
+
+        <!-- ==================== COMPLETION SCREEN ==================== -->
+        <div class="screen" id="completionScreen">
+            <div class="completion-icon">🎉</div>
+            <h2>Permainan Selesai!</h2>
+            <p>Terima kasih sudah berpartisipasi! 🎈</p>
+            <div class="total-score" style="font-size:1.1rem;">
+                ⭐ Total Poin Akhir: <span id="finalScoreDisplay">0</span>
+            </div>
+            <table class="summary-table" id="summaryTable">
+                <thead>
+                    <tr><th>Balon</th><th>Pompaan</th><th>Hasil</th><th>Poin</th></tr>
+                </thead>
+                <tbody id="summaryBody"></tbody>
+            </table>
+            <button class="btn btn-primary" onclick="navigateTo('debriefScreen')">
+                📝 Lanjut ke Penjelasan (Debriefing)
+            </button>
+        </div>
+
+        <!-- ==================== DEBRIEF SCREEN ==================== -->
+        <div class="screen" id="debriefScreen">
+            <h2>📝 Penjelasan Setelah Permainan</h2>
+            <div style="text-align:left; max-width:100%;">
+                <p>Terima kasih sudah menyelesaikan permainan balon ini! 🎈</p>
+                <p>Sebenarnya, permainan ini adalah bagian dari riset tentang <strong>pengambilan risiko</strong> pada remaja. Kami ingin tahu apakah anak laki‑laki dan perempuan berbeda dalam keberanian mengambil risiko, dan apakah konteks (mengumpulkan uang untuk diri sendiri vs. membantu teman) memengaruhi keputusan tersebut.</p>
+                <p><strong>Yang perlu kamu tahu:</strong></p>
+                <ul class="rules-list">
+                    <li>Balon tidak benar‑benar acak – kemungkinan meletus sengaja ditingkatkan seiring jumlah pompaan.</li>
+                    <li>Kamu mungkin mendapatkan salah satu dari dua kondisi: "Kumpulkan Uang untuk Dirimu" atau "Kumpulkan Poin untuk Membantu Teman". Ini adalah bagian dari eksperimen.</li>
+                    <li>Tidak ada jawaban benar atau salah. Berapa pun poin yang kamu kumpulkan, itu hanya cerminan gaya pengambilan risiko kamu.</li>
+                    <li>Semua data yang kamu berikan <strong>dirahasiakan</strong> dan hanya digunakan untuk keperluan riset. Identitasmu tidak akan dipublikasikan.</li>
+                </ul>
+                <p>Jika ada pertanyaan atau kamu merasa tidak nyaman, kamu bisa menghubungi peneliti atau pendamping. Partisipasi kamu sangat berharga bagi kami. Terima kasih! 🙏</p>
+            </div>
+            <button class="btn btn-primary" onclick="navigateTo('welcomeScreen')">
+                🔄 Kembali ke Awal (Reset)
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ==================== SUPABASE CONFIGURATION ====================
+        // Ganti dengan URL dan ANON KEY dari Supabase project Anda
+        const SUPABASE_URL = 'https://xxxxxxxxxxxx.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
+
+        // ==================== GAME CONSTANTS ====================
+        const TOTAL_BALLOONS = 15;
+        const POINTS_PER_PUMP = 10;
+        const MAX_PROB_PUMPS = 25; // Pump ke-25 = 100% probability meledak
+        const BALLOON_COLORS = [
+            '#e53e3e', '#3182ce', '#38a169', '#805ad5', '#dd6b20', '#d53f8c',
+            '#e53e3e', '#3182ce', '#38a169', '#805ad5', '#dd6b20', '#d53f8c',
+            '#e53e3e', '#3182ce', '#38a169',
+        ];
+
+        // ==================== GAME STATE ====================
+        let state = {
+            participantId: '',
+            age: null,
+            gender: '',
+            condition: '', // 'finansial' atau 'sosial'
+            currentBalloon: 1,
+            currentPumps: 0,
+            tempPoints: 0,
+            totalPoints: 0,
+            balloonResults: [], // Array of {pumps, exploded, points}
+            isAnimating: false,
+            balloonColor: BALLOON_COLORS[0],
+        };
+
+        // ==================== DOM REFERENCES ====================
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        const rulesScreen = document.getElementById('rulesScreen');
+        const developerScreen = document.getElementById('developerScreen');
+        const gameScreen = document.getElementById('gameScreen');
+        const completionScreen = document.getElementById('completionScreen');
+        const debriefScreen = document.getElementById('debriefScreen');
+        const conditionBadge = document.getElementById('conditionBadge');
+        const progressText = document.getElementById('progressText');
+        const progressDots = document.getElementById('progressDots');
+        const balloonStage = document.getElementById('balloonStage');
+        const balloonWrapper = document.getElementById('balloonWrapper');
+        const balloonBody = document.getElementById('balloonBody');
+        const balloonKnot = document.getElementById('balloonKnot');
+        const pointsFloat = document.getElementById('pointsFloat');
+        const popOverlay = document.getElementById('popOverlay');
+        const btnPump = document.getElementById('btnPump');
+        const btnSave = document.getElementById('btnSave');
+        const totalScoreDisplay = document.getElementById('totalScoreDisplay');
+        const finalScoreDisplay = document.getElementById('finalScoreDisplay');
+        const summaryBody = document.getElementById('summaryBody');
+        const toast = document.getElementById('toast');
+        const mainContainer = document.getElementById('mainContainer');
+
+        // ==================== SCREEN NAVIGATION ====================
+        const allScreens = [
+            welcomeScreen, rulesScreen, developerScreen, gameScreen, completionScreen, debriefScreen
+        ];
+
+        function navigateTo(screenId) {
+            const target = document.getElementById(screenId);
+            if (!target) return;
+            allScreens.forEach(s => s.classList.remove('active'));
+            target.classList.add('active');
+            // If navigating to welcome, reset form? Keep as is, but reset state if coming from debrief?
+            if (screenId === 'welcomeScreen') {
+                // Optionally clear game state if user wants to restart
+                resetGameState();
+            }
+        }
+
+        function resetGameState() {
+            state = {
+                participantId: '',
+                age: null,
+                gender: '',
+                condition: '',
+                currentBalloon: 1,
+                currentPumps: 0,
+                tempPoints: 0,
+                totalPoints: 0,
+                balloonResults: [],
+                isAnimating: false,
+                balloonColor: BALLOON_COLORS[0],
+            };
+            updateProgressUI();
+            updateTotalScore();
+            resetBalloonVisual();
+        }
+
+        // ==================== TOAST ====================
+        let toastTimer;
+
+        function showToast(message) {
+            clearTimeout(toastTimer);
+            toast.textContent = message;
+            toast.classList.add('show');
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2200);
+        }
+
+        // ==================== SUPABASE SAVE ====================
+        async function saveTrialToSupabase(trialData) {
+            if (!SUPABASE_URL || SUPABASE_URL.includes('xxxxxxxxxxxx')) {
+                console.warn('⚠️ Supabase belum dikonfigurasi. Data trial:', trialData);
+                return true; // Lanjut tanpa error meskipun Supabase belum disetup
+            }
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/bart_trials`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=minimal',
+                    },
+                    body: JSON.stringify(trialData),
+                });
+                if (!response.ok) {
+                    console.error('Supabase insert error:', response.status, await response.text());
+                    return false;
+                }
+                console.log('✅ Data tersimpan:', trialData.balloon_number);
+                return true;
+            } catch (err) {
+                console.error('Network error saving to Supabase:', err);
+                return false;
+            }
+        }
+
+        // ==================== START GAME ====================
+        function startGame() {
+            const ageInput = document.getElementById('age');
+            const genderInput = document.getElementById('gender');
+            let pid = document.getElementById('participantId').value.trim();
+
+            if (!ageInput.value || parseInt(ageInput.value) < 5 || parseInt(ageInput.value) > 99) {
+                showToast('⚠️ Masukkan usia yang valid (5-99 tahun)');
+                ageInput.focus();
+                return;
+            }
+            if (!genderInput.value) {
+                showToast('⚠️ Pilih gender dulu ya');
+                genderInput.focus();
+                return;
+            }
+
+            if (!pid) {
+                pid = 'P' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).substring(2, 6).toUpperCase();
+                document.getElementById('participantId').value = pid;
+            }
+
+            const condition = Math.random() < 0.5 ? 'finansial' : 'sosial';
+
+            state = {
+                participantId: pid,
+                age: parseInt(ageInput.value),
+                gender: genderInput.value,
+                condition: condition,
+                currentBalloon: 1,
+                currentPumps: 0,
+                tempPoints: 0,
+                totalPoints: 0,
+                balloonResults: [],
+                isAnimating: false,
+                balloonColor: BALLOON_COLORS[0],
+            };
+
+            updateConditionBadge();
+            updateProgressUI();
+            resetBalloonVisual();
+            updatePointsFloat();
+            updateTotalScore();
+            btnPump.disabled = false;
+            btnSave.disabled = false;
+
+            navigateTo('gameScreen');
+
+            console.log('🎯 Game dimulai:', {
+                participantId: state.participantId,
+                age: state.age,
+                gender: state.gender,
+                condition: state.condition,
+            });
+
+            showToast(
+                state.condition === 'finansial' ?
+                '🪙 Kumpulkan uang sebanyak-banyaknya!' :
+                '🤝 Bantu teman dengan kumpulkan poin!'
+            );
+        }
+
+        function updateConditionBadge() {
+            if (state.condition === 'finansial') {
+                conditionBadge.className = 'condition-badge badge-finansial';
+                conditionBadge.textContent = '🪙 Kumpulkan Uang untuk Dirimu';
+            } else {
+                conditionBadge.className = 'condition-badge badge-sosial';
+                conditionBadge.textContent = '🤝 Kumpulkan Poin untuk Membantu Teman';
+            }
+        }
+
+        function updateProgressUI() {
+            progressText.textContent = `Balon ${state.currentBalloon} / ${TOTAL_BALLOONS}`;
+            let dotsHTML = '';
+            for (let i = 1; i <= TOTAL_BALLOONS; i++) {
+                let cls = 'dot';
+                if (i < state.currentBalloon) {
+                    const result = state.balloonResults[i - 1];
+                    cls += result && result.exploded ? ' exploded' : ' done';
+                } else if (i === state.currentBalloon) {
+                    cls += ' current';
+                }
+                dotsHTML += `<span class="${cls}"></span>`;
+            }
+            progressDots.innerHTML = dotsHTML;
+        }
+
+        function resetBalloonVisual() {
+            state.balloonColor = BALLOON_COLORS[(state.currentBalloon - 1) % BALLOON_COLORS.length];
+            balloonBody.style.backgroundColor = state.balloonColor;
+            balloonKnot.style.borderTopColor = state.balloonColor;
+            balloonWrapper.style.transform = 'scale(1)';
+            balloonBody.style.opacity = '1';
+            popOverlay.classList.remove('animate');
+            mainContainer.classList.remove('shake');
+            document.querySelectorAll('.particle').forEach(p => p.remove());
+            state.currentPumps = 0;
+            state.tempPoints = 0;
+            updatePointsFloat();
+            updatePumpButtonState();
+        }
+
+        function updateBalloonScale() {
+            const scale = 1 + state.currentPumps * 0.07;
+            balloonWrapper.style.transform = `scale(${Math.min(scale, 3.0)})`;
+        }
+
+        function updatePointsFloat() {
+            pointsFloat.textContent = `+${state.tempPoints} poin`;
+            pointsFloat.style.transform = 'translateX(-50%) scale(1.15)';
+            setTimeout(() => {
+                pointsFloat.style.transform = 'translateX(-50%) scale(1)';
+            }, 120);
+        }
+
+        function updateTotalScore() {
+            totalScoreDisplay.textContent = state.totalPoints;
+            finalScoreDisplay.textContent = state.totalPoints;
+        }
+
+        function updatePumpButtonState() {
+            btnPump.disabled = state.isAnimating;
+            btnSave.disabled = state.isAnimating;
+        }
+
+        // ==================== PUMP BALLOON ====================
+        function pumpBalloon() {
+            if (state.isAnimating) return;
+            if (state.currentBalloon > TOTAL_BALLOONS) return;
+
+            state.isAnimating = true;
+            updatePumpButtonState();
+
+            state.currentPumps++;
+            state.tempPoints = state.currentPumps * POINTS_PER_PUMP;
+
+            updateBalloonScale();
+            updatePointsFloat();
+
+            const probability = state.currentPumps / MAX_PROB_PUMPS;
+            const roll = Math.random();
+
+            if (roll < probability || state.currentPumps >= MAX_PROB_PUMPS) {
+                triggerExplosion();
+            } else {
+                setTimeout(() => {
+                    state.isAnimating = false;
+                    updatePumpButtonState();
+                }, 180);
+            }
+        }
+
+        function triggerExplosion() {
+            btnPump.disabled = true;
+            btnSave.disabled = true;
+
+            balloonBody.style.opacity = '0';
+            balloonBody.style.transform = 'scale(1.4)';
+            balloonWrapper.style.transform = balloonWrapper.style.transform.replace(/scale\([^)]+\)/, 'scale(1.5)');
+
+            popOverlay.classList.remove('animate');
+            void popOverlay.offsetWidth;
+            popOverlay.classList.add('animate');
+
+            mainContainer.classList.remove('shake');
+            void mainContainer.offsetWidth;
+            mainContainer.classList.add('shake');
+
+            spawnParticles();
+
+            const result = {
+                pumps: state.currentPumps,
+                exploded: true,
+                points: 0,
+            };
+            state.balloonResults.push(result);
+            state.tempPoints = 0;
+
+            saveTrial(result);
+
+            updateTotalScore();
+            updatePointsFloat();
+            updateProgressUI();
+
+            showToast('💥 Balonnya meletus! Poin hilang...');
+
+            setTimeout(() => {
+                advanceBalloon();
+            }, 900);
+        }
+
+        function spawnParticles() {
+            const stageRect = balloonStage.getBoundingClientRect();
+            const balloonRect = balloonBody.getBoundingClientRect();
+            const cx = balloonRect.left + balloonRect.width / 2 - stageRect.left;
+            const cy = balloonRect.top + balloonRect.height / 2 - stageRect.top;
+
+            const colors = [state.balloonColor, '#ff6b6b', '#ffd93d', '#fff', '#ff9f43'];
+            for (let i = 0; i < 16; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 40 + Math.random() * 80;
+                const size = 4 + Math.random() * 10;
+                particle.style.cssText = `
+                    width: ${size}px; height: ${size}px;
+                    background: ${colors[Math.floor(Math.random() * colors.length)]};
+                    left: ${cx}px; top: ${cy}px;
+                    transition: all ${0.4 + Math.random() * 0.5}s cubic-bezier(0, 0.7, 0.3, 1);
+                    opacity: 1;
+                `;
+                balloonStage.appendChild(particle);
+
+                requestAnimationFrame(() => {
+                    particle.style.left = `${cx + Math.cos(angle) * distance}px`;
+                    particle.style.top = `${cy + Math.sin(angle) * distance}px`;
+                    particle.style.opacity = '0';
+                    particle.style.transform = `scale(0.2)`;
+                });
+
+                setTimeout(() => particle.remove(), 1000);
+            }
+        }
+
+        // ==================== SAVE POINTS ====================
+        function savePoints() {
+            if (state.isAnimating) return;
+            if (state.currentBalloon > TOTAL_BALLOONS) return;
+
+            state.isAnimating = true;
+            btnPump.disabled = true;
+            btnSave.disabled = true;
+
+            const result = {
+                pumps: state.currentPumps,
+                exploded: false,
+                points: state.tempPoints,
+            };
+            state.balloonResults.push(result);
+            state.totalPoints += state.tempPoints;
+            state.tempPoints = 0;
+
+            saveTrial(result);
+
+            updateTotalScore();
+            updatePointsFloat();
+            updateProgressUI();
+            showToast(`✅ Poin disimpan! +${result.points} poin`);
+
+            balloonBody.style.boxShadow = `
+                inset -10px -8px 0 rgba(0,0,0,0.08),
+                inset 8px -4px 0 rgba(255,255,255,0.35),
+                0 8px 30px rgba(0,0,0,0.18),
+                0 0 40px rgba(16,185,129,0.6)
+            `;
+            setTimeout(() => {
+                balloonBody.style.boxShadow = `
+                    inset -10px -8px 0 rgba(0,0,0,0.08),
+                    inset 8px -4px 0 rgba(255,255,255,0.35),
+                    0 8px 30px rgba(0,0,0,0.18)
+                `;
+            }, 400);
+
+            setTimeout(() => {
+                advanceBalloon();
+            }, 600);
+        }
+
+        function saveTrial(result) {
+            const trialData = {
+                participant_id: state.participantId,
+                age: state.age,
+                gender: state.gender,
+                condition: state.condition,
+                balloon_number: state.currentBalloon,
+                pumps: result.pumps,
+                exploded: result.exploded,
+                points_collected: result.points,
+            };
+            saveTrialToSupabase(trialData);
+        }
+
+        function advanceBalloon() {
+            state.currentBalloon++;
+
+            if (state.currentBalloon > TOTAL_BALLOONS) {
+                finishGame();
+                return;
+            }
+
+            state.isAnimating = false;
+            resetBalloonVisual();
+            updateProgressUI();
+            updatePumpButtonState();
+            btnPump.disabled = false;
+            btnSave.disabled = false;
+
+            balloonWrapper.style.transform = 'scale(1)';
+            balloonBody.style.opacity = '1';
+        }
+
+        function finishGame() {
+            navigateTo('completionScreen');
+            updateTotalScore();
+            finalScoreDisplay.textContent = state.totalPoints;
+
+            let summaryHTML = '';
+            state.balloonResults.forEach((r, i) => {
+                const emoji = r.exploded ? '💥' : '✅';
+                const resultText = r.exploded ? 'Meletus' : 'Disimpan';
+                summaryHTML += `
+                    <tr>
+                        <td>Balon ${i + 1}</td>
+                        <td>${r.pumps}x pompa</td>
+                        <td>${emoji} ${resultText}</td>
+                        <td>+${r.points} poin</td>
+                    </tr>`;
+            });
+            summaryBody.innerHTML = summaryHTML;
+
+            console.log('🏁 Game selesai!', {
+                participantId: state.participantId,
+                totalPoints: state.totalPoints,
+                results: state.balloonResults,
+            });
+
+            showToast('🎉 Permainan selesai! Terima kasih!');
+        }
+
+        // ==================== INITIALIZATION ====================
+        function init() {
+            navigateTo('welcomeScreen');
+            updateProgressUI();
+            let dotsHTML = '';
+            for (let i = 1; i <= TOTAL_BALLOONS; i++) {
+                dotsHTML += '<span class="dot"></span>';
+            }
+            progressDots.innerHTML = dotsHTML;
+        }
+
+        init();
+
+        // Keyboard shortcuts (opsional, untuk testing)
+        document.addEventListener('keydown', (e) => {
+            if (gameScreen.classList.contains('active') && !state.isAnimating) {
+                if (e.key === ' ' || e.key === 'p' || e.key === 'P') {
+                    e.preventDefault();
+                    pumpBalloon();
+                } else if (e.key === 's' || e.key === 'S' || e.key === 'Enter') {
+                    e.preventDefault();
+                    savePoints();
+                }
+            }
+        });
+
+        console.log('🎈 BART Game siap!');
+        console.log('📋 Supabase:', SUPABASE_URL.includes('xxxxxxxxxxxx') ? 'BELUM dikonfigurasi' : 'Terkonfigurasi');
+        console.log('💡 Shortcut keyboard: Spasi/P = Pompa | S/Enter = Simpan Poin');
+    </script>
+</body>
+</html>
