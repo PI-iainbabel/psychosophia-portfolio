@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moral Disengagement Tracker · Psychosophia Lab</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        psych: {
+                            bg: '#FAF8F5',
+                            dark: '#2D221E',
+                            plum: '#4A2840',
+                            coral: '#E76F51',
+                            lavender: '#8D7BFF',
+                            sage: '#6B9E7A',
+                            card: '#FFFFFF',
+                            border: '#EADBC8',
+                            gold: '#D4A373',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #FAF8F5; }
+        ::-webkit-scrollbar-thumb { background: #D4ADFC; border-radius: 10px; }
+        .slide-transition { transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .slide-enter { opacity: 0; transform: scale(0.97) translateY(10px); }
+        .slide-active { opacity: 1; transform: scale(1) translateY(0); }
+        .card-hover { transition: all 0.25s ease; }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(74, 40, 64, 0.06); }
+        .nav-btn { transition: all 0.2s ease; }
+        .nav-btn:active { transform: scale(0.95); }
+        .gauge-transition { transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .brand-glow { box-shadow: 0 0 40px rgba(141, 123, 255, 0.08); }
+    </style>
+</head>
+<body class="bg-psych-bg text-psych-dark font-sans min-h-screen flex flex-col selection:bg-psych-plum selection:text-white">
+
+    <!-- ===== HEADER ===== -->
+    <header class="bg-white/95 backdrop-blur-md border-b border-psych-border sticky top-0 z-40 px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3 transition-all">
+        <div class="flex items-center gap-3">
+            <div class="bg-gradient-to-tr from-psych-plum to-psych-coral text-white w-10 h-10 rounded-xl flex items-center justify-center font-display font-extrabold shadow-md shadow-psych-plum/30">
+                MD
+            </div>
+            <div>
+                <h1 class="font-display font-bold text-sm md:text-base leading-tight text-psych-dark">Moral Disengagement Tracker</h1>
+                <p class="text-[10px] text-psych-plum font-semibold flex items-center gap-1.5">
+                    <i class="fa-regular fa-circle-check"></i> Psychosophia Behavioral Lab · 2026
+                </p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="hidden sm:inline-flex items-center gap-1.5 bg-psych-coral/10 px-3 py-1.5 rounded-full border border-psych-coral/20 text-[10px] font-bold text-psych-coral">
+                <span class="w-1.5 h-1.5 rounded-full bg-psych-coral animate-pulse"></span>
+                KDRT & Kekerasan Anak
+            </span>
+            <button onclick="toggleSidebar()" class="lg:hidden text-psych-dark hover:bg-psych-plum/10 p-2 rounded-xl transition">
+                <i class="fa-solid fa-bars text-lg"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ===== MAIN WRAPPER ===== -->
+    <div class="flex-grow flex flex-col lg:flex-row max-w-[1600px] w-full mx-auto relative">
+
+        <!-- ===== SIDEBAR ===== -->
+        <aside id="sidebar" class="fixed lg:sticky top-[61px] left-0 bottom-0 w-[290px] bg-white border-r border-psych-border p-4 flex flex-col justify-between overflow-y-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-30 lg:z-10 h-[calc(100vh-61px)] shadow-xl lg:shadow-none">
+            <div class="space-y-5">
+                <!-- Branding -->
+                <div class="flex items-center gap-2 pb-3 border-b border-psych-border">
+                    <span class="text-[10px] font-bold text-psych-plum uppercase tracking-wider flex items-center gap-1.5">
+                        <i class="fa-solid fa-graduation-cap"></i> Kurikulum
+                    </span>
+                </div>
+
+                <!-- Daftar slide -->
+                <div class="space-y-1" id="slide-menu-list">
+                    <!-- Diisi oleh JavaScript -->
+                </div>
+
+                <!-- CTA Simulator -->
+                <div class="bg-gradient-to-br from-psych-bg to-psych-border p-4 rounded-2xl relative overflow-hidden mt-4">
+                    <div class="absolute -right-6 -bottom-6 text-psych-plum/10 text-5xl"><i class="fa-solid fa-heart-crack"></i></div>
+                    <h4 class="font-display font-bold text-sm text-psych-dark mb-0.5">🧪 Uji Rem Moral</h4>
+                    <p class="text-[10px] text-psych-dark/70 mb-3 leading-relaxed">Simulasikan rasionalisasi pelaku kekerasan.</p>
+                    <button onclick="scrollToSimulator()" class="w-full bg-psych-plum text-white text-[11px] font-bold py-2 rounded-xl hover:bg-psych-dark transition shadow-md shadow-psych-plum/20 flex items-center justify-center gap-2">
+                        Buka Simulator <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </button>
+                </div>
+
+                <!-- Footer sidebar -->
+                <div class="pt-3 border-t border-psych-border text-center text-[9px] text-psych-dark/40 font-medium">
+                    Psychosophia Behavioral Lab · 2026
+                </div>
+            </div>
+        </aside>
+
+        <!-- BACKDROP MOBILE -->
+        <div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-psych-dark/30 backdrop-blur-sm z-20 hidden lg:hidden"></div>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="flex-grow p-3 sm:p-5 md:p-7 lg:p-10 flex flex-col min-h-[calc(100vh-61px)] max-w-full overflow-x-hidden space-y-10">
+
+            <!-- ===== SLIDE CARD ===== -->
+            <div class="bg-white rounded-3xl border border-psych-border shadow-lg shadow-psych-plum/5 overflow-hidden relative">
+                
+                <!-- Dekorasi latar -->
+                <div class="absolute -top-32 -left-32 w-80 h-80 rounded-full bg-psych-plum/5 blur-[60px] pointer-events-none"></div>
+                <div class="absolute -bottom-32 -right-32 w-80 h-80 rounded-full bg-psych-coral/5 blur-[60px] pointer-events-none"></div>
+
+                <!-- Header slide -->
+                <div class="flex flex-wrap items-center justify-between gap-3 px-6 pt-5 pb-3 border-b border-psych-border relative z-10">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span id="slide-chapter-badge" class="bg-psych-plum/10 text-psych-plum text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                            Bab 1
+                        </span>
+                        <span class="text-psych-plum/20">•</span>
+                        <span id="slide-read-time" class="text-[11px] text-psych-dark/50 font-medium flex items-center gap-1">
+                            <i class="fa-regular fa-clock"></i> 2 mnt
+                        </span>
+                    </div>
+                    <div class="text-[11px] font-semibold text-psych-dark/60 bg-psych-bg px-3 py-1.5 rounded-full">
+                        <span id="current-slide-num" class="text-psych-dark font-extrabold">1</span> / <span id="total-slides-num" class="font-extrabold">10</span>
+                    </div>
+                </div>
+
+                <!-- Konten slide -->
+                <div id="slide-content-stage" class="px-6 py-7 md:px-8 md:py-10 min-h-[420px] flex flex-col justify-center relative z-10">
+                    <!-- Diisi oleh JavaScript -->
+                </div>
+
+                <!-- Footer navigasi -->
+                <div class="flex flex-wrap items-center justify-between gap-3 px-6 py-4 border-t border-psych-border relative z-10 bg-psych-bg/30">
+                    <button onclick="prevSlide()" class="nav-btn flex items-center gap-2 text-psych-plum hover:text-psych-dark font-bold text-sm bg-white hover:bg-psych-plum/10 px-4 py-2.5 rounded-xl transition border border-psych-border/50 shadow-sm">
+                        <i class="fa-solid fa-arrow-left text-xs"></i> Kembali
+                    </button>
+                    <span class="hidden md:inline-flex items-center gap-1.5 text-[10px] text-psych-dark/40 font-medium bg-white px-3 py-1.5 rounded-lg border border-psych-border/50 shadow-sm">
+                        <kbd class="border border-psych-border px-1.5 py-0.5 rounded bg-psych-bg font-mono text-[9px] shadow-sm">←</kbd> <kbd class="border border-psych-border px-1.5 py-0.5 rounded bg-psych-bg font-mono text-[9px] shadow-sm">→</kbd> navigasi
+                    </span>
+                    <button onclick="nextSlide()" class="nav-btn flex items-center gap-2 bg-psych-plum hover:bg-psych-dark text-white font-bold text-sm px-5 py-2.5 rounded-xl transition shadow-md shadow-psych-plum/20">
+                        Lanjut <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ===== SIMULATOR ===== -->
+            <section id="moral-switch-sandbox" class="pt-4 pb-6 space-y-8">
+                <div class="text-center max-w-3xl mx-auto">
+                    <span class="bg-psych-coral/10 text-psych-coral text-[10px] font-extrabold px-4 py-1.5 rounded-full uppercase tracking-widest border border-psych-coral/15">
+                        <i class="fa-regular fa-flask mr-1"></i> Sandbox Interaktif
+                    </span>
+                    <h2 class="font-display font-extrabold text-2xl md:text-3xl text-psych-dark mt-3">Simulasi Pergeseran Rem Moral</h2>
+                    <p class="text-sm text-psych-dark/70 mt-1 max-w-2xl mx-auto">
+                        Albert Bandura menjelaskan bahwa pelaku kekerasan mematikan rem moral batinnya secara selektif. Pilih skenario, aktifkan pembenaran kognitif, dan amati keruntuhan empati secara visual.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+                    
+                    <!-- Panel kontrol -->
+                    <div class="bg-white border border-psych-border rounded-3xl p-5 md:p-7 shadow-lg xl:col-span-7 space-y-5">
+                        <div>
+                            <span class="text-[10px] font-bold text-psych-plum uppercase tracking-widest"><i class="fa-solid fa-sliders"></i> Panel Rasionalisasi</span>
+                            <h3 class="font-display font-bold text-lg text-psych-dark mt-0.5">Konfigurasi Pembenaran Pelaku</h3>
+                        </div>
+
+                        <!-- Pilih skenario -->
+                        <div class="bg-psych-bg border border-psych-border p-4 rounded-2xl">
+                            <label class="block text-[10px] font-bold uppercase tracking-wider text-psych-dark/70 mb-2">1. Pilih Skenario Kekerasan:</label>
+                            <select id="sim-scenario" onchange="updateScenario()" class="w-full bg-white border border-psych-border rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-psych-plum font-medium text-psych-dark">
+                                <option value="kdrt_konvensional">🏠 KDRT Fisik (Suami → Istri)</option>
+                                <option value="kdrt_online">📱 KDRT Digital (Stalking & Ancaman)</option>
+                                <option value="anak_konvensional">👨‍👦 Kekerasan Fisik pada Anak</option>
+                                <option value="anak_online">📸 Eksploitasi Konten Anak (Sharenting)</option>
+                            </select>
+                        </div>
+
+                        <!-- Daftar mekanisme -->
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase tracking-wider text-psych-plum mb-2"><i class="fa-regular fa-square-check"></i> 2. Aktifkan Mekanisme Pelepasan Moral:</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2" id="excuses-container">
+                                <!-- Diisi oleh JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel hasil -->
+                    <div class="bg-psych-plum text-white rounded-3xl p-5 md:p-7 shadow-xl xl:col-span-5 h-full flex flex-col relative overflow-hidden">
+                        <div class="absolute -top-24 -right-24 w-48 h-48 rounded-full bg-psych-coral/10 blur-3xl pointer-events-none"></div>
+                        
+                        <div class="space-y-5 relative z-10">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-lg bg-psych-coral text-white flex items-center justify-center text-sm">
+                                    <i class="fa-solid fa-heart-crack"></i>
+                                </div>
+                                <h4 class="font-display font-bold text-xs tracking-wider text-psych-border uppercase">Dashboard Moral</h4>
+                            </div>
+
+                            <!-- Gauge -->
+                            <div class="bg-black/30 border border-white/10 p-4 rounded-2xl text-center space-y-2">
+                                <span class="text-[9px] font-black uppercase text-gray-300 tracking-widest">Kekuatan Rem Moral</span>
+                                <div class="relative flex items-center justify-center gap-3">
+                                    <span id="moral-gauge-pct" class="text-4xl md:text-5xl font-black text-emerald-400 tracking-tight transition-all duration-300">100%</span>
+                                    <span id="moral-gauge-status" class="text-xs text-emerald-400 font-bold">Active</span>
+                                </div>
+                                <div class="w-full bg-white/10 rounded-full h-2.5 overflow-hidden">
+                                    <div id="moral-gauge-bar" class="bg-emerald-400 h-full gauge-transition" style="width: 100%"></div>
+                                </div>
+                                <p id="moral-status-text" class="text-[10px] font-bold text-emerald-400">Empati aktif · rasa bersalah tinggi</p>
+                            </div>
+
+                            <!-- 4 Loci -->
+                            <div>
+                                <h4 class="text-[9px] font-bold uppercase tracking-wider text-psych-border text-center mb-2"><i class="fa-solid fa-network-wired"></i> Locus yang Terputus</h4>
+                                <div class="grid grid-cols-4 gap-1.5 text-center text-[8px] font-bold">
+                                    <div id="locus-behavioral" class="bg-black/20 border border-white/5 p-2 rounded-xl transition-all duration-300">
+                                        <i class="fa-solid fa-gears text-sm block mb-0.5"></i> Behavior
+                                    </div>
+                                    <div id="locus-agency" class="bg-black/20 border border-white/5 p-2 rounded-xl transition-all duration-300">
+                                        <i class="fa-solid fa-user-slash text-sm block mb-0.5"></i> Agency
+                                    </div>
+                                    <div id="locus-outcome" class="bg-black/20 border border-white/5 p-2 rounded-xl transition-all duration-300">
+                                        <i class="fa-solid fa-circle-nodes text-sm block mb-0.5"></i> Outcome
+                                    </div>
+                                    <div id="locus-recipient" class="bg-black/20 border border-white/5 p-2 rounded-xl transition-all duration-300">
+                                        <i class="fa-solid fa-user-large-slash text-sm block mb-0.5"></i> Recipient
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Kutipan -->
+                            <div class="bg-black/40 p-3 rounded-xl border border-white/10">
+                                <span class="text-[8px] font-bold text-psych-coral uppercase tracking-wider">Rasionalisasi Pelaku:</span>
+                                <p id="live-exoneration-quote" class="text-[11px] italic text-gray-300 mt-0.5 leading-relaxed">
+                                    "Saya merasa bersalah jika menyakiti keluarga saya..."
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-white/10 pt-3 mt-4 text-center relative z-10">
+                            <span class="text-[8px] text-gray-400 font-bold uppercase tracking-widest">Psychosophia Behavioral Lab</span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="bg-white border-t border-psych-border py-5 px-6 text-center">
+        <p class="text-[10px] text-psych-dark/40 font-medium flex items-center justify-center gap-2">
+            <i class="fa-regular fa-circle-check text-psych-plum"></i>
+            Psychosophia Behavioral Lab · Program Studi Psikologi Islam IAIN SAS Bangka Belitung
+        </p>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        // 1. DATA SLIDES (Sesuai dengan kode asli, hanya dirapikan)
+        const slides = [
+            {
+                chapter: "Bab 1",
+                title: "Korelasi KDRT & Pelepasan Moral Bandura 🧬",
+                time: "2 mnt baca",
+                content: `
+                    <div class="space-y-5 max-w-4xl">
+                        <div class="inline-flex items-center gap-2 bg-psych-plum/10 text-psych-plum px-3 py-1 rounded-full text-[10px] font-bold border border-psych-plum/25">
+                            Moral Disengagement pada Kasus KDRT
+                        </div>
+                        <h2 class="font-display font-extrabold text-2xl md:text-4xl text-psych-dark leading-tight">
+                            Mengapa Kekerasan Domestik Bisa Dimaklumi Pelaku?
+                        </h2>
+                        <p class="text-sm md:text-base text-psych-dark/80 leading-relaxed">
+                            Albert Bandura menjelaskan bahwa pelaku kekerasan domestik (suami/orang tua) bukanlah monster tanpa hati nurani. Mereka sering kali adalah individu normal yang melumpuhkan rem moral batiniah mereka secara selektif (<em>selective activation</em>) sehingga tindakan kejam dirasa masuk akal.
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                            <div class="bg-psych-bg p-4 rounded-xl border border-psych-border card-hover">
+                                <h4 class="font-bold text-sm text-psych-dark flex items-center gap-2"><span class="text-psych-coral">①</span> Konvensional (Fisik)</h4>
+                                <p class="text-xs text-psych-dark/70 mt-1 leading-relaxed">Menggunakan kekerasan fisik dengan alasan mendisiplinkan pasangan atau menegakkan marwah kepemimpinan rumah tangga.</p>
+                            </div>
+                            <div class="bg-psych-bg p-4 rounded-xl border border-psych-border card-hover">
+                                <h4 class="font-bold text-sm text-psych-dark flex items-center gap-2"><span class="text-psych-lavender">②</span> Berbasis Digital</h4>
+                                <p class="text-xs text-psych-dark/70 mt-1 leading-relaxed">Melakukan pengintaian digital, melacak GPS tanpa izin, hingga mengancam menyebarkan foto privat sebagai bentuk kontrol koersif.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 1",
+                title: "Kekerasan Terhadap Anak: Offline & Online 🧸",
+                time: "2 mnt baca",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                        <div class="space-y-4">
+                            <span class="text-[10px] font-bold text-psych-plum uppercase tracking-wider">Eksploitasi Anak</span>
+                            <h3 class="font-display font-bold text-xl md:text-2xl text-psych-dark">Mendobrak Sanksi Diri demi Eksploitasi</h3>
+                            <p class="text-sm text-psych-dark/80 leading-relaxed">Kasus kekerasan terhadap anak menunjukkan manipulasi kognitif paling rentan di mana wali atau orang tua menihilkan rasa bersalah melalui dua modus utama:</p>
+                            <div class="space-y-2 text-xs">
+                                <div class="border-l-4 border-psych-coral pl-3 py-0.5"><strong>Konvensional:</strong> Menggunakan hukuman fisik dengan tameng moral "membentuk karakter anak".</div>
+                                <div class="border-l-4 border-psych-lavender pl-3 py-0.5"><strong>Sharenting Eksploitatif:</strong> Memajang anak di medsos demi endorsement/monetisasi tanpa memikirkan privasi masa depan anak.</div>
+                            </div>
+                        </div>
+                        <div class="bg-psych-bg p-5 rounded-2xl border border-psych-border text-center">
+                            <div class="text-2xl mb-2">👶</div>
+                            <h4 class="font-display font-bold text-sm text-psych-dark">Dehumanisasi Anak Kandung</h4>
+                            <p class="text-xs text-psych-dark/70 mt-1 leading-relaxed">Pelaku menggeser posisi anak dari manusia kecil menjadi komoditas atau properti pribadi yang bebas diperlakukan sesuka hati.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 2",
+                title: "Loci Perbuatan (Behavioral Locus): Pemolesan Tindakan 🎨",
+                time: "2 mnt baca",
+                content: `
+                    <div class="space-y-5">
+                        <p class="text-sm md:text-base text-psych-dark/80">Bagaimana pelaku membungkus kekerasan domestik agar terlihat mulia? Gunakan tiga senjata kognitif ini:</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div class="bg-psych-bg p-4 rounded-xl border border-psych-border card-hover">
+                                <span class="bg-psych-coral/10 text-psych-coral text-[9px] font-black px-2 py-0.5 rounded uppercase">Justifikasi Moral</span>
+                                <h4 class="font-display font-bold text-sm text-psych-dark mt-2 mb-1">Moral Justification</h4>
+                                <p class="text-xs text-psych-dark/70">"Saya memukul anak demi menyelamatkan masa depannya agar dia menjadi orang yang tangguh dan patuh."</p>
+                            </div>
+                            <div class="bg-psych-bg p-4 rounded-xl border border-psych-border card-hover">
+                                <span class="bg-psych-lavender/10 text-psych-lavender text-[9px] font-black px-2 py-0.5 rounded uppercase">Pelabelan Eufemistis</span>
+                                <h4 class="font-display font-bold text-sm text-psych-dark mt-2 mb-1">Euphemistic Labeling</h4>
+                                <p class="text-xs text-psych-dark/70">Menggunakan istilah lembut seperti "pembinaan fisik", "pendisiplinan tegas", atau "ungkapan sayang yang keras".</p>
+                            </div>
+                            <div class="bg-psych-bg p-4 rounded-xl border border-psych-border card-hover">
+                                <span class="bg-psych-sage/10 text-psych-sage text-[9px] font-black px-2 py-0.5 rounded uppercase">Perbandingan</span>
+                                <h4 class="font-display font-bold text-sm text-psych-dark mt-2 mb-1">Adv. Comparison</h4>
+                                <p class="text-xs text-psych-dark/70">"Saya cuma mencubit, mendingan dibanding orang tua lain di berita yang menyiksa anaknya dengan rokok."</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 2",
+                title: "Locus Agen (Agency Locus): Menghilangkan Rasa Bersalah 🌫️",
+                time: "2 mnt baca",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                        <div class="space-y-4">
+                            <span class="text-[10px] font-bold text-psych-plum uppercase tracking-wider">Mengaburkan Keagenan</span>
+                            <h3 class="font-display font-bold text-xl md:text-2xl text-psych-dark">Melempar Tanggung Jawab</h3>
+                            <div class="space-y-2 text-xs">
+                                <div class="bg-psych-bg p-3 rounded-xl border-l-4 border-psych-coral"><strong>Displacement of Responsibility:</strong> Melempar kesalahan kepada tekanan ekonomi, stres kerja, atau takdir.</div>
+                                <div class="bg-psych-bg p-3 rounded-xl border-l-4 border-psych-lavender"><strong>Diffusion of Responsibility:</strong> Merasa tindakan kekerasan lazim karena budaya kolektif lingkungan sekitar.</div>
+                            </div>
+                        </div>
+                        <div class="bg-psych-bg p-5 rounded-2xl border border-psych-border text-center">
+                            <div class="text-3xl mb-2">⛓️</div>
+                            <h4 class="font-display font-bold text-sm text-psych-dark">Memosisikan Diri sebagai Korban</h4>
+                            <p class="text-xs text-psych-dark/70 mt-1 leading-relaxed">"Saya bertindak kasar karena keadaan yang memaksa, bukan karena saya menginginkannya." Tameng mental paling ampuh.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 3 & 4",
+                title: "Desensitisasi Kekerasan & Sanksi Sosial Kolektif 📺",
+                time: "3 mnt baca",
+                content: `
+                    <div class="space-y-5">
+                        <p class="text-sm text-psych-dark/85">Bagaimana paparan berulang merusak empati sosial terhadap KDRT dan kekerasan anak?</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div class="bg-psych-bg p-5 rounded-2xl border border-psych-border card-hover">
+                                <div class="text-2xl mb-1">📡</div>
+                                <h3 class="font-display font-bold text-sm text-psych-dark mb-1">Desensitisasi Media</h3>
+                                <p class="text-xs text-psych-dark/70 leading-relaxed">Paparan konten eksploitasi anak atau pemakluman perilaku posesif dalam relasi mengikis kepekaan moral publik.</p>
+                            </div>
+                            <div class="bg-psych-bg p-5 rounded-2xl border border-psych-border card-hover">
+                                <div class="text-2xl mb-1">🤐</div>
+                                <h3 class="font-display font-bold text-sm text-psych-dark mb-1">Sanksi Informal</h3>
+                                <p class="text-xs text-psych-dark/70 leading-relaxed">Korban enggan bersuara karena takut dicap merusak nama baik keluarga atau disalahkan.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 5 & 6",
+                title: "Pluralistic Ignorance: Mengapa Tetangga Diam? 🏠",
+                time: "3 mnt baca",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                        <div class="space-y-4">
+                            <span class="text-[10px] font-bold text-psych-plum uppercase tracking-wider">Kebungkaman Kolektif</span>
+                            <h3 class="font-display font-extrabold text-xl md:text-2xl text-psych-dark">Masyarakat yang Bungkam</h3>
+                            <p class="text-sm text-psych-dark/80 leading-relaxed">Tetangga mendengar tangisan anak disiksa namun memilih diam karena melihat tetangga lain pura-pura tidak dengar.</p>
+                            <div class="bg-psych-bg p-4 rounded-xl border border-psych-border text-xs">
+                                <strong class="text-psych-plum">Pluralistic Ignorance:</strong> Secara pribadi mengutuk kekerasan, namun karena semua orang diam, masing-masing menyimpulkan bahwa "mencampuri urusan keluarga orang lain tidak sopan".
+                            </div>
+                        </div>
+                        <div class="bg-psych-bg p-5 rounded-2xl border border-psych-border text-center">
+                            <div class="text-3xl mb-2">🤫</div>
+                            <h4 class="font-display font-bold text-sm text-psych-dark">Sinyal Palsu Keseimbangan</h4>
+                            <p class="text-xs text-psych-dark/60 mt-1 leading-relaxed">Sikap diam memberi sinyal empiris palsu kepada pelaku bahwa tindakannya disetujui komunitas.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 7 & 8",
+                title: "Perang Algoritma Eksploitasi Anak Online 📱",
+                time: "2 mnt baca",
+                content: `
+                    <div class="space-y-5">
+                        <p class="text-sm text-psych-dark/85">Di era digital, anak-anak menjadi korban eksploitasi oleh wali mereka sendiri dengan justifikasi baru:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div class="bg-psych-bg p-5 rounded-2xl border border-psych-border card-hover">
+                                <div class="text-2xl mb-1">🎥</div>
+                                <h3 class="font-display font-bold text-sm text-psych-dark mb-1">Sharenting Eksploitatif</h3>
+                                <p class="text-xs text-psych-dark/70 leading-relaxed">Orang tua membuat konten prank menakuti anak demi adsense, dengan justifikasi: "Ini kan untuk biaya sekolahnya nanti."</p>
+                            </div>
+                            <div class="bg-psych-bg p-5 rounded-2xl border border-psych-border card-hover">
+                                <div class="text-2xl mb-1">⚔️</div>
+                                <h3 class="font-display font-bold text-sm text-psych-dark mb-1">Dilema Algojo Hukum</h3>
+                                <p class="text-xs text-psych-dark/70 leading-relaxed">Tindakan hukum kaku tanpa restorasi kognitif sering memicu trauma baru bagi anak dan keluarga.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Summary",
+                title: "Langkah Strategis Intervensi Karakter 🎯",
+                time: "2 mnt baca",
+                content: `
+                    <div class="space-y-5">
+                        <h2 class="font-display font-extrabold text-2xl md:text-3xl text-psych-dark text-center">Desain Arsitektur Intervensi</h2>
+                        <div class="bg-psych-bg border border-psych-border rounded-2xl p-5 md:p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div class="space-y-3">
+                                <h4 class="font-display font-bold text-sm text-psych-plum flex items-center gap-2">
+                                    <i class="fa-solid fa-bullhorn"></i> 3 Pilar Pemecah Kebungkaman:
+                                </h4>
+                                <ul class="space-y-2 text-xs leading-relaxed text-psych-dark/80">
+                                    <li><i class="fa-solid fa-circle-check text-psych-sage mr-2"></i> <strong>Publikasikan Penolakan Privat:</strong> Kampanyekan bahwa 9 dari 10 tetangga terganggu dengan kekerasan anak.</li>
+                                    <li><i class="fa-solid fa-circle-check text-psych-sage mr-2"></i> <strong>Saluran Lapor Anonim:</strong> Kurangi ketakutan sanksi sosial dengan sistem pelaporan rahasia.</li>
+                                    <li><i class="fa-solid fa-circle-check text-psych-sage mr-2"></i> <strong>Sasar Locus Utama:</strong> Gunakan simulator untuk menganalisis pembenaran kognitif pelaku.</li>
+                                </ul>
+                            </div>
+                            <div class="flex flex-col justify-center bg-white p-4 rounded-xl border border-psych-border text-center">
+                                <h4 class="font-display font-bold text-sm text-psych-dark mb-1">🎯 Mari Berlatih!</h4>
+                                <p class="text-xs text-psych-dark/60 leading-relaxed mb-3">Gunakan simulator di bawah untuk menguji kekuatan "Rem Moral" pelaku kekerasan.</p>
+                                <button onclick="scrollToSimulator()" class="bg-psych-plum hover:bg-psych-dark text-white font-bold py-2 rounded-xl text-xs transition shadow-md shadow-psych-plum/15 flex items-center justify-center gap-2">
+                                    Buka Simulator <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        let currentSlide = 0;
+
+        // 2. RENDER MENU
+        function renderMenu() {
+            const container = document.getElementById('slide-menu-list');
+            container.innerHTML = '';
+            slides.forEach((slide, idx) => {
+                const active = idx === currentSlide;
+                container.innerHTML += `
+                    <button onclick="goToSlide(${idx})" class="w-full text-left px-3 py-2.5 rounded-xl border-l-3 text-xs font-semibold flex items-center justify-between transition-all duration-200 ${active ? 'bg-psych-plum/15 border-psych-plum text-psych-dark font-extrabold' : 'border-transparent text-psych-dark/70 hover:bg-psych-plum/5 hover:text-psych-dark'}">
+                        <span class="truncate pr-2">${slide.title}</span>
+                        <span class="text-[8px] font-bold text-psych-plum/50 uppercase whitespace-nowrap">${slide.chapter}</span>
+                    </button>
+                `;
+            });
+        }
+
+        // 3. UPDATE SLIDE
+        function updateSlide() {
+            const container = document.getElementById('slide-content-stage');
+            const badge = document.getElementById('slide-chapter-badge');
+            const time = document.getElementById('slide-read-time');
+            const curr = document.getElementById('current-slide-num');
+            const total = document.getElementById('total-slides-num');
+            
+            container.classList.remove('slide-active');
+            container.classList.add('slide-enter');
+            
+            setTimeout(() => {
+                const slide = slides[currentSlide];
+                container.innerHTML = slide.content;
+                badge.textContent = slide.chapter;
+                time.innerHTML = `<i class="fa-regular fa-clock"></i> ${slide.time}`;
+                curr.textContent = currentSlide + 1;
+                total.textContent = slides.length;
+                container.classList.remove('slide-enter');
+                container.classList.add('slide-active');
+                renderMenu();
+            }, 120);
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) { currentSlide++; updateSlide(); }
+            else showToast("🎉 Selesai! Coba simulator interaktif di bawah untuk latihan kasus.");
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) { currentSlide--; updateSlide(); }
+        }
+
+        function goToSlide(idx) {
+            currentSlide = idx;
+            updateSlide();
+            if (!document.getElementById('sidebar').classList.contains('-translate-x-full')) toggleSidebar();
+        }
+
+        // 4. KEYBOARD NAV
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            else if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        // 5. SIMULATOR DATA (dari kode asli)
+        const scenarios = {
+            kdrt_konvensional: {
+                title: "KDRT Konvensional: Kekerasan Fisik Suami Terhadap Istri",
+                baseline: "Saya menyadari bahwa memukul pasangan secara fisik adalah tindakan salah yang melanggar hukum dan empati batin...",
+                mechanisms: [
+                    { id: "mj", name: "Moral Justification", locus: "behavioral", excuse: "Saya memukulnya demi meluruskan akhlaknya sebagai istri agar dia patuh pada arahan kepala rumah tangga.", penalty: 15 },
+                    { id: "el", name: "Euphemistic Labeling", locus: "behavioral", excuse: "Ini bukan penyiksaan fisik, ini cuma 'pemberian peringatan tegas' atau 'pembinaan disiplin keluarga'.", penalty: 15 },
+                    { id: "ac", name: "Adv. Comparison", locus: "behavioral", excuse: "Saya cuma menampar sesekali, mendingan dibanding suami lain di luar sana yang sampai membunuh istrinya.", penalty: 10 },
+                    { id: "dor", name: "Displacement of Resp.", locus: "agency", excuse: "Saya sangat tertekan oleh beban kerja di kantor dan masalah himpitan ekonomi yang membuat emosi saya meledak.", penalty: 15 },
+                    { id: "dif", name: "Diffusion of Resp.", locus: "agency", excuse: "Hampir semua laki-laki di keluarga besar kami mendidik istri mereka dengan keras jika melakukan kesalahan berat.", penalty: 15 },
+                    { id: "doc", name: "Distortion of Consequences", locus: "outcome", excuse: "Lukanya cuma memar kecil saja, dia toh masih bisa beraktivitas seperti biasa di rumah.", penalty: 10 },
+                    { id: "dh", name: "Dehumanization", locus: "recipient", excuse: "Dia hanyalah properti keluarga yang harus tunduk sepenuhnya, bukan seseorang yang sejajar dalam berpendapat.", penalty: 10 },
+                    { id: "ab", name: "Attribution of Blame", locus: "recipient", excuse: "Dia sendiri yang terus membantah perkataan saya dan memancing emosi saya keluar, jadi dia layak dipukul.", penalty: 10 }
+                ]
+            },
+            kdrt_online: {
+                title: "KDRT Berbasis Online: Digital Stalking & Ancaman Penyebaran Foto Privat",
+                baseline: "Saya tahu menyadap ponsel pasangan dan mengancam menyebarkan foto privatnya adalah pelanggaran hukum dan privasi...",
+                mechanisms: [
+                    { id: "mj", name: "Moral Justification", locus: "behavioral", excuse: "Saya menyadap HP-nya demi memastikan kesetiaan hubungannya agar masa depan keluarga kami tetap utuh.", penalty: 15 },
+                    { id: "el", name: "Euphemistic Labeling", locus: "behavioral", excuse: "Tindakan stalking ini adalah bentuk 'proteksi posesif yang manis' atau 'tanda kepedulian cinta yang mendalam'.", penalty: 15 },
+                    { id: "ac", name: "Adv. Comparison", locus: "behavioral", excuse: "Saya cuma memantau chat-nya dan mengancam kecil, mendingan daripada orang yang beneran menyebarkan video asusila pasangannya.", penalty: 10 },
+                    { id: "dor", name: "Displacement of Resp.", locus: "agency", excuse: "Aplikasi pelacak ini disediakan gratis di internet, salah aplikasinya yang mempermudah pengintaian ini.", penalty: 15 },
+                    { id: "dif", name: "Diffusion of Resp.", locus: "agency", excuse: "Semua pasangan muda di media sosial zaman sekarang juga terbiasa saling membagikan password akun masing-masing.", penalty: 15 },
+                    { id: "doc", name: "Distortion of Consequences", locus: "outcome", excuse: "Ancaman menyebarkan foto itu kan cuma gertakan saja biar dia takut, toh fotonya tidak benar-benar saya sebar.", penalty: 10 },
+                    { id: "dh", name: "Dehumanization", locus: "recipient", excuse: "Dia hanyalah pion yang bisa saya kendalikan sesuka hati di media sosial demi memuaskan rasa cemburu.", penalty: 10 },
+                    { id: "ab", name: "Attribution of Blame", locus: "recipient", excuse: "Dia sendiri yang memancing kecurigaan dengan menyembunyikan chat, wajar kalau saya sadap ponselnya.", penalty: 10 }
+                ]
+            },
+            anak_konvensional: {
+                title: "Kekerasan Anak Konvensional: Kekerasan Fisik Orang Tua Atas Nama 'Mendidik'",
+                baseline: "Saya menyadari bahwa memukul anak kandung secara fisik dengan sapu/sabuk dapat meninggalkan trauma psikologis mendalam...",
+                mechanisms: [
+                    { id: "mj", name: "Moral Justification", locus: "behavioral", excuse: "Saya memukulnya agar dia jera dan tidak tumbuh menjadi anak nakal yang merusak nama baik keluarga besar.", penalty: 15 },
+                    { id: "el", name: "Euphemistic Labeling", locus: "behavioral", excuse: "Saya tidak melakukan kekerasan pada anak, ini adalah 'ketegasan orang tua' atau 'hukuman fisik yang mendidik'.", penalty: 15 },
+                    { id: "ac", name: "Adv. Comparison", locus: "behavioral", excuse: "Saya cuma mencambuk pakai sabuk sesekali, mendingan daripada tetangga sebelah yang menyiksa anaknya di kamar mandi.", penalty: 10 },
+                    { id: "dor", name: "Displacement of Resp.", locus: "agency", excuse: "Tuntutan hidup yang berat dan stres mencari nafkah membuat kesabaran saya habis saat mendengarnya menangis.", penalty: 15 },
+                    { id: "dif", name: "Diffusion of Resp.", locus: "agency", excuse: "Dulu orang tua saya juga mendidik saya dengan pukulan sabuk dan saya toh terbukti sukses menjadi orang sekarang.", penalty: 15 },
+                    { id: "doc", name: "Distortion of Consequences", locus: "outcome", excuse: "Anak kecil gampang lupa, besok paginya dia sudah ceria lagi dan kembali bermain dengan teman-temannya.", penalty: 10 },
+                    { id: "dh", name: "Dehumanization", locus: "recipient", excuse: "Anak adalah milik penuh orang tua yang bebas dibentuk sesuai kehendak kita, dia belum punya hak bersuara.", penalty: 10 },
+                    { id: "ab", name: "Attribution of Blame", locus: "recipient", excuse: "Anak itu sendiri yang sangat bandel dan tidak mau mendengar nasihat lisan, dia yang memaksa saya memukulnya.", penalty: 10 }
+                ]
+            },
+            anak_online: {
+                title: "Kekerasan Anak Berbasis Online: Eksploitasi Konten Anak Demi Adsense (Sharenting Eksploitatif)",
+                baseline: "Saya tahu merekam anak sedang menangis atau membuat prank menakutkan demi konten medsos merusak privasinya...",
+                mechanisms: [
+                    { id: "mj", name: "Moral Justification", locus: "behavioral", excuse: "Semua hasil monetisasi video ini nantinya akan ditabung untuk biaya kuliah anak saya sendiri.", penalty: 15 },
+                    { id: "el", name: "Euphemistic Labeling", locus: "behavioral", excuse: "Ini bukan eksploitasi komersial anak, ini cuma 'berbagi kelucuan tumbuh kembang buah hati' di internet.", penalty: 15 },
+                    { id: "ac", name: "Adv. Comparison", locus: "behavioral", excuse: "Kami cuma bikin konten prank lucu-lucuan, mendingan daripada orang tua yang mempekerjakan anaknya sebagai pengemis jalanan.", penalty: 10 },
+                    { id: "dor", name: "Displacement of Resp.", locus: "agency", excuse: "Algoritma platform dan keinginan penonton yang menuntut konten bertema keluarga yang ekspresif.", penalty: 15 },
+                    { id: "dif", name: "Diffusion of Resp.", locus: "agency", excuse: "Hampir seluruh selebgram dan keluarga masa kini juga terbiasa memajang aktivitas harian anak mereka demi mendulang views.", penalty: 15 },
+                    { id: "doc", name: "Distortion of Consequences", locus: "outcome", excuse: "Anak saya senang-senang saja di depan kamera, dia tidak merasa tertekan atau terganggu privasinya.", penalty: 10 },
+                    { id: "dh", name: "Dehumanization", locus: "recipient", excuse: "Anak kecil tidak mengerti konsep privasi atau jejak digital masa depan, mereka adalah aset konten yang menarik.", penalty: 10 },
+                    { id: "ab", name: "Attribution of Blame", locus: "recipient", excuse: "Anak itu sendiri yang bertingkah lucu/menangis histeris secara alami, kami hanya kebetulan mengarahkan kamera saja.", penalty: 10 }
+                ]
+            }
+        };
+
+        function updateScenario() {
+            const key = document.getElementById('sim-scenario').value;
+            const container = document.getElementById('excuses-container');
+            const data = scenarios[key];
+            container.innerHTML = '';
+            data.mechanisms.forEach(m => {
+                container.innerHTML += `
+                    <label class="flex items-start gap-2.5 bg-psych-bg hover:bg-psych-plum/8 p-3 rounded-xl border border-psych-border cursor-pointer transition active:scale-[0.98]">
+                        <input type="checkbox" name="excuse-cb" value="${m.id}" onchange="calculateMoralSwitch()" class="w-4 h-4 mt-0.5 accent-psych-plum rounded">
+                        <div>
+                            <span class="text-[8px] font-black uppercase tracking-wider text-psych-plum block">${m.name}</span>
+                            <p class="text-[10px] text-psych-dark font-medium mt-0.5 leading-relaxed">${m.excuse}</p>
+                        </div>
+                    </label>
+                `;
+            });
+            calculateMoralSwitch();
+        }
+
+        function calculateMoralSwitch() {
+            const key = document.getElementById('sim-scenario').value;
+            const data = scenarios[key];
+            const checked = document.querySelectorAll('input[name="excuse-cb"]:checked');
+            
+            let moral = 100;
+            const loci = { behavioral: false, agency: false, outcome: false, recipient: false };
+            let latest = data.baseline;
+
+            checked.forEach(cb => {
+                const m = data.mechanisms.find(x => x.id === cb.value);
+                if (m) { moral -= m.penalty; loci[m.locus] = true; latest = m.excuse; }
+            });
+            moral = Math.max(0, moral);
+
+            // Update gauge
+            document.getElementById('moral-gauge-pct').textContent = moral + '%';
+            document.getElementById('moral-gauge-bar').style.width = moral + '%';
+            const status = document.getElementById('moral-status-text');
+            const pct = document.getElementById('moral-gauge-pct');
+            const bar = document.getElementById('moral-gauge-bar');
+            const gaugeStatus = document.getElementById('moral-gauge-status');
+
+            if (moral > 70) {
+                pct.className = "text-4xl md:text-5xl font-black text-emerald-400 tracking-tight transition-all duration-300";
+                bar.className = "bg-emerald-400 h-full gauge-transition";
+                status.className = "text-[10px] font-bold text-emerald-400";
+                status.textContent = "Rem moral aktif · empati tinggi";
+                gaugeStatus.textContent = "Active";
+                gaugeStatus.className = "text-xs text-emerald-400 font-bold";
+            } else if (moral > 30) {
+                pct.className = "text-4xl md:text-5xl font-black text-amber-400 tracking-tight transition-all duration-300";
+                bar.className = "bg-amber-400 h-full gauge-transition";
+                status.className = "text-[10px] font-bold text-amber-400";
+                status.textContent = "Rem melemah · mulai merasionalisasi";
+                gaugeStatus.textContent = "Weakened";
+                gaugeStatus.className = "text-xs text-amber-400 font-bold";
+            } else {
+                pct.className = "text-4xl md:text-5xl font-black text-rose-500 tracking-tight transition-all duration-300";
+                bar.className = "bg-rose-500 h-full gauge-transition";
+                status.className = "text-[10px] font-bold text-rose-400";
+                status.textContent = "Rem mati total · kekerasan dianggap wajar";
+                gaugeStatus.textContent = "Disabled";
+                gaugeStatus.className = "text-xs text-rose-500 font-bold";
+            }
+
+            document.getElementById('live-exoneration-quote').textContent = `"${latest}"`;
+
+            // Update loci
+            ['locus-behavioral', 'locus-agency', 'locus-outcome', 'locus-recipient'].forEach(id => {
+                const el = document.getElementById(id);
+                el.className = "bg-black/20 border border-white/5 p-2 rounded-xl transition-all duration-300 text-center text-[8px] font-bold";
+            });
+            if (loci.behavioral) document.getElementById('locus-behavioral').classList.add('bg-rose-500/20', 'border-rose-500/50', 'text-rose-300');
+            if (loci.agency) document.getElementById('locus-agency').classList.add('bg-rose-500/20', 'border-rose-500/50', 'text-rose-300');
+            if (loci.outcome) document.getElementById('locus-outcome').classList.add('bg-rose-500/20', 'border-rose-500/50', 'text-rose-300');
+            if (loci.recipient) document.getElementById('locus-recipient').classList.add('bg-rose-500/20', 'border-rose-500/50', 'text-rose-300');
+        }
+
+        // 6. UTILITIES
+        function toggleSidebar() {
+            const s = document.getElementById('sidebar');
+            const b = document.getElementById('sidebar-backdrop');
+            s.classList.toggle('-translate-x-full');
+            b.classList.toggle('hidden');
+        }
+
+        function scrollToSimulator() {
+            document.getElementById('moral-switch-sandbox').scrollIntoView({ behavior: 'smooth' });
+            if (window.innerWidth < 1024) { toggleSidebar(); }
+        }
+
+        function showToast(msg) {
+            const t = document.createElement('div');
+            t.className = "fixed bottom-5 left-1/2 -translate-x-1/2 bg-psych-plum text-white text-xs font-semibold px-5 py-3 rounded-2xl shadow-2xl z-50 transition-all transform translate-y-10 opacity-0 max-w-sm flex items-center gap-3 border border-psych-coral/25";
+            t.innerHTML = `<i class="fa-solid fa-graduation-cap text-psych-coral"></i> <span>${msg}</span>`;
+            document.body.appendChild(t);
+            setTimeout(() => t.classList.remove('translate-y-10', 'opacity-0'), 50);
+            setTimeout(() => { t.classList.add('translate-y-10', 'opacity-0'); setTimeout(() => t.remove(), 400); }, 4000);
+        }
+
+        // 7. INIT
+        window.onload = function() {
+            updateSlide();
+            updateScenario();
+        };
+    </script>
+
+</body>
+</html>

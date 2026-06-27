@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Norms in the Wild - Cristina Bicchieri | Interactive Hub</title>
+    <!-- Tailwind CSS for modern layout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans for clean reading, Lexend for headers -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Lexend', 'sans-serif'],
+                    },
+                    colors: {
+                        cozy: {
+                            bg: '#FAF6F0',      /* Warm cream */
+                            dark: '#2D221E',    /* Soft dark brown */
+                            primary: '#7077A1', /* Muted lavender-blue */
+                            secondary: '#F6B17A',/* Warm peach/coral */
+                            mint: '#A9B388',     /* Sage/mint green */
+                            card: '#FFFFFF',
+                            accent: '#E0A96D'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar to keep it clean */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF6F0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #C4C1A4;
+            border-radius: 10px;
+        }
+        .slide-enter {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        .slide-active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.4s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-cozy-bg text-cozy-dark font-sans min-h-screen flex flex-col selection:bg-cozy-secondary selection:text-white">
+
+    <!-- TOP HEADER / NAV BAR -->
+    <header class="bg-white/80 backdrop-blur-md border-b border-cozy-primary/10 sticky top-0 z-40 px-6 py-4 flex justify-between items-center transition-all">
+        <div class="flex items-center gap-3">
+            <div class="bg-cozy-primary text-white w-10 h-10 rounded-xl flex items-center justify-center font-display font-extrabold shadow-md shadow-cozy-primary/20">
+                W
+            </div>
+            <div>
+                <h1 class="font-display font-bold text-lg leading-none text-cozy-dark">Norms in the Wild</h1>
+                <p class="text-xs text-cozy-primary/80 font-medium">Cristina Bicchieri Summary • Lab Hub</p>
+            </div>
+        </div>
+        
+        <!-- Quick Stats / Interactive Mode Switcher -->
+        <div class="flex items-center gap-4">
+            <button onclick="toggleSidebar()" class="lg:hidden text-cozy-primary hover:bg-cozy-primary/5 p-2 rounded-lg transition">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+            <div class="hidden sm:flex items-center gap-2 bg-cozy-primary/5 px-3 py-1.5 rounded-full border border-cozy-primary/10 text-xs font-semibold text-cozy-primary">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                Mode Belajar Santai
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <div class="flex-grow flex flex-col lg:flex-row max-w-[1600px] w-full mx-auto relative">
+        
+        <!-- SIDEBAR NAVIGATION (With Cognitive Progress Tracking) -->
+        <aside id="sidebar" class="fixed lg:sticky top-[73px] left-0 bottom-0 w-[300px] bg-white border-r border-cozy-primary/10 p-6 flex flex-col justify-between overflow-y-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-30 lg:z-10 h-[calc(100vh-73px)]">
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-cozy-primary/60 mb-3">Peta Perjalanan Belajar</h3>
+                    <div class="space-y-1" id="slide-menu-list">
+                        <!-- Navigation items injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Interactive Diagnostic Widget Mini -->
+                <div class="bg-cozy-bg/80 border border-cozy-secondary/20 p-4 rounded-2xl relative overflow-hidden">
+                    <div class="absolute -right-6 -bottom-6 text-cozy-secondary/10 text-7xl"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <h4 class="font-display font-bold text-sm text-cozy-dark mb-1">Butuh Diagnosis Cepat?</h4>
+                    <p class="text-xs text-cozy-dark/70 mb-3">Masukkan perilaku sosial di sekitarmu & temukan jenisnya!</p>
+                    <button onclick="scrollToLab()" class="w-full bg-cozy-secondary text-white text-xs font-bold py-2 px-3 rounded-xl hover:bg-cozy-accent transition shadow-md shadow-cozy-secondary/20">
+                        Buka Laboratorium Norma
+                    </button>
+                </div>
+            </div>
+
+            <!-- Footer Sidebar -->
+            <div class="pt-6 border-t border-cozy-primary/10 text-center">
+                <p class="text-[10px] text-cozy-primary/60 font-medium">Dibuat khusus untuk Mahasiswa Ilmu Perilaku & Sosial 🎓</p>
+            </div>
+        </aside>
+
+        <!-- BACKDROP FOR MOBILE SIDEBAR -->
+        <div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-cozy-dark/40 backdrop-blur-sm z-20 hidden lg:hidden"></div>
+
+        <!-- MAIN PRESENTATION STAGE -->
+        <main class="flex-grow p-4 md:p-8 lg:p-12 flex flex-col justify-between min-h-[calc(100vh-73px)] max-w-full overflow-x-hidden">
+            
+            <!-- STAGE CARD -->
+            <div class="bg-white rounded-3xl border border-cozy-primary/5 p-6 md:p-10 shadow-xl shadow-cozy-primary/5 min-h-[500px] flex flex-col justify-between relative overflow-hidden transition-all duration-300">
+                
+                <!-- Background ambient glow for cognitive ease -->
+                <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-cozy-secondary/10 blur-[80px] pointer-events-none"></div>
+                <div class="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-cozy-primary/10 blur-[80px] pointer-events-none"></div>
+
+                <!-- Current Category & Progress Indicator -->
+                <div class="flex justify-between items-center border-b border-cozy-primary/10 pb-4 mb-6 relative z-10">
+                    <div class="flex items-center gap-2">
+                        <span id="slide-category-badge" class="bg-cozy-primary/10 text-cozy-primary text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                            Chapter 1
+                        </span>
+                        <span class="text-cozy-primary/30">•</span>
+                        <span id="slide-read-time" class="text-xs text-cozy-primary/60 font-medium flex items-center gap-1">
+                            <i class="fa-regular fa-clock"></i> 2 menit baca
+                        </span>
+                    </div>
+                    <div class="text-xs font-semibold text-cozy-primary bg-cozy-bg px-2.5 py-1 rounded-lg">
+                        Slide <span id="current-slide-num" class="text-cozy-dark font-bold">1</span> dari <span id="total-slides-num" class="font-bold">12</span>
+                    </div>
+                </div>
+
+                <!-- SLIDE CONTENT CONTAINER -->
+                <div id="slide-content-stage" class="flex-grow flex flex-col justify-center py-4 relative z-10">
+                    <!-- Dynamic Slide Content Injected Here -->
+                </div>
+
+                <!-- NAVIGATION BUTTONS (Floating / Fixed inside card) -->
+                <div class="flex justify-between items-center border-t border-cozy-primary/10 pt-6 mt-8 relative z-10">
+                    <button onclick="prevSlide()" class="group flex items-center gap-2 text-cozy-primary hover:text-cozy-dark font-bold text-sm bg-cozy-bg hover:bg-cozy-primary/10 px-4 py-2.5 rounded-2xl transition active:scale-95">
+                        <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Kembali
+                    </button>
+
+                    <!-- Keyboard navigation hint -->
+                    <span class="hidden md:inline-flex items-center gap-1.5 text-[10px] text-cozy-primary/50 font-semibold bg-cozy-primary/5 px-2.5 py-1 rounded-md">
+                        <kbd class="border border-cozy-primary/20 px-1 rounded bg-white">←</kbd> dan <kbd class="border border-cozy-primary/20 px-1 rounded bg-white">→</kbd> untuk navigasi cepat
+                    </span>
+
+                    <button onclick="nextSlide()" class="group flex items-center gap-2 bg-cozy-primary hover:bg-cozy-primary/90 text-white font-bold text-sm px-5 py-2.5 rounded-2xl transition active:scale-95 shadow-md shadow-cozy-primary/20">
+                        Lanjut <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- INTERACTIVE LABS AREA (BELOW THE SLIDES) -->
+            <section id="interactive-lab" class="mt-12 pt-12 border-t border-cozy-primary/15">
+                <div class="text-center max-w-2xl mx-auto mb-10">
+                    <span class="bg-cozy-secondary/15 text-cozy-secondary text-xs font-extrabold px-4 py-1.5 rounded-full uppercase tracking-widest">Laboratorium Interaktif</span>
+                    <h2 class="font-display font-extrabold text-3xl text-cozy-dark mt-3">Mari Bereksperimen dengan Teori Bicchieri</h2>
+                    <p class="text-sm text-cozy-dark/70 mt-2">Belajar paling asik adalah dengan mempraktikkannya langsung. Coba dua tools interaktif di bawah ini!</p>
+                </div>
+
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                    
+                    <!-- TOOL 1: THE NORM DIAGNOSTIC TOOL -->
+                    <div class="bg-white border border-cozy-primary/10 rounded-3xl p-6 md:p-8 shadow-lg relative overflow-hidden">
+                        <div class="absolute right-4 top-4 text-cozy-primary/10 text-5xl font-display font-black">#01</div>
+                        <h3 class="font-display font-extrabold text-xl text-cozy-dark mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-vial-virus text-cozy-primary"></i> Norm Diagnostic Engine
+                        </h3>
+                        <p class="text-xs text-cozy-dark/60 mb-6">Uji perilaku sosial kampus atau masyarakat sekitar untuk mendiagnosis apakah itu Custom, Moral Norm, Convention, atau Social Norm sejati.</p>
+                        
+                        <div class="space-y-5">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-cozy-primary mb-2">1. Ketik Perilaku yang Ingin Didiagnosis:</label>
+                                <input id="diag-behavior" type="text" placeholder="Contoh: Titip absen kuliah, Ghasab sandal masjid, Pake helm..." class="w-full bg-cozy-bg border border-cozy-primary/20 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-cozy-primary/40 font-medium">
+                            </div>
+
+                            <div class="space-y-4">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-cozy-primary">2. Jawab 3 Pertanyaan Pendeteksi Ini:</label>
+                                
+                                <div class="bg-cozy-bg/50 p-3 rounded-xl border border-cozy-primary/5">
+                                    <p class="text-xs font-semibold text-cozy-dark mb-2">Apakah tindakan ini tetap dilakukan jika orang lain tidak mengetahuinya atau tidak peduli?</p>
+                                    <div class="flex gap-4">
+                                        <label class="flex items-center gap-2 text-xs font-medium cursor-pointer"><input type="radio" name="diag-q1" value="yes" class="accent-cozy-primary"> Ya, tetap dilakukan</label>
+                                        <label class="flex items-center gap-2 text-xs font-medium cursor-pointer"><input type="radio" name="diag-q1" value="no" class="accent-cozy-primary"> Tidak, tergantung orang lain</label>
+                                    </div>
+                                </div>
+
+                                <div class="bg-cozy-bg/50 p-3 rounded-xl border border-cozy-primary/5">
+                                    <p class="text-xs font-semibold text-cozy-dark mb-2">Apakah tindakan ini didasari oleh prinsip benar/salah secara personal/spiritual mutlak?</p>
+                                    <div class="flex gap-4">
+                                        <label class="flex items-center gap-2 text-xs font-medium cursor-pointer"><input type="radio" name="diag-q2" value="yes" class="accent-cozy-primary"> Ya, prinsip moral mutlak</label>
+                                        <label class="flex items-center gap-2 text-xs font-medium cursor-pointer"><input type="radio" name="diag-q2" value="no" class="accent-cozy-primary"> Tidak, ini masalah kepatutan sosial saja</label>
+                                    </div>
+                                </div>
+
+                                <div class="bg-cozy-bg/50 p-3 rounded-xl border border-cozy-primary/5">
+                                    <p class="text-xs font-semibold text-cozy-dark mb-2">Apakah ada ekspektasi bahwa orang lain akan menegur atau menghukum jika melanggar?</p>
+                                    <div class="flex gap-4">
+                                        <label class="flex items-center gap-2 text-xs font-medium cursor-pointer"><input type="radio" name="diag-q3" value="yes" class="accent-cozy-primary"> Ya, pasti ada sanksi sosial</label>
+                                        <label class="flex items-center gap-2 text-xs font-medium cursor-pointer"><input type="radio" name="diag-q3" value="no" class="accent-cozy-primary"> Tidak, bebas-bebas saja</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button onclick="diagnoseNorm()" class="w-full bg-cozy-primary hover:bg-cozy-primary/95 text-white font-bold py-3 px-4 rounded-xl transition shadow-md shadow-cozy-primary/15">
+                                Jalankan Diagnosis Sistem
+                            </button>
+
+                            <!-- Diagnosis Result Area (Hidden initially) -->
+                            <div id="diag-result-card" class="hidden bg-cozy-bg border-l-4 border-cozy-secondary p-4 rounded-r-2xl transition-all">
+                                <h4 class="font-display font-bold text-sm text-cozy-dark mb-1">Hasil Diagnosis Bicchieri Engine:</h4>
+                                <p id="diag-result-text" class="text-xs leading-relaxed text-cozy-dark/80"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TOOL 2: Bicchieri's Student Quiz -->
+                    <div class="bg-white border border-cozy-primary/10 rounded-3xl p-6 md:p-8 shadow-lg relative overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="absolute right-4 top-4 text-cozy-primary/10 text-5xl font-display font-black">#02</div>
+                            <h3 class="font-display font-extrabold text-xl text-cozy-dark mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-graduation-cap text-cozy-secondary"></i> Trivia Pemahaman Norma
+                            </h3>
+                            <p class="text-xs text-cozy-dark/60 mb-6">Uji ingatan dan logikamu tentang buku "Norms in the Wild" lewat pertanyaan studi kasus interaktif.</p>
+
+                            <!-- Quiz Question Container -->
+                            <div id="quiz-box" class="space-y-4">
+                                <div class="bg-cozy-bg p-4 rounded-2xl border border-cozy-primary/5">
+                                    <span class="text-[10px] font-bold text-cozy-secondary uppercase tracking-widest">Studi Kasus Kampus</span>
+                                    <p id="quiz-question" class="text-sm font-semibold text-cozy-dark mt-1">
+                                        "Mahasiswa di Jurusan X selalu memakai kemeja rapi saat presentasi, meskipun tidak ada aturan resmi kampus. Mereka melakukannya karena semua temannya melakukan hal yang sama dan mereka takut dibilang tidak sopan." Apa nama ekspektasi yang mendorong mereka memakai kemeja?
+                                    </p>
+                                </div>
+
+                                <div id="quiz-options" class="grid grid-cols-1 gap-2.5">
+                                    <!-- Options injected dynamically -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quiz Feedback Widget -->
+                        <div id="quiz-feedback" class="mt-4 p-3.5 rounded-xl text-xs font-semibold hidden transition-all">
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MAIN FOOTER -->
+    <footer class="bg-cozy-dark text-white py-12 px-6 mt-16">
+        <div class="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="space-y-4">
+                <div class="flex items-center gap-3">
+                    <div class="bg-cozy-secondary text-white w-10 h-10 rounded-xl flex items-center justify-center font-display font-black text-xl">
+                        N
+                    </div>
+                    <span class="font-display font-bold text-lg">Norms in the Wild Hub</span>
+                </div>
+                <p class="text-sm text-gray-400 leading-relaxed">Platform belajar interaktif merangkum teori sosiologi perilaku Cristina Bicchieri agar mudah dipahami, asik, dan dapat langsung diterapkan di kehidupan kampus.</p>
+            </div>
+            
+            <div class="space-y-4">
+                <h4 class="font-display font-bold text-sm text-cozy-secondary uppercase tracking-wider">Sumber Utama</h4>
+                <ul class="space-y-2 text-sm text-gray-300">
+                    <li><i class="fa-solid fa-book mr-2 text-cozy-primary"></i> Norms in the Wild (2016)</li>
+                    <li><i class="fa-solid fa-user-tie mr-2 text-cozy-primary"></i> Prof. Cristina Bicchieri</li>
+                    <li><i class="fa-solid fa-landmark mr-2 text-cozy-primary"></i> Penn Center for Social Norms</li>
+                </ul>
+            </div>
+
+            <div class="space-y-4">
+                <h4 class="font-display font-bold text-sm text-cozy-secondary uppercase tracking-wider">Tentang Platform</h4>
+                <p class="text-sm text-gray-300 leading-relaxed">Sistem ini memprioritaskan <em>Cognitive Ease</em> melalui minimalisme teks, visualisasi, dan interaktivitas langsung.</p>
+                <div class="flex gap-4 text-xl">
+                    <a href="#" class="text-gray-400 hover:text-cozy-secondary transition"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-cozy-secondary transition"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-cozy-secondary transition"><i class="fa-brands fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 text-center text-xs text-gray-500 mt-12 pt-6">
+            &copy; 2026 Psychosophia Behavioral Lab. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE SLIDES DATA & PLAYER SCRIPT -->
+    <script>
+        // 1. DATABASE SLIDE (Indonesian Language, Cozy Design, Rich Content)
+        const slides = [
+            {
+                chapter: "Intro",
+                title: "Selamat Datang di Laboratorium Norma Bicchieri 🧪",
+                time: "1 mnt baca",
+                content: `
+                    <div class="space-y-6 max-w-4xl">
+                        <div class="inline-flex items-center gap-2 bg-cozy-secondary/20 text-cozy-dark px-3 py-1 rounded-full text-xs font-bold">
+                            <span class="flex h-2 w-2 relative">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cozy-secondary opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-cozy-secondary"></span>
+                            </span>
+                            Book Summary & Interactive Experience
+                        </div>
+                        <h2 class="font-display font-extrabold text-3xl md:text-5xl text-cozy-dark leading-tight">
+                            Memahami Mengapa Manusia Berperilaku di Luar Aturan Tertulis
+                        </h2>
+                        <p class="text-base md:text-lg text-cozy-dark/80 leading-relaxed">
+                            Buku <strong class="text-cozy-primary">"Norms in the Wild"</strong> oleh Cristina Bicchieri membantu kita membedah anatomi aturan sosial yang tak terlihat (seperti adat, konvensi, dan norma) serta bagaimana cara mengubahnya secara efektif di dunia nyata.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
+                            <div class="bg-cozy-bg p-4 rounded-2xl border border-cozy-primary/10">
+                                <div class="text-2xl mb-1">🔍</div>
+                                <h4 class="font-bold text-sm">Diagnosis</h4>
+                                <p class="text-xs text-cozy-dark/60 mt-1">Bedakan aturan sosial biasa dengan norma sosial yang mengikat.</p>
+                            </div>
+                            <div class="bg-cozy-bg p-4 rounded-2xl border border-cozy-primary/10">
+                                <div class="text-2xl mb-1">📐</div>
+                                <h4 class="font-bold text-sm">Pengukuran</h4>
+                                <p class="text-xs text-cozy-dark/60 mt-1">Gunakan Vignette untuk menembus bias kebohongan sosial.</p>
+                            </div>
+                            <div class="bg-cozy-bg p-4 rounded-2xl border border-cozy-primary/10">
+                                <div class="text-2xl mb-1">💥</div>
+                                <h4 class="font-bold text-sm">Intervensi</h4>
+                                <p class="text-xs text-cozy-dark/60 mt-1">Tembus titik jenuh (tipping point) untuk meruntuhkan norma buruk.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Chapter 1",
+                title: "Dilema Perilaku Kolektif: Independen vs Interdependen",
+                time: "2 mnt baca",
+                content: `
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <h3 class="font-display font-bold text-2xl text-cozy-primary">Bagaimana keputusanmu dibuat?</h3>
+                            <p class="text-sm md:text-base text-cozy-dark/80 leading-relaxed">
+                                Bicchieri membagi perilaku manusia menjadi dua kategori besar berdasarkan ketergantungan kita pada orang lain:
+                            </p>
+                            <div class="space-y-3">
+                                <div class="border-l-4 border-cozy-secondary pl-3">
+                                    <strong class="text-sm block">Perilaku Independen (Customs/Kebiasaan)</strong>
+                                    <span class="text-xs text-cozy-dark/70">Kamu melakukannya karena kebutuhan personal tanpa peduli orang lain melakukan hal serupa. Contoh: Memakai payung saat hujan.</span>
+                                </div>
+                                <div class="border-l-4 border-cozy-primary pl-3">
+                                    <strong class="text-sm block">Perilaku Interdependen (Sosial)</strong>
+                                    <span class="text-xs text-cozy-dark/70">Keputusanmu mutlak didikte oleh ekspektasimu terhadap tindakan & pemikiran orang lain di sekitarmu. Contoh: Gaya berpakaian kuliah.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-cozy-bg p-6 rounded-3xl border border-cozy-primary/10 flex flex-col justify-center items-center text-center">
+                            <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center text-2xl shadow-sm mb-4">💡</div>
+                            <h4 class="font-display font-bold text-sm text-cozy-dark">Mengapa harus tahu perbedaannya?</h4>
+                            <p class="text-xs text-cozy-dark/60 mt-2 max-w-xs">
+                                "Mengobati kebiasaan buruk individu dengan metode kampanye sosial adalah pemborosan anggaran jika masalah sebenarnya berada di tingkat ketergantungan kelompok (interdependen)."
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Chapter 1",
+                title: "Empirical vs Normative Expectations: Dua Pilar Utama",
+                time: "2 mnt baca",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-sm md:text-base text-cozy-dark/80">Norma sosial dapat terbentuk hanya bila ditopang oleh dua jenis ekspektasi psikologis ini:</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-cozy-bg/80 border border-cozy-primary/15 rounded-3xl p-6 hover:shadow-md transition">
+                                <div class="w-10 h-10 rounded-xl bg-cozy-primary text-white flex items-center justify-center font-bold mb-4">EE</div>
+                                <h3 class="font-display font-bold text-lg text-cozy-dark mb-2">Ekspektasi Empiris (Empirical Expectation)</h3>
+                                <p class="text-xs text-cozy-dark/75 leading-relaxed">
+                                    Keyakinan kita tentang <strong>apa yang dilakukan orang lain</strong>. Kita mengikuti norma karena kita melihat mayoritas kelompok melakukannya.
+                                </p>
+                                <span class="inline-block mt-4 text-[10px] bg-cozy-primary/10 text-cozy-primary font-bold px-2 py-1 rounded">"Semua orang melakukannya"</span>
+                            </div>
+
+                            <div class="bg-cozy-bg/80 border border-cozy-secondary/15 rounded-3xl p-6 hover:shadow-md transition">
+                                <div class="w-10 h-10 rounded-xl bg-cozy-secondary text-white flex items-center justify-center font-bold mb-4">NE</div>
+                                <h3 class="font-display font-bold text-lg text-cozy-dark mb-2">Ekspektasi Normatif (Normative Expectation)</h3>
+                                <p class="text-xs text-cozy-dark/75 leading-relaxed">
+                                    Keyakinan kita tentang <strong>apa yang orang lain harapkan harus kita lakukan</strong>, ditambah keyakinan bahwa mereka akan menghukum jika kita tidak patuh.
+                                </p>
+                                <span class="inline-block mt-4 text-[10px] bg-cozy-secondary/10 text-cozy-dark font-bold px-2 py-1 rounded">"Saya harus patuh agar diterima"</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Chapter 2",
+                title: "Pluralistic Ignorance: Jebakan Pikiran Kolektif",
+                time: "3 mnt baca",
+                content: `
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <span class="bg-rose-100 text-rose-700 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Paradoks Sosial</span>
+                            <h2 class="font-display font-extrabold text-2xl md:text-3xl text-cozy-dark">Pluralistic Ignorance</h2>
+                            <p class="text-sm text-cozy-dark/80 leading-relaxed">
+                                Kondisi di mana mayoritas anggota kelompok secara pribadi menolak suatu norma, namun mematuhinya karena salah mengira bahwa orang lain sepenuhnya mendukung norma tersebut.
+                            </p>
+                            <div class="bg-rose-50/50 border border-rose-100 p-4 rounded-2xl text-xs text-rose-800">
+                                <strong>Contoh Nyata di Kampus:</strong> Tradisi perpeloncoan yang keras. Banyak mahasiswa senior tidak menyukainya secara pribadi, namun mereka terus melakukannya karena merasa "senior lain mengharapkan saya melakukannya."
+                            </div>
+                        </div>
+                        <div class="bg-cozy-bg p-6 rounded-3xl border border-cozy-primary/10 space-y-4">
+                            <h4 class="font-display font-bold text-sm text-cozy-dark">Siklus Pluralistic Ignorance:</h4>
+                            <div class="relative pl-6 space-y-3 text-xs">
+                                <div class="before:content-['1'] before:absolute before:left-0 before:top-0 before:w-4 before:h-4 before:bg-cozy-primary before:text-white before:rounded-full before:flex before:items-center before:justify-center before:text-[9px]">
+                                    Secara pribadi, saya tidak suka perilaku X.
+                                </div>
+                                <div class="before:content-['2'] before:absolute before:left-0 before:top-0 before:w-4 before:h-4 before:bg-cozy-primary before:text-white before:rounded-full before:flex before:items-center before:justify-center before:text-[9px]">
+                                    Namun saya melihat semua orang diam-diam melakukannya.
+                                </div>
+                                <div class="before:content-['3'] before:absolute before:left-0 before:top-0 before:w-4 before:h-4 before:bg-cozy-primary before:text-white before:rounded-full before:flex before:items-center before:justify-center before:text-[9px]">
+                                    Saya berasumsi mereka semua menyukai X.
+                                </div>
+                                <div class="before:content-['4'] before:absolute before:left-0 before:top-0 before:w-4 before:h-4 before:bg-cozy-secondary before:text-white before:rounded-full before:flex before:items-center before:justify-center before:text-[9px]">
+                                    Maka saya ikut melakukan X agar aman dari sanksi sosial.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Chapter 2",
+                title: "Mengukur Kebohongan Sosial Lewat Vignette",
+                time: "2 mnt baca",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-sm md:text-base text-cozy-dark/80">
+                            Mengapa kita tidak bisa langsung bertanya: <em>"Apakah kamu mendukung korupsi/titip absen?"</em> Karena ada <strong>Social Desirability Bias</strong> (kecenderungan orang berbohong demi terlihat baik). Bicchieri mengusulkan metode <strong>Vignette</strong>.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                            <div class="space-y-3">
+                                <div class="bg-white border border-cozy-primary/20 p-4 rounded-2xl shadow-sm">
+                                    <h4 class="font-bold text-xs text-rose-500 uppercase tracking-wider mb-1"><i class="fa-solid fa-circle-xmark"></i> Salah (Pertanyaan Langsung)</h4>
+                                    <p class="text-xs text-cozy-dark/70">"Apakah kamu suka mencontek saat ujian?"</p>
+                                    <p class="text-[10px] text-gray-400 mt-2">Hasil: 99% menjawab "Tidak". Data bias dan tidak berguna.</p>
+                                </div>
+                                <div class="bg-white border border-emerald-500/30 p-4 rounded-2xl shadow-sm">
+                                    <h4 class="font-bold text-xs text-emerald-600 uppercase tracking-wider mb-1"><i class="fa-solid fa-circle-check"></i> Benar (Vignette Bicchieri)</h4>
+                                    <p class="text-xs text-cozy-dark/70">"Fulan sedang terdesak dan memutuskan mencotek. Menurutmu, berapa banyak teman sekelasnya yang akan melaporkannya?"</p>
+                                    <p class="text-[10px] text-gray-400 mt-2">Hasil: Mengungkapkan Ekspektasi Empiris & Normatif yang jujur.</p>
+                                </div>
+                            </div>
+                            <div class="bg-cozy-bg p-6 rounded-3xl border border-cozy-primary/10">
+                                <h4 class="font-display font-bold text-sm text-cozy-dark mb-2">Simulasi Interaktif: Coba Jawab!</h4>
+                                <p class="text-xs text-cozy-dark/70 mb-4">"Jika ada temanmu yang mengambil sandal masjid tanpa izin saat terburu-buru kuliah (ghasab), apa yang akan dipikirkan mayoritas anak asrama?"</p>
+                                <div class="space-y-2">
+                                    <button onclick="selectVignetteOpt('A')" class="w-full text-left text-xs bg-white hover:bg-cozy-primary hover:text-white p-3 rounded-xl border border-cozy-primary/10 transition">A. Mereka akan memaklumi dan menganggap biasa.</button>
+                                    <button onclick="selectVignetteOpt('B')" class="w-full text-left text-xs bg-white hover:bg-cozy-primary hover:text-white p-3 rounded-xl border border-cozy-primary/10 transition">B. Mereka akan menegur keras pelakunya.</button>
+                                </div>
+                                <div id="vignette-feedback" class="mt-3 text-xs font-bold text-cozy-secondary hidden"></div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Chapter 3",
+                title: "Tipping Point: Gerbang Keruntuhan Norma Sosial",
+                time: "3 mnt baca",
+                content: `
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <h2 class="font-display font-extrabold text-2xl md:text-3xl text-cozy-dark">Bagaimana Norma Sosial Berubah?</h2>
+                            <p class="text-sm text-cozy-dark/80 leading-relaxed">
+                                Norma sosial sangat stabil sampai mereka tiba-tiba jatuh secara drastis. Perubahan ini digerakkan oleh konsep <strong>Tipping Point</strong> (titik balik kritis).
+                            </p>
+                            <p class="text-xs text-cozy-dark/70">
+                                Setiap orang memiliki "Ambang Batas Kepatuhan" (threshold) yang berbeda-beda. Sebagian orang bersedia meninggalkan norma lama jika melihat 10% orang berubah, sementara yang lain butuh melihat 80% orang berubah sebelum ikut melangkah.
+                            </p>
+                        </div>
+                        <div class="bg-white border border-cozy-primary/10 rounded-3xl p-6 shadow-sm">
+                            <h4 class="font-display font-bold text-sm text-cozy-dark mb-4 text-center">Kurva Distribusi Perubahan Norma</h4>
+                            
+                            <!-- Visual Graphic for Tipping Point -->
+                            <div class="relative h-32 w-full flex items-end justify-between px-4 border-b border-cozy-primary/20 pb-1">
+                                <div class="w-1/5 bg-cozy-primary/30 h-1/6 rounded-t-md text-center text-[10px] font-bold py-1">10%</div>
+                                <div class="w-1/5 bg-cozy-primary/50 h-2/6 rounded-t-md text-center text-[10px] font-bold py-1">20%</div>
+                                <div class="w-1/5 bg-rose-400 h-5/6 rounded-t-md text-center text-[10px] font-bold text-white py-1">Tipping Point</div>
+                                <div class="w-1/5 bg-cozy-primary/80 h-3/6 rounded-t-md text-center text-[10px] font-bold py-1 text-white">60%</div>
+                                <div class="w-1/5 bg-cozy-primary h-2/6 rounded-t-md text-center text-[10px] font-bold py-1 text-white">90%</div>
+                            </div>
+                            <div class="flex justify-between text-[9px] text-cozy-primary/60 font-bold mt-2">
+                                <span>Pionir Utama</span>
+                                <span>Massa Pengikut</span>
+                                <span>Kelompok Lambat</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Chapter 3",
+                title: "Trendsetter: Si Pendobrak Aturan Lama",
+                time: "2 mnt baca",
+                content: `
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <h2 class="font-display font-bold text-2xl text-cozy-primary">Anatomi Seorang Trendsetter</h2>
+                            <p class="text-sm text-cozy-dark/80">
+                                Siapa yang memicu runtuhnya norma sosial buruk pertama kali? Bicchieri menyebut mereka sebagai <strong class="text-cozy-secondary">Trendsetter / Positive Deviants</strong>. Mereka memiliki sifat psikologis khas:
+                            </p>
+                            <div class="space-y-2 text-xs">
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-shield text-emerald-500"></i> <span><strong>Sensitivitas Sanksi Rendah:</strong> Mereka tidak terlalu peduli pada pengucilan sosial kelompok lama.</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-circle-nodes text-emerald-500"></i> <span><strong>Self-Efficacy Tinggi:</strong> Mereka percaya tindakan mereka bernilai dan bisa mengubah pola kelompok.</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-users text-emerald-500"></i> <span><strong>Jejaring Luas:</strong> Memiliki koneksi yang menjembatani kelompok-kelompok berbeda.</span></div>
+                            </div>
+                        </div>
+                        <div class="bg-cozy-bg p-6 rounded-3xl border border-cozy-primary/10 text-center">
+                            <div class="text-4xl mb-3">🔥</div>
+                            <h4 class="font-display font-bold text-sm text-cozy-dark">Menjadi Trendsetter di Kampus</h4>
+                            <p class="text-xs text-cozy-dark/60 mt-2 leading-relaxed">
+                                "Saat melihat norma buruk seperti buang sampah sembarangan atau telat berjamaah, jadilah pionir yang secara konsisten melakukan hal benar di tempat terbuka agar Ekspektasi Empiris (EE) orang lain mulai goyah."
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Chapter 4",
+                title: "4 Senjata Utama Intervensi Norma",
+                time: "3 mnt baca",
+                content: `
+                    <div class="space-y-4">
+                        <p class="text-sm md:text-base text-cozy-dark/80">Bagaimana agen perubahan dapat secara sengaja menghancurkan norma yang merusak? Gunakan 4 instrumen taktis Bicchieri:</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="bg-white border border-cozy-primary/10 p-5 rounded-2xl flex flex-col justify-between">
+                                <div>
+                                    <div class="text-xl mb-2">📢</div>
+                                    <h4 class="font-bold text-sm text-cozy-dark mb-1">Social Marketing</h4>
+                                    <p class="text-[11px] text-cozy-dark/70">Menyebarluaskan bukti bahwa mayoritas orang sebetulnya sudah menolak norma buruk tersebut.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white border border-cozy-primary/10 p-5 rounded-2xl flex flex-col justify-between">
+                                <div>
+                                    <div class="text-xl mb-2">🎬</div>
+                                    <h4 class="font-bold text-sm text-cozy-dark mb-1">Edutainment</h4>
+                                    <p class="text-[11px] text-cozy-dark/70">Menggunakan drama, film, cerita fiksi untuk menumbuhkan empati dan melatih respon penolakan norma.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white border border-cozy-primary/10 p-5 rounded-2xl flex flex-col justify-between">
+                                <div>
+                                    <div class="text-xl mb-2">🗣️</div>
+                                    <h4 class="font-bold text-sm text-cozy-dark mb-1">Deliberation</h4>
+                                    <p class="text-[11px] text-cozy-dark/70">Diskusi terbuka berstruktur untuk melepaskan "pluralistic ignorance" secara massal di depan umum.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white border border-cozy-primary/10 p-5 rounded-2xl flex flex-col justify-between">
+                                <div>
+                                    <div class="text-xl mb-2">💵</div>
+                                    <h4 class="font-bold text-sm text-cozy-dark mb-1">Incentives</h4>
+                                    <p class="text-[11px] text-cozy-dark/70">Subsidi atau kompensasi finansial/sarana untuk memperkecil risiko beralih ke kebiasaan baru.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Chapter 5",
+                title: "Peran Penting Hukum & Aturan Tertulis",
+                time: "2 mnt baca",
+                content: `
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <h2 class="font-display font-extrabold text-2xl md:text-3xl text-cozy-dark">Hukum vs Norma Sosial</h2>
+                            <p class="text-sm text-cozy-dark/80 leading-relaxed">
+                                Mengapa pembuatan undang-undang baru (atau peraturan kampus baru) seringkali gagal ditaati mahasiswa? 
+                            </p>
+                            <p class="text-xs text-cozy-dark/70 leading-relaxed">
+                                Hukum tertulis hanya akan ditaati jika hukum tersebut dipandang adil dan mayoritas percaya bahwa orang lain juga akan mematuhinya. Jika hukum bertentangan dengan norma sosial yang mengakar kuat di lapangan, maka aturan tertulis tersebut akan lumpuh total.
+                            </p>
+                        </div>
+                        <div class="bg-cozy-bg p-6 rounded-3xl border border-cozy-primary/10 text-xs space-y-3">
+                            <h4 class="font-bold text-sm text-cozy-dark mb-1"><i class="fa-solid fa-circle-exclamation text-rose-500"></i> Aturan Penting Membuat Regulasi Sukses:</h4>
+                            <div class="flex gap-2">
+                                <span class="text-cozy-secondary font-bold">1.</span>
+                                <span><strong>Koordinasikan Ekspektasi:</strong> Sosialisasikan aturan secara transparan agar orang percaya semua orang akan dipantau secara adil.</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-cozy-secondary font-bold">2.</span>
+                                <span><strong>Sanksi Konsisten:</strong> Penegakan hukum yang inkonsisten justru mengonfirmasi bahwa pelanggaran norma sosial lama masih diperbolehkan.</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Chapter 5",
+                title: "Desain Intervensi yang Berkelanjutan",
+                time: "3 mnt baca",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-sm text-cozy-dark/80">Proses intervensi tidak boleh berhenti setelah norma baru tercapai. Bicchieri menyusun siklus ketahanan norma sosial baru:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-white border border-cozy-primary/10 rounded-2xl p-5 shadow-sm text-center">
+                                <div class="text-3xl mb-2">🤝</div>
+                                <h4 class="font-bold text-sm text-cozy-dark mb-1">Membangun Konsensus Baru</h4>
+                                <p class="text-xs text-cozy-dark/60 mt-2">Pastikan semua orang menyadari bahwa aturan lama sudah usang melalui deklarasi kelompok terbuka.</p>
+                            </div>
+                            <div class="bg-white border border-cozy-primary/10 rounded-2xl p-5 shadow-sm text-center">
+                                <div class="text-3xl mb-2">👁️</div>
+                                <h4 class="font-bold text-sm text-cozy-dark mb-1">Transparansi Ekspektasi</h4>
+                                <p class="text-xs text-cozy-dark/60 mt-2">Publikasikan keberhasilan perilaku baru secara masif agar Ekspektasi Empiris (EE) tetap terjaga tinggi.</p>
+                            </div>
+                            <div class="bg-white border border-cozy-primary/10 rounded-2xl p-5 shadow-sm text-center">
+                                <div class="text-3xl mb-2">🛡️</div>
+                                <h4 class="font-bold text-sm text-cozy-dark mb-1">Sistem Sanksi Positif</h4>
+                                <p class="text-xs text-cozy-dark/60 mt-2">Beri apresiasi (sanksi positif) kepada individu yang secara konsisten mempertahankan perilaku baik yang baru.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Summary",
+                title: "Rangkuman Singkat & Strategi Aksi",
+                time: "2 mnt baca",
+                content: `
+                    <div class="space-y-6">
+                        <h2 class="font-display font-extrabold text-2xl md:text-3xl text-cozy-dark text-center">Simpulan Masterclass</h2>
+                        <div class="bg-cozy-bg border border-cozy-primary/20 rounded-3xl p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-4">
+                                <h4 class="font-display font-bold text-base text-cozy-primary flex items-center gap-2">
+                                    <i class="fa-solid fa-list-check"></i> 3 Pilar Penting Diingat:
+                                </h4>
+                                <ul class="space-y-3 text-xs leading-relaxed text-cozy-dark/80">
+                                    <li><i class="fa-regular fa-square-check text-cozy-secondary mr-2"></i> <strong>Diagnosis Dulu:</strong> Jangan mencoba mengubah perilaku sosial jika belum tahu apakah itu sekadar kebiasaan, moral, konvensi, atau norma sosial asli.</li>
+                                    <li><i class="fa-regular fa-square-check text-cozy-secondary mr-2"></i> <strong>Goyahkan Keyakinan:</strong> Norma akan runtuh jika Ekspektasi Empiris ("apa yang dilakukan orang lain") mulai hancur secara drastis.</li>
+                                    <li><i class="fa-regular fa-square-check text-cozy-secondary mr-2"></i> <strong>Fokus pada Trendsetter:</strong> Cari dan lindungi agen perubahan kecil di lapangan untuk memicu efek domino.</li>
+                                </ul>
+                            </div>
+                            <div class="space-y-4 flex flex-col justify-center bg-white p-5 rounded-2xl border border-cozy-primary/10">
+                                <h4 class="font-display font-bold text-sm text-cozy-dark mb-1">Siap Bereksperimen?</h4>
+                                <p class="text-xs text-cozy-dark/60 leading-relaxed mb-4">Aplikasi ini dilengkapi Laboratorium Interaktif di bawah. Ketik studi kasusmu sekarang, lalu jalankan diagnosis sistem!</p>
+                                <button onclick="scrollToLab()" class="bg-cozy-primary hover:bg-cozy-primary/95 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition text-center shadow-md shadow-cozy-primary/15">
+                                    Akses Laboratorium Interaktif <i class="fa-solid fa-arrow-down ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        let currentSlide = 0;
+
+        // 2. RENDERING THE MENU SIDEBAR
+        function renderMenu() {
+            const menuContainer = document.getElementById('slide-menu-list');
+            menuContainer.innerHTML = '';
+            
+            slides.forEach((slide, idx) => {
+                const isActive = idx === currentSlide;
+                const activeClasses = isActive 
+                    ? 'bg-cozy-primary/15 border-cozy-primary text-cozy-dark font-bold' 
+                    : 'border-transparent text-cozy-primary/80 hover:bg-cozy-primary/5 hover:text-cozy-dark';
+                
+                menuContainer.innerHTML += `
+                    <button onclick="goToSlide(${idx})" class="w-full text-left px-3 py-2.5 rounded-xl border-l-4 text-xs font-semibold flex items-center justify-between transition ${activeClasses}">
+                        <span class="truncate pr-2">${slide.title}</span>
+                        <span class="text-[9px] font-bold text-cozy-primary/40 uppercase whitespace-nowrap">${slide.chapter}</span>
+                    </button>
+                `;
+            });
+        }
+
+        // 3. SLIDE NAVIGATION CONTROLLER
+        function updateSlide() {
+            const container = document.getElementById('slide-content-stage');
+            const categoryBadge = document.getElementById('slide-category-badge');
+            const readTime = document.getElementById('slide-read-time');
+            const currentNum = document.getElementById('current-slide-num');
+            const totalNum = document.getElementById('total-slides-num');
+            
+            // Add slide transition effect
+            container.classList.remove('slide-active');
+            container.classList.add('slide-enter');
+            
+            setTimeout(() => {
+                const slide = slides[currentSlide];
+                container.innerHTML = slide.content;
+                categoryBadge.textContent = slide.chapter;
+                readTime.innerHTML = `<i class="fa-regular fa-clock"></i> ${slide.time}`;
+                currentNum.textContent = currentSlide + 1;
+                totalNum.textContent = slides.length;
+                
+                container.classList.remove('slide-enter');
+                container.classList.add('slide-active');
+                
+                renderMenu();
+            }, 150);
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlide();
+            } else {
+                // If on final slide, jump to first with custom transition or alert
+                showNotification("Kamu sudah sampai di slide terakhir! Scroll ke bawah untuk mencoba lab interaktif.");
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        function goToSlide(idx) {
+            currentSlide = idx;
+            updateSlide();
+            // Close mobile sidebar if open
+            if (!document.getElementById('sidebar').classList.contains('-translate-x-full')) {
+                toggleSidebar();
+            }
+        }
+
+        // Keyboard Arrow Controls
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        // 4. LABORATORY TOOL 1: DIAGNOSTIC SYSTEM
+        function diagnoseNorm() {
+            const behavior = document.getElementById('diag-behavior').value.trim();
+            const q1 = document.querySelector('input[name="diag-q1"]:checked');
+            const q2 = document.querySelector('input[name="diag-q2"]:checked');
+            const q3 = document.querySelector('input[name="diag-q3"]:checked');
+            const resultCard = document.getElementById('diag-result-card');
+            const resultText = document.getElementById('diag-result-text');
+
+            if (!behavior) {
+                showNotification("Silakan ketik nama perilaku terlebih dahulu agar sistem bisa menganalisis!");
+                return;
+            }
+
+            if (!q1 || !q2 || !q3) {
+                showNotification("Harap lengkapi jawaban untuk ketiga pertanyaan pendeteksi di bawah.");
+                return;
+            }
+
+            const val1 = q1.value;
+            const val2 = q2.value;
+            const val3 = q3.value;
+
+            let diagnosisResult = "";
+
+            if (val1 === "yes" && val2 === "no" && val3 === "no") {
+                diagnosisResult = `Perilaku <strong>"${behavior}"</strong> tergolong sebagai <strong>Custom (Kebiasaan Pribadi)</strong>. Anda melakukannya demi utilitas personal tanpa dipengaruhi ketakutan atau tuntutan dari masyarakat sekitar. Tindakan ini murni kebutuhan individu.`;
+            } else if (val2 === "yes") {
+                diagnosisResult = `Perilaku <strong>"${behavior}"</strong> tergolong sebagai <strong>Moral Norm (Norma Moral)</strong>. Tindakan ini didikte oleh nilai moral internal yang absolut atau ajaran spiritual. Seseorang akan tetap melaksanakannya sekalipun sekelilingnya melanggar, karena tujuannya adalah kepatuhan nurani batiniah.`;
+            } else if (val1 === "no" && val2 === "no" && val3 === "no") {
+                diagnosisResult = `Perilaku <strong>"${behavior}"</strong> tergolong sebagai <strong>Convention (Konvensi / Adat Ringan)</strong>. Ini dilakukan karena kita mengantisipasi koordinasi praktis dengan orang lain (Ekspektasi Empiris saja). Contohnya adalah menyetir di sisi kiri jalan. Tidak ada hukuman sosial yang berat, melainkan murni kenyamanan koordinasi bersama.`;
+            } else if (val1 === "no" && val2 === "no" && val3 === "yes") {
+                diagnosisResult = `Perilaku <strong>"${behavior}"</strong> tergolong sebagai <strong>SOCIAL NORM SEJATI</strong> berdasarkan teori Cristina Bicchieri. Ini adalah bentuk interdependensi sosial tertinggi. Anda melaksanakannya karena tahu orang lain melakukannya (EE) DAN merasa bahwa orang lain menuntut Anda melakukannya serta siap memberikan konsekuensi sosial jika melanggar (NE).`;
+            } else {
+                diagnosisResult = `Perilaku <strong>"${behavior}"</strong> tergolong sebagai campuran norma transisi. Ada unsur tekanan sosial namun motivasi personal Anda masih tinggi. Ini sering terjadi ketika suatu norma sedang dalam proses runtuh atau bertransisi ke nilai baru.`;
+            }
+
+            resultText.innerHTML = diagnosisResult;
+            resultCard.classList.remove('hidden');
+        }
+
+        // 5. LABORATORY TOOL 2: INTERACTIVE MINI-QUIZ
+        const quizData = [
+            {
+                question: "Mahasiswa di Jurusan X selalu memakai kemeja rapi saat presentasi, meskipun tidak ada aturan resmi kampus. Mereka melakukannya karena semua temannya melakukan hal yang sama dan mereka takut dibilang tidak sopan. Apa nama ekspektasi yang mendorong mereka memakai kemeja?",
+                options: [
+                    { text: "Ekspektasi Empiris semata (EE)", isCorrect: false },
+                    { text: "Ekspektasi Normatif (NE) karena ada kekhawatiran sanksi penilaian sosial", isCorrect: true },
+                    { text: "Custom (Kebiasaan Pribadi)", isCorrect: false },
+                    { text: "Ekspektasi Hukum (LE)", isCorrect: false }
+                ],
+                explanation: "Siswa takut dinilai buruk (tidak sopan), yang menunjukkan adanya kekhawatiran atas sanksi sosial informal dari teman sekelasnya. Ini adalah definisi dasar dari Ekspektasi Normatif (NE)!"
+            }
+        ];
+
+        function renderQuiz() {
+            const quiz = quizData[0];
+            document.getElementById('quiz-question').textContent = quiz.question;
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+
+            quiz.options.forEach((opt, idx) => {
+                optionsContainer.innerHTML += `
+                    <button onclick="checkQuizAnswer(${idx})" class="w-full text-left text-xs bg-cozy-bg hover:bg-cozy-secondary/15 p-3 rounded-xl border border-cozy-primary/10 font-semibold transition active:scale-95">
+                        ${idx + 1}. ${opt.text}
+                    </button>
+                `;
+            });
+        }
+
+        function checkQuizAnswer(selectedIdx) {
+            const quiz = quizData[0];
+            const opt = quiz.options[selectedIdx];
+            const feedbackBox = document.getElementById('quiz-feedback');
+
+            feedbackBox.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-800', 'bg-rose-100', 'text-rose-800');
+
+            if (opt.isCorrect) {
+                feedbackBox.classList.add('bg-emerald-100', 'text-emerald-800');
+                feedbackBox.innerHTML = `🌟 Benar sekali! <br><span class="font-normal block mt-1">${quiz.explanation}</span>`;
+            } else {
+                feedbackBox.classList.add('bg-rose-100', 'text-rose-800');
+                feedbackBox.innerHTML = `❌ Sayang sekali, kurang tepat. <br><span class="font-normal block mt-1">${quiz.explanation}</span>`;
+            }
+        }
+
+        // 6. GENERAL HELPER FUNCTIONS & UI TRIGGERS
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebar-backdrop');
+            
+            if (sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                backdrop.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                backdrop.classList.add('hidden');
+            }
+        }
+
+        function selectVignetteOpt(opt) {
+            const feedback = document.getElementById('vignette-feedback');
+            feedback.classList.remove('hidden');
+            if (opt === 'A') {
+                feedback.innerHTML = "💡 Kamu mendeteksi adanya ekspektasi pemakluman (EE tinggi). Ini menandakan ghasab sandal dianggap wajar oleh kelompok!";
+            } else {
+                feedback.innerHTML = "🛡️ Pilihan ini menunjukkan ekspektasi sanksi keras (NE tinggi). Norma asrama melarang keras tindakan ghasab tersebut!";
+            }
+        }
+
+        function scrollToLab() {
+            document.getElementById('interactive-lab').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showNotification(msg) {
+            // Self-made modern toast instead of annoying browser alerts
+            const toast = document.createElement('div');
+            toast.className = "fixed bottom-5 right-5 bg-cozy-dark text-white text-xs font-semibold px-4 py-3 rounded-xl shadow-2xl z-50 transition-all transform translate-y-10 opacity-0 max-w-sm flex items-center gap-3 border border-cozy-secondary/20";
+            toast.innerHTML = `<i class="fa-solid fa-circle-info text-cozy-secondary"></i> <span>${msg}</span>`;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-10', 'opacity-0');
+            }, 50);
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => toast.remove(), 400);
+            }, 3500);
+        }
+
+        // Initial setup on Window Load
+        window.onload = function() {
+            updateSlide();
+            renderQuiz();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buku Saku Giddens · Structuration Audit Engine</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        cozy: {
+                            bg: '#FAF8F5',
+                            dark: '#1D1A39',
+                            lavender: '#8D7BFF',
+                            coral: '#E76F51',
+                            sage: '#6B9E7A',
+                            clay: '#D4ADFC',
+                            card: '#FFFFFF',
+                            border: '#EADBC8',
+                            gold: '#D4A373',
+                            indigo: '#5B63B7',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #FAF8F5; }
+        ::-webkit-scrollbar-thumb { background: #D4ADFC; border-radius: 10px; }
+        
+        .slide-enter { opacity: 0; transform: scale(0.97) translateY(10px); }
+        .slide-active { opacity: 1; transform: scale(1) translateY(0); transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        
+        .card-hover { transition: all 0.25s ease; }
+        .card-hover:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(29, 26, 57, 0.08); }
+        
+        .gauge-transition { transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .nav-btn:active { transform: scale(0.95); }
+
+        /* Custom range slider */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 6px;
+            border-radius: 999px;
+            background: #e2e8f0;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 999px;
+            background: #8D7BFF;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(141, 123, 255, 0.3);
+            transition: all 0.2s;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(141, 123, 255, 0.4);
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 999px;
+            border: none;
+            background: #8D7BFF;
+            cursor: pointer;
+        }
+        .range-label {
+            display: inline-block;
+            min-width: 28px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body class="bg-cozy-bg text-cozy-dark font-sans min-h-screen flex flex-col selection:bg-cozy-lavender selection:text-white">
+
+    <!-- ===== HEADER ===== -->
+    <header class="bg-white/90 backdrop-blur-md border-b border-cozy-border sticky top-0 z-40 px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3 transition-all">
+        <div class="flex items-center gap-3">
+            <div class="bg-gradient-to-tr from-cozy-lavender to-cozy-indigo text-white w-10 h-10 rounded-xl flex items-center justify-center font-display font-extrabold shadow-md shadow-cozy-lavender/25">
+                G
+            </div>
+            <div>
+                <h1 class="font-display font-bold text-sm md:text-base leading-tight text-cozy-dark">Buku Saku Giddens</h1>
+                <p class="text-[10px] text-cozy-lavender font-medium">Structuration Audit Engine · Psychosophia Behavioral Lab 2026</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="hidden sm:inline-flex items-center gap-1.5 bg-cozy-lavender/10 px-3 py-1.5 rounded-full border border-cozy-lavender/20 text-[10px] font-bold text-cozy-lavender">
+                <span class="w-1.5 h-1.5 rounded-full bg-cozy-coral animate-pulse"></span>
+                Dualitas Struktur
+            </span>
+            <button onclick="toggleSidebar()" class="lg:hidden text-cozy-dark hover:bg-cozy-lavender/10 p-2 rounded-xl transition">
+                <i class="fa-solid fa-bars text-lg"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ===== WRAPPER ===== -->
+    <div class="flex-grow flex flex-col lg:flex-row max-w-[1600px] w-full mx-auto relative">
+
+        <!-- ===== SIDEBAR ===== -->
+        <aside id="sidebar" class="fixed lg:sticky top-[61px] left-0 bottom-0 w-[290px] bg-white border-r border-cozy-border p-4 flex flex-col justify-between overflow-y-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-30 lg:z-10 h-[calc(100vh-61px)] shadow-xl lg:shadow-none">
+            <div class="space-y-5">
+                <div class="flex items-center gap-2 pb-3 border-b border-cozy-border">
+                    <span class="text-[10px] font-bold text-cozy-lavender uppercase tracking-wider flex items-center gap-1.5">
+                        <i class="fa-solid fa-book-open"></i> Isi Buku Saku
+                    </span>
+                </div>
+                <div class="space-y-1" id="slide-menu-list">
+                    <!-- Diisi oleh JavaScript -->
+                </div>
+
+                <!-- CTA Simulator -->
+                <div class="bg-gradient-to-br from-cozy-bg to-cozy-border p-4 rounded-2xl relative overflow-hidden mt-4">
+                    <div class="absolute -right-6 -bottom-6 text-cozy-lavender/10 text-5xl"><i class="fa-solid fa-microchip"></i></div>
+                    <h4 class="font-display font-bold text-sm text-cozy-dark mb-0.5">🔧 Audit Sistem</h4>
+                    <p class="text-[10px] text-cozy-dark/70 mb-3 leading-relaxed">Praktikkan teori Giddens dengan alat diagnostik interaktif.</p>
+                    <button onclick="scrollToAudit()" class="w-full bg-cozy-lavender text-white text-[11px] font-bold py-2 rounded-xl hover:bg-cozy-dark transition shadow-md shadow-cozy-lavender/20 flex items-center justify-center gap-2">
+                        Buka Audit Engine <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="pt-3 border-t border-cozy-border text-center text-[9px] text-cozy-dark/40 font-medium">
+                Psychosophia · Structuration Series
+            </div>
+        </aside>
+
+        <!-- BACKDROP MOBILE -->
+        <div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-cozy-dark/30 backdrop-blur-sm z-20 hidden lg:hidden"></div>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="flex-grow p-3 sm:p-5 md:p-7 lg:p-10 flex flex-col min-h-[calc(100vh-61px)] max-w-full overflow-x-hidden space-y-10">
+
+            <!-- ===== STAGE CARD (BUKU SAKU) ===== -->
+            <div class="bg-white rounded-3xl border border-cozy-border shadow-lg shadow-cozy-lavender/5 overflow-hidden relative">
+                <div class="absolute -top-32 -left-32 w-80 h-80 rounded-full bg-cozy-clay/10 blur-[60px] pointer-events-none"></div>
+                <div class="absolute -bottom-32 -right-32 w-80 h-80 rounded-full bg-cozy-coral/10 blur-[60px] pointer-events-none"></div>
+
+                <!-- Header slide -->
+                <div class="flex flex-wrap items-center justify-between gap-3 px-6 pt-5 pb-3 border-b border-cozy-border relative z-10">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span id="slide-chapter-badge" class="bg-cozy-lavender/10 text-cozy-lavender text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Bab 1</span>
+                        <span class="text-cozy-lavender/20">•</span>
+                        <span id="slide-read-time" class="text-[11px] text-cozy-dark/50 font-medium flex items-center gap-1">
+                            <i class="fa-regular fa-clock"></i> 2 mnt baca
+                        </span>
+                    </div>
+                    <div class="text-[11px] font-semibold text-cozy-dark/60 bg-cozy-bg px-3 py-1.5 rounded-full">
+                        <span id="current-slide-num" class="text-cozy-dark font-extrabold">1</span> / <span id="total-slides-num" class="font-extrabold">6</span>
+                    </div>
+                </div>
+
+                <!-- Konten slide -->
+                <div id="slide-content-stage" class="px-6 py-7 md:px-8 md:py-10 min-h-[420px] flex flex-col justify-center relative z-10">
+                    <!-- Diisi oleh JavaScript -->
+                </div>
+
+                <!-- Footer navigasi slide -->
+                <div class="flex flex-wrap items-center justify-between gap-3 px-6 py-4 border-t border-cozy-border relative z-10 bg-cozy-bg/30">
+                    <button onclick="prevSlide()" class="nav-btn flex items-center gap-2 text-cozy-lavender hover:text-cozy-dark font-bold text-sm bg-white hover:bg-cozy-lavender/10 px-4 py-2.5 rounded-xl transition border border-cozy-border/50 shadow-sm">
+                        <i class="fa-solid fa-arrow-left text-xs"></i> Kembali
+                    </button>
+                    <span class="hidden md:inline-flex items-center gap-1.5 text-[10px] text-cozy-dark/40 font-medium bg-white px-3 py-1.5 rounded-lg border border-cozy-border/50 shadow-sm">
+                        <kbd class="border border-cozy-border px-1.5 py-0.5 rounded bg-cozy-bg font-mono text-[9px] shadow-sm">←</kbd> <kbd class="border border-cozy-border px-1.5 py-0.5 rounded bg-cozy-bg font-mono text-[9px] shadow-sm">→</kbd> navigasi
+                    </span>
+                    <button onclick="nextSlide()" class="nav-btn flex items-center gap-2 bg-cozy-lavender hover:bg-cozy-dark text-white font-bold text-sm px-5 py-2.5 rounded-xl transition shadow-md shadow-cozy-lavender/20">
+                        Lanjut <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ===== SECTION: AUDIT ENGINE (DETAILED) ===== -->
+            <section id="audit-engine-section" class="pt-4 pb-6 space-y-8 border-t-2 border-dashed border-cozy-border">
+                <div class="text-center max-w-3xl mx-auto">
+                    <span class="bg-cozy-indigo/10 text-cozy-indigo text-[10px] font-extrabold px-4 py-1.5 rounded-full uppercase tracking-widest border border-cozy-indigo/15">
+                        <i class="fa-regular fa-microchip mr-1"></i> Interactive Diagnostic
+                    </span>
+                    <h2 class="font-display font-extrabold text-2xl md:text-3xl text-cozy-dark mt-3">Structuration Audit Engine</h2>
+                    <p class="text-sm text-cozy-dark/70 mt-1 max-w-2xl mx-auto">
+                        Setelah memahami teori, praktikkan dengan mendiagnosis sistem sosial Anda sendiri. Nilai setiap sub-indikator pada skala 1–5, lalu dapatkan laporan diagnostik terperinci.
+                    </p>
+                </div>
+
+                <!-- INPUT AUDIT (DETAILED) -->
+                <div class="bg-white rounded-3xl border border-cozy-border shadow-lg shadow-cozy-lavender/5 overflow-hidden">
+                    <div class="p-6 md:p-8 space-y-6">
+                        <!-- Nama Sistem -->
+                        <div>
+                            <label class="block text-sm font-bold text-cozy-dark mb-1.5 flex items-center gap-2">
+                                <i class="fa-regular fa-pen-to-square text-cozy-lavender"></i>
+                                Nama Sistem / Intervensi yang Dianalisis
+                            </label>
+                            <input type="text" id="systemName" placeholder="Contoh: Protokol Mentoring Mahasiswa · Algoritma Aplikasi X · Kebijakan Rekrutmen"
+                                   class="w-full p-3.5 border border-cozy-border rounded-xl outline-none focus:ring-2 focus:ring-cozy-lavender focus:border-transparent text-sm transition bg-cozy-bg/50 placeholder:text-cozy-dark/30">
+                        </div>
+
+                        <!-- 3 Dimensi dengan sub-indikator -->
+                        <div class="space-y-8">
+                            <p class="text-xs font-bold uppercase tracking-wider text-cozy-dark/50 flex items-center gap-2">
+                                <i class="fa-regular fa-circle-check"></i> Dimensi Dualitas Struktur — Nilai setiap indikator (1 = Sangat Buruk, 5 = Sangat Baik)
+                            </p>
+
+                            <!-- SIGNIFIKASI -->
+                            <div class="border-2 border-cozy-lavender/20 rounded-2xl p-5 bg-cozy-lavender/5">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span class="w-8 h-8 rounded-full bg-cozy-lavender text-white flex items-center justify-center text-sm font-bold">S</span>
+                                    <h3 class="font-display font-bold text-lg text-cozy-dark">Signifikasi <span class="text-sm font-normal text-cozy-dark/50">(Makna &amp; Simbol)</span></h3>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-cozy-dark/70 mb-1">1. Kejelasan bahasa &amp; simbol</label>
+                                        <input type="range" id="sig-1" min="1" max="5" value="3" class="w-full accent-cozy-lavender" oninput="updateRangeLabel('sig-1-label', this.value)">
+                                        <div class="flex justify-between text-[10px] text-cozy-dark/40"><span>1</span><span id="sig-1-label" class="range-label text-cozy-lavender">3</span><span>5</span></div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-cozy-dark/70 mb-1">2. Konsistensi makna di seluruh kelompok</label>
+                                        <input type="range" id="sig-2" min="1" max="5" value="3" class="w-full accent-cozy-lavender" oninput="updateRangeLabel('sig-2-label', this.value)">
+                                        <div class="flex justify-between text-[10px] text-cozy-dark/40"><span>1</span><span id="sig-2-label" class="range-label text-cozy-lavender">3</span><span>5</span></div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-cozy-dark/70 mb-1">3. Akses terhadap skema interpretatif bersama</label>
+                                        <input type="range" id="sig-3" min="1" max="5" value="3" class="w-full accent-cozy-lavender" oninput="updateRangeLabel('sig-3-label', this.value)">
+                                        <div class="flex justify-between text-[10px] text-cozy-dark/40"><span>1</span><span id="sig-3-label" class="range-label text-cozy-lavender">3</span><span>5</span></div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-cozy-dark/70 mb-1">4. Kualitas komunikasi antar aktor</label>
+                                        <input type="range" id="sig-4" min="1" max="5" value="3" class="w-full accent-cozy-lavender" oninput="updateRangeLabel('sig-4-label', this.value)">
+                                        <div class="flex justify-between text-[10px] text-cozy-dark/40"><span>1</span><span id="sig-4-label" class="range-label text-cozy-lavender">3</span><span>5</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- DOMINASI -->
+                            <div class="border-2 border-cozy-indigo/20 rounded-2xl p-5 bg-cozy-indigo/5">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span class="w-8 h-8 rounded-full bg-cozy-indigo text-white flex items-center justify-center text-sm font-bold">D</span>
+                                    <h3 class="font-display font-bold text-lg text-cozy-dark">Dominasi <span class="text-sm font-normal text-cozy-dark/50">(Sumber Daya &amp; Kekuasaan)</span></h3>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-cozy-dark/70 mb-1">1. Distribusi sumber daya alokatif (kapital)</label>
+                                        <input type="range" id="dom-1" min="1" max="5" value="3" class="w-full accent-cozy-indigo" oninput="updateRangeLabel('dom-1-label', this.value)">
+                                        <div class="flex justify-between text-[10px] text-cozy-dark/40"><span>1</span><span id="dom-1-label" class="range-label text-cozy-indigo">3</span><span>5</span></div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-cozy-dark/70 mb-1">2. Akses terhadap otoritas &amp; posisi</label>
+                                        <input type="range" id="dom-2" min="1" max="5" value="3" class="w-full accent-cozy-indigo" oninput="updateRangeLabel('dom-2-label', this.value)">
+                                        <div class="flex justify-between text-[10px] text-cozy-dark/40"><span>1</span><span id="dom-2-label" class="range-label text-cozy-indigo">3</span><span>5</span></div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-cozy-dark/70 mb-1">3. Kemampuan aktor memengaruhi keputusan</label>
+                                        <input type="range" id="dom-3" min="1" max="5" value="3" class="w-full accent-cozy-indigo" oninput="updateRangeLabel('dom-3-label', this.value)">
+                                        <div class="flex justify-between text-[10px] text-cozy-dark/40"><span>1</span><span id="dom-3-label" class="range-label text-cozy-indigo">3</span><span>5</span></div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-cozy-dark/70 mb-1">4. Keadilan prosedural dalam penggunaan sumber daya</label>
+                                        <input type="range" id="dom-4" min="1" max="5" value="3" class="w-full accent-cozy-indigo" oninput="updateRangeLabel('dom-4-label', this.value)">
+                                        <div class="flex justify-between text-[10px] text-cozy-dark/40"><span>1</span><span id="dom-4-label" class="range-label text-cozy-indigo">3</span><span>5</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- LEGITIMASI -->
+                            <div class="border-2 border-cozy-coral/20 rounded-2xl p-5 bg-cozy-coral/5">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span class="w-8 h-8 rounded-full bg-cozy-coral text-white flex items-center justify-center text-sm font-bold">L</span>
+                                    <h3 class="font-display font-bold text-lg text-cozy-dark">Legitimasi <span class="text-sm font-normal text-cozy-dark/50">(Norma &amp; Aturan)</span></h3>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-cozy-dark/70 mb-1">1. Kejelasan aturan &amp; ekspektasi perilaku</label>
+                                        <input type="range" id="leg-1" min="1" max="5" value="3" class="w-full accent-cozy-coral" oninput="updateRangeLabel('leg-1-label', this.value)">
+                                        <div class="flex justify-between text-[10px] text-cozy-dark/40"><span>1</span><span id="leg-1-label" class="range-label text-cozy-coral">3</span><span>5</span></div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-cozy-dark/70 mb-1">2. Konsistensi penerapan sanksi (reward/hukuman)</label>
+                                        <input type="range" id="leg-2" min="1" max="5" value="3" class="w-full accent-cozy-coral" oninput="updateRangeLabel('leg-2-label', this.value)">
+                                        <div class="flex justify-between text-[10px] text-cozy-dark/40"><span>1</span><span id="leg-2-label" class="range-label text-cozy-coral">3</span><span>5</span></div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-cozy-dark/70 mb-1">3. Kepatuhan aktor terhadap norma</label>
+                                        <input type="range" id="leg-3" min="1" max="5" value="3" class="w-full accent-cozy-coral" oninput="updateRangeLabel('leg-3-label', this.value)">
+                                        <div class="flex justify-between text-[10px] text-cozy-dark/40"><span>1</span><span id="leg-3-label" class="range-label text-cozy-coral">3</span><span>5</span></div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-cozy-dark/70 mb-1">4. Kesesuaian norma dengan konteks aktual</label>
+                                        <input type="range" id="leg-4" min="1" max="5" value="3" class="w-full accent-cozy-coral" oninput="updateRangeLabel('leg-4-label', this.value)">
+                                        <div class="flex justify-between text-[10px] text-cozy-dark/40"><span>1</span><span id="leg-4-label" class="range-label text-cozy-coral">3</span><span>5</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="runDetailedAudit()" class="w-full bg-gradient-to-r from-cozy-lavender to-cozy-indigo hover:from-cozy-indigo hover:to-cozy-lavender text-white font-bold py-3.5 rounded-xl transition-all duration-300 shadow-md shadow-cozy-lavender/20 flex items-center justify-center gap-2 group">
+                            <i class="fa-solid fa-microchip group-hover:rotate-12 transition-transform"></i>
+                            Jalankan Audit Mendetail
+                            <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- RESULTS -->
+                <div id="resultsArea" class="hidden space-y-4">
+                    <div class="bg-white rounded-3xl border border-cozy-border shadow-lg shadow-cozy-lavender/5 overflow-hidden">
+                        <div class="p-6 md:p-8 border-b border-cozy-border">
+                            <div class="flex items-center justify-between flex-wrap gap-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-cozy-lavender/10 text-cozy-lavender flex items-center justify-center text-lg">
+                                        <i class="fa-solid fa-file-lines"></i>
+                                    </div>
+                                    <div>
+                                        <h2 class="font-display font-bold text-xl text-cozy-dark">Laporan Audit Detail</h2>
+                                        <p id="targetSystem" class="text-xs text-cozy-dark/50 italic"></p>
+                                    </div>
+                                </div>
+                                <span id="statusBadge" class="text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-wider"></span>
+                            </div>
+                        </div>
+
+                        <div id="diagnosisContent" class="p-6 md:p-8 space-y-6">
+                            <!-- Diisi oleh JavaScript -->
+                        </div>
+
+                        <div class="px-6 md:px-8 py-4 border-t border-cozy-border bg-cozy-bg/30 flex flex-wrap items-center justify-between gap-3">
+                            <span class="text-[9px] text-cozy-dark/30 font-medium">
+                                <i class="fa-regular fa-clock mr-1"></i> Generated by Psychosophia Structuration Engine v2.0
+                            </span>
+                            <button onclick="resetAudit()" class="text-[10px] font-bold text-cozy-lavender hover:text-cozy-dark transition flex items-center gap-1">
+                                <i class="fa-solid fa-rotate-left"></i> Audit Baru
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== REFERENSI GIDDENS (BARU) ===== -->
+            <section class="bg-white/70 backdrop-blur-sm rounded-2xl border border-cozy-border p-5 md:p-6 max-w-3xl mx-auto w-full">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="text-lg">📖</span>
+                    <h3 class="font-display font-bold text-base text-cozy-dark">Referensi Utama</h3>
+                </div>
+                <div class="space-y-2 text-xs text-cozy-dark/70 leading-relaxed">
+                    <p><strong>Giddens, A.</strong> (1984). <em>The Constitution of Society: Outline of the Theory of Structuration</em>. Cambridge: Polity Press.</p>
+                    <p><strong>Giddens, A.</strong> (1979). <em>Central Problems in Social Theory: Action, Structure and Contradiction in Social Analysis</em>. London: Macmillan.</p>
+                    <p><strong>Giddens, A.</strong> (1993). <em>New Rules of Sociological Method: A Positive Critique of Interpretative Sociologies</em> (2nd ed.). Stanford University Press.</p>
+                    <p class="mt-2 text-[10px] text-cozy-dark/40">
+                        <i class="fa-regular fa-bookmark mr-1"></i> Konsep kunci: dualitas struktur, agen knowledgeable, modalitas (skema interpretatif, fasilitas, norma), reproduksi sosial, dan transformasi.
+                    </p>
+                </div>
+                <div class="mt-3 pt-3 border-t border-cozy-border/50 flex flex-wrap gap-3 text-[10px]">
+                    <a href="https://www.researchgate.net/publication/27379006" target="_blank" class="text-cozy-lavender hover:underline font-medium flex items-center gap-1">
+                        <i class="fa-regular fa-arrow-up-right-from-square"></i> Baca artikel terkait
+                    </a>
+                    <span class="text-cozy-dark/20">|</span>
+                    <a href="https://www.sociologygroup.com/giddens-structuration-theory/" target="_blank" class="text-cozy-lavender hover:underline font-medium flex items-center gap-1">
+                        <i class="fa-regular fa-arrow-up-right-from-square"></i> Ringkasan teori
+                    </a>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="bg-white border-t border-cozy-border py-6 px-4 text-center mt-8">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-cozy-lavender to-cozy-indigo text-white flex items-center justify-center text-xs font-extrabold shadow-md shadow-cozy-lavender/20">
+                    P
+                </div>
+                <div class="text-left">
+                    <p class="text-[10px] font-bold text-cozy-dark">Psychosophia Behavioral Lab</p>
+                    <p class="text-[8px] text-cozy-dark/40">Program Studi Psikologi Islam · IAIN SAS Bangka Belitung</p>
+                </div>
+            </div>
+            <div class="text-[8px] text-cozy-dark/30">
+                <p>© 2026 · Buku Saku Giddens & Audit Engine v2.1</p>
+                <p class="mt-0.5">Anthony Giddens Applied Diagnostic Hub</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        // ============================================================
+        // 1. DATA SLIDE BUKU SAKU (tetap 6 slide)
+        // ============================================================
+        const slides = [
+            {
+                chapter: "Bab 1",
+                title: "Pengantar Giddens & Dualitas Struktur 🏛️",
+                time: "2 mnt baca",
+                content: `
+                    <div class="space-y-5 max-w-4xl">
+                        <div class="inline-flex items-center gap-2 bg-cozy-lavender/10 text-cozy-lavender px-3 py-1 rounded-full text-[10px] font-bold border border-cozy-lavender/25">
+                            Anthony Giddens · The Constitution of Society (1984)
+                        </div>
+                        <h2 class="font-display font-extrabold text-2xl md:text-4xl text-cozy-dark leading-tight">
+                            Dualitas Struktur: <br class="hidden sm:block">Struktur Membentuk & Dibentuk oleh Agen
+                        </h2>
+                        <p class="text-sm md:text-base text-cozy-dark/80 leading-relaxed">
+                            Giddens menolak pandangan ekstrem yang melihat struktur sosial sebagai penjara yang sepenuhnya menentukan tindakan manusia (strukturalis), maupun pandangan yang melihat agen sebagai makhluk bebas tanpa batas (individualis). Baginya, <strong class="text-cozy-lavender">struktur adalah aturan dan sumber daya</strong> yang <strong class="text-cozy-indigo">memungkinkan sekaligus membatasi</strong> tindakan agen — dan dalam tindakan itulah struktur direproduksi atau diubah.
+                        </p>
+                        <div class="bg-cozy-bg p-4 rounded-xl border border-cozy-border">
+                            <p class="text-xs text-cozy-dark/70 italic text-center">
+                                "Struktur bukanlah eksternal bagi agen, melainkan diinternalisasi dan diaktifkan dalam praktik sosial sehari-hari."
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 1",
+                title: "Agen vs Struktur: Siapa yang Menentukan? 🤝",
+                time: "2 mnt baca",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                        <div class="space-y-4">
+                            <span class="text-[10px] font-bold text-cozy-indigo uppercase tracking-wider">Dualitas Bukan Dikotomi</span>
+                            <h3 class="font-display font-bold text-xl md:text-2xl text-cozy-dark">Agen <span class="text-cozy-lavender">↔</span> Struktur</h3>
+                            <div class="space-y-3 text-sm text-cozy-dark/80">
+                                <div class="bg-cozy-lavender/5 p-4 rounded-xl border-l-4 border-cozy-lavender">
+                                    <strong>Agen</strong> adalah aktor yang <em>tahu</em> (knowledgeable) dan <em>mampu</em> (capable). Mereka tidak sekadar "boneka" struktur, melainkan pelaku refleksif yang memahami aturan dan menggunakan sumber daya.
+                                </div>
+                                <div class="bg-cozy-indigo/5 p-4 rounded-xl border-l-4 border-cozy-indigo">
+                                    <strong>Struktur</strong> adalah kumpulan aturan (signifikasi & legitimasi) dan sumber daya (dominasi) yang berada di luar agen, tetapi sekaligus <em>di dalam</em> kesadaran praktis mereka.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gradient-to-br from-cozy-bg to-white p-6 rounded-2xl border border-cozy-border text-center">
+                            <div class="text-3xl mb-2">🔄</div>
+                            <h4 class="font-display font-bold text-sm text-cozy-dark">Rekursivitas</h4>
+                            <p class="text-xs text-cozy-dark/70 mt-1 leading-relaxed">
+                                Tindakan agen <strong>memproduksi</strong> dan <strong>memperbarui</strong> struktur setiap kali mereka bertindak. Dengan kata lain, struktur eksis hanya selama ia direproduksi dalam praktik.
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 2",
+                title: "Tiga Dimensi Struktur: Signifikasi · Dominasi · Legitimasi 📐",
+                time: "3 mnt baca",
+                content: `
+                    <div class="space-y-5">
+                        <p class="text-sm text-cozy-dark/80">Giddens membagi struktur menjadi tiga dimensi yang saling terkait:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-cozy-lavender/5 p-5 rounded-2xl border border-cozy-lavender/20 card-hover">
+                                <div class="text-2xl mb-1">🗣️</div>
+                                <h3 class="font-display font-bold text-lg text-cozy-lavender">Signifikasi</h3>
+                                <p class="text-xs text-cozy-dark/70 mt-1 leading-relaxed">Sistem simbolik, bahasa, dan kode budaya yang membentuk realitas dan makna bersama.</p>
+                            </div>
+                            <div class="bg-cozy-indigo/5 p-5 rounded-2xl border border-cozy-indigo/20 card-hover">
+                                <div class="text-2xl mb-1">⚡</div>
+                                <h3 class="font-display font-bold text-lg text-cozy-indigo">Dominasi</h3>
+                                <p class="text-xs text-cozy-dark/70 mt-1 leading-relaxed">Sumber daya alokatif (kapital) dan otoritatif (organisasi, kekuasaan) yang digunakan agen.</p>
+                            </div>
+                            <div class="bg-cozy-coral/5 p-5 rounded-2xl border border-cozy-coral/20 card-hover">
+                                <div class="text-2xl mb-1">⚖️</div>
+                                <h3 class="font-display font-bold text-lg text-cozy-coral">Legitimasi</h3>
+                                <p class="text-xs text-cozy-dark/70 mt-1 leading-relaxed">Tatanan normatif, aturan formal, dan nilai moral yang mengikat komunitas.</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-cozy-dark/50 text-center italic">
+                            Ketiga dimensi ini hadir secara bersamaan dalam setiap tindakan sosial. Ketika salah satu "sirkuit" terputus, sistem sosial mengalami disfungsi.
+                        </p>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 2",
+                title: "Skema Modalitas: Jembatan Agen–Struktur 🌉",
+                time: "3 mnt baca",
+                content: `
+                    <div class="space-y-5">
+                        <p class="text-sm text-cozy-dark/80">Setiap dimensi struktur memiliki <strong>modalitas</strong> — jembatan kognitif yang menghubungkan agen dengan struktur:</p>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm border-collapse">
+                                <thead>
+                                    <tr class="bg-cozy-dark/5 border-b border-cozy-border">
+                                        <th class="text-left p-3 font-bold text-cozy-dark/60 text-xs uppercase">Dimensi</th>
+                                        <th class="text-left p-3 font-bold text-cozy-dark/60 text-xs uppercase">Struktur</th>
+                                        <th class="text-left p-3 font-bold text-cozy-dark/60 text-xs uppercase">Modalitas</th>
+                                        <th class="text-left p-3 font-bold text-cozy-dark/60 text-xs uppercase">Interaksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-cozy-border">
+                                    <tr>
+                                        <td class="p-3 font-bold text-cozy-lavender">Signifikasi</td>
+                                        <td class="p-3 text-xs">Sistem simbolik</td>
+                                        <td class="p-3 text-xs font-medium">Skema Interpretatif</td>
+                                        <td class="p-3 text-xs">Komunikasi</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-bold text-cozy-indigo">Dominasi</td>
+                                        <td class="p-3 text-xs">Sumber daya</td>
+                                        <td class="p-3 text-xs font-medium">Fasilitas</td>
+                                        <td class="p-3 text-xs">Kekuasaan</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-bold text-cozy-coral">Legitimasi</td>
+                                        <td class="p-3 text-xs">Tatanan normatif</td>
+                                        <td class="p-3 text-xs font-medium">Norma</td>
+                                        <td class="p-3 text-xs">Sanksi</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="bg-cozy-bg p-4 rounded-xl border border-cozy-border text-xs text-cozy-dark/70">
+                            <p><strong>Modalitas</strong> adalah "kunci" yang memungkinkan agen mengakses dan menggunakan struktur. Misalnya, <em>skema interpretatif</em> memungkinkan agen memahami makna; <em>fasilitas</em> memberi akses ke sumber daya; <em>norma</em> memberikan panduan perilaku yang sah.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 3",
+                title: "Reproduksi vs Transformasi: Perubahan Sosial 🔄",
+                time: "2 mnt baca",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                        <div class="space-y-4">
+                            <span class="text-[10px] font-bold text-cozy-coral uppercase tracking-wider">Dinamika Sosial</span>
+                            <h3 class="font-display font-bold text-xl md:text-2xl text-cozy-dark">Kapan Struktur Berubah?</h3>
+                            <div class="space-y-3 text-sm text-cozy-dark/80">
+                                <div class="bg-emerald-50 p-4 rounded-xl border-l-4 border-emerald-400">
+                                    <strong>Reproduksi:</strong> Ketika agen mengikuti aturan dan menggunakan sumber daya sesuai dengan pola yang sudah mapan, struktur dipertahankan.
+                                </div>
+                                <div class="bg-amber-50 p-4 rounded-xl border-l-4 border-amber-400">
+                                    <strong>Transformasi:</strong> Ketika agen bertindak <em>secara reflektif</em> melampaui aturan, atau ketika terjadi konflik antara dimensi (misalnya, norma baru bertabrakan dengan simbol lama), struktur berubah.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gradient-to-br from-cozy-bg to-white p-6 rounded-2xl border border-cozy-border text-center">
+                            <div class="text-3xl mb-2">💡</div>
+                            <h4 class="font-display font-bold text-sm text-cozy-dark">Agen sebagai "Pembaru"</h4>
+                            <p class="text-xs text-cozy-dark/70 mt-1 leading-relaxed">
+                                Perubahan sosial terjadi ketika agen memiliki <strong>kesadaran praktis</strong> yang cukup untuk melihat kontradiksi antara dimensi struktur, lalu bertindak untuk menjembataninya.
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Panduan",
+                title: "Cara Menggunakan Audit Engine 🔧",
+                time: "1 mnt baca",
+                content: `
+                    <div class="space-y-5 max-w-3xl">
+                        <h2 class="font-display font-extrabold text-2xl md:text-3xl text-cozy-dark">Praktikkan Teori Giddens</h2>
+                        <div class="space-y-3 text-sm text-cozy-dark/80">
+                            <div class="flex gap-3 items-start">
+                                <span class="bg-cozy-lavender text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">1</span>
+                                <p><strong>Tentukan Sistem</strong> — Isi nama sistem sosial yang ingin Anda analisis.</p>
+                            </div>
+                            <div class="flex gap-3 items-start">
+                                <span class="bg-cozy-indigo text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">2</span>
+                                <p><strong>Nilai 12 Sub-Indikator</strong> — Untuk setiap dimensi, beri skor 1–5 pada 4 indikator spesifik (kejelasan, konsistensi, akses, kualitas).</p>
+                            </div>
+                            <div class="flex gap-3 items-start">
+                                <span class="bg-cozy-coral text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">3</span>
+                                <p><strong>Jalankan Audit</strong> — Dapatkan laporan per dimensi, skor agregat, dan rekomendasi intervensi dari 3 sudut pandang.</p>
+                            </div>
+                        </div>
+                        <div class="bg-cozy-lavender/5 p-4 rounded-xl border border-cozy-lavender/20 text-center">
+                            <p class="text-xs text-cozy-dark/70">⬇️ Gulir ke bawah untuk mencoba Audit Engine dengan form yang lebih detail.</p>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        let currentSlide = 0;
+
+        // ============================================================
+        // 2. RENDER MENU SIDEBAR
+        // ============================================================
+        function renderMenu() {
+            const container = document.getElementById('slide-menu-list');
+            container.innerHTML = '';
+            slides.forEach((slide, idx) => {
+                const active = idx === currentSlide;
+                container.innerHTML += `
+                    <button onclick="goToSlide(${idx})" class="w-full text-left px-3 py-2.5 rounded-xl border-l-3 text-xs font-semibold flex items-center justify-between transition-all duration-200 ${active ? 'bg-cozy-lavender/15 border-cozy-lavender text-cozy-dark font-extrabold' : 'border-transparent text-cozy-dark/70 hover:bg-cozy-lavender/5 hover:text-cozy-dark'}">
+                        <span class="truncate pr-2">${slide.title}</span>
+                        <span class="text-[8px] font-bold text-cozy-lavender/50 uppercase whitespace-nowrap">${slide.chapter}</span>
+                    </button>
+                `;
+            });
+        }
+
+        // ============================================================
+        // 3. UPDATE SLIDE
+        // ============================================================
+        function updateSlide() {
+            const container = document.getElementById('slide-content-stage');
+            const badge = document.getElementById('slide-chapter-badge');
+            const time = document.getElementById('slide-read-time');
+            const curr = document.getElementById('current-slide-num');
+            const total = document.getElementById('total-slides-num');
+
+            container.classList.remove('slide-active');
+            container.classList.add('slide-enter');
+
+            setTimeout(() => {
+                const slide = slides[currentSlide];
+                container.innerHTML = slide.content;
+                badge.textContent = slide.chapter;
+                time.innerHTML = `<i class="fa-regular fa-clock"></i> ${slide.time}`;
+                curr.textContent = currentSlide + 1;
+                total.textContent = slides.length;
+                container.classList.remove('slide-enter');
+                container.classList.add('slide-active');
+                renderMenu();
+            }, 120);
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) { currentSlide++; updateSlide(); }
+            else showToast("🎓 Selesai! Kini Anda siap menggunakan Audit Engine di bawah.");
+        }
+        function prevSlide() {
+            if (currentSlide > 0) { currentSlide--; updateSlide(); }
+        }
+        function goToSlide(idx) {
+            currentSlide = idx;
+            updateSlide();
+            if (!document.getElementById('sidebar').classList.contains('-translate-x-full')) toggleSidebar();
+        }
+
+        // Keyboard
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            else if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        // ============================================================
+        // 4. SIDEBAR TOGGLE
+        // ============================================================
+        function toggleSidebar() {
+            const s = document.getElementById('sidebar');
+            const b = document.getElementById('sidebar-backdrop');
+            s.classList.toggle('-translate-x-full');
+            b.classList.toggle('hidden');
+        }
+
+        function scrollToAudit() {
+            document.getElementById('audit-engine-section').scrollIntoView({ behavior: 'smooth' });
+            if (window.innerWidth < 1024) toggleSidebar();
+        }
+
+        function showToast(msg) {
+            const t = document.createElement('div');
+            t.className = "fixed bottom-5 left-1/2 -translate-x-1/2 bg-cozy-dark text-white text-xs font-semibold px-5 py-3 rounded-2xl shadow-2xl z-50 transition-all transform translate-y-10 opacity-0 max-w-sm flex items-center gap-3 border border-cozy-coral/25";
+            t.innerHTML = `<i class="fa-solid fa-graduation-cap text-cozy-coral"></i> <span>${msg}</span>`;
+            document.body.appendChild(t);
+            setTimeout(() => t.classList.remove('translate-y-10', 'opacity-0'), 50);
+            setTimeout(() => { t.classList.add('translate-y-10', 'opacity-0'); setTimeout(() => t.remove(), 400); }, 4000);
+        }
+
+        // ============================================================
+        // 5. RANGE LABEL HELPER
+        // ============================================================
+        function updateRangeLabel(labelId, value) {
+            document.getElementById(labelId).textContent = value;
+        }
+
+        // ============================================================
+        // 6. DETAILED AUDIT ENGINE
+        // ============================================================
+        function runDetailedAudit() {
+            // Ambil semua nilai slider
+            const sigValues = [1,2,3,4].map(i => parseInt(document.getElementById(`sig-${i}`).value));
+            const domValues = [1,2,3,4].map(i => parseInt(document.getElementById(`dom-${i}`).value));
+            const legValues = [1,2,3,4].map(i => parseInt(document.getElementById(`leg-${i}`).value));
+
+            const sigAvg = sigValues.reduce((a,b) => a+b, 0) / sigValues.length;
+            const domAvg = domValues.reduce((a,b) => a+b, 0) / domValues.length;
+            const legAvg = legValues.reduce((a,b) => a+b, 0) / legValues.length;
+            const overallAvg = (sigAvg + domAvg + legAvg) / 3;
+
+            const systemName = document.getElementById('systemName').value.trim() || "Sistem Tanpa Nama";
+
+            const resultsArea = document.getElementById('resultsArea');
+            const diagnosisContent = document.getElementById('diagnosisContent');
+            const targetSystem = document.getElementById('targetSystem');
+            const statusBadge = document.getElementById('statusBadge');
+
+            targetSystem.textContent = `📌 Target: ${systemName}`;
+
+            // Tentukan status
+            const isHealthy = sigAvg >= 3.5 && domAvg >= 3.5 && legAvg >= 3.5;
+            if (isHealthy) {
+                statusBadge.textContent = "✅ Sistem Sehat";
+                statusBadge.className = "text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-wider bg-emerald-100 text-emerald-700 border border-emerald-200";
+            } else {
+                statusBadge.textContent = "⚠️ Perlu Intervensi";
+                statusBadge.className = "text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-wider bg-amber-100 text-amber-700 border border-amber-200";
+            }
+
+            // Bangun HTML laporan
+            let html = `
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="p-4 rounded-xl bg-cozy-lavender/10 border border-cozy-lavender/20 text-center">
+                        <span class="text-[10px] font-bold uppercase text-cozy-lavender">Signifikasi</span>
+                        <p class="text-2xl font-black text-cozy-dark">${sigAvg.toFixed(1)}</p>
+                        <span class="text-[10px] text-cozy-dark/50">rata-rata 4 indikator</span>
+                    </div>
+                    <div class="p-4 rounded-xl bg-cozy-indigo/10 border border-cozy-indigo/20 text-center">
+                        <span class="text-[10px] font-bold uppercase text-cozy-indigo">Dominasi</span>
+                        <p class="text-2xl font-black text-cozy-dark">${domAvg.toFixed(1)}</p>
+                        <span class="text-[10px] text-cozy-dark/50">rata-rata 4 indikator</span>
+                    </div>
+                    <div class="p-4 rounded-xl bg-cozy-coral/10 border border-cozy-coral/20 text-center">
+                        <span class="text-[10px] font-bold uppercase text-cozy-coral">Legitimasi</span>
+                        <p class="text-2xl font-black text-cozy-dark">${legAvg.toFixed(1)}</p>
+                        <span class="text-[10px] text-cozy-dark/50">rata-rata 4 indikator</span>
+                    </div>
+                </div>
+                <div class="p-4 rounded-xl bg-cozy-dark/5 border border-cozy-border text-center mb-6">
+                    <span class="text-[10px] font-bold uppercase text-cozy-dark/50">Skor Kesehatan Sistem</span>
+                    <p class="text-3xl font-black text-cozy-dark">${overallAvg.toFixed(1)}</p>
+                    <span class="text-[10px] text-cozy-dark/40">dari skala 1–5</span>
+                </div>
+            `;
+
+            // Tampilkan rekomendasi jika ada dimensi di bawah 3.5
+            const dims = [
+                { name: 'Signifikasi', avg: sigAvg, color: 'cozy-lavender', def: {
+                    structure: 'Sistem simbolik, bahasa, dan kode budaya',
+                    modality: 'Skema Interpretatif',
+                    interaction: 'Komunikasi'
+                }},
+                { name: 'Dominasi', avg: domAvg, color: 'cozy-indigo', def: {
+                    structure: 'Sumber daya alokatif & otoritatif',
+                    modality: 'Fasilitas',
+                    interaction: 'Kekuasaan'
+                }},
+                { name: 'Legitimasi', avg: legAvg, color: 'cozy-coral', def: {
+                    structure: 'Tatanan normatif, aturan, nilai moral',
+                    modality: 'Norma',
+                    interaction: 'Sanksi'
+                }}
+            ];
+
+            let adviceHtml = '';
+            dims.forEach(d => {
+                if (d.avg < 3.5) {
+                    const c = d.color;
+                    adviceHtml += `
+                        <div class="p-5 rounded-2xl border-2 border-${c}/30 bg-${c}/5">
+                            <h4 class="font-display font-bold text-base text-${c} mb-2">⚠️ Dimensi ${d.name} Lemah (${d.avg.toFixed(1)})</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                                <div class="bg-white/80 p-2 rounded-lg border border-cozy-border/50">
+                                    <span class="block font-bold text-cozy-dark/60">Struktur</span>
+                                    <span class="text-cozy-dark/70">${d.def.structure}</span>
+                                </div>
+                                <div class="bg-white/80 p-2 rounded-lg border border-cozy-border/50">
+                                    <span class="block font-bold text-cozy-dark/60">Modalitas</span>
+                                    <span class="text-cozy-dark/70">${d.def.modality}</span>
+                                </div>
+                                <div class="bg-white/80 p-2 rounded-lg border border-cozy-border/50">
+                                    <span class="block font-bold text-cozy-dark/60">Interaksi</span>
+                                    <span class="text-cozy-dark/70">${d.def.interaction}</span>
+                                </div>
+                            </div>
+                            <div class="mt-3 text-xs text-cozy-dark/70 space-y-1">
+                                <p><strong>💡 Rekomendasi:</strong></p>
+                                <ul class="list-disc pl-5 space-y-0.5">
+                                    <li><strong>Sosiologis:</strong> Perbaiki reproduksi sirkuit ${d.name.toLowerCase()} dengan memperkuat modalitas ${d.def.modality}.</li>
+                                    <li><strong>Behavioral:</strong> Kurangi hambatan kognitif agen dalam mengakses ${d.def.modality}.</li>
+                                    <li><strong>Manajemen:</strong> Intervensi langsung pada ${d.def.interaction} untuk memperbaiki alur praktik sosial.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            if (adviceHtml) {
+                html += `<div class="space-y-4"><p class="text-xs font-bold uppercase tracking-wider text-cozy-dark/50">📋 Rekomendasi Intervensi</p>${adviceHtml}</div>`;
+            } else {
+                html += `
+                    <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm text-center">
+                        🎉 Semua dimensi dalam kondisi baik. Pertahankan kualitas sistem melalui monitoring berkala.
+                    </div>
+                `;
+            }
+
+            diagnosisContent.innerHTML = html;
+            resultsArea.classList.remove('hidden');
+            setTimeout(() => resultsArea.scrollIntoView({ behavior: 'smooth', block: 'start' }), 200);
+        }
+
+        function resetAudit() {
+            document.getElementById('resultsArea').classList.add('hidden');
+            document.getElementById('systemName').value = '';
+            // Reset semua slider ke 3
+            for (let i = 1; i <= 4; i++) {
+                ['sig', 'dom', 'leg'].forEach(prefix => {
+                    const el = document.getElementById(`${prefix}-${i}`);
+                    if (el) el.value = 3;
+                    const label = document.getElementById(`${prefix}-${i}-label`);
+                    if (label) label.textContent = '3';
+                });
+            }
+            document.getElementById('systemName').focus();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Enter key support
+        document.getElementById('systemName').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') runDetailedAudit();
+        });
+
+        // ============================================================
+        // 7. INIT
+        // ============================================================
+        window.onload = function() {
+            updateSlide();
+            document.getElementById('resultsArea').classList.add('hidden');
+            // Inisialisasi label slider
+            for (let i = 1; i <= 4; i++) {
+                ['sig', 'dom', 'leg'].forEach(prefix => {
+                    const el = document.getElementById(`${prefix}-${i}`);
+                    if (el) {
+                        const label = document.getElementById(`${prefix}-${i}-label`);
+                        if (label) label.textContent = el.value;
+                    }
+                });
+            }
+        };
+    </script>
+
+</body>
+</html>

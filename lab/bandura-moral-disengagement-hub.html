@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moral Disengagement Training Hub - Bandura Framework</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        cozy: {
+                            bg: '#FAF6F0',       /* Cozy Warm Cream */
+                            dark: '#1D1A39',     /* Deep Charcoal Navy */
+                            lavender: '#8D7BFF', /* Muted Royal Lavender */
+                            coral: '#E76F51',    /* Warm Terracotta/Coral */
+                            sage: '#8FA882',     /* Sage Green */
+                            clay: '#D4ADFC',     /* Light Lavender Clay */
+                            card: '#FFFFFF',
+                            border: '#EADBC8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF6F0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #8D7BFF/30;
+            border-radius: 10px;
+        }
+        .slide-enter {
+            opacity: 0;
+            transform: scale(0.98) translateY(8px);
+        }
+        .slide-active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+    </style>
+</head>
+<body class="bg-cozy-bg text-cozy-dark font-sans min-h-screen flex flex-col selection:bg-cozy-lavender selection:text-white">
+
+    <!-- NAVIGATION HEADER -->
+    <header class="bg-white/90 backdrop-blur-md border-b border-cozy-border sticky top-0 z-40 px-6 py-4 flex justify-between items-center transition-all">
+        <div class="flex items-center gap-3">
+            <div class="bg-gradient-to-tr from-cozy-lavender to-cozy-coral text-white w-10 h-10 rounded-xl flex items-center justify-center font-display font-extrabold shadow-md shadow-cozy-lavender/25">
+                B
+            </div>
+            <div>
+                <h1 class="font-display font-bold text-base md:text-lg leading-none text-cozy-dark">Academic Moral Disengagement Hub</h1>
+                <p class="text-xs text-cozy-lavender font-medium">Albert Bandura's Framework &bull; Psychosophia Lab 2026</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-3">
+            <div class="hidden md:flex items-center gap-2 bg-cozy-lavender/10 px-3.5 py-1.5 rounded-full border border-cozy-lavender/20 text-xs font-bold text-cozy-lavender">
+                <span class="w-2 h-2 rounded-full bg-cozy-coral animate-pulse"></span>
+                Integritas Akademik & Era AI
+            </div>
+            <button onclick="toggleSidebar()" class="lg:hidden text-cozy-dark hover:bg-cozy-lavender/10 p-2 rounded-xl transition">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- WRAPPER -->
+    <div class="flex-grow flex flex-col lg:flex-row max-w-[1600px] w-full mx-auto relative">
+        
+        <!-- SIDEBAR (STUDY ROUTE NAVIGATOR) -->
+        <aside id="sidebar" class="fixed lg:sticky top-[73px] left-0 bottom-0 w-[310px] bg-white border-r border-cozy-border p-6 flex flex-col justify-between overflow-y-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-30 lg:z-10 h-[calc(100vh-73px)]">
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-xs font-extrabold uppercase tracking-wider text-cozy-lavender mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-graduation-cap"></i> Kurikulum Training
+                    </h3>
+                    <div class="space-y-1" id="slide-menu-list">
+                        <!-- Dynamically populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-cozy-bg to-cozy-border p-5 rounded-2xl relative overflow-hidden">
+                    <div class="absolute -right-6 -bottom-6 text-cozy-lavender/10 text-7xl"><i class="fa-solid fa-toggle-on"></i></div>
+                    <h4 class="font-display font-bold text-sm text-cozy-dark mb-1">Uji "Saklar" Moral</h4>
+                    <p class="text-[11px] text-cozy-dark/70 mb-4 leading-relaxed">Simulasikan bagaimana mahasiswa melumpuhkan rasa bersalah batinnya untuk mematikan rem moral.</p>
+                    <button onclick="scrollToSimulation()" class="w-full bg-cozy-lavender text-white text-xs font-bold py-2.5 px-3 rounded-xl hover:bg-cozy-dark transition shadow-md shadow-cozy-lavender/20">
+                        Buka Sandbox Simulator <i class="fa-solid fa-arrow-down ml-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-cozy-border text-center">
+                <p class="text-[10px] text-cozy-dark/50 font-medium">Psychosophia Academic Integrity Series &bull; 2026</p>
+            </div>
+        </aside>
+
+        <!-- BACKDROP FOR MOBILE SIDEBAR -->
+        <div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-cozy-dark/40 backdrop-blur-sm z-20 hidden lg:hidden"></div>
+
+        <!-- MAIN PRESENTATION STAGE -->
+        <main class="flex-grow p-4 sm:p-6 md:p-8 lg:p-12 flex flex-col justify-between min-h-[calc(100vh-73px)] max-w-full overflow-x-hidden space-y-12">
+            
+            <!-- STAGE CARD -->
+            <div class="bg-white rounded-3xl border border-cozy-border p-6 sm:p-8 md:p-10 shadow-xl shadow-cozy-lavender/5 min-h-[580px] flex flex-col justify-between relative overflow-hidden transition-all duration-300">
+                
+                <!-- Background ambient decorative shapes -->
+                <div class="absolute -top-32 -left-32 w-80 h-80 rounded-full bg-cozy-clay/10 blur-[60px] pointer-events-none"></div>
+                <div class="absolute -bottom-32 -right-32 w-80 h-80 rounded-full bg-cozy-coral/10 blur-[60px] pointer-events-none"></div>
+
+                <!-- Slide Metadata -->
+                <div class="flex justify-between items-center border-b border-cozy-border pb-4 mb-6 relative z-10">
+                    <div class="flex items-center gap-2">
+                        <span id="slide-chapter-badge" class="bg-cozy-lavender/10 text-cozy-lavender text-xs font-bold px-3 py-1 rounded-xl uppercase tracking-wider">
+                            Bab 1
+                        </span>
+                        <span class="text-cozy-lavender/30">•</span>
+                        <span id="slide-read-time" class="text-xs text-cozy-dark/50 font-medium flex items-center gap-1">
+                            <i class="fa-regular fa-clock"></i> 2 mnt baca
+                        </span>
+                    </div>
+                    <div class="text-xs font-semibold text-cozy-dark/60 bg-cozy-bg px-3 py-1.5 rounded-xl">
+                        Slide <span id="current-slide-num" class="text-cozy-dark font-extrabold">1</span> dari <span id="total-slides-num" class="font-extrabold">10</span>
+                    </div>
+                </div>
+
+                <!-- DYNAMIC SLIDE CONTENT CONTAINER -->
+                <div id="slide-content-stage" class="flex-grow flex flex-col justify-center py-2 relative z-10">
+                    <!-- Dynamic Slide Content Injected by JS -->
+                </div>
+
+                <!-- ACTION FOOTER -->
+                <div class="flex flex-col sm:flex-row justify-between items-center border-t border-cozy-border pt-6 mt-8 gap-4 relative z-10">
+                    <button onclick="prevSlide()" class="w-full sm:w-auto group flex items-center justify-center gap-2 text-cozy-lavender hover:text-cozy-dark font-bold text-sm bg-cozy-bg hover:bg-cozy-lavender/15 px-5 py-3 rounded-2xl transition-all duration-300 active:scale-95">
+                        <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Kembali
+                    </button>
+
+                    <!-- Navigation Hint -->
+                    <span class="hidden md:inline-flex items-center gap-1.5 text-[10px] text-cozy-dark/50 font-semibold bg-cozy-lavender/5 px-3 py-1.5 rounded-lg border border-cozy-border">
+                        <kbd class="border border-cozy-border px-1 rounded bg-white font-mono shadow-sm">←</kbd> dan <kbd class="border border-cozy-border px-1 rounded bg-white font-mono shadow-sm">→</kbd> untuk Navigasi Cepat
+                    </span>
+
+                    <button onclick="nextSlide()" class="w-full sm:w-auto group flex items-center justify-center gap-2 bg-cozy-lavender hover:bg-cozy-dark text-white font-bold text-sm px-6 py-3 rounded-2xl transition-all duration-300 active:scale-95 shadow-md shadow-cozy-lavender/20">
+                        Lanjut <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- SECTION 2: INTERACTIVE SIMULATOR (THE "MORAL SWITCH") -->
+            <section id="moral-switch-sandbox" class="pt-12 border-t-2 border-dashed border-cozy-border space-y-12">
+                <div class="text-center max-w-3xl mx-auto mb-10">
+                    <span class="bg-cozy-coral/10 text-cozy-coral text-xs font-extrabold px-4 py-1.5 rounded-full uppercase tracking-widest border border-cozy-coral/15">
+                        Interactive Sandbox Simulator
+                    </span>
+                    <h2 class="font-display font-extrabold text-3xl md:text-4xl text-cozy-dark mt-4">The "Moral Switch" Simulator</h2>
+                    <p class="text-sm text-cozy-dark/70 mt-2">Albert Bandura menyatakan bahwa manusia tidak merusak integritas secara membabi-buta. Mereka menonaktifkan "saklar moral" batinnya secara selektif. Simulasikan cara mahasiswa "ngeles" secara moral di bawah ini!</p>
+                </div>
+
+                <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
+                    
+                    <!-- Left: Control & Excuses Panel (7 Columns) -->
+                    <div class="bg-white border border-cozy-border rounded-3xl p-6 md:p-8 shadow-xl xl:col-span-7 space-y-6">
+                        <div>
+                            <span class="text-xs font-bold text-cozy-lavender uppercase tracking-widest"><i class="fa-solid fa-sliders"></i> Panel Kendali Justifikasi</span>
+                            <h3 class="font-display font-extrabold text-xl text-cozy-dark mt-1">Goyahkan Saklar Moral</h3>
+                        </div>
+
+                        <!-- Scenario Selector -->
+                        <div class="bg-cozy-bg border border-cozy-border p-4 rounded-2xl">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-cozy-dark/80 mb-2">1. Pilih Skenario Kecurangan Akademik:</label>
+                            <select id="sim-scenario" onchange="updateScenario()" class="w-full bg-white border border-cozy-border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-cozy-lavender font-bold text-cozy-dark">
+                                <option value="joki">Skenario A: Menyewa Jasa Joki Skripsi (Proxy Agency)</option>
+                                <option value="ai">Skenario B: Copy-Paste Full dari ChatGPT (Desensitisasi Digital)</option>
+                                <option value="contek">Skenario C: Mencontek Berjamaah via Grup WA (Diffusion of Responsibility)</option>
+                            </select>
+                        </div>
+
+                        <!-- Excuses Checklist (8 Bandura Mechanisms) -->
+                        <div class="space-y-3">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-cozy-lavender"><i class="fa-solid fa-list-check"></i> 2. Aktifkan Mekanisme Pelepasan Moral (Pilih Justifikasi):</label>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="excuses-container">
+                                <!-- Dynamic checklists injected here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Live Feedback & 4 Loci Node Mapper (5 Columns) -->
+                    <div class="bg-cozy-dark text-white rounded-3xl p-6 md:p-8 shadow-xl xl:col-span-5 h-full flex flex-col justify-between relative overflow-hidden">
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-lg bg-cozy-coral text-white flex items-center justify-center font-bold text-sm">
+                                    <i class="fa-solid fa-heart-crack"></i>
+                                </div>
+                                <h4 class="font-display font-bold text-xs tracking-wider text-cozy-border uppercase">Live Moral Dashboard</h4>
+                            </div>
+
+                            <!-- Live Moral Gauge -->
+                            <div class="bg-gray-800/40 border border-gray-700 p-5 rounded-2xl text-center space-y-3">
+                                <span class="text-[10px] font-black uppercase text-gray-400 tracking-widest">Kekuatan Saklar Rem Moral</span>
+                                <div class="relative flex items-center justify-center">
+                                    <!-- Dynamic Big Gauge Percentage -->
+                                    <span id="moral-gauge-pct" class="text-5xl font-black text-emerald-400 tracking-tight transition-all duration-300">100%</span>
+                                    <span class="text-xs text-gray-500 ml-1">Active</span>
+                                </div>
+                                <!-- Progress Bar -->
+                                <div class="w-full bg-gray-700 rounded-full h-3 overflow-hidden">
+                                    <div id="moral-gauge-bar" class="bg-emerald-400 h-full transition-all duration-500" style="width: 100%"></div>
+                                </div>
+                                <p id="moral-status-text" class="text-xs font-bold text-emerald-400">Moral Batin Sangat Aktif (Rasa Bersalah Tinggi)</p>
+                            </div>
+
+                            <!-- The 4 Loci Node Visualization -->
+                            <div class="space-y-3">
+                                <h4 class="text-xs font-bold uppercase tracking-wider text-cozy-border text-center"><i class="fa-solid fa-network-wired"></i> Ranah Locus yang Terputus</h4>
+                                <div class="grid grid-cols-4 gap-2 text-center text-[9px] font-bold">
+                                    <div id="locus-behavioral" class="bg-gray-800 border border-gray-700 p-2.5 rounded-xl transition-all duration-300">
+                                        <i class="fa-solid fa-gears text-sm block mb-1"></i> Behavioral Locus
+                                    </div>
+                                    <div id="locus-agency" class="bg-gray-800 border border-gray-700 p-2.5 rounded-xl transition-all duration-300">
+                                        <i class="fa-solid fa-user-slash text-sm block mb-1"></i> Agency Locus
+                                    </div>
+                                    <div id="locus-outcome" class="bg-gray-800 border border-gray-700 p-2.5 rounded-xl transition-all duration-300">
+                                        <i class="fa-solid fa-circle-nodes text-sm block mb-1"></i> Outcome Locus
+                                    </div>
+                                    <div id="locus-recipient" class="bg-gray-800 border border-gray-700 p-2.5 rounded-xl transition-all duration-300">
+                                        <i class="fa-solid fa-user-large-slash text-sm block mb-1"></i> Recipient Locus
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Live Exoneration Quote -->
+                            <div class="bg-gray-800/60 p-4 rounded-xl border border-gray-700">
+                                <span class="text-[9px] font-bold text-cozy-coral uppercase tracking-wider">Isi Kepala Mahasiswa:</span>
+                                <p id="live-exoneration-quote" class="text-xs italic text-gray-300 mt-1 leading-relaxed">
+                                    "Saya merasa bersalah jika harus mencurangi tugas ini..."
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-gray-800 pt-4 mt-6 text-center">
+                            <span class="text-[9px] text-gray-500 font-bold uppercase tracking-widest">Self-Exoneration Matrix Simulator v1.0</span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- SCRIPT INJECTOR (SLIDES DATA, LIVE CONTROLLER & SIMULATOR) -->
+    <script>
+        // 1. DATA MASTER SLIDES
+        const slides = [
+            {
+                chapter: "Bab 1",
+                title: "Academic Moral Agency: Integritas di Era AI & Joki 🤖",
+                time: "2 mnt baca",
+                content: `
+                    <div class="space-y-6 max-w-4xl">
+                        <div class="inline-flex items-center gap-2 bg-cozy-lavender/10 text-cozy-lavender px-3 py-1 rounded-full text-xs font-bold border border-cozy-lavender/25">
+                            Bab 1: Moral Agency dalam Integritas Akademik
+                        </div>
+                        <h2 class="font-display font-extrabold text-3xl md:text-5xl text-cozy-dark leading-tight">
+                            Moral Agency Bukan Sekadar Menghafal Aturan Kampus
+                        </h2>
+                        <p class="text-base md:text-lg text-cozy-dark/80 leading-relaxed">
+                            Albert Bandura menekankan bahwa moralitas bukanlah hal pasif. <strong class="text-cozy-lavender">Moral Agency</strong> adalah kapasitas aktif mahasiswa untuk mengatur, memantau, dan menahan perilakunya agar selaras dengan integritas ilmiah, sekalipun dihadapkan pada godaan canggih era AI.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+                            <div class="bg-cozy-bg p-5 rounded-2xl border border-cozy-border">
+                                <h4 class="font-bold text-sm text-cozy-dark">1. Proactive Morality</h4>
+                                <p class="text-xs text-cozy-dark/70 mt-1">Kemauan aktif menulis secara jujur karena dipandu oleh kepuasan nilai moral pribadi.</p>
+                            </div>
+                            <div class="bg-cozy-bg p-5 rounded-2xl border border-cozy-border">
+                                <h4 class="font-bold text-sm text-cozy-dark">2. Inhibitive Morality</h4>
+                                <p class="text-xs text-cozy-dark/70 mt-1">Kemampuan menolak godaan joki atau pintasan salin-tempel AI saat dikejar tenggat waktu.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 1",
+                title: "Triadic Reciprocal Causation & Regulasi Mandiri 📐",
+                time: "2 mnt baca",
+                content: `
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <h3 class="font-display font-bold text-2xl text-cozy-lavender">Tiga Faktor Penentu Perilaku</h3>
+                            <p class="text-sm text-cozy-dark/80">
+                                Integritas mahasiswa ditentukan oleh interaksi bolak-balik antara tiga poros utama (Bandura's Triadic Reciprocal Causation):
+                            </p>
+                            <div class="space-y-2 text-xs">
+                                <div class="border-l-4 border-cozy-lavender pl-3">
+                                    <strong>Faktor Personal:</strong> Rendahnya rasa percaya diri dalam kemampuan riset/menulis mahasiswa.
+                                </div>
+                                <div class="border-l-4 border-cozy-coral pl-3">
+                                    <strong>Faktor Lingkungan:</strong> Iklan jasa joki yang berseliweran di medsos & absennya deteksi AI oleh dosen.
+                                </div>
+                                <div class="border-l-4 border-cozy-sage pl-3">
+                                    <strong>Faktor Perilaku:</strong> Keputusan sadar mahasiswa untuk mendelegasikan tugas ke joki (Proxy Agency).
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-cozy-bg p-6 rounded-3xl border border-cozy-border flex flex-col justify-center items-center text-center">
+                            <div class="text-3xl mb-3">🛠️</div>
+                            <h4 class="font-display font-bold text-sm text-cozy-dark">Mekanisme Self-Regulation</h4>
+                            <p class="text-xs text-cozy-dark/70 mt-2 leading-relaxed">
+                                Mahasiswa bertindak sebagai "polisi moral" batiniahnya sendiri melalui <strong>Self-Monitoring</strong> (memantau niat curang), <strong>Judgmental Process</strong> (menilai kelayakan), dan <strong>Self-Reaction</strong> (rasa bersalah/bangga).
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 1",
+                title: "Moral Disengagement: Saklar Pemutus Rasa Bersalah 🔌",
+                time: "2 mnt baca",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-sm md:text-base text-cozy-dark/80">Mengapa mahasiswa baik-baik bisa melakukan kecurangan sistemik tanpa dihantui rasa bersalah? Jawabannya ada pada <strong>Moral Disengagement</strong>:</p>
+                        <div class="bg-white border border-cozy-border rounded-2xl p-6 flex flex-col md:flex-row gap-6 items-center">
+                            <div class="text-5xl text-cozy-coral"><i class="fa-solid fa-power-off"></i></div>
+                            <div>
+                                <h3 class="font-display font-bold text-lg text-cozy-dark mb-1">Mematikan Sanksi Diri (Off Switch)</h3>
+                                <p class="text-xs text-cozy-dark/75 leading-relaxed">
+                                    Pelepasan moral adalah proses kognitif di mana mahasiswa "mematikan" rem internal batinnya. Mereka tidak kehilangan kompas moralnya secara permanen, melainkan hanya menonaktifkan sanksi diri (self-sanctions) secara situasional khusus agar bisa curang dengan tenang demi kelulusan.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 2",
+                title: "4 Loci Pelepasan Moral & 8 Taktik Kognitif 🗺️",
+                time: "3 mnt baca",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-sm text-cozy-dark/80">Bandura memetakan pelepasan moral ke dalam 4 titik fokus (Loci) kognitif dengan 8 taktik pembelaan diri:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
+                            <div class="bg-cozy-bg p-4 rounded-xl border border-cozy-border">
+                                <span class="text-[9px] font-bold text-cozy-lavender block mb-1">Locus 1: Behavioral</span>
+                                <h4 class="font-bold text-xs text-cozy-dark mb-2">Perbuatan (Membungkus)</h4>
+                                <ul class="text-[10px] text-cozy-dark/70 space-y-1">
+                                    <li>Moral Justification</li>
+                                    <li>Euphemistic Labeling</li>
+                                    <li>Adv. Comparison</li>
+                                </ul>
+                            </div>
+                            <div class="bg-cozy-bg p-4 rounded-xl border border-cozy-border">
+                                <span class="text-[9px] font-bold text-cozy-coral block mb-1">Locus 2: Agency</span>
+                                <h4 class="font-bold text-xs text-cozy-dark mb-2">Aktor (Mengaburkan)</h4>
+                                <ul class="text-[10px] text-cozy-dark/70 space-y-1">
+                                    <li>Displacement of Resp.</li>
+                                    <li>Diffusion of Resp.</li>
+                                </ul>
+                            </div>
+                            <div class="bg-cozy-bg p-4 rounded-xl border border-cozy-border">
+                                <span class="text-[9px] font-bold text-cozy-sage block mb-1">Locus 3: Outcome</span>
+                                <h4 class="font-bold text-xs text-cozy-dark mb-2">Dampak (Meminimalkan)</h4>
+                                <ul class="text-[10px] text-cozy-dark/70 space-y-1">
+                                    <li>Distortion of Consequences</li>
+                                </ul>
+                            </div>
+                            <div class="bg-cozy-bg p-4 rounded-xl border border-cozy-border">
+                                <span class="text-[9px] font-bold text-purple-600 block mb-1">Locus 4: Recipient</span>
+                                <h4 class="font-bold text-xs text-cozy-dark mb-2">Korban (Menyalahkan)</h4>
+                                <ul class="text-[10px] text-cozy-dark/70 space-y-1">
+                                    <li>Dehumanization</li>
+                                    <li>Attribution of Blame</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 2",
+                title: "Locus Perbuatan (Behavioral Locus): Jurus Pembenaran 🎨",
+                time: "2 mnt baca",
+                content: `
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <h3 class="font-display font-bold text-2xl text-cozy-dark">Memoles Perilaku agar Terlihat Mulia</h3>
+                            <p class="text-sm text-cozy-dark/85">
+                                Di ranah ini, mahasiswa membungkus tindakan curang (menyontek/AI) sedemikian rupa agar tidak terasa jahat secara moral:
+                            </p>
+                            <div class="space-y-2 text-xs">
+                                <div><strong>1. Moral Justification:</strong> "Saya terpaksa pakai joki skripsi demi lulus cepat agar bisa membantu memulihkan ekonomi keluarga." (Menipu demi bakti orang tua).</div>
+                                <div><strong>2. Euphemistic Labeling:</strong> Menggunakan istilah digital bergaya keren: "Bukan mencontek, tapi optimasi kolaborasi digital atau asisten penulisan AI."</div>
+                                <div><strong>3. Advantageous Comparison:</strong> "Saya cuma pakai ChatGPT untuk parafrase, mendingan daripada anak lain yang beli skripsi jadi."</div>
+                            </div>
+                        </div>
+                        <div class="bg-cozy-bg p-6 rounded-3xl border border-cozy-border text-center">
+                            <div class="text-3xl mb-3">🎭</div>
+                            <h4 class="font-bold text-sm text-cozy-dark">Menjaga Status "Orang Baik"</h4>
+                            <p class="text-xs text-cozy-dark/70 mt-2 leading-relaxed">
+                                "Rantai pembenaran ini diciptakan otak agar pelaku tetap bisa mempertahankan citra dirinya sebagai orang yang terhormat di mata cermin nuraninya sendiri."
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 2",
+                title: "Locus Agen (Agency Locus): Mengaburkan Tanggung Jawab 🌫️",
+                time: "2 mnt baca",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-sm text-cozy-dark/85">Di ranah ini, mahasiswa menjauhkan dirinya dari status sebagai pelaku utama kecurangan:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-cozy-bg p-6 rounded-2xl border border-cozy-border">
+                                <div class="w-10 h-10 rounded-xl bg-cozy-coral text-white flex items-center justify-center font-bold mb-3"><i class="fa-solid fa-person-arrow-to-device"></i></div>
+                                <h3 class="font-display font-bold text-lg text-cozy-dark mb-1">Displacement of Responsibility</h3>
+                                <p class="text-xs text-cozy-dark/75 mb-2">Melempar beban moral kepada pihak luar yang dianggap memaksa keadaan.</p>
+                                <span class="italic text-[11px] text-gray-500">"Dosennya kasih tugas terlalu sulit dan tidak manusiawi, wajar kalau saya delegasikan ke joki."</span>
+                            </div>
+                            <div class="bg-cozy-bg p-6 rounded-2xl border border-cozy-border">
+                                <div class="w-10 h-10 rounded-xl bg-cozy-lavender text-white flex items-center justify-center font-bold mb-3"><i class="fa-solid fa-people-group"></i></div>
+                                <h3 class="font-display font-bold text-lg text-cozy-dark mb-1">Diffusion of Responsibility</h3>
+                                <p class="text-xs text-cozy-dark/75 mb-2">Melarutkan rasa bersalah ke dalam tindakan massal satu kelompok.</p>
+                                <span class="italic text-[11px] text-gray-500">"Satu angkatan juga bagi-bagi jawaban tugas di grup WA. Kalau semua orang curang, berarti ini normal."</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 3 & 6",
+                title: "Desensitisasi Industri Digital & Komodifikasi Gelar 💳",
+                time: "3 mnt baca",
+                content: `
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <h2 class="font-display font-extrabold text-2xl md:text-3xl text-cozy-dark leading-tight">Industri Joki & Desensitisasi Digital</h2>
+                            <p class="text-sm text-cozy-dark/80 leading-relaxed">
+                                Paparan tiada henti dari konten-konten media sosial tentang pintasan akademik (seperti joki, bot AI pelolos Turnitin) menimbulkan **desensitisasi moral**. 
+                            </p>
+                            <p class="text-xs text-cozy-dark/70">
+                                <strong class="text-cozy-lavender">Komodifikasi Gelar:</strong> Pendidikan tidak lagi diukur dari proses pencarian kebenaran ilmiah, melainkan dipandang sebagai komoditas atau aset investasi. Ketika gelar dihargai sebatas ROI finansial, kecurangan dibenarkan sebagai langkah manajerial cerdas (*smart resourcing*).
+                            </p>
+                        </div>
+                        <div class="bg-cozy-bg p-6 rounded-3xl border border-cozy-border flex flex-col justify-center items-center text-center">
+                            <div class="text-4xl mb-3">📈</div>
+                            <h4 class="font-display font-bold text-sm text-cozy-dark">Tragedi Inflasi Nilai</h4>
+                            <p class="text-xs text-cozy-dark/60 mt-2 leading-relaxed">
+                                "Sama seperti gelembung ekonomi, inflasi IPK akibat kecurangan massal merusak integritas ekosistem akademik. Ketika semua orang lulus dengan nilai manipulatif, nilai kompetensi riil lulusan merosot tajam."
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 4 & 5",
+                title: "Disclaimer Vendor Joki & Penghalang Regulasi 📄",
+                time: "2 mnt baca",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-sm text-cozy-dark/85">Bagaimana industri penyedia kecurangan akademik melindungi dirinya dari tuntutan moral? Analogi industri senjata Bandura (Bab 4):</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-cozy-bg p-6 rounded-2xl border border-cozy-border">
+                                <div class="text-2xl mb-2">🛡️</div>
+                                <h3 class="font-display font-bold text-sm text-cozy-dark mb-1">Strategi "Self-Exoneration" Vendor</h3>
+                                <p class="text-xs text-cozy-dark/70 leading-relaxed">
+                                    Penyedia joki skripsi mencantumkan klaim *Disclaimer*: "Kami hanya menyediakan contoh tulisan untuk referensi riset saja." Ini adalah bentuk pelepasan tanggung jawab murni untuk melimpahkan seluruh dosa kepada pengguna.
+                                </p>
+                            </div>
+                            <div class="bg-cozy-bg p-6 rounded-2xl border border-cozy-border">
+                                <div class="text-2xl mb-2">💸</div>
+                                <h3 class="font-display font-bold text-sm text-cozy-dark mb-1">Financial Entrenchment & Lobi</h3>
+                                <p class="text-xs text-cozy-dark/70 leading-relaxed">
+                                    Ketika industri kecurangan mendatangkan perputaran uang miliaran, pertimbangan integritas luluh lantak. Kampus yang mendiamkan joki demi mempertahankan persentase kelulusan juga mengalami pelepasan moral institusional.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 7 & 8",
+                title: "Perang Algoritma: Dilema Algojo vs Pelanggar ⚔️",
+                time: "3 mnt baca",
+                content: `
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <h2 class="font-display font-extrabold text-2xl text-cozy-dark">Eskalasi Perang Integritas Digital</h2>
+                            <p class="text-sm text-cozy-dark/80 leading-relaxed">
+                                Penegakan integritas saat ini terjebak dalam model perang dingin. Kampus menggunakan detektor AI canggih (Counter-measure) untuk mendeteksi kecurangan mahasiswa, yang kemudian dibalas oleh mahasiswa dengan mencari alat AI bypasser yang lebih lihai.
+                            </p>
+                            <p class="text-xs text-cozy-dark/70 leading-relaxed">
+                                <strong class="text-cozy-coral">Proxy Agency in Action:</strong> Dosen tidak lagi berdiskusi secara manusiawi dengan mahasiswa, melainkan menuduh melalui hasil persentase Turnitin. Mahasiswa mendelegasikan pertahanan moralnya ke program AI bypasser. Pertempuran moral kini bergeser dari manusia menjadi bentrokan antar-mesin (algoritma).
+                            </p>
+                        </div>
+                        <div class="bg-cozy-bg p-6 rounded-3xl border border-cozy-border text-xs space-y-3">
+                            <h4 class="font-bold text-sm text-cozy-dark mb-1"><i class="fa-solid fa-scale-unbalanced text-cozy-coral"></i> Dampak Eksklusi Algojo (Bab 7):</h4>
+                            <div class="flex gap-2">
+                                <span class="text-cozy-coral font-bold">1.</span>
+                                <span><strong>Administrative Labeling:</strong> Pemecatan atau DO mahasiswa dibungkus sebagai "tindakan administratif rutin" untuk menghilangkan rasa kasihan algojo penegak hukum.</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-cozy-coral font-bold">2.</span>
+                                <span><strong>Siklus Kebencian:</strong> Hukuman kaku tanpa restorasi moral membuat pelanggar merasa dijadikan kambing hitam, memicu dendam kognitif kepada sistem.</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Summary",
+                title: "Restorasi Ekosistem & Peta Aksi Akademik 🌱",
+                time: "2 mnt baca",
+                content: `
+                    <div class="space-y-6">
+                        <h2 class="font-display font-extrabold text-2xl md:text-3xl text-cozy-dark text-center">Restorasi Ekosistem Karakter</h2>
+                        <div class="bg-cozy-bg border border-cozy-border rounded-3xl p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-4">
+                                <h4 class="font-display font-bold text-base text-cozy-lavender flex items-center gap-2">
+                                    <i class="fa-solid fa-tree"></i> 3 Pilar Restorasi Ekosistem:
+                                </h4>
+                                <ul class="space-y-3 text-xs leading-relaxed text-cozy-dark/80">
+                                    <li><i class="fa-solid fa-circle-check text-cozy-sage mr-2"></i> <strong>Hentikan Perang Proxy:</strong> Kembalikan komunikasi pedagogik berbasis kepercayaan (*human trust*) antara dosen dan mahasiswa.</li>
+                                    <li><i class="fa-solid fa-circle-check text-cozy-sage mr-2"></i> <strong>Pancing Moral Agency:</strong> Desain jenis tugas yang otentik, kontekstual, dan reflektif agar mahasiswa sulit melepaskan rem kognitif moralnya ke joki.</li>
+                                    <li><i class="fa-solid fa-circle-check text-cozy-sage mr-2"></i> <strong>Putuskan Sinyal Justifikasi:</strong> Gunakan simulator di bawah ini untuk menganalisis dan membongkar taktik kognitif kecurangan mahasiswa secara real-time.</li>
+                                </ul>
+                            </div>
+                            <div class="space-y-4 flex flex-col justify-center bg-white p-5 rounded-2xl border border-cozy-border">
+                                <h4 class="font-display font-bold text-sm text-cozy-dark mb-1">Trainee Activity:</h4>
+                                <p class="text-xs text-cozy-dark/60 leading-relaxed mb-4">Waktunya melatih nalar diagnostik Anda. Gunakan simulator interaktif di bawah untuk melihat bagaimana pergeseran 'rem moral' terjadi!</p>
+                                <button onclick="scrollToSimulation()" class="bg-cozy-lavender hover:bg-cozy-dark text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-all duration-300 text-center shadow-md shadow-cozy-lavender/15">
+                                    Akses Sandbox Simulator <i class="fa-solid fa-toggle-on ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        let currentSlide = 0;
+
+        // 2. RENDERING THE MENU SIDEBAR
+        function renderMenu() {
+            const menuContainer = document.getElementById('slide-menu-list');
+            menuContainer.innerHTML = '';
+            
+            slides.forEach((slide, idx) => {
+                const isActive = idx === currentSlide;
+                const activeClasses = isActive 
+                    ? 'bg-cozy-lavender/15 border-cozy-lavender text-cozy-dark font-extrabold' 
+                    : 'border-transparent text-cozy-dark/70 hover:bg-cozy-lavender/5 hover:text-cozy-dark';
+                
+                menuContainer.innerHTML += `
+                    <button onclick="goToSlide(${idx})" class="w-full text-left px-3 py-2.5 rounded-xl border-l-4 text-xs font-semibold flex items-center justify-between transition ${activeClasses}">
+                        <span class="truncate pr-2">${slide.title}</span>
+                        <span class="text-[9px] font-bold text-cozy-lavender/40 uppercase whitespace-nowrap">${slide.chapter}</span>
+                    </button>
+                `;
+            });
+        }
+
+        // 3. SLIDE RUNNER CONTROLLER
+        function updateSlide() {
+            const container = document.getElementById('slide-content-stage');
+            const chapterBadge = document.getElementById('slide-chapter-badge');
+            const readTime = document.getElementById('slide-read-time');
+            const currentNum = document.getElementById('current-slide-num');
+            const totalNum = document.getElementById('total-slides-num');
+            
+            container.classList.remove('slide-active');
+            container.classList.add('slide-enter');
+            
+            setTimeout(() => {
+                const slide = slides[currentSlide];
+                container.innerHTML = slide.content;
+                chapterBadge.textContent = slide.chapter;
+                readTime.innerHTML = `<i class="fa-regular fa-clock"></i> ${slide.time}`;
+                currentNum.textContent = currentSlide + 1;
+                totalNum.textContent = slides.length;
+                
+                container.classList.remove('slide-enter');
+                container.classList.add('slide-active');
+                
+                renderMenu();
+            }, 100);
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlide();
+            } else {
+                showToast("Selamat! Anda telah mempelajari seluruh kurikulum pelatihan pelepasan moral Albert Bandura.");
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        function goToSlide(idx) {
+            currentSlide = idx;
+            updateSlide();
+            if (!document.getElementById('sidebar').classList.contains('-translate-x-full')) {
+                toggleSidebar();
+            }
+        }
+
+        // 4. INTERACTIVE SANDBOX SIMULATOR: MORAL SWITCH GAUGE
+        const scenarios = {
+            joki: {
+                title: "Skenario A: Menyewa Jasa Joki Skripsi",
+                baseline: "Saya merasa bersalah jika menyewa joki karena itu mencurangi kerja keras teman lain...",
+                mechanisms: [
+                    { id: "mj", name: "Moral Justification", locus: "behavioral", excuse: "Saya terpaksa pakai joki demi lulus tepat waktu agar bisa segera bekerja membantu pengobatan ayah.", penalty: 15 },
+                    { id: "el", name: "Euphemistic Labeling", locus: "behavioral", excuse: "Ini bukan penipuan akademik, ini cuma 'layanan bimbingan konsultasi penyusunan tugas akhir'.", penalty: 15 },
+                    { id: "ac", name: "Adv. Comparison", locus: "behavioral", excuse: "Saya kan cuma beli joki bab 3-4, anak lain banyak yang beli skripsi utuh terima beres di wisuda.", penalty: 10 },
+                    { id: "dor", name: "Displacement of Resp.", locus: "agency", excuse: "Dosen pembimbingnya tidak pernah punya waktu membimbing, salah sistem kampus yang berbelit-belit.", penalty: 15 },
+                    { id: "dif", name: "Diffusion of Resp.", locus: "agency", excuse: "Semua orang di grup angkatan juga diam-diam memakai jasa joki ini, ini rahasia umum yang wajar.", penalty: 15 },
+                    { id: "doc", name: "Distortion of Consequences", locus: "outcome", excuse: "Nggak ada korban yang disakiti secara fisik kok, lagipula nilai saya bagus dan orang tua senang.", penalty: 10 },
+                    { id: "dh", name: "Dehumanization", locus: "recipient", excuse: "Dosen penguji itu cuma mesin pengoreksi angka kaku, mereka tidak peduli perjuangan proses kami.", penalty: 10 },
+                    { id: "ab", name: "Attribution of Blame", locus: "recipient", excuse: "Dosennya sendiri yang malas membimbing, wajar kalau saya terpaksa delegasikan tugas ini ke joki.", penalty: 10 }
+                ]
+            },
+            ai: {
+                title: "Skenario B: Copy-Paste Tugas dari ChatGPT",
+                baseline: "Saya merasa curang jika hanya menyalin jawaban bot tanpa membaca konsep aslinya...",
+                mechanisms: [
+                    { id: "mj", name: "Moral Justification", locus: "behavioral", excuse: "Saya butuh efisiensi waktu demi fokus melatih soft-skill di organisasi luar kampus.", penalty: 15 },
+                    { id: "el", name: "Euphemistic Labeling", locus: "behavioral", excuse: "Ini bukan copy-paste ilegal, ini cuma 'asistensi riset berbasis kecerdasan generatif digital'.", penalty: 15 },
+                    { id: "ac", name: "Adv. Comparison", locus: "behavioral", excuse: "Saya cuma pakai AI buat nyusun tugas esai kecil, mendingan daripada anak lain yang pakai joki skripsi.", penalty: 10 },
+                    { id: "dor", name: "Displacement of Resp.", locus: "agency", excuse: "Ini zaman digital, kampusnya saja yang tertinggal karena belum mendesain ujian yang ramah AI.", penalty: 15 },
+                    { id: "dif", name: "Diffusion of Resp.", locus: "agency", excuse: "Seluruh dunia memakai ChatGPT untuk mempercepat kerja, kenapa saya sendiri yang harus membatasi diri?", penalty: 15 },
+                    { id: "doc", name: "Distortion of Consequences", locus: "outcome", excuse: "Toh tulisan saya lolos Turnitin, artinya tidak ada sistem atau orang lain yang dirugikan.", penalty: 10 },
+                    { id: "dh", name: "Dehumanization", locus: "recipient", excuse: "Dosen itu cuma robot pemberi tugas mingguan yang bahkan mungkin tidak membaca esai saya.", penalty: 10 },
+                    { id: "ab", name: "Attribution of Blame", locus: "recipient", excuse: "Dosen kasih tugas esai mingguan yang monoton, wajar kalau saya balas pakai bot AI otomatis.", penalty: 10 }
+                ]
+            },
+            contek: {
+                title: "Skenario C: Mencontek Berjamaah via Grup WA",
+                baseline: "Saya merasa cemas karena menyalin jawaban teman saat ujian akhir...",
+                mechanisms: [
+                    { id: "mj", name: "Moral Justification", locus: "behavioral", excuse: "Kami melakukan ini demi solidaritas angkatan agar tidak ada satu pun teman kami yang tertinggal/tidak lulus.", penalty: 15 },
+                    { id: "el", name: "Euphemistic Labeling", locus: "behavioral", excuse: "Kami tidak berbuat curang, kami cuma sedang 'melakukan diskusi kelompok terdistribusi'.", penalty: 15 },
+                    { id: "ac", name: "Adv. Comparison", locus: "behavioral", excuse: "Kami cuma mencocokkan beberapa nomor pilihan ganda, anak kelas sebelah beneran bawa contekan fisik kertas.", penalty: 10 },
+                    { id: "dor", name: "Displacement of Resp.", locus: "agency", excuse: "Pengawas ujiannya tidak acuh dan main HP terus, artinya sistem secara tidak langsung memperbolehkan ini.", penalty: 15 },
+                    { id: "dif", name: "Diffusion of Resp.", locus: "agency", excuse: "Grup WA ini isinya hampir satu kelas, kalau dihukum ya dihukum bareng-bareng sekalian.", penalty: 15 },
+                    { id: "doc", name: "Distortion of Consequences", locus: "outcome", excuse: "Semua orang senang karena nilainya aman, tidak ada orang yang terluka karena kerja sama kami.", penalty: 10 },
+                    { id: "dh", name: "Dehumanization", locus: "recipient", excuse: "Komite akademik melihat kami hanya sebagai statistik angka akreditasi, bukan manusia nyata.", penalty: 10 },
+                    { id: "ab", name: "Attribution of Blame", locus: "recipient", excuse: "Soal ujiannya sengaja dibuat menjebak dan tidak pernah diajarkan di kelas, wajar jika kami bersekutu.", penalty: 10 }
+                ]
+            }
+        };
+
+        function updateScenario() {
+            const scKey = document.getElementById('sim-scenario').value;
+            const container = document.getElementById('excuses-container');
+            const data = scenarios[scKey];
+
+            container.innerHTML = '';
+            data.mechanisms.forEach((mech, idx) => {
+                container.innerHTML += `
+                    <label class="flex items-start gap-3 bg-cozy-bg hover:bg-cozy-lavender/10 p-3 rounded-2xl border border-cozy-border cursor-pointer transition active:scale-[0.98]">
+                        <input type="checkbox" name="excuse-cb" value="${mech.id}" onchange="calculateMoralSwitch()" class="w-4 h-4 mt-0.5 accent-cozy-lavender">
+                        <div>
+                            <span class="text-[9px] font-black uppercase tracking-wider text-cozy-lavender block">${mech.name}</span>
+                            <p class="text-[11px] text-cozy-dark font-medium mt-0.5">${mech.excuse}</p>
+                        </div>
+                    </label>
+                `;
+            });
+
+            calculateMoralSwitch();
+        }
+
+        function calculateMoralSwitch() {
+            const scKey = document.getElementById('sim-scenario').value;
+            const scenarioData = scenarios[scKey];
+            const checkedBoxes = document.querySelectorAll('input[name="excuse-cb"]:checked');
+            
+            let moralActive = 100;
+            let currentLoci = { behavioral: false, agency: false, outcome: false, recipient: false };
+
+            // Reset locus visualization in UI
+            document.getElementById('locus-behavioral').className = "bg-gray-800 border border-gray-700 p-2.5 rounded-xl transition-all duration-300";
+            document.getElementById('locus-agency').className = "bg-gray-800 border border-gray-700 p-2.5 rounded-xl transition-all duration-300";
+            document.getElementById('locus-outcome').className = "bg-gray-800 border border-gray-700 p-2.5 rounded-xl transition-all duration-300";
+            document.getElementById('locus-recipient').className = "bg-gray-800 border border-gray-700 p-2.5 rounded-xl transition-all duration-300";
+
+            let quote = scenarioData.baseline;
+
+            if (checkedBoxes.length > 0) {
+                let latestExcuse = "";
+                checkedBoxes.forEach(cb => {
+                    const mech = scenarioData.mechanisms.find(m => m.id === cb.value);
+                    if (mech) {
+                        moralActive -= mech.penalty;
+                        currentLoci[mech.locus] = true;
+                        latestExcuse = mech.excuse;
+                    }
+                });
+
+                moralActive = Math.max(0, moralActive);
+                quote = `"${latestExcuse}"`;
+            }
+
+            // Update live gauge
+            const pctSpan = document.getElementById('moral-gauge-pct');
+            const barDiv = document.getElementById('moral-gauge-bar');
+            const statusText = document.getElementById('moral-status-text');
+
+            pctSpan.textContent = moralActive + "%";
+            barDiv.style.width = moralActive + "%";
+
+            // Color state classes
+            if (moralActive > 70) {
+                pctSpan.className = "text-5xl font-black text-emerald-400 tracking-tight transition-all duration-300 animate-pulse";
+                barDiv.className = "bg-emerald-400 h-full transition-all duration-500";
+                statusText.className = "text-xs font-bold text-emerald-400";
+                statusText.textContent = "Rem Moral Aktif (Rasa Bersalah/Cemas Tinggi)";
+            } else if (moralActive > 35) {
+                pctSpan.className = "text-5xl font-black text-amber-400 tracking-tight transition-all duration-300";
+                barDiv.className = "bg-amber-400 h-full transition-all duration-500";
+                statusText.className = "text-xs font-bold text-amber-400";
+                statusText.textContent = "Sanksi Diri Melonggar (Desensitisasi Berjalan)";
+            } else {
+                pctSpan.className = "text-5xl font-black text-cozy-coral tracking-tight transition-all duration-300";
+                barDiv.className = "bg-cozy-coral h-full transition-all duration-500";
+                statusText.className = "text-xs font-bold text-cozy-coral";
+                statusText.textContent = "Saklar Moral Mati (Self-Exonerated / Bebas Bersalah)";
+            }
+
+            // Update locus mapper visuals
+            if (currentLoci.behavioral) {
+                document.getElementById('locus-behavioral').classList.add('bg-cozy-lavender/20', 'border-cozy-lavender', 'text-cozy-lavender');
+            }
+            if (currentLoci.agency) {
+                document.getElementById('locus-agency').classList.add('bg-cozy-coral/20', 'border-cozy-coral', 'text-cozy-coral');
+            }
+            if (currentLoci.outcome) {
+                document.getElementById('locus-outcome').classList.add('bg-cozy-sage/20', 'border-cozy-sage', 'text-cozy-sage');
+            }
+            if (currentLoci.recipient) {
+                document.getElementById('locus-recipient').classList.add('bg-purple-500/20', 'border-purple-500', 'text-purple-400');
+            }
+
+            document.getElementById('live-exoneration-quote').textContent = quote;
+        }
+
+        // 5. GLOBAL INTERACTIVE UTILITIES
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebar-backdrop');
+            
+            if (sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                backdrop.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                backdrop.classList.add('hidden');
+            }
+        }
+
+        function scrollToSimulation() {
+            document.getElementById('moral-switch-sandbox').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showToast(msg) {
+            const toast = document.createElement('div');
+            toast.className = "fixed bottom-5 right-5 bg-cozy-dark text-white text-xs font-semibold px-4 py-3 rounded-2xl shadow-2xl z-50 transition-all transform translate-y-10 opacity-0 max-w-sm flex items-center gap-3 border border-cozy-coral/25";
+            toast.innerHTML = `<i class="fa-solid fa-graduation-cap text-cozy-coral"></i> <span>${msg}</span>`;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-10', 'opacity-0');
+            }, 50);
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => toast.remove(), 400);
+            }, 4000);
+        }
+
+        // INITIAL ONLOAD TRIGGERS
+        window.onload = function() {
+            updateSlide();
+            updateScenario();
+        };
+    </script>
+</body>
+</html>

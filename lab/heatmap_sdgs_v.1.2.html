@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moral Acrobatics · SDGs · Psychosophia Lab</title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: { 50: '#E8EDF8', 100: '#C5D2F0', 200: '#9DB5E8', 300: '#6F95E0', 400: '#4F7FD8', 500: '#2A5CC4',
+                            600: '#1A3F8F', 700: '#122B6A', 800: '#0B1D45', 900: '#060F28', 950: '#030714' },
+                        gold: '#D4AF37',
+                        glow: '#4F8FFF',
+                        fire: { 50: '#FFF5E6', 100: '#FFE0B2', 200: '#FFCC80', 300: '#FFB74D', 400: '#FFA726',
+                            500: '#FF9800', 600: '#FB8C00', 700: '#F57C00', 800: '#EF6C00', 900: '#E65100',
+                            950: '#BF360C' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #030714;
+            color: #E8EDF8;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            background: radial-gradient(ellipse at 30% 40%, #0B1D45 0%, #030714 80%);
+        }
+        .glow-text {
+            text-shadow: 0 0 30px rgba(79, 143, 255, 0.25), 0 0 80px rgba(79, 143, 255, 0.08);
+        }
+        .glow-box {
+            background: rgba(11, 29, 69, 0.7);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(79, 143, 255, 0.15);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 80px rgba(79, 143, 255, 0.03);
+        }
+        .glow-box-strong {
+            background: rgba(11, 29, 69, 0.85);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(79, 143, 255, 0.25);
+            box-shadow: 0 8px 56px rgba(0, 0, 0, 0.6), 0 0 100px rgba(79, 143, 255, 0.05);
+        }
+        .glow-button {
+            background: linear-gradient(145deg, #1A3F8F, #2A5CC4);
+            border: 1px solid rgba(79, 143, 255, 0.3);
+            box-shadow: 0 0 30px rgba(79, 143, 255, 0.12), inset 0 0 30px rgba(79, 143, 255, 0.04);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .glow-button:hover {
+            box-shadow: 0 0 60px rgba(79, 143, 255, 0.25), inset 0 0 50px rgba(79, 143, 255, 0.08);
+            transform: translateY(-3px) scale(1.01);
+            border-color: rgba(79, 143, 255, 0.5);
+        }
+        .glow-button-gold {
+            background: linear-gradient(145deg, #B8941E, #D4AF37);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.12);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .glow-button-gold:hover {
+            box-shadow: 0 0 60px rgba(212, 175, 55, 0.25);
+            transform: translateY(-3px) scale(1.01);
+        }
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030714;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1A3F8F;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(79, 143, 255, 0.2);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2A5CC4;
+        }
+        .card-glow {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .card-glow:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 56px rgba(79, 143, 255, 0.12), 0 0 80px rgba(79, 143, 255, 0.04);
+            border-color: rgba(79, 143, 255, 0.35);
+        }
+        .heatmap-cell {
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+            border-radius: 6px;
+            min-width: 44px;
+            min-height: 44px;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .heatmap-cell:hover {
+            transform: scale(1.14);
+            z-index: 10;
+            box-shadow: 0 0 40px rgba(255, 152, 0, 0.3), 0 0 80px rgba(255, 152, 0, 0.1);
+            border-color: rgba(255, 152, 0, 0.3);
+        }
+        .heatmap-cell .tooltip {
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(3, 7, 20, 0.95);
+            color: #E8EDF8;
+            font-size: 8px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            white-space: nowrap;
+            border: 1px solid rgba(79, 143, 255, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+        }
+        .heatmap-cell:hover .tooltip {
+            opacity: 1;
+        }
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 4px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #1A3F8F, #4F8FFF);
+            outline: none;
+            transition: background 0.3s;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 999px;
+            background: radial-gradient(circle at 30% 30%, #7BABFF, #1A3F8F);
+            cursor: pointer;
+            box-shadow: 0 0 28px rgba(79, 143, 255, 0.5), 0 0 56px rgba(79, 143, 255, 0.15);
+            border: 2px solid rgba(79, 143, 255, 0.3);
+            transition: all 0.25s;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.18);
+            box-shadow: 0 0 40px rgba(79, 143, 255, 0.7);
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 999px;
+            border: none;
+            background: radial-gradient(circle at 30% 30%, #7BABFF, #1A3F8F);
+            cursor: pointer;
+            box-shadow: 0 0 28px rgba(79, 143, 255, 0.5);
+        }
+        .range-value {
+            font-weight: 700;
+            font-size: 13px;
+            min-width: 28px;
+            text-align: center;
+            color: #7BABFF;
+            text-shadow: 0 0 20px rgba(79, 143, 255, 0.25);
+        }
+        .tab-btn {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .tab-btn.active {
+            background: linear-gradient(145deg, #1A3F8F, #2A5CC4);
+            color: white;
+            box-shadow: 0 0 30px rgba(79, 143, 255, 0.15), inset 0 0 20px rgba(79, 143, 255, 0.04);
+            border: 1px solid rgba(79, 143, 255, 0.25);
+        }
+        .tab-btn.active i {
+            color: #7BABFF;
+        }
+        .tab-btn:not(.active):hover {
+            background: rgba(79, 143, 255, 0.06);
+            border-color: rgba(79, 143, 255, 0.15);
+        }
+        .admin-overlay {
+            background: rgba(3, 7, 20, 0.88);
+            backdrop-filter: blur(18px);
+        }
+        @keyframes float {
+            0%,
+            100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .float-anim {
+            animation: float 4.5s ease-in-out infinite;
+        }
+        @keyframes pulse-glow {
+            0%,
+            100% { box-shadow: 0 0 20px rgba(79, 143, 255, 0.08); }
+            50% { box-shadow: 0 0 50px rgba(79, 143, 255, 0.18); }
+        }
+        .pulse-glow {
+            animation: pulse-glow 3.5s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        .shimmer-text {
+            background: linear-gradient(90deg, #7BABFF, #D4AF37, #7BABFF);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 5s linear infinite;
+        }
+        @keyframes fire-glow {
+            0%,
+            100% { filter: drop-shadow(0 0 10px rgba(255, 152, 0, 0.1)); }
+            50% { filter: drop-shadow(0 0 30px rgba(255, 152, 0, 0.25)); }
+        }
+        .fire-glow {
+            animation: fire-glow 2.5s ease-in-out infinite;
+        }
+        .slide-enter {
+            opacity: 0;
+            transform: scale(0.97) translateY(12px);
+        }
+        .slide-active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+        @media (max-width: 768px) {
+            .heatmap-cell {
+                min-width: 32px;
+                min-height: 32px;
+                font-size: 9px;
+            }
+            .range-value {
+                font-size: 11px;
+                min-width: 22px;
+            }
+        }
+        /* Sembunyikan label dimensi saat asesmen */
+        .dimension-label-hidden .mf-dim-label,
+        .dimension-label-hidden .md-dim-label,
+        .dimension-label-hidden .mf-dim-short,
+        .dimension-label-hidden .md-dim-short {
+            display: none !important;
+        }
+        .dimension-label-shown .mf-dim-label,
+        .dimension-label-shown .md-dim-label {
+            display: inline-block !important;
+        }
+        .dimension-label-shown .mf-dim-short,
+        .dimension-label-shown .md-dim-short {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- ===== HEADER ===== -->
+    <header class="relative z-10 bg-navy-900/80 backdrop-blur-xl border-b border-navy-700/50 px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3 sticky top-0 z-50 shadow-2xl shadow-navy-950/60">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-navy-500 to-navy-700 text-white flex items-center justify-center font-display font-extrabold shadow-lg shadow-glow/30 text-lg glow-text">M</div>
+            <div>
+                <h1 class="font-display font-bold text-sm md:text-base leading-tight text-white glow-text">Moral Acrobatics · SDGs</h1>
+                <p class="text-[10px] text-glow font-medium">Psychosophia Behavioral Lab</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="hidden sm:inline-flex items-center gap-1.5 bg-navy-800/60 px-3 py-1.5 rounded-full border border-glow/20 text-[10px] font-bold text-glow shadow-glow/10">
+                <span class="w-1.5 h-1.5 rounded-full bg-glow animate-pulse"></span> MF × MD · SDGs
+            </span>
+            <button onclick="toggleSidebar()" class="lg:hidden text-white/60 hover:text-white p-2 rounded-xl transition border border-navy-700/50 hover:border-glow/30">
+                <i class="fa-solid fa-bars text-lg"></i>
+            </button>
+            <button onclick="openAdmin()" class="text-white/30 hover:text-glow text-sm p-1.5 rounded-lg transition" title="Admin Dashboard">
+                <i class="fa-solid fa-lock"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ===== WRAPPER ===== -->
+    <div class="relative z-10 flex-grow flex flex-col lg:flex-row max-w-[1600px] w-full mx-auto">
+        <aside id="sidebar" class="fixed lg:sticky top-[61px] left-0 bottom-0 w-[280px] bg-navy-900/90 backdrop-blur-xl border-r border-navy-700/50 p-4 flex flex-col justify-between overflow-y-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-40 lg:z-10 h-[calc(100vh-61px)] shadow-2xl shadow-navy-950/60">
+            <div class="space-y-4">
+                <div class="flex items-center gap-2 pb-3 border-b border-navy-700/50">
+                    <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-navy-500 to-navy-700 text-white flex items-center justify-center text-xs font-extrabold shadow-lg shadow-glow/20">P</div>
+                    <span class="text-[10px] font-bold text-glow/60 uppercase tracking-wider">Psychosophia Lab</span>
+                </div>
+                <nav class="space-y-1">
+                    <button onclick="switchView('info')" id="nav-info" class="tab-btn active w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition border border-transparent text-white/70">
+                        <i class="fa-regular fa-circle-info w-4 text-glow"></i> Tentang Alat
+                    </button>
+                    <button onclick="switchView('formula')" id="nav-formula" class="tab-btn w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition border border-transparent text-white/50 hover:text-white/80">
+                        <i class="fa-regular fa-calculator w-4 text-glow"></i> Formula Indeks
+                    </button>
+                    <button onclick="switchView('cases')" id="nav-cases" class="tab-btn w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition border border-transparent text-white/50 hover:text-white/80">
+                        <i class="fa-regular fa-folder-open w-4 text-glow"></i> Skenario SDGs
+                    </button>
+                    <button onclick="switchView('assessment')" id="nav-assessment" class="tab-btn w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition border border-transparent text-white/50 hover:text-white/80">
+                        <i class="fa-regular fa-clipboard w-4 text-glow"></i> Asesmen
+                    </button>
+                    <button onclick="switchView('heatmap')" id="nav-heatmap" class="tab-btn w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition border border-transparent text-white/50 hover:text-white/80">
+                        <i class="fa-regular fa-table w-4 text-glow"></i> Heatmap
+                    </button>
+                    <button onclick="switchView('results')" id="nav-results" class="tab-btn w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition border border-transparent text-white/50 hover:text-white/80">
+                        <i class="fa-regular fa-chart-scatter w-4 text-glow"></i> Hasil & Saran
+                    </button>
+                </nav>
+                <div class="glow-box-strong p-4 rounded-2xl relative overflow-hidden mt-4 border border-glow/10">
+                    <div class="absolute -right-6 -bottom-6 text-glow/5 text-5xl"><i class="fa-solid fa-bolt"></i></div>
+                    <h4 class="font-display font-bold text-sm text-white glow-text">⚡ Mulai Diagnostik</h4>
+                    <p class="text-[10px] text-white/40 mb-3 leading-relaxed">Pilih skenario SDGs, jawab pertanyaan, dan lihat pola moral acrobatics Anda.</p>
+                    <button onclick="switchView('cases')" class="w-full glow-button-gold text-navy-950 font-bold text-[11px] py-2 rounded-xl transition flex items-center justify-center gap-2">
+                        Buka Skenario <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </button>
+                </div>
+                <div class="text-center text-[9px] text-white/20 italic leading-relaxed border-t border-navy-700/30 pt-3">"bridging data to human behavior"</div>
+            </div>
+            <div class="pt-3 border-t border-navy-700/50 text-center text-[8px] text-white/20 font-medium">Psychosophia · Moral Acrobatics v3.2</div>
+        </aside>
+
+        <div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-navy-950/70 backdrop-blur-sm z-30 hidden lg:hidden"></div>
+
+        <main class="flex-grow p-3 sm:p-5 md:p-7 lg:p-10 max-w-full overflow-x-hidden space-y-6">
+
+            <!-- INFO -->
+            <div id="view-info" class="view-content block">
+                <div class="glow-box-strong rounded-3xl p-6 md:p-8 space-y-6 pulse-glow border border-glow/10">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-navy-500 to-navy-700 text-white flex items-center justify-center text-3xl shadow-lg shadow-glow/30 float-anim"><i class="fa-solid fa-bolt"></i></div>
+                        <div>
+                            <h2 class="font-display font-extrabold text-2xl md:text-3xl text-white glow-text">Moral Acrobatics · SDGs Edition</h2>
+                            <p class="text-sm text-glow/70">Diagnostik interaktif Moral Foundations × Moral Disengagement untuk isu SDGs</p>
+                        </div>
+                    </div>
+                    <div class="prose prose-invert prose-sm text-white/70 space-y-4 max-w-3xl">
+                        <p><strong class="text-glow">Apa itu Moral Acrobatics?</strong> Istilah ini merujuk pada kemampuan seseorang untuk "berakrobat" secara moral — menyesuaikan standar etika mereka tergantung konteks, menggunakan mekanisme pelepasan moral (Bandura) untuk membenarkan perilaku yang sebenarnya bertentangan dengan nilai-nilai dasar mereka.</p>
+                        <p>Alat ini menggabungkan dua kerangka teoritis utama:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong class="text-glow">Moral Foundations Theory (Haidt, 2004)</strong> — 5 fondasi moral dasar: <span class="text-glow font-semibold">Harm/Care</span>, <span class="text-glow font-semibold">Fairness</span>, <span class="text-glow font-semibold">Loyalty</span>, <span class="text-glow font-semibold">Authority</span>, <span class="text-glow font-semibold">Purity</span>.</li>
+                            <li><strong class="text-glow">Moral Disengagement (Bandura, 1991)</strong> — 8 mekanisme kognitif yang memungkinkan seseorang melepaskan sanksi diri.</li>
+                        </ul>
+                        <p>Heatmap menunjukkan bagaimana fondasi moral seseorang (MF) berinteraksi dengan kecenderungan pelepasan moral (MD) dalam konteks skenario SDGs tertentu.</p>
+                    </div>
+                    <div class="border-t border-navy-700/50 pt-6 mt-4">
+                        <p class="text-[10px] font-bold uppercase tracking-wider text-white/30">Pengembang</p>
+                        <div class="flex flex-wrap items-center gap-6 mt-2">
+                            <div class="flex items-center gap-2">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-navy-500 to-navy-700 text-white flex items-center justify-center text-sm font-extrabold shadow-lg shadow-glow/20">P</div>
+                                <div>
+                                    <p class="text-xs font-bold text-white">Psychosophia Behavioral Lab</p>
+                                    <p class="text-[9px] text-white/40">bridging data to human behavior</p>
+                                </div>
+                            </div>
+                            <div class="h-8 w-px bg-navy-700/50 hidden sm:block"></div>
+                            <div>
+                                <p class="text-xs font-bold text-white">Prodi Psikologi Islam</p>
+                                <p class="text-[9px] text-white/40">IAIN Syaikh Abdurrahman Siddik Bangka Belitung</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glow-box p-4 rounded-xl border border-glow/10">
+                        <p class="text-[10px] font-bold uppercase tracking-wider text-white/30">Rumus Konseptual</p>
+                        <p class="text-sm font-mono text-white/80 mt-1"><span class="text-glow">MF</span> (Moral Foundations) × <span class="text-gold">MD</span> (Moral Disengagement) = <span class="font-bold text-white glow-text">Moral Acrobatics Index</span></p>
+                        <p class="text-xs text-white/40 mt-1">Semakin tinggi skor pada suatu sel, semakin kuat hubungan antara fondasi moral tertentu dan mekanisme pelepasan moral yang digunakan.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FORMULA -->
+            <div id="view-formula" class="view-content hidden">
+                <div class="glow-box-strong rounded-3xl p-6 md:p-8 border border-glow/10 space-y-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-navy-700/50 text-glow flex items-center justify-center text-lg border border-glow/20"><i class="fa-regular fa-calculator"></i></div>
+                        <div>
+                            <h2 class="font-display font-bold text-xl md:text-2xl text-white">Formula Indeks Akrobatik Moral</h2>
+                            <p class="text-xs text-white/40">Validasi dan pemahaman komputasi indeks</p>
+                        </div>
+                    </div>
+                    <div class="prose prose-invert prose-sm text-white/70 max-w-4xl space-y-4">
+                        <h3 class="text-glow font-display font-bold text-lg">Komputasi Heatmap</h3>
+                        <p>Setiap sel dalam matriks heatmap dihitung dengan formula:</p>
+                        <div class="glow-box p-4 rounded-xl border border-glow/20 font-mono text-sm text-glow">
+                            <span class="text-white">Sel<sub>ij</sub></span> = ( MF<sub>i</sub> × MD<sub>j</sub> ) / 25 × 100
+                        </div>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>MF<sub>i</sub></strong> : skor fondasi moral ke-i (0–5) dari responden</li>
+                            <li><strong>MD<sub>j</sub></strong> : skor mekanisme pelepasan moral ke-j (0–5) dari responden</li>
+                            <li>25 adalah faktor normalisasi (5×5) agar skor berada dalam rentang 0–100%</li>
+                            <li>Nilai 100% menunjukkan hubungan sangat kuat, 0% menunjukkan tidak ada hubungan</li>
+                        </ul>
+                        <h3 class="text-gold font-display font-bold text-lg mt-6">Indeks Akrobatik Moral (Global)</h3>
+                        <p>Indeks keseluruhan dihitung sebagai rata-rata dari seluruh sel heatmap:</p>
+                        <div class="glow-box p-4 rounded-xl border border-gold/20 font-mono text-sm text-gold">
+                            <span class="text-white">Indeks Akrobatik Moral</span> = ( Σ<sub>i,j</sub> Sel<sub>ij</sub> ) / ( 6 × 8 )
+                        </div>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>6 adalah jumlah dimensi MF, 8 adalah jumlah mekanisme MD</li>
+                            <li>Indeks berkisar 0–100%, semakin tinggi menunjukkan <strong>akrobatik moral yang lebih intens</strong> (kecenderungan kuat untuk membenarkan perilaku melanggar norma)</li>
+                            <li>Interpretasi: <span class="text-emerald-400">0–30%</span> = Rendah, <span class="text-amber-400">30–60%</span> = Sedang, <span class="text-fire-400">60–100%</span> = Tinggi</li>
+                        </ul>
+                        <h3 class="text-glow font-display font-bold text-lg mt-6">Contoh Perhitungan Sederhana</h3>
+                        <div class="glow-box p-4 rounded-xl border border-glow/10 text-xs">
+                            <p class="text-white/80">Misal responden memberi skor MF Harm = 4.5 dan MD Moral Justification = 4.0</p>
+                            <p class="text-glow mt-1">Sel = (4.5 × 4.0) / 25 × 100 = 18 / 25 × 100 = <span class="text-white font-bold">72%</span></p>
+                            <p class="text-white/50 mt-1">→ Hubungan kuat: individu cenderung menggunakan justifikasi moral untuk melepaskan tanggung jawab atas isu SDGs yang melanggar nilai harm/care.</p>
+                        </div>
+                        <p class="text-xs text-white/30 italic">Dengan 6×8 = 48 sel, indeks global adalah rata-rata dari seluruh nilai sel tersebut.</p>
+                    </div>
+                    <div class="mt-4 p-4 glow-box rounded-xl border border-glow/10 flex items-center gap-3">
+                        <i class="fa-regular fa-lightbulb text-gold text-lg"></i>
+                        <span class="text-xs text-white/60">Indeks ini dapat digunakan untuk membandingkan tingkat "akrobatik moral" antar individu atau antar skenario SDGs.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CASES -->
+            <div id="view-cases" class="view-content hidden">
+                <div class="glow-box-strong rounded-3xl p-6 md:p-8 border border-glow/10">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-xl bg-navy-700/50 text-glow flex items-center justify-center text-lg border border-glow/20"><i class="fa-regular fa-folder-open"></i></div>
+                        <div>
+                            <h2 class="font-display font-bold text-xl md:text-2xl text-white">Pilih Skenario SDGs</h2>
+                            <p class="text-xs text-white/40">Setiap skenario mengilustrasikan dilema moral dalam konteks Tujuan Pembangunan Berkelanjutan</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="caseGrid"></div>
+                    <div class="mt-6 p-4 glow-box rounded-xl border border-glow/10 flex items-center justify-between flex-wrap gap-3">
+                        <div>
+                            <p class="text-xs font-medium text-white/40">Skenario terpilih:</p>
+                            <p id="selectedCaseDisplay" class="text-sm font-bold text-white glow-text">Belum ada skenario dipilih</p>
+                        </div>
+                        <button onclick="switchView('assessment')" id="btnGoToAssessment" class="glow-button text-white text-xs font-bold px-5 py-2.5 rounded-xl transition flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                            Mulai Asesmen <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ASSESSMENT (tanpa label dimensi) -->
+            <div id="view-assessment" class="view-content hidden">
+                <div class="glow-box-strong rounded-3xl p-6 md:p-8 border border-glow/10 dimension-label-hidden">
+                    <div class="flex items-center justify-between flex-wrap gap-3 mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-navy-700/50 text-glow flex items-center justify-center text-lg border border-glow/20"><i class="fa-regular fa-clipboard"></i></div>
+                            <div>
+                                <h2 class="font-display font-bold text-xl md:text-2xl text-white">Asesmen Skenario</h2>
+                                <p id="assessmentCaseLabel" class="text-xs text-white/40">Pilih skenario terlebih dahulu</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-medium text-white/30">Progress:</span>
+                            <span id="assessmentProgress" class="text-xs font-bold text-glow">0%</span>
+                        </div>
+                    </div>
+                    <div id="caseContextBox" class="glow-box p-4 rounded-xl border border-glow/10 mb-6 hidden">
+                        <p class="text-[10px] font-bold text-white/40 uppercase tracking-wider">Kontek Skenario</p>
+                        <p id="caseContextText" class="text-sm text-white/70 mt-1 leading-relaxed"></p>
+                    </div>
+                    <!-- MF Questions (tanpa label) -->
+                    <div class="mb-8">
+                        <h3 class="font-display font-bold text-base text-white mb-3 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-glow shadow-lg shadow-glow/50"></span>
+                            Pertanyaan Fondasi Moral (MF)
+                            <span class="text-xs font-normal text-white/30 ml-2">— seberapa relevan?</span>
+                        </h3>
+                        <div id="mfQuestionsContainer" class="space-y-3"></div>
+                    </div>
+                    <!-- MD Questions (tanpa label) -->
+                    <div>
+                        <h3 class="font-display font-bold text-base text-white mb-3 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-gold shadow-lg shadow-gold/30"></span>
+                            Pertanyaan Pelepasan Moral (MD)
+                            <span class="text-xs font-normal text-white/30 ml-2">— seberapa setuju?</span>
+                        </h3>
+                        <div id="mdQuestionsContainer" class="space-y-3"></div>
+                    </div>
+                    <div class="mt-8 flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-navy-700/50">
+                        <button onclick="switchView('cases')" class="text-glow hover:text-white text-sm font-medium flex items-center gap-1.5 transition">
+                            <i class="fa-solid fa-arrow-left text-xs"></i> Kembali ke Skenario
+                        </button>
+                        <button onclick="submitAssessment()" class="glow-button-gold text-navy-950 font-bold px-6 py-2.5 rounded-xl transition flex items-center gap-2 shadow-lg shadow-gold/10">
+                            <i class="fa-regular fa-paper-plane"></i> Lihat Heatmap
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HEATMAP -->
+            <div id="view-heatmap" class="view-content hidden">
+                <div class="glow-box-strong rounded-3xl p-6 md:p-8 border border-glow/10">
+                    <div class="flex items-center justify-between flex-wrap gap-3 mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-navy-700/50 text-fire-500 flex items-center justify-center text-lg border border-fire-500/20 fire-glow"><i class="fa-regular fa-table"></i></div>
+                            <div>
+                                <h2 class="font-display font-bold text-xl md:text-2xl text-white">Moral Acrobatics Heatmap</h2>
+                                <p id="heatmapCaseLabel" class="text-xs text-white/40">Matriks 6 MF × 8 MD · Skala Api</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-medium text-white/30">Intensitas:</span>
+                            <div class="flex items-center gap-1 text-[9px] font-bold">
+                                <span class="text-white/40">Dingin</span>
+                                <span class="w-4 h-4 rounded bg-fire-50 border border-fire-200"></span>
+                                <span class="w-4 h-4 rounded bg-fire-300 border border-fire-400"></span>
+                                <span class="w-4 h-4 rounded bg-fire-500 border border-fire-600"></span>
+                                <span class="w-4 h-4 rounded bg-fire-700 border border-fire-800"></span>
+                                <span class="w-4 h-4 rounded bg-fire-900 border border-fire-950"></span>
+                                <span class="text-white/40">Panas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm border-collapse" id="heatmapTable">
+                            <thead><tr id="heatmapHeader"></tr></thead>
+                            <tbody id="heatmapBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="mt-6 p-4 glow-box rounded-xl border border-glow/10">
+                        <p class="text-[10px] font-bold uppercase tracking-wider text-white/30">Interpretasi</p>
+                        <p class="text-xs text-white/60 mt-1 leading-relaxed">
+                            Setiap sel menunjukkan kekuatan hubungan antara fondasi moral (baris) dan mekanisme pelepasan moral (kolom).
+                            <span class="font-semibold text-fire-400">Warna lebih panas (oranye/merah) = hubungan lebih kuat</span> — artinya individu cenderung menggunakan mekanisme MD tersebut untuk "mengakrobati" fondasi MF-nya dalam konteks skenario ini.
+                        </p>
+                    </div>
+                    <div class="mt-4 flex flex-wrap gap-3">
+                        <button onclick="switchView('results')" class="glow-button text-white text-sm font-bold px-6 py-2.5 rounded-xl transition flex items-center gap-2">
+                            <i class="fa-regular fa-chart-scatter"></i> Lihat Diagnosis
+                        </button>
+                        <button onclick="resetAssessment()" class="border border-navy-700/50 text-white/50 text-sm font-medium px-5 py-2.5 rounded-xl hover:border-glow/30 hover:text-white transition flex items-center gap-2">
+                            <i class="fa-solid fa-rotate-left"></i> Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESULTS -->
+            <div id="view-results" class="view-content hidden">
+                <div class="glow-box-strong rounded-3xl p-6 md:p-8 border border-glow/10 dimension-label-shown">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-xl bg-navy-700/50 text-gold flex items-center justify-center text-lg border border-gold/20"><i class="fa-regular fa-chart-scatter"></i></div>
+                        <div>
+                            <h2 class="font-display font-bold text-xl md:text-2xl text-white">Hasil Diagnosis</h2>
+                            <p id="resultsCaseLabel" class="text-xs text-white/40">Analisis holistik multidisipliner</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6" id="scoreSummary"></div>
+                    <div class="mb-6 glow-box p-4 rounded-xl border border-glow/10">
+                        <p class="text-[10px] font-bold uppercase tracking-wider text-white/30 mb-2">📋 Rekaman Jawaban Anda</p>
+                        <div id="responseDetailContainer" class="overflow-x-auto text-xs"></div>
+                    </div>
+                    <div id="holisticAdvice" class="glow-box p-5 rounded-xl border border-gold/20 text-sm text-white/80 leading-relaxed space-y-3"></div>
+                    <div class="mt-4 space-y-4" id="multiDisciplinaryDiagnosis"></div>
+                    <div class="mt-6 flex flex-wrap gap-3 pt-4 border-t border-navy-700/50">
+                        <button onclick="switchView('heatmap')" class="text-glow hover:text-white text-sm font-medium flex items-center gap-1.5 transition">
+                            <i class="fa-solid fa-arrow-left text-xs"></i> Kembali ke Heatmap
+                        </button>
+                        <button onclick="switchView('cases')" class="border border-navy-700/50 text-white/50 text-sm font-medium px-4 py-2 rounded-xl hover:border-glow/30 hover:text-white transition flex items-center gap-2">
+                            <i class="fa-solid fa-rotate-left"></i> Skenario Baru
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="relative z-10 bg-navy-900/80 backdrop-blur-xl border-t border-navy-700/50 py-4 px-6 text-center flex-shrink-0">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5">
+                <div class="w-7 h-7 rounded-xl bg-gradient-to-br from-navy-500 to-navy-700 text-white flex items-center justify-center text-[10px] font-extrabold shadow-lg shadow-glow/20">P</div>
+                <div class="text-left">
+                    <p class="text-[9px] font-bold text-white">Psychosophia Behavioral Lab</p>
+                    <p class="text-[7px] text-white/30">bridging data to human behavior</p>
+                </div>
+            </div>
+            <div class="text-[7px] text-white/20">
+                <p>© 2026 · Moral Acrobatics · SDGs Edition v3.2</p>
+                <p class="mt-0.5">Haidt × Bandura Applied Diagnostic</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== ADMIN MODAL ===== -->
+    <div id="adminModal" class="fixed inset-0 z-50 admin-overlay flex items-center justify-center hidden">
+        <div class="glow-box-strong rounded-3xl p-6 md:p-8 max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto shadow-2xl border border-glow/20">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="font-display font-bold text-xl text-white flex items-center gap-2">
+                    <i class="fa-solid fa-lock text-glow"></i> Admin Dashboard
+                </h2>
+                <button onclick="closeAdmin()" class="text-white/40 hover:text-white transition text-xl"><i class="fa-regular fa-circle-xmark"></i></button>
+            </div>
+            <div class="mb-6">
+                <label class="block text-xs font-bold text-white/40 uppercase tracking-wider mb-1">Masukkan Password</label>
+                <div class="flex gap-2">
+                    <input type="password" id="adminPassword" placeholder="••••••••" class="flex-1 p-2.5 glow-box rounded-xl outline-none focus:ring-2 focus:ring-glow text-sm text-white bg-navy-900/50 border border-glow/20" />
+                    <button onclick="adminLogin()" class="glow-button text-white px-5 py-2.5 rounded-xl font-bold text-sm transition shadow-lg shadow-glow/20">Login</button>
+                </div>
+                <p id="adminError" class="text-xs text-gold mt-1 hidden">Password salah. Coba lagi.</p>
+            </div>
+            <div id="adminContent" class="hidden space-y-6">
+                <div class="glow-box p-3 rounded-xl text-xs text-glow flex items-center gap-2 border border-glow/20">
+                    <i class="fa-regular fa-circle-check"></i> Akses diberikan. Selamat datang, Admin!
+                </div>
+                <div class="flex flex-wrap gap-2 border-b border-navy-700/50 pb-2">
+                    <button onclick="adminSwitchTab('stats')" id="adminTabStats" class="tab-btn active text-xs px-3 py-1.5 rounded-lg font-semibold text-white/70 hover:text-white">Statistik</button>
+                    <button onclick="adminSwitchTab('blueprint')" id="adminTabBlueprint" class="tab-btn text-xs px-3 py-1.5 rounded-lg font-semibold text-white/50 hover:text-white/80">Blueprint Aitem</button>
+                </div>
+                <div id="adminPanelStats">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="glow-box p-4 rounded-xl text-center border border-glow/10">
+                            <p class="text-2xl font-black text-white glow-text" id="adminTotalResponses">0</p>
+                            <p class="text-[9px] text-white/30 uppercase tracking-wider">Total Responden</p>
+                        </div>
+                        <div class="glow-box p-4 rounded-xl text-center border border-glow/10">
+                            <p class="text-2xl font-black text-white glow-text" id="adminAvgScore">0.0</p>
+                            <p class="text-[9px] text-white/30 uppercase tracking-wider">Rata-rata Skor</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-3 mt-4">
+                        <button onclick="adminDownloadCSV()" class="flex-1 glow-button text-white font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-solid fa-download"></i> Download CSV
+                        </button>
+                        <button onclick="adminResetAll()" class="flex-1 border border-gold/30 text-gold font-bold py-2.5 rounded-xl hover:bg-gold/10 transition flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-solid fa-trash-can"></i> Reset Data
+                        </button>
+                        <button onclick="adminViewCollectiveHeatmap()" class="flex-1 border border-glow/30 text-glow font-bold py-2.5 rounded-xl hover:bg-glow/10 transition flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-regular fa-table"></i> Heatmap Kolektif
+                        </button>
+                    </div>
+                    <div id="adminCollectiveHeatmap" class="hidden mt-4">
+                        <p class="text-xs font-bold text-white/40 uppercase tracking-wider mb-2">Heatmap Agregat (Semua Responden)</p>
+                        <div class="overflow-x-auto text-xs glow-box p-4 rounded-xl border border-glow/10" id="adminHeatmapContainer"></div>
+                    </div>
+                </div>
+                <div id="adminPanelBlueprint" class="hidden">
+                    <p class="text-xs font-bold text-white/40 uppercase tracking-wider mb-3">Blueprint Aitem → Dimensi</p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs border-collapse">
+                            <thead>
+                                <tr class="border-b border-glow/20">
+                                    <th class="p-2 text-left text-white/50">No. Aitem</th>
+                                    <th class="p-2 text-left text-white/50">Pertanyaan</th>
+                                    <th class="p-2 text-left text-white/50">Dimensi</th>
+                                    <th class="p-2 text-left text-white/50">Jenis</th>
+                                </tr>
+                            </thead>
+                            <tbody id="blueprintTableBody"></tbody>
+                        </table>
+                    </div>
+                    <p class="text-[9px] text-white/30 mt-3 italic">* MF = Moral Foundations, MD = Moral Disengagement</p>
+                </div>
+            </div>
+            <div class="mt-4 pt-4 border-t border-navy-700/50 text-center text-[9px] text-white/20">Psychosophia Lab · Admin Console v1.0</div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SCRIPTS -->
+    <!-- ============================================================ -->
+    <script>
+        // ===== PARTICLES =====
+        (function initParticles() {
+            const canvas = document.getElementById('particles-canvas');
+            const ctx = canvas.getContext('2d');
+            let width, height, particles;
+
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Particle {
+                constructor() { this.reset(); }
+                reset() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.size = Math.random() * 2.5 + 0.5;
+                    this.speedX = (Math.random() - 0.5) * 0.35;
+                    this.speedY = (Math.random() - 0.5) * 0.35;
+                    this.opacity = Math.random() * 0.3 + 0.08;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (this.x < 0 || this.x > width) this.speedX *= -1;
+                    if (this.y < 0 || this.y > height) this.speedY *= -1;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(79, 143, 255, ${this.opacity})`;
+                    ctx.fill();
+                    ctx.shadowColor = 'rgba(79, 143, 255, 0.15)';
+                    ctx.shadowBlur = 10;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
+            }
+            particles = Array.from({ length: 100 }, () => new Particle());
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                const grad = ctx.createRadialGradient(width / 2, height / 2, 0, width / 2, height / 2, width * 0.5);
+                grad.addColorStop(0, 'rgba(11, 29, 69, 0.15)');
+                grad.addColorStop(1, 'rgba(3, 7, 20, 0)');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, width, height);
+                particles.forEach(p => { p.update();
+                    p.draw(); });
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 160) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(79, 143, 255, ${0.04 * (1 - dist / 160)})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
+        })();
+
+        // ===== DATA =====
+        const MF_DIMENSIONS = [
+            { id: 'harm', label: 'Harm / Care', short: 'Harm' },
+            { id: 'fairness', label: 'Fairness / Cheating', short: 'Fairness' },
+            { id: 'loyalty', label: 'Loyalty / Ingroup', short: 'Loyalty' },
+            { id: 'authority', label: 'Authority / Respect', short: 'Authority' },
+            { id: 'purity', label: 'Purity / Sanctity', short: 'Purity' },
+            { id: 'individualizing', label: 'Individualizing (Harm+Fair)', short: 'Individ.' }
+        ];
+        const MD_MECHANISMS = [
+            { id: 'mj', label: 'Moral Justification', short: 'Justification' },
+            { id: 'el', label: 'Euphemistic Labeling', short: 'Labeling' },
+            { id: 'ac', label: 'Advantageous Comparison', short: 'Comparison' },
+            { id: 'dor', label: 'Displacement of Responsibility', short: 'Displacement' },
+            { id: 'dif', label: 'Diffusion of Responsibility', short: 'Diffusion' },
+            { id: 'doc', label: 'Distortion of Consequences', short: 'Distortion' },
+            { id: 'dh', label: 'Dehumanization', short: 'Dehumanization' },
+            { id: 'ab', label: 'Attribution of Blame', short: 'Attribution' }
+        ];
+
+        // ===== 8 SKENARIO SDGs =====
+        const CASES = [{
+            id: 'sdg1',
+            title: 'Penanggulangan Kemiskinan',
+            icon: '🎯',
+            sdg: 'SDG 1: No Poverty',
+            context: 'Pemerintah mengalokasikan anggaran besar untuk bantuan sosial, namun sebagian dana tersedot oleh praktik korupsi di tingkat desa. Pejabat desa berdalih bahwa "pengurangan" dana adalah biaya operasional yang wajar.',
+            mfQuestions: {
+                harm: 'Seberapa pentingkah melindungi masyarakat miskin dari dampak korupsi?',
+                fairness: 'Seberapa pentingkah keadilan dalam distribusi bantuan sosial?',
+                loyalty: 'Seberapa pentingkah menjaga kepercayaan warga terhadap pemerintah?',
+                authority: 'Seberapa pentingkah mematuhi aturan pengelolaan keuangan negara?',
+                purity: 'Seberapa pentingkah menjaga kesucian amanah publik dari praktik curang?',
+                individualizing: 'Seberapa pentingkah melindungi hak setiap warga atas akses bantuan?'
+            },
+            mdQuestions: {
+                mj: 'Korupsi kecil demi kelancaran birokrasi adalah praktik yang bisa dimaklumi.',
+                el: 'Ini bukan korupsi, ini "efisiensi administrasi lapangan".',
+                ac: 'Saya hanya mengambil sebagian kecil, tidak seperti pejabat lain yang korupsi besar-besaran.',
+                dor: 'Sistem pengawasan yang lemah memaksa saya mengambil langkah ini.',
+                dif: 'Semua pejabat desa juga melakukan hal serupa, jadi ini sudah menjadi budaya.',
+                doc: 'Pengurangan dana ini tidak signifikan bagi penerima bantuan secara keseluruhan.',
+                dh: 'Masyarakat miskin tidak akan mengerti administrasi keuangan yang rumit.',
+                ab: 'Aturan dari pusat terlalu birokratis, wajar jika saya menyesuaikan di lapangan.'
+            }
+        }, {
+            id: 'sdg4',
+            title: 'Pendidikan Berkualitas',
+            icon: '📚',
+            sdg: 'SDG 4: Quality Education',
+            context: 'Sebuah sekolah di daerah terpencil kekurangan guru dan fasilitas. Kepala sekolah menggunakan dana BOS untuk membeli peralatan olahraga daripada buku pelajaran, dengan alasan "menarik minat siswa".',
+            mfQuestions: {
+                harm: 'Seberapa pentingkah memastikan akses pendidikan yang layak bagi semua anak?',
+                fairness: 'Seberapa pentingkah keadilan dalam alokasi dana pendidikan?',
+                loyalty: 'Seberapa pentingkah menjaga kepercayaan orang tua terhadap sekolah?',
+                authority: 'Seberapa pentingkah mematuhi aturan penggunaan dana BOS?',
+                purity: 'Seberapa pentingkah menjaga kemurnian tujuan pendidikan dari kepentingan lain?',
+                individualizing: 'Seberapa pentingkah melindungi hak setiap anak atas pendidikan yang layak?'
+            },
+            mdQuestions: {
+                mj: 'Membeli peralatan olahraga adalah cara untuk menarik minat siswa agar mau sekolah.',
+                el: 'Ini bukan penyalahgunaan dana, ini "optimalisasi sarana pembelajaran".',
+                ac: 'Saya masih membeli beberapa buku, tidak seperti sekolah lain yang korupsi total.',
+                dor: 'Anggaran dari pusat tidak cukup, saya terpaksa berkreasi dengan dana yang ada.',
+                dif: 'Banyak kepala sekolah juga menggunakan dana untuk keperluan lain yang lebih mendesak.',
+                doc: 'Anak-anak senang dengan peralatan olahraga, jadi tidak ada yang dirugikan.',
+                dh: 'Anak-anak di daerah terpencil tidak akan menjadi sarjana, lebih baik mereka sehat.',
+                ab: 'Pemerintah tidak memberi perhatian pada sekolah terpencil, wajar saya mencari solusi.'
+            }
+        }, {
+            id: 'sdg5',
+            title: 'Kesetaraan Gender',
+            icon: '⚖️',
+            sdg: 'SDG 5: Gender Equality',
+            context: 'Sebuah perusahaan masih menerapkan kebijakan upah yang berbeda antara karyawan laki-laki dan perempuan untuk posisi yang sama. Manajer beralasan bahwa "perempuan memiliki tanggung jawab domestik lebih besar".',
+            mfQuestions: {
+                harm: 'Seberapa pentingkah melindungi hak pekerja perempuan dari diskriminasi?',
+                fairness: 'Seberapa pentingkah keadilan upah yang setara untuk pekerjaan yang sama?',
+                loyalty: 'Seberapa pentingkah menjaga kepercayaan karyawan terhadap perusahaan?',
+                authority: 'Seberapa pentingkah mematuhi UU ketenagakerjaan yang berlaku?',
+                purity: 'Seberapa pentingkah menjaga kesucian nilai keadilan dari praktik diskriminatif?',
+                individualizing: 'Seberapa pentingkah melindungi hak setiap pekerja atas upah yang adil?'
+            },
+            mdQuestions: {
+                mj: 'Perbedaan upah ini adalah bentuk penyesuaian dengan realitas sosial-budaya.',
+                el: 'Ini bukan diskriminasi, ini "penyesuaian kompensasi berdasarkan peran sosial".',
+                ac: 'Perusahaan lain juga menerapkan kebijakan serupa, ini sudah menjadi standar industri.',
+                dor: 'Aturan pemerintah tidak jelas, saya hanya mengikuti praktik yang sudah berjalan.',
+                dif: 'Semua manajer di industri ini melakukan hal yang sama.',
+                doc: 'Perbedaan upah ini tidak signifikan dan tidak mempengaruhi kehidupan karyawan.',
+                dh: 'Perempuan pada akhirnya akan menikah dan berhenti bekerja, jadi ini wajar.',
+                ab: 'Karyawan perempuan sendiri yang tidak menuntut kesetaraan, jadi ini bukan kesalahan saya.'
+            }
+        }, {
+            id: 'sdg8',
+            title: 'Pekerjaan Layak',
+            icon: '💼',
+            sdg: 'SDG 8: Decent Work & Economic Growth',
+            context: 'Sebuah pabrik mempekerjakan pekerja magang tanpa upah yang layak dengan alasan "memberikan pengalaman kerja". Jam kerja melebihi ketentuan dan tidak ada jaminan sosial.',
+            mfQuestions: {
+                harm: 'Seberapa pentingkah melindungi pekerja dari eksploitasi tenaga kerja?',
+                fairness: 'Seberapa pentingkah upah yang adil untuk pekerjaan yang sama?',
+                loyalty: 'Seberapa pentingkah menjaga kepercayaan pekerja terhadap perusahaan?',
+                authority: 'Seberapa pentingkah mematuhi UU ketenagakerjaan yang berlaku?',
+                purity: 'Seberapa pentingkah menjaga kesucian nilai martabat pekerja dari eksploitasi?',
+                individualizing: 'Seberapa pentingkah melindungi hak setiap pekerja atas upah dan jaminan?'
+            },
+            mdQuestions: {
+                mj: 'Memberikan pengalaman kerja adalah bentuk investasi untuk masa depan pekerja.',
+                el: 'Ini bukan eksploitasi, ini "program pengembangan kapasitas tenaga kerja".',
+                ac: 'Perusahaan lain juga menerapkan program magang tanpa bayaran.',
+                dor: 'Persaingan bisnis yang ketat memaksa saya melakukan efisiensi tenaga kerja.',
+                dif: 'Semua perusahaan di sektor ini juga melakukan praktik serupa.',
+                doc: 'Pekerja magang tetap mendapatkan pengalaman berharga, jadi tidak ada yang rugi.',
+                dh: 'Mereka hanya pekerja magang, bukan karyawan tetap dengan hak penuh.',
+                ab: 'Pekerja sendiri yang mau menerima kondisi ini, jadi ini bukan kesalahan saya.'
+            }
+        }, {
+            id: 'sdg10',
+            title: 'Mengurangi Ketimpangan',
+            icon: '📊',
+            sdg: 'SDG 10: Reduced Inequalities',
+            context: 'Sebuah layanan kesehatan swasta di kota besar hanya melayani pasien dengan asuransi kelas premium, sementara pasien miskin tidak mendapat akses yang sama. Direktur beralasan bahwa "ini adalah bisnis".',
+            mfQuestions: {
+                harm: 'Seberapa pentingkah akses kesehatan yang setara bagi semua lapisan masyarakat?',
+                fairness: 'Seberapa pentingkah keadilan dalam pelayanan kesehatan?',
+                loyalty: 'Seberapa pentingkah menjaga kepercayaan masyarakat terhadap sistem kesehatan?',
+                authority: 'Seberapa pentingkah mematuhi aturan pelayanan kesehatan yang adil?',
+                purity: 'Seberapa pentingkah menjaga kesucian nilai kemanusiaan dalam layanan kesehatan?',
+                individualizing: 'Seberapa pentingkah melindungi hak setiap orang atas akses kesehatan?'
+            },
+            mdQuestions: {
+                mj: 'Layanan premium adalah cara untuk mempertahankan kualitas rumah sakit.',
+                el: 'Ini bukan diskriminasi, ini "segmentasi pasar berbasis kemampuan".',
+                ac: 'Rumah sakit lain juga menerapkan sistem kelas pasien yang berbeda.',
+                dor: 'Biaya operasional yang tinggi memaksa saya melakukan diferensiasi layanan.',
+                dif: 'Semua rumah sakit swasta juga melakukan praktik yang sama.',
+                doc: 'Pasien miskin tetap dapat mengakses layanan kesehatan dasar di tempat lain.',
+                dh: 'Pasien miskin tidak akan mampu membayar layanan premium, jadi tidak ada yang rugi.',
+                ab: 'Pemerintah yang gagal menyediakan layanan kesehatan universal, ini bukan kesalahan saya.'
+            }
+        }, {
+            id: 'sdg11',
+            title: 'Kota Berkelanjutan',
+            icon: '🏙️',
+            sdg: 'SDG 11: Sustainable Cities',
+            context: 'Pengembang properti merencanakan pembangunan apartemen mewah di kawasan resapan air, mengabaikan dampak lingkungan. Mereka beralasan bahwa "pembangunan adalah prioritas".',
+            mfQuestions: {
+                harm: 'Seberapa pentingkah melindungi lingkungan dan ekosistem perkotaan?',
+                fairness: 'Seberapa pentingkah keadilan antar generasi dalam pemanfaatan ruang kota?',
+                loyalty: 'Seberapa pentingkah menjaga kepercayaan warga terhadap pembangunan kota?',
+                authority: 'Seberapa pentingkah mematuhi aturan tata ruang dan lingkungan?',
+                purity: 'Seberapa pentingkah menjaga kesucian alam dari eksploitasi berlebihan?',
+                individualizing: 'Seberapa pentingkah melindungi hak warga atas lingkungan yang sehat?'
+            },
+            mdQuestions: {
+                mj: 'Pembangunan apartemen adalah cara untuk menyediakan hunian bagi masyarakat.',
+                el: 'Ini bukan perusakan lingkungan, ini "optimalisasi pemanfaatan lahan kota".',
+                ac: 'Pengembang lain juga membangun di kawasan serupa tanpa konsekuensi.',
+                dor: 'Permintaan hunian yang tinggi memaksa saya membangun di lahan yang tersedia.',
+                dif: 'Semua pengembang juga melakukan hal yang sama dalam pembangunan kota.',
+                doc: 'Dampak lingkungan yang ditimbulkan sangat kecil dan tidak signifikan.',
+                dh: 'Masyarakat tidak peduli dengan resapan air, mereka hanya ingin hunian murah.',
+                ab: 'Peraturan tata ruang terlalu ketat dan tidak realistis, wajar saya menyesuaikan.'
+            }
+        }, {
+            id: 'sdg13',
+            title: 'Aksi Iklim',
+            icon: '🌍',
+            sdg: 'SDG 13: Climate Action',
+            context: 'Sebuah pabrik terus membuang limbah ke sungai untuk menghemat biaya pengolahan. Manajer menyatakan bahwa "biaya pengolahan limbah terlalu mahal dan akan merugikan perusahaan".',
+            mfQuestions: {
+                harm: 'Seberapa pentingkah melindungi ekosistem sungai dari polusi?',
+                fairness: 'Seberapa pentingkah keadilan bagi masyarakat yang terdampak limbah?',
+                loyalty: 'Seberapa pentingkah menjaga kepercayaan masyarakat terhadap perusahaan?',
+                authority: 'Seberapa pentingkah mematuhi aturan perlindungan lingkungan?',
+                purity: 'Seberapa pentingkah menjaga kesucian alam dari kontaminasi berbahaya?',
+                individualizing: 'Seberapa pentingkah melindungi hak masyarakat atas lingkungan sehat?'
+            },
+            mdQuestions: {
+                mj: 'Membuang limbah ke sungai adalah cara efisien untuk menjaga kelangsungan usaha.',
+                el: 'Ini bukan pencemaran, ini "pembuangan limbah terkelola secara alami".',
+                ac: 'Perusahaan lain juga membuang limbah ke sungai, tidak ada yang ditindak.',
+                dor: 'Biaya pengolahan limbah yang tinggi memaksa saya melakukan cara alternatif.',
+                dif: 'Semua pabrik di kawasan ini juga membuang limbah ke sungai yang sama.',
+                doc: 'Limbah yang dibuang sangat kecil dan tidak akan merusak ekosistem sungai.',
+                dh: 'Ikan dan biota sungai tidak akan keberatan dengan limbah yang saya buang.',
+                ab: 'Pemerintah tidak memberi insentif untuk pengolahan limbah, ini bukan kesalahan saya.'
+            }
+        }, {
+            id: 'sdg16',
+            title: 'Perdamaian & Keadilan',
+            icon: '🕊️',
+            sdg: 'SDG 16: Peace, Justice & Strong Institutions',
+            context: 'Seorang aparat penegak hukum menerima suap untuk menutup kasus korupsi yang melibatkan tokoh penting. Ia beralasan bahwa "menjatuhkan tokoh penting akan menimbulkan kekacauan sosial".',
+            mfQuestions: {
+                harm: 'Seberapa pentingkah melindungi keadilan dari praktik suap?',
+                fairness: 'Seberapa pentingkah perlakuan yang adil bagi semua orang di mata hukum?',
+                loyalty: 'Seberapa pentingkah menjaga kepercayaan publik terhadap lembaga hukum?',
+                authority: 'Seberapa pentingkah mematuhi sumpah jabatan dan kode etik?',
+                purity: 'Seberapa pentingkah menjaga kesucian lembaga hukum dari korupsi?',
+                individualizing: 'Seberapa pentingkah melindungi hak setiap warga atas keadilan yang setara?'
+            },
+            mdQuestions: {
+                mj: 'Menerima suap adalah cara untuk menjaga stabilitas sosial dan politik.',
+                el: 'Ini bukan suap, ini "kompensasi atas risiko politik yang diambil".',
+                ac: 'Pejabat lain juga menerima suap jauh lebih besar dari yang saya terima.',
+                dor: 'Tekanan politik yang kuat memaksa saya mengambil keputusan ini.',
+                dif: 'Semua aparat di tingkat ini juga melakukan praktik serupa.',
+                doc: 'Suap yang saya terima tidak mempengaruhi jalannya keadilan secara keseluruhan.',
+                dh: 'Tokoh penting ini terlalu berpengaruh untuk dijatuhkan, lebih baik diam.',
+                ab: 'Sistem hukum yang korup memaksa saya menyesuaikan diri untuk bertahan.'
+            }
+        }];
+
+        // State
+        let state = {
+            selectedCase: null,
+            mfScores: {},
+            mdScores: {},
+            heatmapData: [],
+            results: null,
+            responses: [],
+            adminLoggedIn: false
+        };
+
+        // ===== NAVIGATION =====
+        function toggleSidebar() {
+            const s = document.getElementById('sidebar');
+            const b = document.getElementById('sidebar-backdrop');
+            s.classList.toggle('-translate-x-full');
+            b.classList.toggle('hidden');
+        }
+
+        function switchView(view) {
+            document.querySelectorAll('.view-content').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById('view-' + view);
+            if (target) target.classList.remove('hidden');
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const navBtn = document.getElementById('nav-' + view);
+            if (navBtn) navBtn.classList.add('active');
+            if (window.innerWidth < 1024) {
+                document.getElementById('sidebar').classList.add('-translate-x-full');
+                document.getElementById('sidebar-backdrop').classList.add('hidden');
+            }
+            if (view === 'cases') renderCases();
+            if (view === 'assessment') renderAssessment();
+            if (view === 'heatmap') renderHeatmap();
+            if (view === 'results') renderResults();
+        }
+
+        // ===== CASES =====
+        function renderCases() {
+            const grid = document.getElementById('caseGrid');
+            grid.innerHTML = '';
+            CASES.forEach((c) => {
+                const isSelected = state.selectedCase && state.selectedCase.id === c.id;
+                const card = document.createElement('div');
+                card.className =
+                    `p-4 rounded-2xl border-2 cursor-pointer transition-all card-glow ${isSelected ? 'border-glow bg-navy-800/60 shadow-lg shadow-glow/15' : 'border-navy-700/50 hover:border-glow/30 bg-navy-900/30'}`;
+                card.innerHTML = `
+                    <div class="flex items-start justify-between">
+                        <div class="text-2xl">${c.icon}</div>
+                        <span class="text-[8px] font-bold text-white/20 uppercase">${c.sdg}</span>
+                    </div>
+                    <h3 class="font-bold text-sm text-white mt-1">${c.title}</h3>
+                    <p class="text-[10px] text-white/40 mt-1 line-clamp-2">${c.context.substring(0, 80)}...</p>
+                    <div class="mt-2 flex items-center gap-2">
+                        <span class="text-[9px] font-medium ${isSelected ? 'text-glow' : 'text-white/30'}">${isSelected ? '✓ Terpilih' : 'Pilih skenario'}</span>
+                    </div>
+                `;
+                card.onclick = () => selectCase(c.id);
+                grid.appendChild(card);
+            });
+        }
+
+        function selectCase(caseId) {
+            const c = CASES.find(ca => ca.id === caseId);
+            if (c) {
+                state.selectedCase = c;
+                document.getElementById('selectedCaseDisplay').textContent = c.icon + ' ' + c.title;
+                document.getElementById('btnGoToAssessment').disabled = false;
+                state.mfScores = {};
+                state.mdScores = {};
+                state.heatmapData = [];
+                state.results = null;
+                renderCases();
+                document.getElementById('assessmentCaseLabel').textContent = c.icon + ' ' + c.title;
+                document.getElementById('caseContextText').textContent = c.context;
+                document.getElementById('caseContextBox').classList.remove('hidden');
+                renderAssessment();
+            }
+        }
+
+        // ===== ASSESSMENT (tanpa label dimensi) =====
+        function renderAssessment() {
+            if (!state.selectedCase) {
+                document.getElementById('assessmentCaseLabel').textContent = 'Pilih skenario terlebih dahulu';
+                document.getElementById('caseContextBox').classList.add('hidden');
+                return;
+            }
+            const c = state.selectedCase;
+            document.getElementById('assessmentCaseLabel').textContent = c.icon + ' ' + c.title;
+            document.getElementById('caseContextText').textContent = c.context;
+            document.getElementById('caseContextBox').classList.remove('hidden');
+
+            const mfContainer = document.getElementById('mfQuestionsContainer');
+            mfContainer.innerHTML = '';
+            MF_DIMENSIONS.forEach((mf, idx) => {
+                const q = c.mfQuestions[mf.id] || 'Seberapa pentingkah nilai ini?';
+                const val = state.mfScores[mf.id] ?? 2.5;
+                const container = document.createElement('div');
+                container.className = 'glow-box p-3 rounded-xl border border-glow/10';
+                container.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="text-xs font-medium text-white/70">Pertanyaan ${idx+1}</label>
+                        <span class="text-xs font-bold text-glow range-value" id="mf-val-${mf.id}">${val.toFixed(1)}</span>
+                    </div>
+                    <p class="text-[10px] text-white/50 mb-1.5">${q}</p>
+                    <input type="range" min="0" max="5" step="0.1" value="${val}" class="w-full" id="mf-slider-${mf.id}" oninput="updateMF('${mf.id}', this.value)" />
+                    <div class="flex justify-between text-[8px] text-white/20"><span>Tidak relevan</span><span>Sangat relevan</span></div>
+                `;
+                mfContainer.appendChild(container);
+                state.mfScores[mf.id] = val;
+            });
+
+            const mdContainer = document.getElementById('mdQuestionsContainer');
+            mdContainer.innerHTML = '';
+            MD_MECHANISMS.forEach((md, idx) => {
+                const q = c.mdQuestions[md.id] || 'Seberapa setuju?';
+                const val = state.mdScores[md.id] ?? 2.5;
+                const container = document.createElement('div');
+                container.className = 'glow-box p-3 rounded-xl border border-gold/10';
+                container.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="text-xs font-medium text-white/70">Pernyataan ${idx+1}</label>
+                        <span class="text-xs font-bold text-gold range-value" id="md-val-${md.id}">${val.toFixed(1)}</span>
+                    </div>
+                    <p class="text-[10px] text-white/50 mb-1.5">${q}</p>
+                    <input type="range" min="0" max="5" step="0.1" value="${val}" class="w-full" id="md-slider-${md.id}" oninput="updateMD('${md.id}', this.value)" />
+                    <div class="flex justify-between text-[8px] text-white/20"><span>Tidak setuju</span><span>Sangat setuju</span></div>
+                `;
+                mdContainer.appendChild(container);
+                state.mdScores[md.id] = val;
+            });
+            updateProgress();
+        }
+
+        function updateMF(id, val) {
+            state.mfScores[id] = parseFloat(val);
+            document.getElementById('mf-val-' + id).textContent = parseFloat(val).toFixed(1);
+            updateProgress();
+        }
+
+        function updateMD(id, val) {
+            state.mdScores[id] = parseFloat(val);
+            document.getElementById('md-val-' + id).textContent = parseFloat(val).toFixed(1);
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const total = MF_DIMENSIONS.length + MD_MECHANISMS.length;
+            let filled = 0;
+            MF_DIMENSIONS.forEach(m => { if (state.mfScores[m.id] !== undefined) filled++; });
+            MD_MECHANISMS.forEach(m => { if (state.mdScores[m.id] !== undefined) filled++; });
+            document.getElementById('assessmentProgress').textContent = Math.round((filled / total) * 100) + '%';
+        }
+
+        // ===== SUBMIT =====
+        function submitAssessment() {
+            if (!state.selectedCase) { alert('Pilih skenario terlebih dahulu!'); return; }
+            const mfValues = MF_DIMENSIONS.map(m => state.mfScores[m.id] || 0);
+            const mdValues = MD_MECHANISMS.map(m => state.mdScores[m.id] || 0);
+            const heatmap = [];
+            MF_DIMENSIONS.forEach((mf, i) => {
+                const row = [];
+                MD_MECHANISMS.forEach((md, j) => {
+                    const score = (mfValues[i] * mdValues[j]) / 25 * 100;
+                    row.push(Math.min(100, Math.round(score)));
+                });
+                heatmap.push(row);
+            });
+            state.heatmapData = heatmap;
+            const totalCells = 6 * 8;
+            let sum = 0;
+            heatmap.forEach(row => row.forEach(v => sum += v));
+            const globalIndex = Math.round(sum / totalCells);
+            const response = {
+                caseId: state.selectedCase.id,
+                caseTitle: state.selectedCase.title,
+                timestamp: new Date().toISOString(),
+                mf: { ...state.mfScores },
+                md: { ...state.mdScores },
+                heatmap: heatmap,
+                globalIndex: globalIndex
+            };
+            state.responses.push(response);
+            localStorage.setItem('moralAcrobaticsData', JSON.stringify({ responses: state.responses, heatmapData: state
+                    .heatmapData }));
+            generateResults();
+            switchView('heatmap');
+            renderHeatmap();
+            updateAdminStats();
+        }
+
+        // ===== HEATMAP =====
+        function renderHeatmap() {
+            if (!state.heatmapData || state.heatmapData.length === 0) {
+                document.getElementById('heatmapBody').innerHTML =
+                    '<tr><td colspan="9" class="p-8 text-center text-white/30">Belum ada data.</td></tr>';
+                document.getElementById('heatmapHeader').innerHTML = '';
+                return;
+            }
+            const data = state.heatmapData;
+            const mfLabels = MF_DIMENSIONS.map(m => m.short);
+            const mdLabels = MD_MECHANISMS.map(m => m.short);
+            let headerHtml = '<th class="p-2 text-left text-[10px] font-bold text-white/30">MF \\ MD</th>';
+            mdLabels.forEach(label => {
+                headerHtml += `<th class="p-2 text-center text-[9px] font-bold text-white/40">${label}</th>`;
+            });
+            document.getElementById('heatmapHeader').innerHTML = headerHtml;
+            let bodyHtml = '';
+            data.forEach((row, i) => {
+                bodyHtml += `<tr><td class="p-2 text-[10px] font-bold text-white/50 whitespace-nowrap">${mfLabels[i]}</td>`;
+                row.forEach((val, j) => {
+                    const intensity = val / 100;
+                    let r, g, b;
+                    if (intensity < 0.2) { const t = intensity / 0.2;
+                        r = 20 + 30 * t;
+                        g = 20 + 40 * t;
+                        b = 50 + 60 * t; } else if (intensity < 0.4) { const t = (intensity - 0.2) / 0.2;
+                        r = 50 + 80 * t;
+                        g = 20 - 10 * t;
+                        b = 30 - 15 * t; } else if (intensity < 0.6) { const t = (intensity - 0.4) / 0.2;
+                        r = 130 + 80 * t;
+                        g = 20 + 80 * t;
+                        b = 15 + 10 * t; } else if (intensity < 0.8) { const t = (intensity - 0.6) / 0.2;
+                        r = 210 + 45 * t;
+                        g = 100 + 80 * t;
+                        b = 25 + 50 * t; } else { const t = (intensity - 0.8) / 0.2;
+                        r = 255;
+                        g = 180 + 75 * t;
+                        b = 75 + 130 * t; }
+                    const bgColor =
+                        `rgb(${Math.min(255,r)}, ${Math.min(255,g)}, ${Math.min(255,b)})`;
+                    const glow = `0 0 ${15 + 30 * intensity}px rgba(255, 152, 0, ${0.1 + 0.25 * intensity})`;
+                    const textColor = intensity > 0.55 ? 'white' : 'text-white/80';
+                    bodyHtml += `
+                        <td class="p-2 text-center heatmap-cell relative" style="background:${bgColor}; box-shadow:${glow}; min-width:44px; min-height:44px; border:1px solid rgba(255,255,255,${0.02 + 0.06 * intensity});">
+                            <span class="text-xs font-bold ${textColor}">${val}</span>
+                            <div class="tooltip">${mfLabels[i]} × ${mdLabels[j]} · ${val}%</div>
+                        </td>
+                    `;
+                });
+                bodyHtml += `</tr>`;
+            });
+            document.getElementById('heatmapBody').innerHTML = bodyHtml;
+            if (state.selectedCase) {
+                document.getElementById('heatmapCaseLabel').textContent =
+                    state.selectedCase.icon + ' ' + state.selectedCase.title + ' · 6 MF × 8 MD · Skala Api';
+            }
+        }
+
+        // ===== RESULTS =====
+        function generateResults() {
+            if (!state.heatmapData || state.heatmapData.length === 0) return;
+            const data = state.heatmapData;
+            const mfScores = MF_DIMENSIONS.map(m => state.mfScores[m.id] || 0);
+            const mdScores = MD_MECHANISMS.map(m => state.mdScores[m.id] || 0);
+            let maxVal = 0,
+                maxMfIdx = 0,
+                maxMdIdx = 0;
+            data.forEach((row, i) => {
+                row.forEach((val, j) => {
+                    if (val > maxVal) { maxVal = val;
+                        maxMfIdx = i;
+                        maxMdIdx = j; }
+                });
+            });
+            const topMF = MF_DIMENSIONS[maxMfIdx];
+            const topMD = MD_MECHANISMS[maxMdIdx];
+            let maxMfVal = 0,
+                maxMfIdx2 = 0;
+            mfScores.forEach((v, i) => { if (v > maxMfVal) { maxMfVal = v;
+                    maxMfIdx2 = i; } });
+            const dominantMF = MF_DIMENSIONS[maxMfIdx2];
+            let maxMdVal = 0,
+                maxMdIdx2 = 0;
+            mdScores.forEach((v, i) => { if (v > maxMdVal) { maxMdVal = v;
+                    maxMdIdx2 = i; } });
+            const dominantMD = MD_MECHANISMS[maxMdIdx2];
+            const totalCells = 6 * 8;
+            let sum = 0;
+            data.forEach(row => row.forEach(v => sum += v));
+            const globalIndex = Math.round(sum / totalCells);
+            state.results = { topMF, topMD, dominantMF, dominantMD, maxVal, mfScores, mdScores, heatmap: data,
+            globalIndex };
+        }
+
+        function renderResults() {
+            if (!state.results) {
+                document.getElementById('resultsCaseLabel').textContent = 'Belum ada diagnosis.';
+                document.getElementById('scoreSummary').innerHTML =
+                    '<div class="col-span-4 text-center text-white/30 p-8">Isi asesmen terlebih dahulu.</div>';
+                document.getElementById('responseDetailContainer').innerHTML = '';
+                document.getElementById('holisticAdvice').innerHTML = '';
+                document.getElementById('multiDisciplinaryDiagnosis').innerHTML = '';
+                return;
+            }
+            const r = state.results;
+            if (state.selectedCase) {
+                document.getElementById('resultsCaseLabel').textContent =
+                    state.selectedCase.icon + ' ' + state.selectedCase.title + ' · Analisis Holistik';
+            }
+
+            // Ringkasan skor
+            const summaryHtml = `
+                <div class="glow-box p-3 rounded-xl border border-glow/20 text-center">
+                    <p class="text-[9px] text-white/30 uppercase tracking-wider">Fondasi Dominan</p>
+                    <p class="text-sm font-bold text-glow">${r.dominantMF.label}</p>
+                    <p class="text-[10px] text-white/40">skor ${r.mfScores[MF_DIMENSIONS.indexOf(r.dominantMF)].toFixed(1)}</p>
+                </div>
+                <div class="glow-box p-3 rounded-xl border border-gold/20 text-center">
+                    <p class="text-[9px] text-white/30 uppercase tracking-wider">MD Dominan</p>
+                    <p class="text-sm font-bold text-gold">${r.dominantMD.label}</p>
+                    <p class="text-[10px] text-white/40">skor ${r.mdScores[MD_MECHANISMS.indexOf(r.dominantMD)].toFixed(1)}</p>
+                </div>
+                <div class="glow-box p-3 rounded-xl border border-fire-500/20 text-center fire-glow">
+                    <p class="text-[9px] text-white/30 uppercase tracking-wider">Sel Terpanas</p>
+                    <p class="text-sm font-bold text-fire-400">${r.topMF.short} × ${r.topMD.short}</p>
+                    <p class="text-[10px] text-white/40">intensitas ${r.maxVal}%</p>
+                </div>
+                <div class="glow-box p-3 rounded-xl border border-gold/20 text-center">
+                    <p class="text-[9px] text-white/30 uppercase tracking-wider">Indeks Akrobatik</p>
+                    <p class="text-2xl font-black ${r.globalIndex > 60 ? 'text-fire-400' : r.globalIndex > 30 ? 'text-gold' : 'text-emerald-400'}">${r.globalIndex}%</p>
+                    <p class="text-[10px] text-white/40">${r.globalIndex > 60 ? 'Tinggi' : r.globalIndex > 30 ? 'Sedang' : 'Rendah'}</p>
+                </div>
+            `;
+            document.getElementById('scoreSummary').innerHTML = summaryHtml;
+
+            // Tabel jawaban dengan dimensi
+            let responseHtml =
+                `<table class="w-full border-collapse text-xs"><thead><tr class="border-b border-glow/20"><th class="p-1 text-left text-white/40">Dimensi MF</th><th class="p-1 text-left text-white/40">Skor</th><th class="p-1 text-left text-white/40">Dimensi MD</th><th class="p-1 text-left text-white/40">Skor</th></tr></thead><tbody>`;
+            const maxLen = Math.max(MF_DIMENSIONS.length, MD_MECHANISMS.length);
+            for (let i = 0; i < maxLen; i++) {
+                const mf = MF_DIMENSIONS[i] || { label: '-', short: '-' };
+                const md = MD_MECHANISMS[i] || { label: '-', short: '-' };
+                const mfScore = r.mfScores[i] !== undefined ? r.mfScores[i].toFixed(1) : '-';
+                const mdScore = r.mdScores[i] !== undefined ? r.mdScores[i].toFixed(1) : '-';
+                responseHtml +=
+                    `<tr class="${i % 2 === 0 ? 'bg-navy-800/30' : ''}"><td class="p-1 text-glow/70">${i < MF_DIMENSIONS.length ? mf.label : '-'}</td><td class="p-1 text-white/80 font-mono">${i < MF_DIMENSIONS.length ? mfScore : '-'}</td><td class="p-1 text-gold/70">${i < MD_MECHANISMS.length ? md.label : '-'}</td><td class="p-1 text-white/80 font-mono">${i < MD_MECHANISMS.length ? mdScore : '-'}</td></tr>`;
+            }
+            responseHtml += `</tbody></table><p class="text-[9px] text-white/30 mt-2 italic">* Skala 0–5</p>`;
+            document.getElementById('responseDetailContainer').innerHTML = responseHtml;
+
+            // === SARAN HOLISTIK (satu narasi panjang, variatif per skor) ===
+            const mfAvg = r.mfScores.reduce((a, b) => a + b, 0) / r.mfScores.length;
+            const mdAvg = r.mdScores.reduce((a, b) => a + b, 0) / r.mdScores.length;
+            let advice = '';
+
+            // Pembuka berdasarkan indeks
+            if (r.globalIndex > 60) {
+                advice +=
+                    `<p class="text-fire-400 font-bold">🔥 Indeks Akrobatik Tinggi (${r.globalIndex}%). </p><p>Individu ini menunjukkan pola yang sangat kuat dalam membenarkan pelanggaran norma pada isu SDGs. </p>`;
+            } else if (r.globalIndex > 30) {
+                advice +=
+                    `<p class="text-gold font-bold">⚡ Indeks Akrobatik Sedang (${r.globalIndex}%). </p><p>Ada kecenderungan pembenaran yang cukup terlihat, namun masih terbuka untuk intervensi. </p>`;
+            } else {
+                advice +=
+                    `<p class="text-emerald-400 font-bold">🌱 Indeks Akrobatik Rendah (${r.globalIndex}%). </p><p>Individu ini memiliki kontrol moral yang baik dan cenderung memegang teguh nilai-nilai SDGs. </p>`;
+            }
+
+            // Analisis berdasarkan dominasi MF & MD
+            advice +=
+                `<p><strong>Fondasi moral dominan:</strong> ${r.dominantMF.label} (skor ${r.mfScores[MF_DIMENSIONS.indexOf(r.dominantMF)].toFixed(1)}). `;
+            advice +=
+                `<strong>Mekanisme pelepasan dominan:</strong> ${r.dominantMD.label} (skor ${r.mdScores[MD_MECHANISMS.indexOf(r.dominantMD)].toFixed(1)}). </p>`;
+
+            // Variasi berdasarkan ketimpangan
+            if (mfAvg > 4 && mdAvg > 4) {
+                advice +=
+                    `<p class="text-glow">⚠️ Terdapat ketegangan internal: fondasi moral kuat namun mekanisme pelepasan juga kuat. Ini menandakan konflik batin yang signifikan — individu tahu nilai-nilai SDGs penting, tetapi menggunakan pembenaran untuk mengurangi rasa bersalah. Pendekatan terbaik adalah memperkuat kesadaran akan dampak sosial dan mengurangi rasionalisasi melalui diskusi reflektif.</p>`;
+            } else if (mfAvg < 2 && mdAvg > 4) {
+                advice +=
+                    `<p class="text-gold">📉 Fondasi moral rendah dan pelepasan moral tinggi. Individu ini sangat rentan terhadap pembenaran perilaku yang merugikan SDGs. Dibutuhkan pendekatan edukasi nilai yang intensif dan penguatan sanksi sosial agar norma dipahami sebagai bagian dari identitas diri.</p>`;
+            } else if (mfAvg > 4 && mdAvg < 2) {
+                advice +=
+                    `<p class="text-emerald-400">✅ Fondasi moral kuat dan pelepasan moral rendah. Individu ini memiliki integritas yang solid dan cenderung konsisten dengan nilai-nilai SDGs. Pertahankan dengan memberikan apresiasi dan tantangan positif untuk menjadi agen perubahan.</p>`;
+            } else {
+                advice +=
+                    `<p>Kombinasi skor menunjukkan profil yang seimbang. Perkuat dimensi yang masih lemah dan jaga keseimbangan antara prinsip moral dan perilaku nyata.</p>`;
+            }
+
+            // Kaitkan dengan sel terpanas
+            advice +=
+                `<p>Sel terpanas pada <strong>${r.topMF.short} × ${r.topMD.short}</strong> (${r.maxVal}%) menunjukkan bahwa dalam skenario ini, individu paling rentan menggunakan ${r.topMD.label} untuk membenarkan pelanggaran terhadap nilai ${r.topMF.label}. Intervensi spesifik bisa diarahkan pada pengurangan mekanisme tersebut melalui pelatihan moral dan studi kasus.</p>`;
+
+            // Saran praktis
+            advice +=
+                `<p class="text-gold">💡 <strong>Saran praktis:</strong> Diskusikan skenario ini dalam kelompok kecil, eksplorasi alternatif perilaku yang selaras dengan nilai-nilai SDGs, dan latih kemampuan refleksi diri terhadap alasan-alasan yang muncul. Gunakan heatmap sebagai alat visual untuk melacak kemajuan.</p>`;
+
+            document.getElementById('holisticAdvice').innerHTML = advice;
+
+            // === Diagnosa per disiplin (pelengkap) ===
+            const disciplines = [{
+                name: '🧠 Psikologi Kognitif',
+                desc: 'Fokus pada proses mental dan mekanisme pembenaran.',
+                insight: `Dominasi ${r.dominantMF.label} dengan ${r.dominantMD.label} menunjukkan disonansi kognitif yang signifikan.`
+            }, {
+                name: '👥 Psikologi Sosial',
+                desc: 'Pengaruh norma kelompok dan identitas sosial.',
+                insight: `Skor ${r.dominantMD.label} yang tinggi mencerminkan kepatuhan pada ekspektasi sosial sebagai pembenaran.`
+            }, {
+                name: '🏛️ Sosiologi',
+                desc: 'Struktur sosial dan institusi.',
+                insight: `Skenario ini menunjukkan bagaimana aturan dan sanksi sosial membentuk perilaku terhadap SDGs.`
+            }, {
+                name: '🌍 Ekopolitik',
+                desc: 'Relasi kekuasaan dan ketimpangan.',
+                insight: `Penggunaan ${r.dominantMD.label} menunjukkan upaya menyeimbangkan ketimpangan struktural.`
+            }, {
+                name: '🧬 Behavioral Science',
+                desc: 'Kebiasaan dan reinforcement.',
+                insight: `Pola ${r.topMF.short} × ${r.topMD.short} mengindikasikan kebiasaan yang diperkuat oleh lingkungan.`
+            }];
+            let diagHtml = '';
+            disciplines.forEach(d => {
+                diagHtml += `
+                    <div class="glow-box p-4 rounded-xl border border-glow/10">
+                        <div class="flex items-center gap-2 mb-1"><span class="text-lg">${d.icon || '📌'}</span><h4 class="font-display font-bold text-sm text-white">${d.name}</h4></div>
+                        <p class="text-[10px] text-white/40 leading-relaxed">${d.desc}</p>
+                        <p class="text-xs text-white/70 mt-2 leading-relaxed border-l-2 border-glow pl-3 glow-text">${d.insight}</p>
+                    </div>
+                `;
+            });
+            document.getElementById('multiDisciplinaryDiagnosis').innerHTML = diagHtml;
+        }
+
+        // ===== ADMIN =====
+        const ADMIN_PASSWORD = 'psycho2024';
+
+        function openAdmin() {
+            document.getElementById('adminModal').classList.remove('hidden');
+            document.getElementById('adminPassword').value = '';
+            document.getElementById('adminError').classList.add('hidden');
+            document.getElementById('adminContent').classList.add('hidden');
+            document.getElementById('adminCollectiveHeatmap').classList.add('hidden');
+            document.getElementById('adminPassword').focus();
+            document.getElementById('adminPanelStats').classList.remove('hidden');
+            document.getElementById('adminPanelBlueprint').classList.add('hidden');
+            document.querySelectorAll('#adminTabStats, #adminTabBlueprint').forEach(b => b.classList.remove('active'));
+            document.getElementById('adminTabStats').classList.add('active');
+        }
+
+        function closeAdmin() {
+            document.getElementById('adminModal').classList.add('hidden');
+        }
+
+        function adminLogin() {
+            if (document.getElementById('adminPassword').value === ADMIN_PASSWORD) {
+                state.adminLoggedIn = true;
+                document.getElementById('adminError').classList.add('hidden');
+                document.getElementById('adminContent').classList.remove('hidden');
+                updateAdminStats();
+                renderBlueprint();
+            } else {
+                document.getElementById('adminError').classList.remove('hidden');
+            }
+        }
+
+        function adminSwitchTab(tab) {
+            document.querySelectorAll('#adminPanelStats, #adminPanelBlueprint').forEach(el => el.classList.add('hidden'));
+            if (tab === 'stats') document.getElementById('adminPanelStats').classList.remove('hidden');
+            if (tab === 'blueprint') document.getElementById('adminPanelBlueprint').classList.remove('hidden');
+            document.querySelectorAll('#adminTabStats, #adminTabBlueprint').forEach(b => b.classList.remove('active'));
+            document.getElementById('adminTab' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+        }
+
+        function renderBlueprint() {
+            const sample = CASES[0];
+            const tbody = document.getElementById('blueprintTableBody');
+            tbody.innerHTML = '';
+            const items = [];
+            MF_DIMENSIONS.forEach((mf, i) => {
+                items.push({
+                    no: i + 1,
+                    question: sample.mfQuestions[mf.id] || '-',
+                    dimensi: mf.label,
+                    jenis: 'MF'
+                });
+            });
+            MD_MECHANISMS.forEach((md, i) => {
+                items.push({
+                    no: i + 1 + MF_DIMENSIONS.length,
+                    question: sample.mdQuestions[md.id] || '-',
+                    dimensi: md.label,
+                    jenis: 'MD'
+                });
+            });
+            items.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = 'border-b border-navy-700/30';
+                tr.innerHTML = `
+                    <td class="p-1.5 text-white/70">${item.no}</td>
+                    <td class="p-1.5 text-white/60 text-[10px]">${item.question}</td>
+                    <td class="p-1.5 text-glow/80">${item.dimensi}</td>
+                    <td class="p-1.5 text-white/50"><span class="px-1.5 py-0.5 rounded ${item.jenis === 'MF' ? 'bg-glow/20 text-glow' : 'bg-gold/20 text-gold'} text-[8px] font-bold">${item.jenis}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function updateAdminStats() {
+            document.getElementById('adminTotalResponses').textContent = state.responses.length;
+            let total = 0;
+            state.responses.forEach(r => { if (r.heatmap) r.heatmap.flat().forEach(v => total += v); });
+            const avg = state.responses.length > 0 ? (total / (state.responses.length * 6 * 8)).toFixed(1) : '0.0';
+            document.getElementById('adminAvgScore').textContent = avg;
+        }
+
+        function adminDownloadCSV() {
+            if (state.responses.length === 0) { alert('Belum ada data.'); return; }
+            let csv = 'No,Skenario,SDGs,Timestamp,MF_Harm,MF_Fairness,MF_Loyalty,MF_Authority,MF_Purity,MF_Individualizing,';
+            csv += 'MD_Justification,MD_Labeling,MD_Comparison,MD_Displacement,MD_Diffusion,MD_Distortion,MD_Dehumanization,MD_Attribution,IndeksAkrobatik\n';
+            state.responses.forEach((r, idx) => {
+                const mf = r.mf || {};
+                const md = r.md || {};
+                const caseData = CASES.find(c => c.id === r.caseId);
+                csv += `${idx+1},${r.caseTitle},${caseData ? caseData.sdg : '-'},${r.timestamp},`;
+                csv += `${(mf.harm||0).toFixed(1)},${(mf.fairness||0).toFixed(1)},${(mf.loyalty||0).toFixed(1)},`;
+                csv += `${(mf.authority||0).toFixed(1)},${(mf.purity||0).toFixed(1)},${(mf.individualizing||0).toFixed(1)},`;
+                csv += `${(md.mj||0).toFixed(1)},${(md.el||0).toFixed(1)},${(md.ac||0).toFixed(1)},`;
+                csv += `${(md.dor||0).toFixed(1)},${(md.dif||0).toFixed(1)},${(md.doc||0).toFixed(1)},`;
+                csv += `${(md.dh||0).toFixed(1)},${(md.ab||0).toFixed(1)},${r.globalIndex||0}\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'moral_acrobatics_sdgs_data.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function adminResetAll() {
+            if (!confirm('Yakin reset semua data?')) return;
+            state.responses = [];
+            state.heatmapData = [];
+            state.mfScores = {};
+            state.mdScores = {};
+            state.results = null;
+            localStorage.removeItem('moralAcrobaticsData');
+            updateAdminStats();
+            document.getElementById('adminCollectiveHeatmap').classList.add('hidden');
+            alert('Data direset.');
+            switchView('cases');
+        }
+
+        function adminViewCollectiveHeatmap() {
+            const container = document.getElementById('adminCollectiveHeatmap');
+            container.classList.toggle('hidden');
+            if (!container.classList.contains('hidden')) {
+                if (state.responses.length === 0) {
+                    document.getElementById('adminHeatmapContainer').innerHTML =
+                        '<p class="text-center text-white/40 p-4">Belum ada data.</p>';
+                    return;
+                }
+                const agg = Array.from({ length: 6 }, () => Array(8).fill(0));
+                let count = 0;
+                state.responses.forEach(r => {
+                    if (r.heatmap && r.heatmap.length === 6) {
+                        r.heatmap.forEach((row, i) => {
+                            row.forEach((val, j) => { agg[i][j] += val; });
+                        });
+                        count++;
+                    }
+                });
+                if (count === 0) {
+                    document.getElementById('adminHeatmapContainer').innerHTML =
+                        '<p class="text-center text-white/40 p-4">Data heatmap tidak tersedia.</p>';
+                    return;
+                }
+                const avg = agg.map(row => row.map(v => Math.round(v / count)));
+                let html =
+                '<table class="w-full text-xs border-collapse"><thead><tr><th class="p-1 text-left text-white/40">MF\\MD</th>';
+                MD_MECHANISMS.forEach(m => {
+                    html += `<th class="p-1 text-center font-bold text-white/40">${m.short}</th>`;
+                });
+                html += '</tr></thead><tbody>';
+                MF_DIMENSIONS.forEach((mf, i) => {
+                    html += `<tr><td class="p-1 font-bold text-white/50 text-[9px]">${mf.short}</td>`;
+                    avg[i].forEach((val, j) => {
+                        const intensity = val / 100;
+                        let r, g, b;
+                        if (intensity < 0.2) { const t = intensity / 0.2;
+                            r = 20 + 30 * t;
+                            g = 20 + 40 * t;
+                            b = 50 + 60 * t; } else if (intensity < 0.4) { const t = (intensity - 0.2) / 0.2;
+                            r = 50 + 80 * t;
+                            g = 20 - 10 * t;
+                            b = 30 - 15 * t; } else if (intensity < 0.6) { const t = (intensity - 0.4) / 0.2;
+                            r = 130 + 80 * t;
+                            g = 20 + 80 * t;
+                            b = 15 + 10 * t; } else if (intensity < 0.8) { const t = (intensity - 0.6) / 0.2;
+                            r = 210 + 45 * t;
+                            g = 100 + 80 * t;
+                            b = 25 + 50 * t; } else { const t = (intensity - 0.8) / 0.2;
+                            r = 255;
+                            g = 180 + 75 * t;
+                            b = 75 + 130 * t; }
+                        html +=
+                            `<td class="p-1 text-center rounded" style="background:rgb(${Math.min(255,r)},${Math.min(255,g)},${Math.min(255,b)}); min-width:32px; color:${intensity > 0.55 ? 'white' : 'rgba(255,255,255,0.7)'};">${val}</td>`;
+                    });
+                    html += '</tr>';
+                });
+                html += '</tbody></table>';
+                html += `<p class="text-[8px] text-white/20 mt-2 text-center">Rata-rata dari ${count} responden</p>`;
+                document.getElementById('adminHeatmapContainer').innerHTML = html;
+            }
+        }
+
+        document.getElementById('adminPassword').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') adminLogin();
+        });
+
+        // ===== RESET =====
+        function resetAssessment() {
+            state.mfScores = {};
+            state.mdScores = {};
+            state.heatmapData = [];
+            state.results = null;
+            if (state.selectedCase) renderAssessment();
+            switchView('cases');
+        }
+
+        // ===== KEYBOARD =====
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !document.getElementById('adminModal').classList.contains('hidden')) closeAdmin();
+        });
+        document.getElementById('adminModal').addEventListener('click', function(e) {
+            if (e.target === this) closeAdmin();
+        });
+
+        // ===== INIT =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const saved = localStorage.getItem('moralAcrobaticsData');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    state.responses = parsed.responses || [];
+                    state.heatmapData = parsed.heatmapData || [];
+                } catch (e) {}
+            }
+            switchView('info');
+            updateAdminStats();
+            console.log('🧠 Moral Acrobatics · SDGs Edition v3.2 loaded');
+            console.log('📚 Psychosophia Behavioral Lab — bridging data to human behavior');
+        });
+    </script>
+</body>
+</html>

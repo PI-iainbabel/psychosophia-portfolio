@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Grammar of Society - Cristina Bicchieri | Student Hub</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        cozy: {
+                            cream: '#FAF6F0',
+                            sand: '#F4EAE0',
+                            clay: '#D4ADFC',
+                            lavender: '#8D7BFF',
+                            indigo: '#533EAFD',
+                            mint: '#A4F4CD',
+                            coral: '#FF8F8F',
+                            dark: '#1D1A39',
+                            muted: '#454E70',
+                            text: '#2D221E'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF6F0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D4ADFC;
+            border-radius: 10px;
+        }
+        .slide-enter {
+            opacity: 0;
+            transform: scale(0.98) translateY(10px);
+        }
+        .slide-active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+    </style>
+</head>
+<body class="bg-cozy-cream text-cozy-dark font-sans min-h-screen flex flex-col selection:bg-cozy-lavender selection:text-white">
+
+    <!-- HEADER / NAVIGATION BAR -->
+    <header class="bg-white/80 backdrop-blur-md border-b border-cozy-lavender/10 sticky top-0 z-40 px-6 py-4 flex justify-between items-center transition-all">
+        <div class="flex items-center gap-3">
+            <div class="bg-gradient-to-tr from-cozy-lavender to-cozy-clay text-white w-10 h-10 rounded-2xl flex items-center justify-center font-display font-extrabold shadow-lg shadow-cozy-lavender/30">
+                G
+            </div>
+            <div>
+                <h1 class="font-display font-bold text-lg leading-none text-cozy-dark">The Grammar of Society</h1>
+                <p class="text-xs text-cozy-muted font-medium">Cristina Bicchieri Summary • Interactive Learner</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-3">
+            <div class="hidden md:flex items-center gap-2 bg-cozy-lavender/10 px-3 py-1.5 rounded-full border border-cozy-lavender/20 text-xs font-semibold text-cozy-lavender">
+                <span class="w-2 h-2 rounded-full bg-cozy-coral animate-pulse"></span>
+                Psychosophia Lab 2026
+            </div>
+            <button onclick="toggleSidebar()" class="lg:hidden text-cozy-dark hover:bg-cozy-lavender/10 p-2 rounded-xl transition">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- WRAPPER -->
+    <div class="flex-grow flex flex-col lg:flex-row max-w-[1600px] w-full mx-auto relative">
+        
+        <!-- SIDEBAR (STUDY ROUTE NAVIGATOR) -->
+        <aside id="sidebar" class="fixed lg:sticky top-[73px] left-0 bottom-0 w-[310px] bg-white border-r border-cozy-lavender/10 p-6 flex flex-col justify-between overflow-y-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-30 lg:z-10 h-[calc(100vh-73px)]">
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-cozy-lavender mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-route"></i> Peta Navigasi Bab
+                    </h3>
+                    <div class="space-y-1" id="slide-menu-list">
+                        <!-- Dynamically populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Simulation Quick Link Card -->
+                <div class="bg-gradient-to-br from-cozy-cream to-cozy-sand border border-cozy-lavender/20 p-5 rounded-2xl relative overflow-hidden">
+                    <div class="absolute -right-6 -bottom-6 text-cozy-lavender/10 text-7xl"><i class="fa-solid fa-gamepad"></i></div>
+                    <h4 class="font-display font-bold text-sm text-cozy-dark mb-1">Laboratorium Kognitif</h4>
+                    <p class="text-xs text-cozy-muted mb-4">Simulasikan Game Theory & Isyarat Lingkungan secara real-time di bawah!</p>
+                    <button onclick="scrollToSimulation()" class="w-full bg-cozy-lavender text-white text-xs font-bold py-2.5 px-3 rounded-xl hover:bg-cozy-dark transition-all duration-300 shadow-md shadow-cozy-lavender/20">
+                        Coba Eksperimen <i class="fa-solid fa-arrow-down ml-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Footer Sidebar -->
+            <div class="pt-6 border-t border-cozy-lavender/10 text-center">
+                <p class="text-[10px] text-cozy-muted font-medium">Designed for Cognitive Ease & High Engagement 🧠</p>
+            </div>
+        </aside>
+
+        <!-- BACKDROP FOR MOBILE SIDEBAR -->
+        <div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-cozy-dark/40 backdrop-blur-sm z-20 hidden lg:hidden"></div>
+
+        <!-- MAIN PRESENTATION CANVAS -->
+        <main class="flex-grow p-4 sm:p-6 md:p-8 lg:p-12 flex flex-col justify-between min-h-[calc(100vh-73px)] max-w-full overflow-x-hidden">
+            
+            <!-- PRESENTATION WINDOW -->
+            <div class="bg-white rounded-3xl border border-cozy-lavender/5 p-6 sm:p-8 md:p-10 shadow-xl shadow-cozy-lavender/5 min-h-[580px] flex flex-col justify-between relative overflow-hidden transition-all duration-300">
+                
+                <!-- Cozy ambient decorative background shapes -->
+                <div class="absolute -top-32 -left-32 w-80 h-80 rounded-full bg-cozy-clay/10 blur-[60px] pointer-events-none"></div>
+                <div class="absolute -bottom-32 -right-32 w-80 h-80 rounded-full bg-cozy-lavender/10 blur-[60px] pointer-events-none"></div>
+
+                <!-- Slide Metadata -->
+                <div class="flex justify-between items-center border-b border-cozy-lavender/10 pb-4 mb-6 relative z-10">
+                    <div class="flex items-center gap-2">
+                        <span id="slide-chapter-badge" class="bg-cozy-lavender/10 text-cozy-lavender text-xs font-bold px-3 py-1 rounded-xl uppercase tracking-wider">
+                            Bab 1
+                        </span>
+                        <span class="text-cozy-lavender/30">•</span>
+                        <span id="slide-read-time" class="text-xs text-cozy-muted font-medium flex items-center gap-1">
+                            <i class="fa-regular fa-clock"></i> 2 mnt baca
+                        </span>
+                    </div>
+                    <div class="text-xs font-semibold text-cozy-muted bg-cozy-cream px-3 py-1.5 rounded-xl">
+                        Materi <span id="current-slide-num" class="text-cozy-dark font-extrabold">1</span> dari <span id="total-slides-num" class="font-extrabold">11</span>
+                    </div>
+                </div>
+
+                <!-- DYNAMIC SLIDE CONTENT CONTAINER -->
+                <div id="slide-content-stage" class="flex-grow flex flex-col justify-center py-2 relative z-10">
+                    <!-- Dynamic Slide Content Injected by JS -->
+                </div>
+
+                <!-- ACTION FOOTER -->
+                <div class="flex flex-col sm:flex-row justify-between items-center border-t border-cozy-lavender/10 pt-6 mt-8 gap-4 relative z-10">
+                    <button onclick="prevSlide()" class="w-full sm:w-auto group flex items-center justify-center gap-2 text-cozy-lavender hover:text-cozy-dark font-bold text-sm bg-cozy-cream hover:bg-cozy-lavender/15 px-5 py-3 rounded-2xl transition-all duration-300 active:scale-95">
+                        <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Kembali
+                    </button>
+
+                    <!-- Navigation Hint -->
+                    <span class="hidden md:inline-flex items-center gap-1.5 text-[10px] text-cozy-muted/60 font-semibold bg-cozy-lavender/5 px-3 py-1.5 rounded-lg border border-cozy-lavender/10">
+                        <kbd class="border border-cozy-lavender/20 px-1 rounded bg-white font-mono shadow-sm">←</kbd> dan <kbd class="border border-cozy-lavender/20 px-1 rounded bg-white font-mono shadow-sm">→</kbd> pada Keyboard untuk Navigasi Cepat
+                    </span>
+
+                    <button onclick="nextSlide()" class="w-full sm:w-auto group flex items-center justify-center gap-2 bg-cozy-lavender hover:bg-cozy-dark text-white font-bold text-sm px-6 py-3 rounded-2xl transition-all duration-300 active:scale-95 shadow-lg shadow-cozy-lavender/25">
+                        Selanjutnya <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- INTERACTIVE COGNITIVE LABS -->
+            <section id="interactive-labs" class="mt-16 pt-16 border-t-2 border-dashed border-cozy-lavender/20">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <span class="bg-cozy-lavender/15 text-cozy-lavender text-xs font-extrabold px-4 py-1.5 rounded-full uppercase tracking-widest border border-cozy-lavender/10">
+                        Interactive Cognitive Lab
+                    </span>
+                    <h2 class="font-display font-extrabold text-3xl md:text-4xl text-cozy-dark mt-4">Pahami Teori Melalui Simulasi Nyata</h2>
+                    <p class="text-sm md:text-base text-cozy-muted mt-3">Otak manusia mengingat 10% dari apa yang dibaca, namun 80% dari apa yang disimulasikan. Coba dua model eksperimen Cristina Bicchieri di bawah ini!</p>
+                </div>
+
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                    
+                    <!-- LAB 1: THE GAME THEORY TRANSFORMER -->
+                    <div class="bg-white border border-cozy-lavender/15 rounded-3xl p-6 md:p-8 shadow-xl relative overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="absolute right-4 top-4 text-cozy-lavender/10 text-6xl font-display font-black">#01</div>
+                            <h3 class="font-display font-extrabold text-xl text-cozy-dark mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-chess-board text-cozy-lavender"></i> Payoff Matrix Transformer
+                            </h3>
+                            <p class="text-xs text-cozy-muted mb-6 leading-relaxed">Cristina Bicchieri berargumen bahwa norma sosial mentransformasi <strong>Mixed-Motive Game</strong> (seperti Prisoner's Dilemma) menjadi <strong>Coordination Game</strong> dengan menambahkan beban penalti psikologis (NE) saat melanggar.</p>
+                            
+                            <!-- Simulation Control Box -->
+                            <div class="bg-cozy-cream border border-cozy-lavender/15 p-4 rounded-2xl mb-6 space-y-4">
+                                <h4 class="text-xs font-bold uppercase tracking-wider text-cozy-lavender">Kontrol Parameter Norma:</h4>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-cozy-muted mb-1">Ekspektasi Empiris (EE):</label>
+                                        <select id="sim-ee" onchange="calculatePayoffs()" class="w-full bg-white border border-cozy-lavender/25 rounded-xl px-2.5 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-cozy-lavender font-medium">
+                                            <option value="low">Rendah (Sedikit orang patuh)</option>
+                                            <option value="high" selected>Tinggi (Semua orang patuh)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-cozy-muted mb-1">Ekspektasi Normatif (NE):</label>
+                                        <select id="sim-ne" onchange="calculatePayoffs()" class="w-full bg-white border border-cozy-lavender/25 rounded-xl px-2.5 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-cozy-lavender font-medium">
+                                            <option value="low">Rendah (Tidak ada sanksi)</option>
+                                            <option value="high" selected>Tinggi (Takut dinilai buruk)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Payoff Grid -->
+                            <div class="space-y-3">
+                                <h4 class="text-xs font-bold uppercase tracking-wider text-cozy-lavender mb-2 text-center">Matriks Payoff Kamu vs Kawan Sekamar:</h4>
+                                <div class="grid grid-cols-3 gap-2 text-center text-xs font-bold">
+                                    <div></div>
+                                    <div class="bg-cozy-lavender/10 text-cozy-lavender p-2 rounded-xl">Kawan: Patuh</div>
+                                    <div class="bg-cozy-lavender/10 text-cozy-lavender p-2 rounded-xl">Kawan: Curang</div>
+
+                                    <div class="bg-cozy-lavender/10 text-cozy-lavender p-2 rounded-xl flex items-center justify-center">Kamu: Patuh</div>
+                                    <div id="cell-cc" class="bg-cozy-cream p-4 rounded-xl border border-cozy-lavender/15 transition-all duration-300">
+                                        <span class="text-sm font-extrabold text-emerald-600">(3, 3)</span>
+                                        <span class="block text-[9px] text-cozy-muted mt-1 font-normal">Sama-Sama Nyaman</span>
+                                    </div>
+                                    <div id="cell-cd" class="bg-cozy-cream p-4 rounded-xl border border-cozy-lavender/15 transition-all duration-300">
+                                        <span id="payoff-cd" class="text-sm font-extrabold text-rose-500">(1, 4)</span>
+                                        <span id="label-cd" class="block text-[9px] text-cozy-muted mt-1 font-normal">Sucker's Payoff!</span>
+                                    </div>
+
+                                    <div class="bg-cozy-lavender/10 text-cozy-lavender p-2 rounded-xl flex items-center justify-center">Kamu: Curang</div>
+                                    <div id="cell-dc" class="bg-cozy-cream p-4 rounded-xl border border-cozy-lavender/15 transition-all duration-300">
+                                        <span id="payoff-dc" class="text-sm font-extrabold text-orange-600">(4, 1)</span>
+                                        <span id="label-dc" class="block text-[9px] text-cozy-muted mt-1 font-normal">Free Rider!</span>
+                                    </div>
+                                    <div id="cell-dd" class="bg-cozy-cream p-4 rounded-xl border border-cozy-lavender/15 transition-all duration-300">
+                                        <span class="text-sm font-extrabold text-rose-600">(2, 2)</span>
+                                        <span class="block text-[9px] text-cozy-muted mt-1 font-normal">Saling Curang (Buruk)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Analysis Response Box -->
+                        <div class="mt-6 bg-cozy-dark text-white p-4 rounded-2xl">
+                            <h4 class="font-display font-bold text-xs text-cozy-clay uppercase tracking-wider mb-1"><i class="fa-solid fa-microscope"></i> Analisis Sistem:</h4>
+                            <p id="simulation-analysis-text" class="text-xs text-gray-300 leading-relaxed">
+                                Memuat parameter...
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- LAB 2: THE LITTERING CUE EXPT (CIALDINI SIMULATOR) -->
+                    <div class="bg-white border border-cozy-lavender/15 rounded-3xl p-6 md:p-8 shadow-xl relative overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="absolute right-4 top-4 text-cozy-lavender/10 text-6xl font-display font-black">#02</div>
+                            <h3 class="font-display font-extrabold text-xl text-cozy-dark mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-trash-can text-cozy-coral"></i> Cialdini's Littering Simulator
+                            </h3>
+                            <p class="text-xs text-cozy-muted mb-6 leading-relaxed">Visualisasi eksperimen kognitif Robert Cialdini (Bab 2.3). Pilih kondisi kebersihan lantai untuk melihat seberapa besar kemungkinan seseorang akan membuang sampah sembarangan.</p>
+
+                            <!-- Interactive Scene View -->
+                            <div class="relative w-full h-44 bg-slate-100 rounded-2xl border border-cozy-lavender/15 overflow-hidden flex flex-col justify-end p-4">
+                                <!-- Background Graphics -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-gray-300/30 to-transparent"></div>
+                                <div class="absolute top-4 left-4 flex items-center gap-2 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full border border-cozy-lavender/10">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-cozy-coral" id="environment-status-dot"></span>
+                                    <span class="text-[10px] font-bold text-cozy-dark" id="environment-status-text">Kondisi: Bersih Total</span>
+                                </div>
+
+                                <!-- Litter assets dynamically injected -->
+                                <div id="litter-items-container" class="relative z-10 w-full h-24 flex items-end justify-center gap-4">
+                                    <!-- Dynamic content -->
+                                </div>
+                            </div>
+
+                            <!-- Selector Buttons -->
+                            <div class="grid grid-cols-3 gap-2 mt-4">
+                                <button onclick="setLitterExpt('clean')" id="btn-expt-clean" class="text-center p-3 rounded-xl border border-cozy-lavender/20 text-xs font-bold bg-white transition hover:bg-cozy-lavender/5">
+                                    🧹 Bersih Total
+                                </button>
+                                <button onclick="setLitterExpt('single')" id="btn-expt-single" class="text-center p-3 rounded-xl border border-cozy-lavender/20 text-xs font-bold bg-white transition hover:bg-cozy-lavender/5">
+                                    🍂 1 Sampah Saja
+                                </button>
+                                <button onclick="setLitterExpt('dirty')" id="btn-expt-dirty" class="text-center p-3 rounded-xl border border-cozy-lavender/20 text-xs font-bold bg-white transition hover:bg-cozy-lavender/5">
+                                    🗑️ Sangat Kotor
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Simulation Results Card -->
+                        <div class="mt-6 bg-cozy-cream border border-cozy-lavender/10 p-5 rounded-2xl">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-bold text-cozy-muted">Probabilitas Seseorang Ikut Membuang Sampah:</span>
+                                <span id="litter-prob-badge" class="text-lg font-black text-cozy-dark">10%</span>
+                            </div>
+                            <!-- Simple custom progress bar -->
+                            <div class="w-full bg-white rounded-full h-3.5 border border-cozy-lavender/10 overflow-hidden">
+                                <div id="litter-prob-bar" class="bg-cozy-coral h-full rounded-full transition-all duration-500" style="width: 10%"></div>
+                            </div>
+                            <p id="litter-explanation-text" class="text-[11px] text-cozy-muted mt-3 leading-relaxed">
+                                Menyiapkan eksperimen...
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MAIN FOOTER -->
+    <footer class="bg-cozy-dark text-white py-12 px-6 mt-16">
+        <div class="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="space-y-4">
+                <div class="flex items-center gap-3">
+                    <div class="bg-gradient-to-tr from-cozy-lavender to-cozy-clay text-white w-10 h-10 rounded-xl flex items-center justify-center font-display font-black text-xl">
+                        G
+                    </div>
+                    <span class="font-display font-bold text-lg">The Grammar of Society Hub</span>
+                </div>
+                <p class="text-sm text-gray-400 leading-relaxed">Platform belajar interaktif merangkum teori sosiologi perilaku Cristina Bicchieri agar mudah dipahami, asik, dan dapat langsung diterapkan di kehidupan kampus.</p>
+            </div>
+            
+            <div class="space-y-4">
+                <h4 class="font-display font-bold text-sm text-cozy-coral uppercase tracking-wider">Sumber Utama</h4>
+                <ul class="space-y-2 text-sm text-gray-300">
+                    <li><i class="fa-solid fa-book mr-2 text-cozy-lavender"></i> The Grammar of Society (Bicchieri, 2006)</li>
+                    <li><i class="fa-solid fa-globe mr-2 text-cozy-lavender"></i> Penn Center for Social Norms</li>
+                    <li><i class="fa-solid fa-brain mr-2 text-cozy-lavender"></i> Behavioral & Cognitive Decision Lab</li>
+                </ul>
+            </div>
+
+            <div class="space-y-4">
+                <h4 class="font-display font-bold text-sm text-cozy-coral uppercase tracking-wider">Misi Akademik</h4>
+                <p class="text-sm text-gray-300 leading-relaxed">Sistem ini memprioritaskan <em>Cognitive Ease</em> melalui minimalisme teks, visualisasi, dan interaktivitas langsung.</p>
+                <div class="flex gap-4 text-xl">
+                    <a href="#" class="text-gray-400 hover:text-cozy-coral transition"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-cozy-coral transition"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-cozy-coral transition"><i class="fa-brands fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 text-center text-xs text-gray-500 mt-12 pt-6">
+            &copy; 2026 Psychosophia Behavioral Lab. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE ENGINE SCRIPT -->
+    <script>
+        // 1. DATA SLIDES HUB (COMPREHENSIVE TRANSLATED & RESTRUCTURED TO INDONESIAN)
+        const slides = [
+            {
+                chapter: "Bab 1",
+                title: "Grammar of Society: Aturan Implisit Sosial 🗣️",
+                time: "2 mnt baca",
+                content: `
+                    <div class="space-y-6 max-w-4xl">
+                        <div class="inline-flex items-center gap-2 bg-cozy-lavender/15 text-cozy-lavender px-3 py-1 rounded-full text-xs font-bold border border-cozy-lavender/10">
+                            <span class="flex h-2 w-2 relative">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cozy-lavender opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-cozy-lavender"></span>
+                            </span>
+                            Bab 1: Aturan yang Mengatur Hidup Kita
+                        </div>
+                        <h2 class="font-display font-extrabold text-3xl md:text-5xl text-cozy-dark leading-tight">
+                            Norma Sosial adalah "Tata Bahasa" Masyarakat
+                        </h2>
+                        <p class="text-base md:text-lg text-cozy-muted leading-relaxed">
+                            Bicchieri menganalogikan norma sosial seperti <strong class="text-cozy-lavender">tata bahasa (grammar)</strong>. Seperti bahasa, norma adalah aturan kognitif implisit yang mendefinisikan operasi masyarakat tanpa harus tertulis secara formal.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
+                            <div class="bg-cozy-cream p-5 rounded-2xl border border-cozy-lavender/10">
+                                <div class="text-2xl mb-2">👁️</div>
+                                <h4 class="font-bold text-sm">Membentuk Ekspektasi</h4>
+                                <p class="text-xs text-cozy-muted mt-1">Mengajari kita menduga apa tindakan orang lain selanjutnya.</p>
+                            </div>
+                            <div class="bg-cozy-cream p-5 rounded-2xl border border-cozy-lavender/10">
+                                <div class="text-2xl mb-2">🤝</div>
+                                <h4 class="font-bold text-sm">Menentukan Kelayakan</h4>
+                                <p class="text-xs text-cozy-muted mt-1">Mendefinisikan batas perilaku apa yang masih dianggap "wajar".</p>
+                            </div>
+                            <div class="bg-cozy-cream p-5 rounded-2xl border border-cozy-lavender/10">
+                                <div class="text-2xl mb-2">🌱</div>
+                                <h4 class="font-bold text-sm">Tumbuh Alami</h4>
+                                <p class="text-xs text-cozy-muted mt-1">Muncul secara desentralisasi, bukan melalui perintah penguasa.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 1",
+                title: "Demarkasi Norma: Aturan Sosial vs Aturan Lain",
+                time: "3 mnt baca",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-sm md:text-base text-cozy-muted">Penting bagi ilmuwan perilaku untuk membedakan norma sosial dari tipe aturan lainnya demi mendiagnosis masalah dengan tepat:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-white border border-slate-200 p-6 rounded-2xl flex flex-col justify-between">
+                                <div>
+                                    <span class="bg-slate-100 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Legal Norms</span>
+                                    <h4 class="font-display font-bold text-sm text-cozy-dark mt-2 mb-1">Aturan Hukum</h4>
+                                    <p class="text-xs text-cozy-muted">Aturan tertulis resmi dengan hukuman formal dari lembaga terpusat (contoh: denda tilang).</p>
+                                </div>
+                            </div>
+                            <div class="bg-white border border-cozy-coral/30 p-6 rounded-2xl flex flex-col justify-between">
+                                <div>
+                                    <span class="bg-cozy-coral/10 text-cozy-coral text-[10px] font-bold px-2 py-0.5 rounded uppercase">Moral Rules</span>
+                                    <h4 class="font-display font-bold text-sm text-cozy-dark mt-2 mb-1">Prinsip Moral</h4>
+                                    <p class="text-xs text-cozy-muted">Aturan absolut yang tidak bergantung pada orang lain. Anda tetap jujur meskipun seluruh dunia berbohong.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white border-2 border-cozy-lavender p-6 rounded-2xl flex flex-col justify-between shadow-sm">
+                                <div>
+                                    <span class="bg-cozy-lavender/10 text-cozy-lavender text-[10px] font-bold px-2 py-0.5 rounded uppercase">Social Norms</span>
+                                    <h4 class="font-display font-bold text-sm text-cozy-dark mt-2 mb-1">Norma Sosial Sejati</h4>
+                                    <p class="text-xs text-cozy-muted">Sifatnya <strong>kondisional</strong>. Anda mematuhinya HANYA karena orang lain mematuhinya dan mengharapkan Anda demikian.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 1",
+                title: "Teori Preferensi Kondisional Bicchieri 📐",
+                time: "2 mnt baca",
+                content: `
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <h3 class="font-display font-bold text-2xl text-cozy-lavender">"Saya patuh, asal..."</h3>
+                            <p class="text-sm text-cozy-muted leading-relaxed">
+                                Inti dari teori Cristina Bicchieri: Seseorang memilih untuk patuh pada norma sosial jika dan hanya jika memenuhi dua keyakinan sosial berikut secara bersamaan:
+                            </p>
+                            <div class="space-y-3 text-xs">
+                                <div class="bg-cozy-cream p-3 rounded-xl border-l-4 border-cozy-lavender">
+                                    <strong>1. Ekspektasi Empiris (EE):</strong> Saya yakin bahwa mayoritas orang dalam kelompok rujukan benar-benar melakukan perilaku tersebut.
+                                </div>
+                                <div class="bg-cozy-cream p-3 rounded-xl border-l-4 border-cozy-coral">
+                                    <strong>2. Ekspektasi Normatif (NE):</strong> Saya yakin bahwa kelompok mengharapkan saya untuk patuh dan akan memberikan hukuman sosial jika saya melanggar.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-cozy-cream p-6 rounded-3xl border border-cozy-lavender/10 text-center">
+                            <div class="text-3xl mb-3">🛠️</div>
+                            <h4 class="font-display font-bold text-sm text-cozy-dark">Hukum Kerapuhan Norma</h4>
+                            <p class="text-xs text-cozy-muted mt-2 leading-relaxed">
+                                "Jika salah satu syarat tersebut runtuh (misalnya Anda menyadari semua orang diam-diam melanggar norma), preferensi Anda akan seketika bergeser ke arah egois, dan norma itu akan runtuh secara domino."
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 1",
+                title: "Demarkasi: Norma Deskriptif vs Norma Sosial",
+                time: "2 mnt baca",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-sm text-cozy-muted">Bicchieri mempertegas batas kognitif antara norma deskriptif (konvensi) dengan norma sosial sesungguhnya:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-cozy-cream p-6 rounded-2xl border border-cozy-lavender/10">
+                                <div class="w-10 h-10 rounded-xl bg-cozy-lavender text-white flex items-center justify-center font-bold mb-3">ND</div>
+                                <h3 class="font-display font-bold text-lg text-cozy-dark mb-1">Norma Deskriptif (Konvensi)</h3>
+                                <p class="text-xs text-cozy-muted mb-3">Didorong hanya oleh <strong>Ekspektasi Empiris (EE)</strong> untuk mempermudah koordinasi efisien.</p>
+                                <p class="text-xs text-cozy-dark font-semibold">Contoh: Memilih mengemudikan kendaraan di sisi kiri jalan agar tidak tabrakan.</p>
+                            </div>
+                            <div class="bg-cozy-cream p-6 rounded-2xl border border-cozy-lavender/10">
+                                <div class="w-10 h-10 rounded-xl bg-cozy-coral text-white flex items-center justify-center font-bold mb-3">NS</div>
+                                <h3 class="font-display font-bold text-lg text-cozy-dark mb-1">Norma Sosial Sejati</h3>
+                                <p class="text-xs text-cozy-muted mb-3">Didorong oleh kombinasi <strong>EE + Ekspektasi Normatif (NE)</strong> untuk integrasi & kontrol kelompok.</p>
+                                <p class="text-xs text-cozy-dark font-semibold">Contoh: Berbagi makanan secara adil demi menghindari pengucilan sosial.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 1",
+                title: "Bagaimana Norma Mengubah Payoff Game Kognitif",
+                time: "3 mnt baca",
+                content: `
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <h2 class="font-display font-extrabold text-2xl md:text-3xl text-cozy-dark">Mengubah Logika Berpikir</h2>
+                            <p class="text-sm text-cozy-muted leading-relaxed">
+                                Tanpa norma sosial, manusia sering terjebak dalam dilema konflik seperti <strong>Prisoner's Dilemma</strong> (di mana pilihan paling rasional individu adalah berbuat curang, yang berujung pada kerugian kolektif).
+                            </p>
+                            <p class="text-xs text-cozy-muted leading-relaxed">
+                                <strong class="text-cozy-lavender">Transformasi Game:</strong> Norma sosial mengubah payoff psikologis dengan memberikan 'hukuman batin' atau ketakutan akan sanksi sosial kepada pelanggar. Hasilnya, permainan berubah menjadi <strong>Coordination Game</strong> (di mana bekerja sama adalah hal yang paling masuk akal).
+                            </p>
+                        </div>
+                        <div class="bg-cozy-cream p-6 rounded-3xl border border-cozy-lavender/10 space-y-4">
+                            <h4 class="font-display font-bold text-sm text-cozy-dark">Alur Transformasi Game:</h4>
+                            <div class="relative pl-6 space-y-3 text-xs">
+                                <div class="before:content-['1'] before:absolute before:left-0 before:top-0 before:w-4 before:h-4 before:bg-cozy-lavender before:text-white before:rounded-full before:flex before:items-center before:justify-center before:text-[9px]">
+                                    Kondisi Awal: Godaan untuk berbuat curang demi untung pribadi (Nash Equilibrium buruk).
+                                </div>
+                                <div class="before:content-['2'] before:absolute before:left-0 before:top-0 before:w-4 before:h-4 before:bg-cozy-lavender before:text-white before:rounded-full before:flex before:items-center before:justify-center before:text-[9px]">
+                                    Norma Sosial Teraktivasi: Menambahkan ketakutan akan sanksi sosial (NE).
+                                </div>
+                                <div class="before:content-['3'] before:absolute before:left-0 before:top-0 before:w-4 before:h-4 before:bg-cozy-coral before:text-white before:rounded-full before:flex before:items-center before:justify-center before:text-[9px]">
+                                    Kondisi Baru: Saling bekerja sama menjadi pilihan paling logis untuk kedua belah pihak.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 2",
+                title: "Bab 2: Habits of the Mind & Aktivasi Norma",
+                time: "2 mnt baca",
+                content: `
+                    <div class="space-y-6 max-w-4xl">
+                        <div class="inline-flex items-center gap-2 bg-cozy-coral/15 text-cozy-coral px-3 py-1 rounded-full text-xs font-bold border border-cozy-coral/10">
+                            Bab 2: Mekanisme Kognitif Aktivasi Norma
+                        </div>
+                        <h2 class="font-display font-extrabold text-3xl md:text-5xl text-cozy-dark leading-tight">
+                            Mengapa Norma Tidak Selalu Aktif Setiap Saat?
+                        </h2>
+                        <p class="text-base md:text-lg text-cozy-muted leading-relaxed">
+                            Bicchieri menyatakan norma sosial bukanlah sesuatu yang otomatis mengontrol kita 24 jam sehari. Norma adalah konsep pasif dalam otak yang membutuhkan <strong class="text-cozy-lavender">pemicu situasional (Trigger Cues)</strong> untuk aktif.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+                            <div class="bg-cozy-cream p-5 rounded-2xl border border-cozy-lavender/10 flex gap-4">
+                                <div class="text-3xl">🧩</div>
+                                <div>
+                                    <h4 class="font-bold text-sm">Heuristic Path (Otomatis)</h4>
+                                    <p class="text-xs text-cozy-muted mt-1">Kepatuhan otomatis tanpa berpikir panjang karena dipicu isyarat lingkungan yang familiar.</p>
+                                </div>
+                            </div>
+                            <div class="bg-cozy-cream p-5 rounded-2xl border border-cozy-lavender/10 flex gap-4">
+                                <div class="text-3xl">🧐</div>
+                                <div>
+                                    <h4 class="font-bold text-sm">Deliberational Path (Sadar)</h4>
+                                    <p class="text-xs text-cozy-muted mt-1">Muncul secara sadar ketika ada pertentangan antar norma atau isyarat lingkungan yang tak biasa.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 2",
+                title: "Isyarat Konteks: Eksperimen Sampah Cialdini 🍂",
+                time: "3 mnt baca",
+                content: `
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <h2 class="font-display font-bold text-2xl text-cozy-dark">Isyarat Menentukan Tindakan</h2>
+                            <p class="text-sm text-cozy-muted leading-relaxed">
+                                Robert Cialdini membuktikan pentingnya <strong>Trigger Cues</strong> lewat eksperimen membuang sampah:
+                            </p>
+                            <div class="space-y-2 text-xs">
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> <span><strong>Sangat Bersih:</strong> Kepatuhan tinggi karena isyarat lingkungan mengingatkan aturan.</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-circle-exclamation text-cozy-coral"></i> <span><strong>Satu Sampah:</strong> Mengaktifkan fokus situasional secara tajam. Orang paling sedikit membuang sampah di sini karena sampah tunggal tersebut berteriak sebagai anomali!</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-xmark text-rose-500"></i> <span><strong>Sangat Kotor:</strong> Norma lumpuh total. Isyarat lingkungan memberi konfirmasi EE bahwa semua orang bebas merusak.</span></div>
+                            </div>
+                        </div>
+                        <div class="bg-cozy-cream p-6 rounded-3xl border border-cozy-lavender/10 text-center">
+                            <div class="text-4xl mb-3">♻️</div>
+                            <h4 class="font-display font-bold text-sm text-cozy-dark">Gunakan Isyarat Visual untuk Kebaikan</h4>
+                            <p class="text-xs text-cozy-muted mt-2 leading-relaxed">
+                                "Merawat ketertiban bukan dengan memperbanyak spanduk ancaman pidana, melainkan dengan merapikan rak sandal atau menyediakan sarana yang rapi sebagai isyarat bahwa ketertiban adalah kesepakatan bersama."
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 2",
+                title: "Spreading Activation & Habits of the Mind 🧠",
+                time: "2 mnt baca",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-sm text-cozy-muted">Otak kita bekerja melalui Jaringan Asosiasi (Spreading Activation). Isyarat visual kecil dapat melontarkan pikiran kita ke rantai norma tertentu:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                            <div class="space-y-3">
+                                <div class="bg-white border border-cozy-lavender/25 p-4 rounded-2xl shadow-sm">
+                                    <h4 class="font-bold text-xs text-cozy-lavender uppercase tracking-wider mb-1">Rantai Kepatuhan</h4>
+                                    <p class="text-xs text-cozy-dark">Lantai Masjid Bersih &rarr; Konsep Suci &rarr; Aktivasi Sikap Sopan &rarr; Merapikan Sendiri Sandal.</p>
+                                </div>
+                                <div class="bg-white border border-rose-500/25 p-4 rounded-2xl shadow-sm">
+                                    <h4 class="font-bold text-xs text-cozy-coral uppercase tracking-wider mb-1">Rantai Pelanggaran</h4>
+                                    <p class="text-xs text-cozy-dark font-medium">Rak Sendal Berantakan &rarr; Konsep "Kepemilikan Komunal Bebas" &rarr; Aktivasi Kebiasaan Ghasab Sandal.</p>
+                                </div>
+                            </div>
+                            <div class="bg-cozy-cream p-6 rounded-3xl border border-cozy-lavender/10">
+                                <h4 class="font-display font-bold text-sm text-cozy-dark mb-2">Simpulan Heuristik</h4>
+                                <p class="text-xs text-cozy-muted leading-relaxed">
+                                    Otak memuat <strong class="text-cozy-dark">Scripts (Naskah Otomatis)</strong> tindakan cepat tanpa berpikir rasional mendalam. Untuk menghentikan ghasab, kita harus mengintervensi pemicu visual awal agar mata rantai kognitif terputus.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 2",
+                title: "Moralitas Kontekstual & Local Norms 🌍",
+                time: "3 mnt baca",
+                content: `
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <span class="bg-amber-100 text-amber-800 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Lokal vs Universal</span>
+                            <h2 class="font-display font-extrabold text-2xl md:text-3xl text-cozy-dark">Moralitas Kontekstual</h2>
+                            <p class="text-sm text-cozy-muted leading-relaxed">
+                                Manusia tidak mencari konsistensi moral universal di setiap waktu. Kita hanya mematuhi norma sosial yang sedang aktif di lingkungan lokal kita rujukan kita (Local Norms).
+                            </p>
+                            <p class="text-xs text-cozy-muted">
+                                <strong>Paradoks Perilaku:</strong> Seseorang bisa sangat jujur dan teliti mengembalikan kembalian uang belanja (norma global), namun merasa biasa saja melakukan ghasab sandal atau memotong antrean kantin karena melihat semua temannya memaklumi tindakan tersebut (norma lokal).
+                            </p>
+                        </div>
+                        <div class="bg-cozy-cream p-6 rounded-3xl border border-cozy-lavender/10 text-xs space-y-3">
+                            <h4 class="font-bold text-sm text-cozy-dark mb-1"><i class="fa-solid fa-users text-cozy-lavender"></i> Filter Identitas Sosial (Social Identity):</h4>
+                            <div class="flex gap-2">
+                                <span class="text-cozy-lavender font-bold">1.</span>
+                                <span><strong>Identity Trigger:</strong> Mengidentifikasi diri sebagai "Santri" atau "Mahasiswa X" langsung mengaktifkan semua aturan bermain kelompok secara masif.</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-cozy-lavender font-bold">2.</span>
+                                <span><strong>Depersonalisasi:</strong> Kita mulai melihat diri kita sebagai wakil kelompok, bukan individu bebas. Kepatuhan adalah bukti kesetiaan.</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Bab 3-6",
+                title: "Keadilan, Kedermawanan, & Pluralistic Ignorance",
+                time: "3 mnt baca",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-sm text-cozy-muted">Konsep lanjutan dari bab-bab berikutnya yang memperkokoh analisis Cristina Bicchieri:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-white border border-cozy-lavender/10 p-5 rounded-2xl flex flex-col justify-between">
+                                <div>
+                                    <div class="text-2xl mb-2">⚖️</div>
+                                    <h4 class="font-bold text-sm text-cozy-dark mb-1">A Taste for Fairness</h4>
+                                    <p class="text-xs text-cozy-muted mt-2">Keadilan bukan nilai mutlak, melainkan norma lokal yang digerakkan oleh pembagian rata (Equality) atau pembagian jasa (Equity).</p>
+                                </div>
+                            </div>
+                            <div class="bg-white border border-cozy-lavender/10 p-5 rounded-2xl flex flex-col justify-between">
+                                <div>
+                                    <div class="text-2xl mb-2">🤲</div>
+                                    <h4 class="font-bold text-sm text-cozy-dark mb-1">Conditional Charity</h4>
+                                    <p class="text-xs text-cozy-muted mt-2">Kita menolong karena yakin orang lain juga menolong (EE). Jika semua orang pelit, kedermawanan pribadi kita seketika layu karena takut menjadi satu-satunya korban penipuan.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white border border-cozy-lavender/10 p-5 rounded-2xl flex flex-col justify-between">
+                                <div>
+                                    <div class="text-2xl mb-2">🙈</div>
+                                    <h4 class="font-bold text-sm text-cozy-dark mb-1">Pluralistic Ignorance</h4>
+                                    <p class="text-xs text-cozy-muted mt-2">Jebakan konsensus palsu di mana mayoritas individu diam-diam menolak norma buruk, namun tetap melaksanakannya karena salah menduga semua kawan menyukainya.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                chapter: "Summary",
+                title: "Golden Takeaways & Peta Analisis Akhir",
+                time: "2 mnt baca",
+                content: `
+                    <div class="space-y-6">
+                        <h2 class="font-display font-extrabold text-2xl md:text-3xl text-cozy-dark text-center">Rangkuman Kognitif</h2>
+                        <div class="bg-cozy-cream border border-cozy-lavender/20 rounded-3xl p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-4">
+                                <h4 class="font-display font-bold text-base text-cozy-lavender flex items-center gap-2">
+                                    <i class="fa-solid fa-list-check"></i> 3 Saringan Analisis Bicchieri:
+                                </h4>
+                                <ul class="space-y-3 text-xs leading-relaxed text-cozy-muted">
+                                    <li><i class="fa-solid fa-circle-check text-emerald-500 mr-2"></i> <strong>Sifat Kondisional:</strong> Ingat bahwa kepatuhan norma sosial selalu tergantung EE (apa yang dilihat) dan NE (apa yang dituntut kelompok).</li>
+                                    <li><i class="fa-solid fa-circle-check text-emerald-500 mr-2"></i> <strong>Trigger Konteks:</strong> Otak kita bekerja berdasar isyarat fisik sekitar. Perbaiki isyarat visual untuk memutus naskah buruk otomatis.</li>
+                                    <li><i class="fa-solid fa-circle-check text-emerald-500 mr-2"></i> <strong>Hancurkan Ignorance:</strong> Deklarasikan ketidaksetujuan kelompok secara terbuka untuk meruntuhkan konsensus palsu yang mendarah daging.</li>
+                                </ul>
+                            </div>
+                            <div class="space-y-4 flex flex-col justify-center bg-white p-5 rounded-2xl border border-cozy-lavender/10">
+                                <h4 class="font-display font-bold text-sm text-cozy-dark mb-1">Mari Coba Beraksi!</h4>
+                                <p class="text-xs text-cozy-muted leading-relaxed mb-4">Di bawah halaman ini, kami menyediakan simulator interaktif untuk menguji teori Bicchieri. Silakan gulir ke bawah dan mulai eksperimenmu!</p>
+                                <button onclick="scrollToSimulation()" class="bg-cozy-lavender hover:bg-cozy-dark text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-all duration-300 text-center shadow-md shadow-cozy-lavender/15">
+                                    Mulai Eksperimen Praktis <i class="fa-solid fa-gamepad ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        let currentSlide = 0;
+
+        // 2. RENDER MENU SIDEBAR
+        function renderMenu() {
+            const menuContainer = document.getElementById('slide-menu-list');
+            menuContainer.innerHTML = '';
+            
+            slides.forEach((slide, idx) => {
+                const isActive = idx === currentSlide;
+                const activeClasses = isActive 
+                    ? 'bg-cozy-lavender/15 border-cozy-lavender text-cozy-dark font-extrabold' 
+                    : 'border-transparent text-cozy-muted hover:bg-cozy-lavender/5 hover:text-cozy-dark';
+                
+                menuContainer.innerHTML += `
+                    <button onclick="goToSlide(${idx})" class="w-full text-left px-3 py-2.5 rounded-xl border-l-4 text-xs font-semibold flex items-center justify-between transition ${activeClasses}">
+                        <span class="truncate pr-2">${slide.title}</span>
+                        <span class="text-[9px] font-bold text-cozy-lavender/40 uppercase whitespace-nowrap">${slide.chapter}</span>
+                    </button>
+                `;
+            });
+        }
+
+        // 3. SLIDE RUNNER CONTROLLER
+        function updateSlide() {
+            const container = document.getElementById('slide-content-stage');
+            const chapterBadge = document.getElementById('slide-chapter-badge');
+            const readTime = document.getElementById('slide-read-time');
+            const currentNum = document.getElementById('current-slide-num');
+            const totalNum = document.getElementById('total-slides-num');
+            
+            // Slide transition trigger
+            container.classList.remove('slide-active');
+            container.classList.add('slide-enter');
+            
+            setTimeout(() => {
+                const slide = slides[currentSlide];
+                container.innerHTML = slide.content;
+                chapterBadge.textContent = slide.chapter;
+                readTime.innerHTML = `<i class="fa-regular fa-clock"></i> ${slide.time}`;
+                currentNum.textContent = currentSlide + 1;
+                totalNum.textContent = slides.length;
+                
+                container.classList.remove('slide-enter');
+                container.classList.add('slide-active');
+                
+                renderMenu();
+            }, 100);
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlide();
+            } else {
+                showToast("Hebat! Kamu telah menyelesaikan seluruh slide materi. Silakan coba simulator interaktif di bawah.");
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        function goToSlide(idx) {
+            currentSlide = idx;
+            updateSlide();
+            // Close mobile sidebar
+            if (!document.getElementById('sidebar').classList.contains('-translate-x-full')) {
+                toggleSidebar();
+            }
+        }
+
+        // Keyboard Controls
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        // 4. INTERACTIVE SIMULATION 1: GAME THEORY MATRICES
+        function calculatePayoffs() {
+            const ee = document.getElementById('sim-ee').value;
+            const ne = document.getElementById('sim-ne').value;
+            
+            const cellCD = document.getElementById('cell-cd');
+            const cellDC = document.getElementById('cell-dc');
+            const payoffCD = document.getElementById('payoff-cd');
+            const payoffDC = document.getElementById('payoff-dc');
+            const labelCD = document.getElementById('label-cd');
+            const labelDC = document.getElementById('label-dc');
+            const analysisText = document.getElementById('simulation-analysis-text');
+
+            cellCD.className = "p-4 rounded-xl border border-cozy-lavender/15 transition-all duration-300";
+            cellDC.className = "p-4 rounded-xl border border-cozy-lavender/15 transition-all duration-300";
+
+            if (ee === "high" && ne === "high") {
+                // Cooperative equilibrium (Coordination Game)
+                payoffCD.innerHTML = "(1, 2)";
+                payoffDC.innerHTML = "(2, 1)";
+                labelCD.innerHTML = "Sanksi Sosial Berjalan";
+                labelDC.innerHTML = "Dihukum Kelompok";
+                analysisText.innerHTML = "<strong>Norma Terpelihara:</strong> Karena EE dan NE tinggi, 'curang' mendatangkan kerugian psikososial yang sangat berat (penurunan payoff). Bekerja sama (Patuh, Patuh) menjadi satu-satunya ekuilibrium koordinasi yang stabil.";
+                
+                // Highlight cooperation cell
+                document.getElementById('cell-cc').classList.add('bg-emerald-50');
+            } else if (ee === "high" && ne === "low") {
+                // Free rider temptation
+                payoffCD.innerHTML = "(1, 4)";
+                payoffDC.innerHTML = "(4, 1)";
+                labelCD.innerHTML = "Sucker's Payoff!";
+                labelDC.innerHTML = "Free Rider Berhasil!";
+                analysisText.innerHTML = "<strong>Kerentanan Korupsi:</strong> Orang melihat semua orang masih patuh (EE Tinggi), tetapi tidak ada lagi sanksi atau kecaman moral (NE Rendah). Ini memicu godaan besar untuk berbuat curang secara diam-diam (*Free-riding*).";
+                cellDC.classList.add('bg-orange-50');
+            } else if (ee === "low" && ne === "high") {
+                payoffCD.innerHTML = "(1, 3)";
+                payoffDC.innerHTML = "(3, 1)";
+                labelCD.innerHTML = "Dikecam Sosial";
+                labelDC.innerHTML = "Dikecam Sosial";
+                analysisText.innerHTML = "<strong>Keadaan Transisi Ketakutan:</strong> Orang takut dihukum oleh moralitas publik (NE Tinggi), namun sadar bahwa di lapangan sudah tidak ada lagi yang patuh (EE Rendah). Sistem berada dalam ketegangan besar sebelum akhirnya runtuh total.";
+            } else {
+                // Mixed-Motive (Defection wins)
+                payoffCD.innerHTML = "(1, 4)";
+                payoffDC.innerHTML = "(4, 1)";
+                labelCD.innerHTML = "Sucker's Payoff!";
+                labelDC.innerHTML = "Keuntungan Curang";
+                analysisText.innerHTML = "<strong>Egois Total (Prisoner's Dilemma):</strong> Tanpa keyakinan EE dan NE, setiap orang bertindak egois. Saling berbuat curang (2, 2) adalah satu-satunya ekuilibrium dominan meskipun merugikan secara kolektif.";
+                document.getElementById('cell-dd').classList.add('bg-rose-50');
+            }
+        }
+
+        // 5. INTERACTIVE SIMULATION 2: LITTERING TRIGGER CUES
+        function setLitterExpt(condition) {
+            const container = document.getElementById('litter-items-container');
+            const dot = document.getElementById('environment-status-dot');
+            const text = document.getElementById('environment-status-text');
+            const probBadge = document.getElementById('litter-prob-badge');
+            const probBar = document.getElementById('litter-prob-bar');
+            const explanation = document.getElementById('litter-explanation-text');
+
+            // Reset buttons style
+            document.getElementById('btn-expt-clean').className = "text-center p-3 rounded-xl border border-cozy-lavender/20 text-xs font-bold bg-white transition hover:bg-cozy-lavender/5";
+            document.getElementById('btn-expt-single').className = "text-center p-3 rounded-xl border border-cozy-lavender/20 text-xs font-bold bg-white transition hover:bg-cozy-lavender/5";
+            document.getElementById('btn-expt-dirty').className = "text-center p-3 rounded-xl border border-cozy-lavender/20 text-xs font-bold bg-white transition hover:bg-cozy-lavender/5";
+
+            container.innerHTML = '';
+
+            if (condition === 'clean') {
+                document.getElementById('btn-expt-clean').className = "text-center p-3 rounded-xl border-2 border-cozy-lavender text-xs font-bold bg-cozy-lavender/10 text-cozy-dark transition";
+                dot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500";
+                text.textContent = "Kondisi: Bersih Total";
+                probBadge.textContent = "15%";
+                probBar.style.width = "15%";
+                probBar.className = "bg-emerald-500 h-full rounded-full transition-all duration-500";
+                explanation.innerHTML = "<strong>Sistem Analisis:</strong> Ketika lingkungan steril, orang enggan merusaknya terlebih dahulu karena isyarat visual kebersihan mempertegas keberadaan norma sosial anti-sampah.";
+            } else if (condition === 'single') {
+                document.getElementById('btn-expt-single').className = "text-center p-3 rounded-xl border-2 border-cozy-lavender text-xs font-bold bg-cozy-lavender/10 text-cozy-dark transition";
+                dot.className = "w-2.5 h-2.5 rounded-full bg-cozy-lavender";
+                text.textContent = "Kondisi: 1 Sampah Kering (Anomali)";
+                probBadge.textContent = "6%";
+                probBar.style.width = "6%";
+                probBar.className = "bg-cozy-lavender h-full rounded-full transition-all duration-500";
+                
+                // Inject single piece of litter
+                container.innerHTML = `
+                    <div class="text-3xl animate-bounce duration-1000 mb-2">🍂</div>
+                `;
+                explanation.innerHTML = "<strong>Satu Sampah (Penurunan Drastis):</strong> Cialdini menemukan bahwa keberadaan satu-satunya sampah kering justru menekan keinginan membuang sampah hingga tingkat paling rendah (6%). Mengapa? Karena anomali visual tersebut bertindak sebagai pemicu fokus instan yang menyadarkan orang akan keberadaan norma kebersihan.";
+            } else {
+                document.getElementById('btn-expt-dirty').className = "text-center p-3 rounded-xl border-2 border-cozy-coral text-xs font-bold bg-cozy-coral/10 text-cozy-dark transition";
+                dot.className = "w-2.5 h-2.5 rounded-full bg-cozy-coral animate-ping";
+                text.textContent = "Kondisi: Sangat Kotor & Berantakan";
+                probBadge.textContent = "84%";
+                probBar.style.width = "84%";
+                probBar.className = "bg-cozy-coral h-full rounded-full transition-all duration-500";
+
+                // Inject messy items
+                container.innerHTML = `
+                    <div class="text-2xl mr-2">🥤</div>
+                    <div class="text-xl mb-1">🗞️</div>
+                    <div class="text-2xl">📦</div>
+                    <div class="text-xl mr-3">🍌</div>
+                `;
+                explanation.innerHTML = "<strong>Normalisasi Pelanggaran:</strong> Di lingkungan yang kotor, isyarat visual memberi tahu otak Anda bahwa orang lain sering merusak aturan (EE rendah). Akibatnya, naskah otomatis mental (scripts) Anda melarang repot-repot mematuhi kebersihan.";
+            }
+        }
+
+        // 6. GENERAL UTILITIES
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebar-backdrop');
+            
+            if (sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                backdrop.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                backdrop.classList.add('hidden');
+            }
+        }
+
+        function scrollToSimulation() {
+            document.getElementById('interactive-labs').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showToast(msg) {
+            const toast = document.createElement('div');
+            toast.className = "fixed bottom-5 right-5 bg-cozy-dark text-white text-xs font-semibold px-4 py-3 rounded-2xl shadow-2xl z-50 transition-all transform translate-y-10 opacity-0 max-w-sm flex items-center gap-3 border border-cozy-lavender/20";
+            toast.innerHTML = `<i class="fa-solid fa-circle-check text-cozy-mint"></i> <span>${msg}</span>`;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-10', 'opacity-0');
+            }, 50);
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => toast.remove(), 400);
+            }, 4000);
+        }
+
+        // INIT LOAD RUNNERS
+        window.onload = function() {
+            updateSlide();
+            calculatePayoffs();
+            setLitterExpt('clean');
+        };
+    </script>
+</body>
+</html>

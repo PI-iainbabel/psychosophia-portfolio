@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>⏚ Sosioanalisis · Bourdieu Engine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+    <style>
+        /* ============================================================
+           ROOT — DEKONSTRUKTIVIS / POST-MODERN
+           ============================================================ */
+        * { margin:0; padding:0; box-sizing:border-box; }
+        :root {
+            --bg-primary: #0b0a0c;
+            --bg-secondary: #141217;
+            --bg-card: rgba(22, 20, 28, 0.75);
+            --bg-card-hover: rgba(32, 28, 42, 0.85);
+            --border-glow: rgba(200, 160, 255, 0.15);
+            --glow-neon: #b380ff;
+            --glow-amber: #ffb347;
+            --glow-rose: #ff6b8a;
+            --glow-cyan: #6dd5ed;
+            --text-primary: #eeeaf5;
+            --text-secondary: #a69eb5;
+            --text-muted: #6a627a;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'Space Mono', 'Fira Code', monospace;
+            --radius: 12px;
+            --radius-sm: 6px;
+            --shadow-card: 0 12px 48px rgba(0,0,0,0.7), 0 0 0 1px rgba(180, 140, 255, 0.06);
+            --shadow-glow: 0 0 30px rgba(180, 140, 255, 0.08);
+            --transition: 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            padding: 1.2rem;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 20% 30%, #1e1830 0%, #0b0a0c 80%);
+        }
+        ::selection { background: var(--glow-neon); color: #0b0a0c; }
+
+        /* ============================================================
+           SCROLLBAR
+           ============================================================ */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--glow-neon); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a06ad4; }
+
+        /* ============================================================
+           CONTAINER & LAYOUT ASIMETRIS
+           ============================================================ */
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+
+        /* ============================================================
+           HEADER — DEKONSTRUKSI
+           ============================================================ */
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 1.6rem 2rem;
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            border: 1px solid rgba(180, 140, 255, 0.10);
+            box-shadow: var(--shadow-card), var(--shadow-glow);
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: "⏚";
+            position: absolute;
+            right: -0.5rem;
+            bottom: -2.5rem;
+            font-size: 12rem;
+            opacity: 0.04;
+            font-weight: 300;
+            pointer-events: none;
+            color: var(--glow-neon);
+        }
+        .header-left {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            z-index: 1;
+        }
+        .header-left h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #fff 40%, var(--glow-neon) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+        .header-left .sub {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+        .header-left .sub i { margin-right: 0.4rem; color: var(--glow-amber); }
+        .header-right {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem 2rem;
+            z-index: 1;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+            background: rgba(0,0,0,0.3);
+            padding: 0.6rem 1.2rem;
+            border-radius: 40px;
+            border: 1px solid rgba(180, 140, 255, 0.08);
+            backdrop-filter: blur(4px);
+        }
+        .header-right span { display: flex; align-items: center; gap: 0.4rem; }
+        .header-right i { color: var(--glow-neon); font-size: 0.9rem; }
+
+        /* ============================================================
+           NAVIGASI — TAB ASIMETRIS
+           ============================================================ */
+        .nav-tabs {
+            display: flex;
+            gap: 0.2rem;
+            flex-wrap: wrap;
+            padding: 0.4rem 0.8rem;
+            background: var(--bg-card);
+            backdrop-filter: blur(8px);
+            border-radius: 60px;
+            border: 1px solid rgba(180, 140, 255, 0.06);
+            box-shadow: var(--shadow-card);
+            align-self: flex-start;
+        }
+        .nav-tabs .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 0.6rem 1.6rem;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 40px;
+            transition: all var(--transition);
+            position: relative;
+            letter-spacing: 0.01em;
+        }
+        .nav-tabs .tab-btn:hover {
+            color: var(--text-primary);
+            background: rgba(180, 140, 255, 0.06);
+        }
+        .nav-tabs .tab-btn.active {
+            color: #0b0a0c;
+            background: var(--glow-neon);
+            box-shadow: 0 0 24px rgba(180, 140, 255, 0.25);
+        }
+        .nav-tabs .tab-btn i { margin-right: 0.5rem; font-size: 0.8rem; }
+
+        /* ============================================================
+           KONTEN TAB
+           ============================================================ */
+        .tab-content {
+            display: none;
+            animation: fadeSlide 0.4s ease;
+        }
+        .tab-content.active { display: block; }
+        @keyframes fadeSlide {
+            0% { opacity: 0; transform: translateY(12px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============================================================
+           CARD — GLASSMORPHISM + GLOW
+           ============================================================ */
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            padding: 1.8rem;
+            border: 1px solid rgba(180, 140, 255, 0.06);
+            box-shadow: var(--shadow-card), var(--shadow-glow);
+            transition: all var(--transition);
+        }
+        .card:hover {
+            border-color: rgba(180, 140, 255, 0.12);
+            box-shadow: 0 16px 56px rgba(0,0,0,0.8), 0 0 0 1px rgba(180, 140, 255, 0.08);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+        .card-header i {
+            font-size: 1.2rem;
+            color: var(--glow-neon);
+            width: 2rem;
+            text-align: center;
+        }
+
+        /* ============================================================
+           GRID — ASIMETRIS
+           ============================================================ */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 1.8rem;
+        }
+        .grid-2-reverse {
+            display: grid;
+            grid-template-columns: 0.8fr 1.2fr;
+            gap: 1.8rem;
+        }
+        @media (max-width: 900px) {
+            .grid-2, .grid-2-reverse { grid-template-columns: 1fr; }
+        }
+
+        /* ============================================================
+           FORM — DEKONSTRUKTIF
+           ============================================================ */
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-secondary);
+            margin-bottom: 0.2rem;
+        }
+        label .required { color: var(--glow-rose); margin-left: 0.2rem; }
+        input, select, textarea {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            background: rgba(0,0,0,0.35);
+            border: 1px solid rgba(180, 140, 255, 0.10);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            transition: all var(--transition);
+            backdrop-filter: blur(4px);
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--glow-neon);
+            box-shadow: 0 0 0 3px rgba(180, 140, 255, 0.10);
+            background: rgba(0,0,0,0.5);
+        }
+        textarea { resize: vertical; min-height: 70px; }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+
+        /* ============================================================
+           BUTTON — NEON GLOW
+           ============================================================ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.6rem 1.8rem;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all var(--transition);
+            font-family: var(--font-sans);
+            letter-spacing: 0.01em;
+            background: var(--glow-neon);
+            color: #0b0a0c;
+            box-shadow: 0 0 20px rgba(180, 140, 255, 0.15);
+        }
+        .btn:hover {
+            transform: scale(1.02) translateY(-2px);
+            box-shadow: 0 0 40px rgba(180, 140, 255, 0.25);
+        }
+        .btn-secondary {
+            background: var(--glow-rose);
+            box-shadow: 0 0 20px rgba(255, 107, 138, 0.15);
+        }
+        .btn-secondary:hover {
+            box-shadow: 0 0 40px rgba(255, 107, 138, 0.25);
+        }
+        .btn-warning {
+            background: var(--glow-amber);
+            box-shadow: 0 0 20px rgba(255, 179, 71, 0.12);
+            color: #0b0a0c;
+        }
+        .btn-warning:hover {
+            box-shadow: 0 0 40px rgba(255, 179, 71, 0.2);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid rgba(180, 140, 255, 0.25);
+            color: var(--text-secondary);
+            box-shadow: none;
+        }
+        .btn-outline:hover {
+            background: rgba(180, 140, 255, 0.06);
+            border-color: var(--glow-neon);
+            color: var(--text-primary);
+            transform: scale(1.02);
+        }
+        .btn-success {
+            background: #2d6a4f;
+            box-shadow: 0 0 20px rgba(45, 106, 79, 0.15);
+            color: #fff;
+        }
+        .btn-success:hover {
+            box-shadow: 0 0 40px rgba(45, 106, 79, 0.25);
+        }
+        .btn-sm { padding: 0.3rem 1.2rem; font-size: 0.75rem; }
+        .flex { display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center; }
+        .flex-between { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem; }
+
+        /* ============================================================
+           DETECTION BADGE
+           ============================================================ */
+        .detection-badge {
+            background: rgba(180, 140, 255, 0.08);
+            padding: 0.1rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: var(--glow-neon);
+            border: 1px solid rgba(180, 140, 255, 0.10);
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+        .detection-badge i { margin-right: 0.3rem; }
+
+        /* ============================================================
+           MATRIX — ASIMETRIS, GLOW
+           ============================================================ */
+        .matrix-wrapper {
+            overflow-x: auto;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(180, 140, 255, 0.06);
+            background: rgba(0,0,0,0.2);
+        }
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+            min-width: 900px;
+        }
+        .matrix-table th {
+            background: rgba(180, 140, 255, 0.06);
+            color: var(--text-secondary);
+            padding: 0.6rem 0.8rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            border-bottom: 1px solid rgba(180, 140, 255, 0.06);
+        }
+        .matrix-table td {
+            padding: 0.6rem 0.8rem;
+            border-bottom: 1px solid rgba(180, 140, 255, 0.04);
+            vertical-align: top;
+            color: var(--text-secondary);
+        }
+        .matrix-table tr:hover td {
+            background: rgba(180, 140, 255, 0.02);
+        }
+        .matrix-table .case-label {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .matrix-table .field-tag {
+            display: inline-block;
+            background: rgba(180, 140, 255, 0.06);
+            padding: 0.1rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border: 1px solid rgba(180, 140, 255, 0.04);
+        }
+        .matrix-table .capital-chip {
+            display: inline-block;
+            background: rgba(180, 140, 255, 0.06);
+            padding: 0.1rem 0.7rem;
+            border-radius: 12px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border: 1px solid rgba(180, 140, 255, 0.04);
+            margin: 0.1rem 0.2rem;
+        }
+        .matrix-table .doxa-quote {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            opacity: 0.8;
+        }
+        .matrix-table .cta-badge {
+            display: inline-block;
+            background: rgba(255, 107, 138, 0.10);
+            color: var(--glow-rose);
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            border: 1px solid rgba(255, 107, 138, 0.10);
+        }
+        .level-badge {
+            display: inline-block;
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+        .level-badge.high { background: rgba(255, 107, 138, 0.15); color: var(--glow-rose); border: 1px solid rgba(255, 107, 138, 0.10); }
+        .level-badge.medium { background: rgba(255, 179, 71, 0.12); color: var(--glow-amber); border: 1px solid rgba(255, 179, 71, 0.08); }
+        .level-badge.low { background: rgba(45, 106, 79, 0.12); color: #6dd5ed; border: 1px solid rgba(45, 106, 79, 0.08); }
+
+        /* ============================================================
+           LEVEL DISPLAY
+           ============================================================ */
+        .level-display {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.5rem 1.2rem;
+            border-radius: var(--radius-sm);
+            margin: 0.6rem 0;
+            border: 1px solid rgba(180, 140, 255, 0.04);
+        }
+        .level-display.high { background: rgba(255, 107, 138, 0.06); border-left: 4px solid var(--glow-rose); }
+        .level-display.medium { background: rgba(255, 179, 71, 0.06); border-left: 4px solid var(--glow-amber); }
+        .level-display.low { background: rgba(45, 106, 79, 0.06); border-left: 4px solid #6dd5ed; }
+
+        /* ============================================================
+           CTA SUGGESTIONS
+           ============================================================ */
+        .cta-suggestions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 0.6rem;
+        }
+        @media (max-width: 600px) { .cta-suggestions { grid-template-columns: 1fr; } }
+        .cta-suggestion {
+            background: rgba(0,0,0,0.25);
+            padding: 0.5rem 0.8rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            border-left: 2px solid var(--glow-neon);
+            cursor: pointer;
+            transition: all var(--transition);
+            color: var(--text-secondary);
+        }
+        .cta-suggestion:hover {
+            background: rgba(180, 140, 255, 0.04);
+            transform: translateX(4px);
+            border-left-color: var(--glow-amber);
+            color: var(--text-primary);
+        }
+        .cta-suggestion .label {
+            font-weight: 700;
+            color: var(--glow-neon);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        /* ============================================================
+           PROFILE — VISUAL CAPITAL BARS
+           ============================================================ */
+        .vis-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.15rem 0;
+        }
+        .vis-bar .lbl {
+            font-size: 0.7rem;
+            font-weight: 500;
+            width: 80px;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+        .vis-bar .track {
+            flex: 1;
+            height: 6px;
+            background: rgba(180, 140, 255, 0.06);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .vis-bar .fill {
+            height: 100%;
+            border-radius: 20px;
+            transition: width 0.6s ease;
+        }
+        .vis-bar .val {
+            font-size: 0.7rem;
+            font-weight: 600;
+            width: 36px;
+            text-align: right;
+            color: var(--text-secondary);
+        }
+
+        /* ============================================================
+           CONCEPT LIST
+           ============================================================ */
+        .concept-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 0.6rem;
+            margin: 1rem 0;
+        }
+        .concept-item {
+            background: rgba(0,0,0,0.2);
+            padding: 0.6rem 1rem;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            border-left: 3px solid var(--glow-neon);
+            transition: all var(--transition);
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .concept-item:hover {
+            background: rgba(180, 140, 255, 0.04);
+            transform: translateX(4px);
+            color: var(--text-primary);
+        }
+        .concept-item.active {
+            border-left-color: var(--glow-amber);
+            color: var(--text-primary);
+            background: rgba(180, 140, 255, 0.04);
+        }
+        .concept-detail {
+            background: rgba(0,0,0,0.2);
+            padding: 1.5rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(180, 140, 255, 0.04);
+            margin-top: 1rem;
+        }
+        .concept-detail h3 { color: var(--glow-neon); margin-bottom: 0.5rem; }
+        .concept-detail .example {
+            background: rgba(0,0,0,0.25);
+            padding: 0.8rem 1rem;
+            border-radius: var(--radius-sm);
+            border-left: 3px solid var(--glow-amber);
+            font-style: italic;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* ============================================================
+           KEYWORD HINT (PARAMS TAB)
+           ============================================================ */
+        .keyword-hint {
+            background: rgba(0,0,0,0.25);
+            padding: 0.6rem 1rem;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            border: 1px dashed rgba(180, 140, 255, 0.06);
+            margin: 0.4rem 0;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        /* ============================================================
+           EMPTY STATE
+           ============================================================ */
+        .empty-state {
+            text-align: center;
+            padding: 2.5rem 1rem;
+            color: var(--text-secondary);
+        }
+        .empty-state i {
+            font-size: 3rem;
+            opacity: 0.15;
+            margin-bottom: 0.8rem;
+            color: var(--glow-neon);
+        }
+
+        /* ============================================================
+           FOOTER
+           ============================================================ */
+        .footer {
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(180, 140, 255, 0.04);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-align: center;
+            font-family: var(--font-mono);
+            letter-spacing: 0.04em;
+        }
+
+        /* ============================================================
+           RESPONSIVE TWEAKS
+           ============================================================ */
+        @media (max-width: 768px) {
+            body { padding: 0.8rem; }
+            .header { flex-direction: column; gap: 1rem; padding: 1.2rem; }
+            .header-right { width: 100%; justify-content: center; }
+            .nav-tabs { width: 100%; justify-content: center; border-radius: var(--radius); padding: 0.3rem; }
+            .nav-tabs .tab-btn { padding: 0.4rem 0.8rem; font-size: 0.75rem; }
+            .card { padding: 1.2rem; }
+            .grid-2, .grid-2-reverse { grid-template-columns: 1fr; gap: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- ============================================================
+    HEADER — DEKONSTRUKSI
+    ============================================================ -->
+    <header class="header">
+        <div class="header-left">
+            <h1>⏚ sosioanalisis</h1>
+            <div class="sub"><i class="fas fa-cube"></i> bourdieu · engine · v2</div>
+        </div>
+        <div class="header-right">
+            <span><i class="fas fa-cube"></i> field</span>
+            <span><i class="fas fa-coins"></i> kapital</span>
+            <span><i class="fas fa-brain"></i> doxa</span>
+            <span><i class="fas fa-venus-mars"></i> hexis</span>
+            <span><i class="fas fa-fist-raised"></i> kekerasan simbolik</span>
+        </div>
+    </header>
+
+    <!-- ============================================================
+    NAVIGASI — TAB ASIMETRIS
+    ============================================================ -->
+    <nav class="nav-tabs">
+        <button class="tab-btn active" data-tab="tab-simulator"><i class="fas fa-microscope"></i> simulator</button>
+        <button class="tab-btn" data-tab="tab-concepts"><i class="fas fa-graduation-cap"></i> konsep</button>
+        <button class="tab-btn" data-tab="tab-params"><i class="fas fa-database"></i> parameter</button>
+    </nav>
+
+    <!-- ============================================================
+    TAB 1 — SIMULATOR
+    ============================================================ -->
+    <div id="tab-simulator" class="tab-content active">
+
+        <!-- NARASI INPUT -->
+        <div class="card">
+            <div class="card-header"><i class="fas fa-robot"></i> 1. tempelkan narasi</div>
+            <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1rem;">
+                Sistem akan mendeteksi <strong style="color:var(--glow-neon);">field</strong>, <strong style="color:var(--glow-amber);">kapital</strong>, <strong style="color:var(--glow-rose);">doxa</strong>, <strong style="color:var(--glow-cyan);">hexis</strong>, dan <strong style="color:var(--text-primary);">objektivasi</strong> secara otomatis.
+            </p>
+            <div class="form-group">
+                <textarea id="narrativeInput" rows="4" placeholder="Contoh: Seorang dekan di universitas X dikenal sangat otoriter. Mahasiswa bimbingan skripsi tidak berani bersuara karena takut nilai jelek. Ruang bimbingan selalu tertutup, tidak ada saksi. Jika ada mahasiswa yang protes, kampus malah membela dekan dan menyebut mahasiswa tersebut tidak sopan. Banyak mahasiswa yang merasa malu dan menyalahkan diri sendiri."></textarea>
+            </div>
+            <div class="flex">
+                <button id="detectBtn" class="btn btn-warning"><i class="fas fa-magic"></i> analisis &amp; deteksi</button>
+                <button type="button" id="addExampleBtn" class="btn btn-success btn-sm"><i class="fas fa-file-import"></i> contoh UNRI</button>
+                <span style="font-size:0.7rem;color:var(--text-muted);margin-left:0.5rem;"><i class="fas fa-info-circle"></i> hybrid semantic matching</span>
+            </div>
+        </div>
+
+        <!-- FORM + DIAGNOSIS -->
+        <div class="grid-2">
+            <!-- FORM -->
+            <div class="card">
+                <div class="card-header"><i class="fas fa-pen-fancy"></i> 2. hasil deteksi <span style="font-size:0.6rem;font-weight:400;color:var(--text-muted);margin-left:0.5rem;">(dapat diedit)</span></div>
+                <form id="caseForm">
+                    <div class="form-group">
+                        <label>nama kasus</label>
+                        <input type="text" id="caseName" placeholder="contoh: UNRI (otoritas akademik)" />
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>field (arena) <span class="detection-badge" id="fieldBadge"><i class="fas fa-robot"></i> auto</span></label>
+                            <select id="fieldType">
+                                <option value="Akademik">Akademik</option>
+                                <option value="Politik Aktivisme">Politik Aktivisme</option>
+                                <option value="Prestasi Internasional">Prestasi Internasional</option>
+                                <option value="Birokrasi">Birokrasi</option>
+                                <option value="Religius">Religius</option>
+                                <option value="Ekonomi">Ekonomi</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>kapital dominan <span class="detection-badge" id="capitalBadge"><i class="fas fa-robot"></i> auto</span></label>
+                            <select id="dominantCapital">
+                                <option value="Akademik">Akademik</option>
+                                <option value="Simbolik">Simbolik</option>
+                                <option value="Sosial">Sosial</option>
+                                <option value="Budaya">Budaya</option>
+                                <option value="Ekonomi">Ekonomi</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>doxa · kekerasan simbolik <span class="detection-badge" id="doxaBadge"><i class="fas fa-robot"></i> auto</span></label>
+                        <textarea id="doxaText" rows="2" placeholder="keyakinan tak dipertanyakan yang melanggengkan dominasi"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>hexis · penubuhan <span class="detection-badge" id="hexisBadge"><i class="fas fa-robot"></i> auto</span></label>
+                        <textarea id="hexisText" rows="2" placeholder="cara tubuh, gestur, emosi yang mencerminkan habitus"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>objektivasi kolektif <span class="detection-badge" id="objBadge"><i class="fas fa-robot"></i> auto</span></label>
+                        <textarea id="objectivation" rows="2" placeholder="respon institusi / kolektif terhadap kasus"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>call to action (CTA) <span class="required">*</span></label>
+                        <textarea id="ctaText" rows="3" placeholder="intervensi strategis multi-perspektif"></textarea>
+                        <div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.2rem;">
+                            <i class="fas fa-lightbulb"></i> klik saran CTA di panel kanan untuk mengisi otomatis
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <button type="submit" class="btn btn-secondary"><i class="fas fa-plus"></i> tambahkan ke matriks</button>
+                        <button type="reset" class="btn btn-outline btn-sm">reset</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- DIAGNOSIS + CTA -->
+            <div class="card">
+                <div class="card-header"><i class="fas fa-stethoscope"></i> 3. diagnosis &amp; rekomendasi</div>
+                <div id="profilePreview">
+                    <div class="empty-state">
+                        <i class="fas fa-arrows-left-right"></i>
+                        <p>tempelkan narasi dan klik <strong style="color:var(--glow-neon);">"analisis &amp; deteksi"</strong></p>
+                    </div>
+                </div>
+                <div id="profileContent" style="display:none;">
+                    <div id="profileField" style="font-weight:700;font-size:1.2rem;color:var(--text-primary);"></div>
+                    <div style="color:var(--text-secondary);font-size:0.8rem;" id="profileMeta"></div>
+
+                    <!-- LEVEL -->
+                    <div id="profileLevel" class="level-display">
+                        <span style="font-weight:600;font-size:0.8rem;">⚠️ tingkat:</span>
+                        <span id="levelLabel" style="font-weight:700;font-size:0.9rem;"></span>
+                        <span id="levelDesc" style="color:var(--text-secondary);font-size:0.75rem;"></span>
+                    </div>
+
+                    <div id="profileCapitals" style="margin:0.6rem 0;"></div>
+                    <div id="profileDoxa" style="border-left:3px solid var(--glow-rose);padding-left:0.8rem;margin:0.4rem 0;font-style:italic;font-size:0.85rem;color:var(--text-secondary);"></div>
+                    <div id="profileHexis" style="border-left:3px solid var(--glow-cyan);padding-left:0.8rem;margin:0.4rem 0;font-style:italic;font-size:0.85rem;color:var(--text-secondary);"></div>
+                    <div id="profileObj" style="background:rgba(0,0,0,0.2);padding:0.4rem 1rem;border-radius:var(--radius-sm);font-size:0.85rem;margin:0.4rem 0;color:var(--text-secondary);"></div>
+                    <div id="profileCta" style="background:rgba(180,140,255,0.04);padding:0.6rem 1rem;border-radius:var(--radius-sm);font-size:0.85rem;margin-top:0.4rem;border:1px solid rgba(180,140,255,0.06);color:var(--text-primary);"></div>
+
+                    <!-- CTA SUGGESTIONS -->
+                    <div style="margin-top:0.8rem;border-top:1px solid rgba(180,140,255,0.04);padding-top:0.6rem;">
+                        <div style="font-weight:600;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);"><i class="fas fa-hand-holding-heart"></i> saran CTA multi-perspektif</div>
+                        <div class="cta-suggestions" id="ctaSuggestions"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MATRIKS -->
+        <div class="card">
+            <div class="flex-between">
+                <div class="card-header" style="margin-bottom:0;"><i class="fas fa-table"></i> matriks socio-analysis</div>
+                <div>
+                    <button id="clearMatrixBtn" class="btn btn-outline btn-sm"><i class="fas fa-trash-can"></i> bersihkan</button>
+                </div>
+            </div>
+            <div class="matrix-wrapper">
+                <table class="matrix-table" id="matrixTable">
+                    <thead>
+                        <tr>
+                            <th style="width:10%;">kasus</th>
+                            <th style="width:10%;">field</th>
+                            <th style="width:12%;">kapital</th>
+                            <th style="width:16%;">doxa</th>
+                            <th style="width:12%;">hexis</th>
+                            <th style="width:14%;">objektivasi</th>
+                            <th style="width:10%;">level</th>
+                            <th style="width:16%;">CTA</th>
+                        </tr>
+                    </thead>
+                    <tbody id="matrixBody">
+                        <tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--text-muted);">
+                            <i class="fas fa-inbox" style="font-size:2rem;opacity:0.15;display:block;margin-bottom:0.4rem;"></i>
+                            belum ada kasus
+                        </td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    TAB 2 — KONSEP
+    ============================================================ -->
+    <div id="tab-concepts" class="tab-content">
+        <div class="card">
+            <div class="card-header"><i class="fas fa-graduation-cap"></i> konsep-kunci bourdieu</div>
+            <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:0.8rem;">
+                klik konsep untuk melihat definisi, contoh, dan kata kunci deteksi.
+            </p>
+            <div class="concept-list" id="conceptList">
+                <div class="concept-item active" data-concept="field">field</div>
+                <div class="concept-item" data-concept="capital">kapital</div>
+                <div class="concept-item" data-concept="doxa">doxa</div>
+                <div class="concept-item" data-concept="symbolic">kekerasan simbolik</div>
+                <div class="concept-item" data-concept="hexis">hexis</div>
+                <div class="concept-item" data-concept="habitus">habitus</div>
+            </div>
+            <div class="concept-detail" id="conceptDetail"></div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    TAB 3 — PARAMETER
+    ============================================================ -->
+    <div id="tab-params" class="tab-content">
+        <div class="card">
+            <div class="card-header"><i class="fas fa-database"></i> parameter &amp; keyword registry</div>
+            <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:1rem;">
+                semua kata kunci dan pola yang digunakan mesin untuk deteksi semantik.
+                <br>tambahkan kata baru di <strong style="color:var(--glow-neon);">KEYWORD REGISTRY</strong> pada script.
+            </p>
+            <h4 style="color:var(--glow-neon);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.06em;margin-top:1.2rem;">🏛️ field (arena)</h4>
+            <div class="keyword-hint" id="kwField"></div>
+
+            <h4 style="color:var(--glow-amber);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.06em;margin-top:1rem;">💰 kapital</h4>
+            <div class="keyword-hint" id="kwCapital"></div>
+
+            <h4 style="color:var(--glow-rose);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.06em;margin-top:1rem;">🧠 doxa &amp; kekerasan simbolik</h4>
+            <div class="keyword-hint" id="kwDoxa"></div>
+
+            <h4 style="color:var(--glow-cyan);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.06em;margin-top:1rem;">🧘 hexis (penubuhan)</h4>
+            <div class="keyword-hint" id="kwHexis"></div>
+
+            <h4 style="color:var(--text-secondary);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.06em;margin-top:1rem;">🏢 objektivasi kolektif</h4>
+            <div class="keyword-hint" id="kwObj"></div>
+
+            <h4 style="color:var(--text-primary);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.06em;margin-top:1rem;">⚠️ screening level (severity)</h4>
+            <div class="keyword-hint" id="kwSeverity"></div>
+
+            <div style="margin-top:1.5rem;background:rgba(0,0,0,0.2);padding:1rem;border-radius:var(--radius-sm);border-left:3px solid var(--glow-neon);">
+                <strong style="color:var(--glow-neon);"><i class="fas fa-pen"></i> cara menambah kata kunci:</strong>
+                <ol style="margin-top:0.4rem;padding-left:1.2rem;font-size:0.85rem;color:var(--text-secondary);">
+                    <li>buka file HTML ini di editor teks.</li>
+                    <li>cari <code style="background:rgba(0,0,0,0.3);padding:0.1rem 0.4rem;border-radius:4px;color:var(--glow-amber);">📝 KEYWORD REGISTRY — TAMBAHKAN KATA KUNCI DI SINI</code>.</li>
+                    <li>tambahkan kata ke array <code style="background:rgba(0,0,0,0.3);padding:0.1rem 0.4rem;border-radius:4px;color:var(--glow-neon);">keywords</code>, sinonim ke <code style="background:rgba(0,0,0,0.3);padding:0.1rem 0.4rem;border-radius:4px;color:var(--glow-neon);">synonyms</code>, atau pola regex ke <code style="background:rgba(0,0,0,0.3);padding:0.1rem 0.4rem;border-radius:4px;color:var(--glow-neon);">patterns</code>.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    FOOTER
+    ============================================================ -->
+    <div class="footer">
+        ⏚ sosioanalisis · bourdieu engine · hybrid semantic matching<br>
+        <span style="opacity:0.5;">berbasis <em>masculine domination</em> · <em>logic of practice</em> · <em>outline of a theory of practice</em></span>
+    </div>
+
+</div>
+
+<!-- ============================================================
+SCRIPT — semua logika deteksi, matriks, CTA, dll.
+============================================================ -->
+<script>
+// ================================================================
+// 📝 KEYWORD REGISTRY — TAMBAHKAN KATA KUNCI DI SINI
+// ================================================================
+const KEYWORDS = {
+    field: {
+        Akademik: {
+            keywords: ['kampus', 'dosen', 'skripsi', 'mahasiswa', 'bimbingan', 'gelar', 'jabatan', 'dekan', 'rektor', 'kelulusan', 'ujian', 'akademik', 'profesor', 'pendidikan', 'penelitian', 'publikasi', 'fakultas', 'jurusan', 'program studi', 'universitas', 'institut', 'sekolah tinggi', 'nilai', 'tugas akhir', 'disertasi', 'promosi', 'doktor', 'magister', 'sarjana', 'kurikulum', 'seminar'],
+            synonyms: { 'kampus': ['universitas', 'institut', 'sekolah tinggi', 'perguruan tinggi'], 'dosen': ['pengajar', 'pendidik', 'staf pengajar', 'guru besar', 'profesor'], 'skripsi': ['tugas akhir', 'tesis', 'disertasi', 'proposal'] },
+            patterns: [/ruang (bimbingan|konsultasi|sidang)/i, /(nilai|ipk|indeks prestasi)/i],
+            weight: 2
+        },
+        'Politik Aktivisme': {
+            keywords: ['gerakan', 'aktivis', 'demo', 'solidaritas', 'perjuangan', 'heroisme', 'moral', 'suara mahasiswa', 'demonstrasi', 'protes', 'kritis', 'massa', 'aksi', 'pawai', 'ormawa', 'bem', 'senat', 'reformasi', 'kritik', 'oposisi'],
+            synonyms: { 'aktivis': ['pejuang', 'demonstran', 'penggerak'], 'demo': ['unjuk rasa', 'demonstrasi', 'aksi'] },
+            patterns: [/aksi (damai|bela|tolak|dukung)/i, /(kritik|desakan) (kepada|terhadap)/i],
+            weight: 2
+        },
+        Birokrasi: {
+            keywords: ['aturan', 'prosedur', 'staf', 'pegawai', 'eselon', 'dinas', 'kebijakan', 'administratif', 'birokrasi', 'struktur', 'hirarki', 'sop', 'standar operasional', 'protokol', 'jabatan', 'kepala', 'sekretaris', 'aparat', 'pemerintah', 'instansi', 'lembaga', 'organisasi'],
+            synonyms: { 'birokrasi': ['administrasi', 'sistem', 'tata kelola'], 'pegawai': ['staf', 'karyawan', 'aparat', 'pejabat'] },
+            patterns: [/standar operasional/i, /(prosedur|mekanisme) (yang|untuk)/i],
+            weight: 1.5
+        },
+        Religius: {
+            keywords: ['agama', 'kiai', 'pesantren', 'spiritual', 'moral', 'dosa', 'fatwa', 'masjid', 'iman', 'islam', 'kristen', 'hindu', 'budha', 'ulama', 'kyai', 'ustadz', 'pendeta', 'pastor', 'gereja', 'pura', 'vihara', 'kitab suci', 'al-quran', 'bible', 'injil', 'ajaran', 'ibadah', 'haji', 'umrah', 'zakat', 'puasa', 'shalat', 'doa'],
+            synonyms: { 'kiai': ['kyai', 'ulama', 'ustadz', 'guru ngaji'], 'pesantren': ['pondok', 'madrasah', 'boarding school'], 'agama': ['kepercayaan', 'keyakinan', 'spiritualitas'] },
+            patterns: [/fatwa (tentang|mengenai)/i, /(ajaran|nilai) (agama|keislaman|kristiani)/i],
+            weight: 2
+        },
+        Ekonomi: {
+            keywords: ['bisnis', 'uang', 'aset', 'kelas', 'pasar', 'investasi', 'properti', 'ekonomi', 'finansial', 'kekayaan', 'pendapatan', 'gaji', 'upah', 'modal', 'profit', 'laba', 'rugi', 'saham', 'bursa', 'konsumen', 'produsen', 'distribusi', 'komoditas', 'perdagangan', 'industri', 'perusahaan', 'usaha', 'wirausaha'],
+            synonyms: { 'bisnis': ['usaha', 'enterprise', 'startup'], 'uang': ['dana', 'finansial', 'modal'], 'aset': ['properti', 'kekayaan', 'investasi'] },
+            patterns: [/pasar (modal|uang|tenaga kerja)/i, /(keuntungan|kerugian) (finansial|ekonomi)/i],
+            weight: 1.5
+        }
+    },
+    capital: {
+        Akademik: {
+            keywords: ['gelar', 'profesor', 'ijazah', 'pendidikan', 'penelitian', 'publikasi', 'skripsi', 'disertasi', 'akademik', 'doktor', 'magister', 'sarjana', 'sertifikasi', 'akreditasi', 'karya ilmiah', 'jurnal', 'buku', 'paten', 'h-index', 'sinta', 'scopus', 'ijazah', 'transkrip', 'cum laude'],
+            synonyms: { 'gelar': ['degree', 'title', 'predikat'], 'profesor': ['guru besar', 'prof'], 'penelitian': ['riset', 'studi', 'kajian'] },
+            patterns: [/pendidikan (tinggi|lanjutan)/i, /(publikasi|jurnal) (internasional|nasional)/i],
+            weight: 2
+        },
+        Simbolik: {
+            keywords: ['prestise', 'pengakuan', 'penghormatan', 'karisma', 'ikon', 'moral', 'nama baik', 'reputasi', 'simbolik', 'kehormatan', 'wibawa', 'kharisma', 'kepercayaan', 'otoritas moral', 'teladan', 'panutan', 'legitimasi', 'simbol', 'image', 'citra'],
+            synonyms: { 'prestise': ['gengsi', 'pamor', 'martabat', 'nama'], 'karisma': ['daya tarik', 'kharisma', 'pesona'], 'reputasi': ['nama baik', 'citra', 'image'] },
+            patterns: [/nama (baik|besar|terkenal)/i, /(otoritas|wibawa) (moral|intelektual)/i],
+            weight: 2
+        },
+        Sosial: {
+            keywords: ['jaringan', 'relasi', 'pertemanan', 'organisasi', 'koneksi', 'keluarga', 'teman', 'komunitas', 'sosial', 'aliansi', 'koalisi', 'grup', 'klub', 'asosiasi', 'perkumpulan', 'paguyuban', 'kerabat', 'saudara', 'rekan', 'kolega'],
+            synonyms: { 'jaringan': ['networking', 'koneksi', 'relasi'], 'organisasi': ['komunitas', 'asosiasi', 'perkumpulan'], 'relasi': ['hubungan', 'koneksi', 'interaksi'] },
+            patterns: [/jaringan (sosial|profesional|bisnis)/i, /(hubungan|relasi) (dengan|antara)/i],
+            weight: 1.8
+        },
+        Budaya: {
+            keywords: ['pengetahuan', 'gaya hidup', 'selera', 'bahasa', 'kode budaya', 'sopan santun', 'budaya', 'kesenian', 'literasi', 'wawasan', 'etiket', 'tata krama', 'norma', 'tradisi', 'adat', 'kebiasaan', 'perilaku', 'seni', 'musik', 'sastra', 'filsafat'],
+            synonyms: { 'budaya': ['kultur', 'peradaban', 'tradisi'], 'pengetahuan': ['ilmu', 'wawasan', 'pemahaman'], 'selera': ['preferensi', 'gaya', 'estetika'] },
+            patterns: [/gaya (hidup|berpakaian|berbicara)/i, /(norma|nilai) (sosial|budaya)/i],
+            weight: 1.5
+        },
+        Ekonomi: {
+            keywords: ['uang', 'aset', 'properti', 'finansial', 'kepemilikan', 'ekonomi', 'kekayaan', 'pendapatan', 'gaji', 'upah', 'modal', 'laba', 'profit', 'dividen', 'saham', 'investasi', 'tabungan', 'warisan', 'harta', 'kendaraan', 'rumah', 'tanah'],
+            synonyms: { 'uang': ['dana', 'finansial', 'kas'], 'aset': ['properti', 'kekayaan', 'investasi'], 'ekonomi': ['keuangan', 'moneter', 'fiskal'] },
+            patterns: [/kepemilikan (aset|properti|tanah)/i, /(pendapatan|gaji|upah) (tinggi|rendah)/i],
+            weight: 1.5
+        }
+    },
+    doxa: {
+        keywords: ['sudah begini', 'sudah sepantasnya', 'wajar', 'tidak perlu dipertanyakan', 'alamiah', 'tradisi', 'budaya', 'privat', 'tidak perlu saksi', 'heroisme', 'prestasi di atas segalanya', 'begitu saja', 'common sense', 'sudah biasa', 'semestinya', 'seharusnya', 'sudah umum', 'tidak ada yang mempertanyakan', 'dianggap normal', 'sudah menjadi rahasia umum', 'begitu adanya', 'tidak perlu dibahas', 'sudah maklum', 'kodrat', 'fitrah', 'nature', 'natural'],
+        synonyms: { 'wajar': ['normal', 'lumrah', 'biasa', 'alamiah'], 'tradisi': ['adat', 'kebiasaan', 'budaya'], 'privat': ['pribadi', 'tertutup', 'internal'] },
+        patterns: [/tidak perlu (dipertanyakan|dibahas|dipersoalkan)/i, /sudah (biasa|maklum|umum)/i, /dianggap (normal|wajar|alamiah)/i],
+        weight: 2.5
+    },
+    symbolicViolence: {
+        keywords: ['merasa malu', 'menyalahkan diri sendiri', 'depresiasi diri', 'menganggap dominasi wajar', 'korban merasa bersalah', 'misrekognisi', 'kepatuhan tanpa paksa', 'komplisitas', 'takut', 'rendah diri', 'gagap', 'gemetar', 'tidak berani', 'sungkan', 'segan', 'enggan', 'minder', 'trauma', 'stres', 'cemas', 'depresi', 'ketakutan', 'rasa bersalah', 'merendahkan diri', 'menganggap remeh diri'],
+        synonyms: { 'malu': ['iri', 'segan', 'sungkan', 'takut', 'cemas'], 'menyalahkan diri': ['self-blame', 'merendahkan diri'], 'takut': ['cemas', 'khawatir', 'was-was'] },
+        patterns: [/merasa (bersalah|malu|rendah|tidak berharga)/i, /(tidak|tak) (berani|sanggup|mampu)/i, /(korban|mahasiswa|peserta) (merasa|mengalami) (trauma|stres|tekanan)/i],
+        weight: 2.5
+    },
+    hexis: {
+        keywords: ['tubuh', 'gestur', 'cara berjalan', 'cara bicara', 'menunduk', 'tegap', 'malu', 'gagap', 'gemetar', 'ekspresi wajah', 'cara berpakaian', 'sikap tubuh', 'tatapan mata', 'membungkuk', 'kaku', 'postur', 'gerakan', 'sikap', 'penampilan', 'dandan', 'busana', 'intonasi', 'volume suara', 'nada bicara', 'sentuhan', 'jarak fisik', 'proksemik'],
+        synonyms: { 'tubuh': ['fisik', 'badan', 'raga'], 'menunduk': ['membungkuk', 'merunduk', 'tunduk'], 'gagap': ['tersendat', 'terbata-bata'], 'gemetar': ['bergetar', 'menggigil'] },
+        patterns: [/cara (berjalan|berbicara|berpakaian|duduk|berdiri)/i, /ekspresi (wajah|mata|tubuh)/i],
+        weight: 2
+    },
+    objectivation: {
+        keywords: ['defensif', 'kriminalisasi balik', 'denial', 'membela pelaku', 'menutup kasus', 'lambat bergerak', 'proteksi reputasi', 'penyangkalan', 'resistensi', 'menutupi', 'slow response', 'cover-up', 'whitewash', 'menyalahkan korban', 'victim blaming', 'menutup-nutupi', 'tidak transparan', 'opak', 'tertutup', 'hambat', 'halangi', 'intimidasi'],
+        synonyms: { 'defensif': ['bertahan', 'bela diri', 'protectif'], 'penyangkalan': ['denial', 'menolak', 'mengingkari'], 'menutupi': ['cover-up', 'whitewash', 'menyembunyikan'] },
+        patterns: [/kampus (membela|melindungi|menutupi|menyembunyikan)/i, /(defensif|denial) (institusi|kampus|lembaga)/i],
+        weight: 2
+    },
+    severity: {
+        high: { keywords: ['kekerasan fisik', 'pemerkosaan', 'ancaman', 'pelecehan berat', 'trauma berat', 'paksaan', 'sexual harassment', 'kekerasan seksual', 'perkosaan', 'penganiayaan', 'penyiksaan', 'kekerasan', 'luka fisik', 'darah', 'pukulan', 'tendangan', 'senjata', 'intimidasi fisik'], weight: 3 },
+        medium: { keywords: ['intimidasi', 'pelecehan verbal', 'diskriminasi', 'ketidaksetaraan', 'marginalisasi', 'bullying', 'kekerasan psikis', 'tekanan', 'ancaman verbal', 'penghinaan', 'cacian', 'makian', 'eksklusi', 'pengucilan', 'stigma', 'labeling', 'gaslighting', 'manipulasi'], weight: 2 },
+        low: { keywords: ['microaggression', 'ketidaknyamanan', 'stereotype', 'bias', 'mikroagresi', 'komentar seksis', 'candaan', 'lelucon', 'gosip', 'prasangka', 'stereotip', 'bias gender', 'tidak nyaman', 'kejanggalan', 'kecanggungan'], weight: 1 }
+    }
+};
+
+// ================================================================
+// DATA & STATE
+// ================================================================
+let cases = [];
+const unriExample = {
+    id: 'unri_example',
+    name: 'UNRI (Otoritas Akademik)',
+    field: 'Otoritas Akademik',
+    fieldType: 'Akademik',
+    dominantCapital: 'Akademik',
+    capitals: ['Akademik Tinggi', 'Jabatan', 'Kontrol mutlak'],
+    doxa: '“Bimbingan skripsi adalah wilayah privat; ketidakhadiran saksi dianggap kewajaran akademik.”',
+    hexis: 'Mahasiswa menunduk, gemetar, dan bicara gagap di hadapan dosen. Tubuh membungkuk, tidak berani menatap mata.',
+    objectivation: 'Habitus penyangkalan: Institusi defensif & kriminalisasi balik demi reputasi.',
+    cta: 'Nudging Transparansi: Digitalisasi logbook & ruang terbuka (physical nudge) untuk memutus isolasi ruang privat.',
+    level: 'medium'
+};
+
+// ================================================================
+// DOM REFS
+// ================================================================
+const narrativeInput = document.getElementById('narrativeInput');
+const detectBtn = document.getElementById('detectBtn');
+const caseName = document.getElementById('caseName');
+const fieldType = document.getElementById('fieldType');
+const dominantCapital = document.getElementById('dominantCapital');
+const doxaText = document.getElementById('doxaText');
+const hexisText = document.getElementById('hexisText');
+const objectivation = document.getElementById('objectivation');
+const ctaText = document.getElementById('ctaText');
+const profilePreview = document.getElementById('profilePreview');
+const profileContent = document.getElementById('profileContent');
+const profileField = document.getElementById('profileField');
+const profileMeta = document.getElementById('profileMeta');
+const profileCapitals = document.getElementById('profileCapitals');
+const profileDoxa = document.getElementById('profileDoxa');
+const profileHexis = document.getElementById('profileHexis');
+const profileObj = document.getElementById('profileObj');
+const profileCta = document.getElementById('profileCta');
+const profileLevel = document.getElementById('profileLevel');
+const levelLabel = document.getElementById('levelLabel');
+const levelDesc = document.getElementById('levelDesc');
+const matrixBody = document.getElementById('matrixBody');
+const caseForm = document.getElementById('caseForm');
+const clearMatrixBtn = document.getElementById('clearMatrixBtn');
+const addExampleBtn = document.getElementById('addExampleBtn');
+const ctaSuggestions = document.getElementById('ctaSuggestions');
+const fieldBadge = document.getElementById('fieldBadge');
+const capitalBadge = document.getElementById('capitalBadge');
+const doxaBadge = document.getElementById('doxaBadge');
+const hexisBadge = document.getElementById('hexisBadge');
+const objBadge = document.getElementById('objBadge');
+
+// ================================================================
+// DETEKSI SEMANTIK (sama seperti sebelumnya)
+// ================================================================
+function detectFromText(text) {
+    const lower = text.toLowerCase();
+    const results = {
+        field: { label: 'Lainnya', score: 0, details: {} },
+        capital: { label: 'Ekonomi', score: 0, details: {} },
+        doxa: [],
+        symbolicViolence: [],
+        hexis: [],
+        objectivation: [],
+        severity: { level: 'low', score: 0, reasons: [] }
+    };
+    // FIELD
+    let bestField = 'Lainnya', bestFieldScore = 0;
+    for (const [key, data] of Object.entries(KEYWORDS.field)) {
+        let score = 0;
+        data.keywords.forEach(kw => { if (lower.includes(kw.toLowerCase())) score += (data.weight||1)*1.5; });
+        if (data.synonyms) for (const [_, syns] of Object.entries(data.synonyms)) syns.forEach(s => { if (lower.includes(s.toLowerCase())) score += (data.weight||1)*1.2; });
+        if (data.patterns) data.patterns.forEach(p => { if (p.test(text)) score += (data.weight||1)*2; });
+        if (key === 'Akademik' && (lower.includes('skripsi')||lower.includes('dosen')||lower.includes('kampus'))) score += 2;
+        if (key === 'Politik Aktivisme' && (lower.includes('aktivis')||lower.includes('demo')||lower.includes('gerakan'))) score += 2;
+        if (key === 'Birokrasi' && (lower.includes('aturan')||lower.includes('prosedur'))) score += 2;
+        if (key === 'Religius' && (lower.includes('agama')||lower.includes('kiai')||lower.includes('masjid'))) score += 2;
+        if (key === 'Ekonomi' && (lower.includes('bisnis')||lower.includes('uang')||lower.includes('pasar'))) score += 2;
+        if (score > bestFieldScore) { bestFieldScore = score; bestField = key; }
+    }
+    results.field = { label: bestField, score: bestFieldScore };
+
+    // CAPITAL
+    let bestCap = 'Ekonomi', bestCapScore = 0;
+    for (const [key, data] of Object.entries(KEYWORDS.capital)) {
+        let score = 0;
+        data.keywords.forEach(kw => { if (lower.includes(kw.toLowerCase())) score += (data.weight||1)*1.5; });
+        if (data.synonyms) for (const [_, syns] of Object.entries(data.synonyms)) syns.forEach(s => { if (lower.includes(s.toLowerCase())) score += (data.weight||1)*1.2; });
+        if (data.patterns) data.patterns.forEach(p => { if (p.test(text)) score += (data.weight||1)*2; });
+        if (key === 'Akademik' && (lower.includes('gelar')||lower.includes('profesor'))) score += 2;
+        if (key === 'Simbolik' && (lower.includes('prestise')||lower.includes('karisma')||lower.includes('reputasi'))) score += 2;
+        if (key === 'Sosial' && (lower.includes('jaringan')||lower.includes('relasi'))) score += 2;
+        if (key === 'Budaya' && (lower.includes('pengetahuan')||lower.includes('selera'))) score += 2;
+        if (key === 'Ekonomi' && (lower.includes('uang')||lower.includes('aset'))) score += 2;
+        if (score > bestCapScore) { bestCapScore = score; bestCap = key; }
+    }
+    results.capital = { label: bestCap, score: bestCapScore };
+
+    // DOXA
+    const doxaFound = [];
+    KEYWORDS.doxa.keywords.forEach(kw => { if (lower.includes(kw.toLowerCase())) doxaFound.push(kw); });
+    if (KEYWORDS.doxa.synonyms) for (const [_, syns] of Object.entries(KEYWORDS.doxa.synonyms)) syns.forEach(s => { if (lower.includes(s.toLowerCase())) doxaFound.push(s+'(sin)'); });
+    if (KEYWORDS.doxa.patterns) KEYWORDS.doxa.patterns.forEach(p => { if (p.test(text)) doxaFound.push('pattern:'+p.source); });
+    results.doxa = doxaFound;
+
+    // SYMBOLIC VIOLENCE
+    const svFound = [];
+    KEYWORDS.symbolicViolence.keywords.forEach(kw => { if (lower.includes(kw.toLowerCase())) svFound.push(kw); });
+    if (KEYWORDS.symbolicViolence.synonyms) for (const [_, syns] of Object.entries(KEYWORDS.symbolicViolence.synonyms)) syns.forEach(s => { if (lower.includes(s.toLowerCase())) svFound.push(s+'(sin)'); });
+    if (KEYWORDS.symbolicViolence.patterns) KEYWORDS.symbolicViolence.patterns.forEach(p => { if (p.test(text)) svFound.push('pattern:'+p.source); });
+    results.symbolicViolence = svFound;
+
+    // HEXIS
+    const hexisFound = [];
+    KEYWORDS.hexis.keywords.forEach(kw => { if (lower.includes(kw.toLowerCase())) hexisFound.push(kw); });
+    if (KEYWORDS.hexis.synonyms) for (const [_, syns] of Object.entries(KEYWORDS.hexis.synonyms)) syns.forEach(s => { if (lower.includes(s.toLowerCase())) hexisFound.push(s+'(sin)'); });
+    if (KEYWORDS.hexis.patterns) KEYWORDS.hexis.patterns.forEach(p => { if (p.test(text)) hexisFound.push('pattern:'+p.source); });
+    results.hexis = hexisFound;
+
+    // OBJEKTIVASI
+    const objFound = [];
+    KEYWORDS.objectivation.keywords.forEach(kw => { if (lower.includes(kw.toLowerCase())) objFound.push(kw); });
+    if (KEYWORDS.objectivation.synonyms) for (const [_, syns] of Object.entries(KEYWORDS.objectivation.synonyms)) syns.forEach(s => { if (lower.includes(s.toLowerCase())) objFound.push(s+'(sin)'); });
+    if (KEYWORDS.objectivation.patterns) KEYWORDS.objectivation.patterns.forEach(p => { if (p.test(text)) objFound.push('pattern:'+p.source); });
+    results.objectivation = objFound;
+
+    // SEVERITY
+    let highScore=0, medScore=0, lowScore=0;
+    KEYWORDS.severity.high.keywords.forEach(kw => { if (lower.includes(kw.toLowerCase())) highScore += KEYWORDS.severity.high.weight; });
+    KEYWORDS.severity.medium.keywords.forEach(kw => { if (lower.includes(kw.toLowerCase())) medScore += KEYWORDS.severity.medium.weight; });
+    KEYWORDS.severity.low.keywords.forEach(kw => { if (lower.includes(kw.toLowerCase())) lowScore += KEYWORDS.severity.low.weight; });
+    const svCount = svFound.length;
+    if (svCount > 3) highScore += 2;
+    else if (svCount > 1) medScore += 2;
+    let level = 'low', reasons = [];
+    if (highScore > 0 || (highScore+medScore) > 6) { level = 'high'; reasons = ['indikasi berat']; }
+    else if (medScore > 2 || (medScore+lowScore) > 4) { level = 'medium'; reasons = ['indikasi sedang']; }
+    results.severity = { level, score: highScore+medScore+lowScore, reasons };
+
+    return results;
+}
+
+// ================================================================
+// CTA SUGGESTIONS
+// ================================================================
+function getCTASuggestions(detectionResult) {
+    const level = detectionResult.severity.level;
+    const all = {
+        hukum: { label: '⚖️ hukum & kebijakan', templates: ['Perkuat mekanisme pelaporan dan perlindungan saksi.', 'Terapkan sanksi tegas sesuai UU TPKS dan kode etik.', 'Bentuk tim investigasi independen.'] },
+        psikologi: { label: '🧠 psikologi & kesehatan', templates: ['Sediakan layanan konseling dan pemulihan trauma.', 'Bentuk ruang aman bagi korban.', 'Lakukan psikoedukasi dampak kekerasan simbolik.'] },
+        sosial: { label: '🤝 sosial & budaya', templates: ['Bangun solidaritas korban dan komunitas pendukung.', 'Kampanye kesadaran tentang kekerasan simbolik.', 'Fasilitasi dialog terbuka.'] },
+        institusi: { label: '🏛️ kelembagaan & struktural', templates: ['Reformasi kebijakan dan SOP.', 'Bentuk unit pengawas independen.', 'Pastikan checks and balances.'] },
+        edukasi: { label: '📚 edukasi', templates: ['Pelatihan kesadaran gender dan kekerasan simbolik.', 'Workshop refleksivitas.', 'Modul maskulinitas alternatif.'] },
+        spiritual: { label: '🕊️ spiritual & agama', templates: ['Libatkan pemuka agama untuk pendampingan.', 'Bangun narasi keagamaan yang menolak kekerasan.', 'Fasilitasi dialog lintas iman.'] }
+    };
+    const result = [];
+    for (const [key, data] of Object.entries(all)) {
+        let chosen = data.templates[0];
+        if (level === 'high' && key === 'hukum') chosen = data.templates[1];
+        if (level === 'high' && key === 'psikologi') chosen = data.templates[0];
+        result.push({ key, label: data.label, text: chosen });
+    }
+    return result;
+}
+
+// ================================================================
+// APPLY DETECTION
+// ================================================================
+function applyDetection(result, narrative) {
+    if (result.field.label !== 'Lainnya' && fieldType.querySelector(`option[value="${result.field.label}"]`)) {
+        fieldType.value = result.field.label;
+    }
+    if (result.capital.label !== 'Ekonomi' && dominantCapital.querySelector(`option[value="${result.capital.label}"]`)) {
+        dominantCapital.value = result.capital.label;
+    }
+    let doxaVal = '';
+    if (result.doxa.length) doxaVal = 'Terindikasi doxa: "' + result.doxa.slice(0,5).join(', ') + '". ';
+    if (result.symbolicViolence.length) doxaVal += 'Indikasi kekerasan simbolik: "' + result.symbolicViolence.slice(0,5).join(', ') + '".';
+    if (!doxaVal) doxaVal = '(Doxa tidak terdeteksi eksplisit.)';
+    doxaText.value = doxaVal;
+
+    let hexisVal = result.hexis.length ? 'Terindikasi hexis: ' + result.hexis.slice(0,6).join(', ') + '.' : '(Hexis tidak terdeteksi.)';
+    hexisText.value = hexisVal;
+
+    let objVal = result.objectivation.length ? 'Respon institusi: ' + result.objectivation.slice(0,5).join(', ') + '.' : '(Objektivasi belum terdeteksi.)';
+    objectivation.value = objVal;
+
+    if (!caseName.value.trim()) {
+        const first = narrative.split(/\s+/).slice(0,4).join(' ');
+        caseName.value = (first || result.field.label) + ' …';
+    }
+    if (!ctaText.value.trim()) ctaText.value = '';
+
+    const levelMap = { high: { label: '⚠️ BAHASA', desc: 'Butuh intervensi segera.', cls: 'high' }, medium: { label: '⚡ SEDANG', desc: 'Butuh intervensi struktural.', cls: 'medium' }, low: { label: '🔍 RINGAN', desc: 'Butuh edukasi & pencegahan.', cls: 'low' } };
+    const info = levelMap[result.severity.level] || levelMap.low;
+    levelLabel.textContent = info.label;
+    levelDesc.textContent = info.desc;
+    profileLevel.className = 'level-display ' + info.cls;
+
+    updateProfile(result);
+    renderCTASuggestions(result);
+    ['field','capital','doxa','hexis','obj'].forEach(id => {
+        document.getElementById(id+'Badge').innerHTML = '<i class="fas fa-robot"></i> auto ✓';
+    });
+}
+
+function renderCTASuggestions(result) {
+    const suggestions = getCTASuggestions(result);
+    ctaSuggestions.innerHTML = '';
+    suggestions.forEach(s => {
+        const div = document.createElement('div');
+        div.className = 'cta-suggestion';
+        div.innerHTML = `<span class="label">${s.label}</span><br>${s.text}`;
+        div.addEventListener('click', function() {
+            const current = ctaText.value;
+            const line = `[${s.label}] ${s.text}`;
+            if (current.includes(line)) {
+                ctaText.value = current.split('\n').filter(l => l !== line).join('\n');
+            } else {
+                ctaText.value = current ? current + '\n' + line : line;
+            }
+            ctaText.dispatchEvent(new Event('input'));
+        });
+        ctaSuggestions.appendChild(div);
+    });
+}
+
+function updateProfile(result) {
+    const name = caseName.value.trim() || '(tanpa nama)';
+    const field = fieldType.options[fieldType.selectedIndex].text;
+    const capital = dominantCapital.options[dominantCapital.selectedIndex].text;
+    const doxa = doxaText.value.trim() || '(doxa)';
+    const hexis = hexisText.value.trim() || '(hexis)';
+    const obj = objectivation.value.trim() || '(objektivasi)';
+    const cta = ctaText.value.trim() || '(CTA)';
+
+    profileContent.style.display = 'block';
+    profilePreview.style.display = 'none';
+    profileField.textContent = `${name} · ${field}`;
+    profileMeta.textContent = `Kapital dominan: ${capital}`;
+
+    const capMap = { 'Akademik':85, 'Simbolik':78, 'Sosial':72, 'Budaya':68, 'Ekonomi':60 };
+    const allCaps = [
+        { label: 'Akademik', val: capital==='Akademik'?88:45 },
+        { label: 'Simbolik', val: capital==='Simbolik'?88:40 },
+        { label: 'Sosial', val: capital==='Sosial'?85:42 },
+        { label: 'Budaya', val: capital==='Budaya'?82:48 }
+    ];
+    let capHtml = '';
+    allCaps.forEach(item => {
+        const color = item.val > 70 ? 'var(--glow-rose)' : (item.val > 50 ? 'var(--glow-amber)' : '#6a627a');
+        capHtml += `
+            <div class="vis-bar">
+                <span class="lbl">${item.label}</span>
+                <div class="track"><div class="fill" style="width:${item.val}%;background:${color};"></div></div>
+                <span class="val">${item.val}%</span>
+            </div>
+        `;
+    });
+    profileCapitals.innerHTML = capHtml;
+    profileDoxa.innerHTML = `<strong>Doxa:</strong> “${doxa}”`;
+    profileHexis.innerHTML = `<strong>Hexis:</strong> ${hexis}`;
+    profileObj.innerHTML = `<strong>Objektivasi:</strong> ${obj}`;
+    profileCta.innerHTML = `<strong>CTA:</strong> ${cta}`;
+}
+
+// ================================================================
+// MATRIX
+// ================================================================
+function renderMatrix() {
+    if (cases.length === 0) {
+        matrixBody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--text-muted);">
+            <i class="fas fa-inbox" style="font-size:2rem;opacity:0.15;display:block;margin-bottom:0.4rem;"></i> belum ada kasus
+        </td></tr>`;
+        return;
+    }
+    let html = '';
+    cases.forEach(c => {
+        const capChips = c.capitals ? c.capitals.map(cap => `<span class="capital-chip">${cap}</span>`).join(' ') : '';
+        const levelMap = { high:'<span class="level-badge high">⚠️ bahaya</span>', medium:'<span class="level-badge medium">⚡ sedang</span>', low:'<span class="level-badge low">🔍 ringan</span>' };
+        const lvl = levelMap[c.level] || levelMap.low;
+        html += `<tr>
+            <td><span class="case-label">${c.name}</span></td>
+            <td><span class="field-tag">${c.field}</span></td>
+            <td>${capChips || c.dominantCapital}</td>
+            <td><span class="doxa-quote">${c.doxa}</span></td>
+            <td>${c.hexis || '-'}</td>
+            <td>${c.objectivation || '-'}</td>
+            <td>${lvl}</td>
+            <td><span class="cta-badge">${c.cta.split(':')[0] || 'intervensi'}</span> ${c.cta}</td>
+        </tr>`;
+    });
+    matrixBody.innerHTML = html;
+}
+
+// ================================================================
+// ADD CASE, CLEAR, EXAMPLE
+// ================================================================
+function addCase(e) {
+    e.preventDefault();
+    const name = caseName.value.trim() || 'Kasus';
+    const field = fieldType.options[fieldType.selectedIndex].text;
+    const dominantCap = dominantCapital.options[dominantCapital.selectedIndex].text;
+    const doxa = doxaText.value.trim() || '(doxa)';
+    const hexis = hexisText.value.trim() || '(hexis)';
+    const obj = objectivation.value.trim() || '(objektivasi)';
+    const cta = ctaText.value.trim();
+    if (!cta) { alert('CTA wajib diisi.'); return; }
+    const combined = doxa + ' ' + hexis + ' ' + obj + ' ' + cta;
+    const detect = detectFromText(combined + ' ' + narrativeInput.value);
+    const level = detect.severity.level;
+    const capMap = { 'Akademik':['Akademik','Jabatan','Kontrol'], 'Simbolik':['Simbolik','Prestise','Karisma'], 'Sosial':['Sosial','Jaringan','Relasi'], 'Budaya':['Budaya','Pengetahuan','Selera'], 'Ekonomi':['Ekonomi','Aset','Finansial'] };
+    const capitals = capMap[dominantCap] || ['Kapital'];
+    cases.push({ id:'case_'+Date.now(), name, field, fieldType:fieldType.value, dominantCapital:dominantCap, capitals, doxa, hexis, objectivation:obj, cta, level });
+    renderMatrix();
+    caseName.value = ''; doxaText.value = ''; hexisText.value = ''; objectivation.value = ''; ctaText.value = '';
+    profileContent.style.display = 'none'; profilePreview.style.display = 'block';
+    document.querySelector('.matrix-wrapper').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function addExample() {
+    if (cases.some(c => c.id === 'unri_example')) { alert('Contoh UNRI sudah ada.'); return; }
+    cases.push({ ...unriExample, id:'unri_example' });
+    renderMatrix();
+    caseName.value = ''; doxaText.value = ''; hexisText.value = ''; objectivation.value = ''; ctaText.value = '';
+    profileContent.style.display = 'none'; profilePreview.style.display = 'block';
+    document.querySelector('.matrix-wrapper').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function clearMatrix() {
+    if (cases.length === 0) return;
+    if (confirm('Hapus semua kasus?')) { cases = []; renderMatrix(); profileContent.style.display = 'none'; profilePreview.style.display = 'block'; }
+}
+
+// ================================================================
+// EVENT LISTENERS
+// ================================================================
+detectBtn.addEventListener('click', function() {
+    const text = narrativeInput.value.trim();
+    if (!text) { alert('Masukkan narasi.'); return; }
+    const result = detectFromText(text);
+    applyDetection(result, text);
+});
+caseForm.addEventListener('submit', addCase);
+clearMatrixBtn.addEventListener('click', clearMatrix);
+addExampleBtn.addEventListener('click', addExample);
+
+// update profile on manual change
+caseName.addEventListener('input', ()=>updateProfile(detectFromText(narrativeInput.value)));
+fieldType.addEventListener('change', ()=>updateProfile(detectFromText(narrativeInput.value)));
+dominantCapital.addEventListener('change', ()=>updateProfile(detectFromText(narrativeInput.value)));
+doxaText.addEventListener('input', ()=>updateProfile(detectFromText(narrativeInput.value)));
+hexisText.addEventListener('input', ()=>updateProfile(detectFromText(narrativeInput.value)));
+objectivation.addEventListener('input', ()=>updateProfile(detectFromText(narrativeInput.value)));
+ctaText.addEventListener('input', ()=>updateProfile(detectFromText(narrativeInput.value)));
+
+// ================================================================
+// TABS
+// ================================================================
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+        document.getElementById(this.dataset.tab).classList.add('active');
+    });
+});
+
+// ================================================================
+// KONSEP BOURDIEU
+// ================================================================
+const conceptData = {
+    field: { title:'Field (Arena)', desc:'Arena sosial tempat agen bersaing memperebutkan sumber daya.', example:'Akademik, politik, birokrasi, religius, ekonomi.', keywords:'kampus, dosen, aktivis, demo, birokrasi, agama, bisnis.' },
+    capital: { title:'Kapital', desc:'Sumber daya yang menjadi mata uang di arena: Ekonomi, Budaya, Sosial, Simbolik.', example:'Gelar (budaya), jaringan (sosial), prestise (simbolik).', keywords:'uang, gelar, jaringan, reputasi, pengetahuan.' },
+    doxa: { title:'Doxa', desc:'Keyakinan pra-reflektif yang dianggap "begitu saja" dan tak pernah dipertanyakan.', example:'"Bimbingan skripsi adalah urusan privat."', keywords:'wajar, alamiah, tradisi, privat, tidak perlu dipertanyakan.' },
+    symbolic: { title:'Kekerasan Simbolik', desc:'Dominasi melalui persepsi, bahasa, dan rasa malu. Korban menggunakan skema kognitif yang sama.', example:'Korban malu dan menyalahkan diri sendiri.', keywords:'malu, menyalahkan diri, misrekognisi, kepatuhan tanpa paksa.' },
+    hexis: { title:'Hexis (Penubuhan)', desc:'Cara tubuh, gestur, emosi yang mencerminkan habitus.', example:'Mahasiswa menunduk, gemetar, gagap.', keywords:'tubuh, gestur, menunduk, malu, gagap, cara berjalan.' },
+    habitus: { title:'Habitus', desc:'Sistem disposisi terinternalisasi—skema persepsi, pemikiran, tindakan.', example:'Cara dosen berbicara dengan otoritas.', keywords:'disposisi, internalisasi, skema persepsi, praktik sehari-hari.' }
+};
+
+function renderConceptDetail(key) {
+    const d = conceptData[key];
+    if (!d) return;
+    document.getElementById('conceptDetail').innerHTML = `
+        <h3>${d.title}</h3>
+        <p>${d.desc}</p>
+        <div class="example"><strong>Contoh:</strong> ${d.example}</div>
+        <div style="margin-top:0.8rem;background:rgba(0,0,0,0.2);padding:0.8rem 1rem;border-radius:var(--radius-sm);border:1px solid rgba(180,140,255,0.04);">
+            <strong style="color:var(--glow-neon);"><i class="fas fa-key"></i> Kata kunci deteksi:</strong> ${d.keywords}
+        </div>
+    `;
+    document.querySelectorAll('.concept-item').forEach(el => el.classList.remove('active'));
+    document.querySelector(`.concept-item[data-concept="${key}"]`)?.classList.add('active');
+}
+document.querySelectorAll('.concept-item').forEach(el => {
+    el.addEventListener('click', function() { renderConceptDetail(this.dataset.concept); });
+});
+
+// ================================================================
+// KEYWORD REGISTRY DISPLAY
+// ================================================================
+function renderKeywordRegistry() {
+    let f = ''; for (const [k, d] of Object.entries(KEYWORDS.field)) f += `<strong>${k}:</strong> ${d.keywords.slice(0,8).join(', ')}${d.keywords.length>8?' …':''}<br>`;
+    document.getElementById('kwField').innerHTML = f;
+    let c = ''; for (const [k, d] of Object.entries(KEYWORDS.capital)) c += `<strong>${k}:</strong> ${d.keywords.slice(0,8).join(', ')}${d.keywords.length>8?' …':''}<br>`;
+    document.getElementById('kwCapital').innerHTML = c;
+    document.getElementById('kwDoxa').innerHTML = KEYWORDS.doxa.keywords.slice(0,15).join(', ')+(KEYWORDS.doxa.keywords.length>15?' …':'');
+    document.getElementById('kwHexis').innerHTML = KEYWORDS.hexis.keywords.slice(0,15).join(', ')+(KEYWORDS.hexis.keywords.length>15?' …':'');
+    document.getElementById('kwObj').innerHTML = KEYWORDS.objectivation.keywords.slice(0,15).join(', ')+(KEYWORDS.objectivation.keywords.length>15?' …':'');
+    let s = ''; for (const [k, d] of Object.entries(KEYWORDS.severity)) {
+        const label = k==='high'?'🔴 Bahaya':k==='medium'?'🟡 Sedang':'🟢 Ringan';
+        s += `<strong>${label}:</strong> ${d.keywords.slice(0,10).join(', ')}${d.keywords.length>10?' …':''}<br>`;
+    }
+    document.getElementById('kwSeverity').innerHTML = s;
+}
+
+// ================================================================
+// INIT
+// ================================================================
+function init() {
+    cases = [];
+    renderMatrix();
+    profileContent.style.display = 'none';
+    profilePreview.style.display = 'block';
+    renderConceptDetail('field');
+    renderKeywordRegistry();
+    narrativeInput.value = `Seorang dekan di universitas X dikenal sangat otoriter. Mahasiswa bimbingan skripsi tidak berani bersuara karena takut nilai jelek. Ruang bimbingan selalu tertutup, tidak ada saksi. Jika ada mahasiswa yang protes, kampus malah membela dekan dan menyebut mahasiswa tersebut tidak sopan. Banyak mahasiswa yang merasa malu dan menyalahkan diri sendiri.`;
+}
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

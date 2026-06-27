@@ -1,0 +1,2215 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zona Abu-Abu Integritas · Akrobatik Moral</title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        display: ['Quicksand', 'sans-serif'],
+                    },
+                    colors: {
+                        glow: {
+                            50: '#F0F7FF',
+                            100: '#DBEDFF',
+                            200: '#B3D9FF',
+                            300: '#8AC2FF',
+                            400: '#5AA3F0',
+                            500: '#2E7FD9',
+                            600: '#1A66B3',
+                            700: '#0F4D8A',
+                            800: '#073566',
+                            900: '#032042',
+                        },
+                        pink: '#FF6B9D',
+                        mint: '#6FCF97',
+                        yellow: '#F2C94C',
+                        coral: '#FF6B6B',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #E8F4FD;
+            color: #073566;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.35;
+            animation: blobFloat 12s ease-in-out infinite alternate;
+        }
+        .blob-1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(90, 163, 240, 0.30), rgba(26, 102, 179, 0.05));
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+        .blob-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(90, 163, 240, 0.25), rgba(15, 77, 138, 0.05));
+            bottom: -150px;
+            right: -150px;
+            animation-delay: -4s;
+        }
+        .blob-3 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(90, 163, 240, 0.20), rgba(7, 53, 102, 0.04));
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -8s;
+        }
+
+        @keyframes blobFloat {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(30px, -40px) scale(1.1);
+            }
+            66% {
+                transform: translate(-20px, 30px) scale(0.9);
+            }
+            100% {
+                transform: translate(10px, -20px) scale(1.05);
+            }
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px rgba(26, 102, 179, 0.08), 0 0 60px rgba(26, 102, 179, 0.03);
+        }
+        .glass-strong {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 12px 48px rgba(26, 102, 179, 0.10), 0 0 80px rgba(26, 102, 179, 0.04);
+        }
+
+        .glow-text {
+            text-shadow: 0 0 30px rgba(26, 102, 179, 0.12), 0 0 60px rgba(26, 102, 179, 0.04);
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #E8F4FD;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #5AA3F0;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(26, 102, 179, 0.2);
+        }
+
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+        .float-anim {
+            animation: float 3.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(26, 102, 179, 0.05);
+            }
+            50% {
+                box-shadow: 0 0 50px rgba(26, 102, 179, 0.12);
+            }
+        }
+        .pulse-glow {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        .tab-btn {
+            transition: all 0.3s ease;
+            border-radius: 16px;
+            font-weight: 600;
+            color: #073566;
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #5AA3F0, #1A66B3);
+            color: white !important;
+            box-shadow: 0 8px 24px rgba(26, 102, 179, 0.25);
+        }
+        .tab-btn.active i {
+            color: white !important;
+        }
+        .tab-btn:not(.active):hover {
+            background: rgba(90, 163, 240, 0.10);
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 5px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #B3D9FF, #1A66B3);
+            outline: none;
+            box-shadow: 0 0 20px rgba(26, 102, 179, 0.08);
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 999px;
+            background: radial-gradient(circle at 30% 30%, #ffffff, #5AA3F0);
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(26, 102, 179, 0.35), 0 0 30px rgba(26, 102, 179, 0.10);
+            border: 2px solid white;
+            transition: all 0.25s;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            box-shadow: 0 6px 24px rgba(26, 102, 179, 0.45), 0 0 40px rgba(26, 102, 179, 0.15);
+        }
+        .range-value {
+            font-weight: 700;
+            font-size: 14px;
+            min-width: 30px;
+            text-align: center;
+            color: #1A66B3;
+            text-shadow: 0 0 20px rgba(26, 102, 179, 0.12);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #5AA3F0, #1A66B3);
+            border: none;
+            color: white;
+            font-weight: 700;
+            padding: 0.75rem 1.5rem;
+            border-radius: 40px;
+            box-shadow: 0 8px 24px rgba(26, 102, 179, 0.25), 0 0 40px rgba(26, 102, 179, 0.05);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 36px rgba(26, 102, 179, 0.35), 0 0 60px rgba(26, 102, 179, 0.08);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: #073566;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 40px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(26, 102, 179, 0.04);
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(26, 102, 179, 0.08);
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(26, 102, 179, 0.08), 0 0 60px rgba(26, 102, 179, 0.03);
+        }
+
+        .heatmap-cell {
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+            border-radius: 10px;
+            min-width: 44px;
+            min-height: 44px;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.20);
+            font-weight: 700;
+            font-size: 13px;
+        }
+        .heatmap-cell:hover {
+            transform: scale(1.08) rotate(0.5deg);
+            z-index: 10;
+            box-shadow: 0 8px 32px rgba(255, 50, 50, 0.25), 0 0 60px rgba(255, 50, 50, 0.08);
+            border-color: rgba(255, 200, 200, 0.5);
+        }
+        .heatmap-cell .tooltip {
+            opacity: 0;
+            transition: opacity 0.25s;
+            pointer-events: none;
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(7, 53, 102, 0.92);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            font-size: 8px;
+            padding: 4px 12px;
+            border-radius: 8px;
+            white-space: nowrap;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .heatmap-cell:hover .tooltip {
+            opacity: 1;
+        }
+
+        .legend-dot {
+            border-radius: 4px;
+            width: 18px;
+            height: 18px;
+            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .heatmap-cell {
+                min-width: 32px;
+                min-height: 32px;
+                font-size: 10px;
+            }
+            .range-value {
+                font-size: 12px;
+                min-width: 24px;
+            }
+        }
+
+        .admin-overlay {
+            background: rgba(7, 53, 102, 0.30);
+            backdrop-filter: blur(10px);
+        }
+
+        .text-glow-dark {
+            color: #073566;
+        }
+        .text-glow-mid {
+            color: #1A66B3;
+        }
+        .text-glow-light {
+            color: #5AA3F0;
+        }
+        .border-glow-light {
+            border-color: #B3D9FF;
+        }
+        .bg-glow-soft {
+            background: #F0F7FF;
+        }
+
+        /* Theory page special styling */
+        .foundation-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid #5AA3F0;
+        }
+        .foundation-card:hover {
+            transform: translateX(6px);
+            box-shadow: 0 8px 24px rgba(26, 102, 179, 0.10);
+        }
+        .foundation-card.md-card {
+            border-left-color: #FF6B9D;
+        }
+        .foundation-card.md-card:hover {
+            box-shadow: 0 8px 24px rgba(255, 107, 157, 0.12);
+        }
+        .foundation-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .foundation-icon.mf {
+            background: rgba(90, 163, 240, 0.12);
+            color: #1A66B3;
+        }
+        .foundation-icon.md {
+            background: rgba(255, 107, 157, 0.12);
+            color: #FF6B9D;
+        }
+
+        /* Quote style */
+        .theory-quote {
+            background: linear-gradient(135deg, rgba(90, 163, 240, 0.06), rgba(255, 107, 157, 0.06));
+            border-left: 4px solid #5AA3F0;
+            padding: 1rem 1.5rem;
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+        }
+        .theory-quote.md-quote {
+            border-left-color: #FF6B9D;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== BACKGROUND CANVAS ===== -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- ===== BLOBS ===== -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <!-- ===== HEADER ===== -->
+    <header class="relative z-10 glass border-b border-white/40 px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3 sticky top-0 shadow-sm shadow-glow-500/5">
+        <div class="flex items-center gap-3">
+            <img src="Logo_PI_2.png" alt="Prodi Psikologi Islam" class="w-10 h-10 rounded-2xl object-contain shadow-lg shadow-glow-500/25 float-anim" />
+            <div>
+                <h1 class="font-display font-bold text-sm md:text-base leading-tight text-glow-dark">Zona Abu-Abu Integritas</h1>
+                <p class="text-[10px] text-glow-mid font-medium">Akrobatik Moral Kognitif · Psychosophia Lab</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="hidden sm:inline-flex items-center gap-1.5 bg-white/60 backdrop-blur px-3 py-1.5 rounded-full border border-white/40 text-[10px] font-bold text-glow-mid shadow-sm">
+                <span class="w-1.5 h-1.5 rounded-full bg-pink animate-pulse"></span>
+                MF × MD Diagnostik
+            </span>
+            <button onclick="toggleSidebar()" class="lg:hidden text-glow-dark hover:bg-glow-200/50 p-2 rounded-xl transition">
+                <i class="fa-solid fa-bars text-lg"></i>
+            </button>
+            <button onclick="openAdmin()" class="text-glow-400 hover:text-glow-600 text-sm p-1.5 rounded-lg transition" title="Admin Dashboard">
+                <i class="fa-solid fa-lock"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ===== WRAPPER ===== -->
+    <div class="relative z-10 flex-grow flex flex-col lg:flex-row max-w-[1600px] w-full mx-auto">
+
+        <!-- ===== SIDEBAR ===== -->
+        <aside id="sidebar" class="fixed lg:sticky top-[61px] left-0 bottom-0 w-[280px] glass border-r border-white/40 p-4 flex flex-col justify-between overflow-y-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-40 lg:z-10 h-[calc(100vh-61px)] shadow-xl">
+            <div class="space-y-4">
+                <div class="flex items-center gap-2 pb-3 border-b border-white/30">
+                    <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-glow-400 to-glow-600 text-white flex items-center justify-center text-xs font-extrabold shadow-md shadow-glow-500/20">
+                        P
+                    </div>
+                    <span class="text-[10px] font-bold text-glow-dark/70 uppercase tracking-wider">Psychosophia Lab</span>
+                </div>
+
+                <nav class="space-y-1">
+                    <button onclick="switchView('info')" id="nav-info" class="tab-btn active w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition bg-white/30 backdrop-blur border border-white/30 text-glow-dark">
+                        <i class="fa-regular fa-circle-info w-4 text-glow-mid"></i> Tentang Alat
+                    </button>
+                    <!-- NEW: Landasan Teori (MF & MD) -->
+                    <button onclick="switchView('theory')" id="nav-theory" class="tab-btn w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition text-glow-dark/70 hover:bg-glow-200/30">
+                        <i class="fa-regular fa-book-open w-4 text-glow-mid"></i> Landasan Teori
+                    </button>
+                    <button onclick="switchView('cases')" id="nav-cases" class="tab-btn w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition text-glow-dark/70 hover:bg-glow-200/30">
+                        <i class="fa-regular fa-folder-open w-4 text-glow-mid"></i> Skenario Kasus
+                    </button>
+                    <button onclick="switchView('assessment')" id="nav-assessment" class="tab-btn w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition text-glow-dark/70 hover:bg-glow-200/30">
+                        <i class="fa-regular fa-clipboard w-4 text-glow-mid"></i> Asesmen
+                    </button>
+                    <button onclick="switchView('heatmap')" id="nav-heatmap" class="tab-btn w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition text-glow-dark/70 hover:bg-glow-200/30">
+                        <i class="fa-regular fa-table w-4 text-glow-mid"></i> Heatmap 🔥
+                    </button>
+                    <button onclick="switchView('results')" id="nav-results" class="tab-btn w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition text-glow-dark/70 hover:bg-glow-200/30">
+                        <i class="fa-regular fa-chart-scatter w-4 text-glow-mid"></i> Hasil & Saran
+                    </button>
+                </nav>
+
+                <div class="glass-strong p-4 rounded-2xl relative overflow-hidden mt-4 border border-white/40 shadow-glow-500/5">
+                    <div class="absolute -right-6 -bottom-6 text-glow-500/10 text-4xl"><i class="fa-solid fa-bolt"></i></div>
+                    <h4 class="font-display font-bold text-sm text-glow-dark mb-0.5 glow-text">⚡ Mulai Diagnostik</h4>
+                    <p class="text-[10px] text-glow-dark/60 mb-3 leading-relaxed">Pilih kasus, jawab pertanyaan, dan lihat pola moral acrobatics Anda.</p>
+                    <button onclick="switchView('cases')" class="w-full btn-primary text-[11px] py-2 flex items-center justify-center gap-2">
+                        Buka Kasus <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="pt-3 border-t border-white/30 text-center text-[8px] text-glow-500/50 font-medium">
+                Psychosophia · Moral Acrobatics v2.0
+            </div>
+        </aside>
+
+        <!-- BACKDROP MOBILE -->
+        <div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-glow-800/20 backdrop-blur-sm z-30 hidden lg:hidden"></div>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="flex-grow p-3 sm:p-5 md:p-7 lg:p-10 max-w-full overflow-x-hidden space-y-6">
+
+            <!-- ========================================================= -->
+            <!-- VIEW: INFO -->
+            <!-- ========================================================= -->
+            <div id="view-info" class="view-content block">
+                <div class="glass-strong rounded-3xl p-6 md:p-8 space-y-6 border border-white/50 shadow-xl shadow-glow-500/5 pulse-glow">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-glow-400 to-glow-600 text-white flex items-center justify-center text-2xl shadow-lg shadow-glow-500/20 float-anim">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <div>
+                            <h2 class="font-display font-extrabold text-2xl md:text-3xl text-glow-dark glow-text">Zona Abu-Abu Integritas Akademik</h2>
+                            <p class="text-sm text-glow-dark/70">Akrobatik Moral Kognitif · Diagnostik Interaktif</p>
+                        </div>
+                    </div>
+
+                    <div class="prose prose-sm text-glow-dark/80 space-y-4 max-w-3xl">
+                        <p><strong>Apa itu Moral Acrobatics?</strong> Istilah ini merujuk pada kemampuan seseorang untuk "berakrobat" secara moral — menyesuaikan standar etika mereka tergantung konteks, menggunakan mekanisme pelepasan moral (Bandura) untuk membenarkan perilaku yang sebenarnya bertentangan dengan nilai-nilai dasar mereka.</p>
+                        <p>Alat ini menggabungkan dua kerangka teoritis utama:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Moral Foundations Theory (Haidt, 2004)</strong> — 5 fondasi moral dasar: <span class="text-pink font-semibold">Harm/Care</span>, <span class="text-glow-mid font-semibold">Fairness</span>, <span class="text-coral font-semibold">Loyalty</span>, <span class="text-mint font-semibold">Authority</span>, <span class="text-yellow font-semibold">Purity</span>.</li>
+                            <li><strong>Moral Disengagement (Bandura, 1991)</strong> — 8 mekanisme kognitif yang memungkinkan seseorang melepaskan sanksi diri.</li>
+                        </ul>
+                        <p>Heatmap menunjukkan bagaimana fondasi moral seseorang (MF) berinteraksi dengan kecenderungan pelepasan moral (MD) dalam konteks kasus tertentu.</p>
+                    </div>
+
+                    <!-- Developer -->
+                    <div class="border-t border-white/30 pt-6 mt-4">
+                        <p class="text-[10px] font-bold uppercase tracking-wider text-glow-dark/50">Pengembang</p>
+                        <div class="flex flex-wrap items-center gap-6 mt-2">
+                            <div class="flex items-center gap-2">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-glow-400 to-glow-600 text-white flex items-center justify-center text-sm font-extrabold shadow-md shadow-glow-500/20">
+                                    P
+                                </div>
+                                <div>
+                                    <p class="text-xs font-bold text-glow-dark">Psychosophia Behavioral Lab</p>
+                                    <p class="text-[9px] text-glow-dark/50">Laboratorium Riset Intervensi Perilaku</p>
+                                </div>
+                            </div>
+                            <div class="h-8 w-px bg-white/30 hidden sm:block"></div>
+                            <div>
+                                <p class="text-xs font-bold text-glow-dark">Prodi Psikologi Islam</p>
+                                <p class="text-[9px] text-glow-dark/50">IAIN Syaikh Abdurrahman Siddik Bangka Belitung</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- WORO-WORO -->
+                    <div class="mt-6 p-5 rounded-2xl glass border border-pink/30 bg-gradient-to-r from-pink/10 via-glow-100/20 to-glow-300/10 relative overflow-hidden">
+                        <div class="absolute -right-8 -bottom-8 text-6xl opacity-10">🙏</div>
+                        <div class="flex items-start gap-3 relative z-10">
+                            <div class="text-4xl float-anim">📣</div>
+                            <div>
+                                <h3 class="font-display font-bold text-base text-glow-dark flex items-center gap-2">
+                                    Thanks to:
+                                    <span class="text-xs font-normal text-glow-dark/50 bg-white/30 px-2 py-0.5 rounded-full">spesial</span>
+                                </h3>
+                                <p class="text-sm text-glow-dark/80 leading-relaxed mt-1">
+                                    <strong>Terima kasih banyak untuk Kelas Metopen Kuantitatif Angkatan 2024!</strong> 🙌
+                                </p>
+                                <p class="text-sm text-glow-dark/80 leading-relaxed mt-2">
+                                    Simulator <strong>"Zona Abu-Abu Integritas Akademik"</strong> ini lahir dan terinspirasi dari <strong>semangat belajar kalian</strong> — dari diskusi-diskusi hangat di kelas, rasa ingin tahu yang besar, hingga kegigihan kalian dalam memahami psikologi moral dan metodologi riset. Tanpa energi dan antusiasme kalian, alat ini mungkin tidak akan pernah terwujud. 🚀
+                                </p>
+                                <p class="text-sm text-glow-dark/80 leading-relaxed mt-2 bg-white/20 p-3 rounded-xl border border-white/30">
+                                    <span class="font-bold text-pink">🌱 Maafkan saya</span> yang jarang bisa hadir di tengah-tengah kalian. Tapi percayalah, setiap pertemuan — meskipun singkat — selalu menyisakan inspirasi yang besar. Kalian adalah alasan saya terus berpikir dan menciptakan. Semoga alat ini bisa menjadi teman belajar kalian, dan semoga integritas akademik selalu menjadi kompas perjalanan kalian ke mana pun melangkah. 
+                                </p>
+                                <p class="text-xs text-glow-dark/50 mt-3 italic">
+                                    — Salam hangat, dosen yang (mungkin) lebih sering muncul di kode daripada di kelas 😄
+                                </p>
+                                <div class="flex flex-wrap gap-2 mt-3">
+                                    <span class="text-[9px] font-bold bg-pink/20 text-pink px-2.5 py-0.5 rounded-full border border-pink/30">❤️ dari hati</span>
+                                    <span class="text-[9px] font-bold bg-glow-200/30 text-glow-600 px-2.5 py-0.5 rounded-full border border-glow-300/20">#IntegritasAkademik</span>
+                                    <span class="text-[9px] font-bold bg-yellow/20 text-yellow-700 px-2.5 py-0.5 rounded-full border border-yellow/30">#MetopenKuantitatif</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Formula -->
+                    <div class="glass p-4 rounded-xl border border-white/40">
+                        <p class="text-[10px] font-bold uppercase tracking-wider text-glow-dark/50">Rumus Konseptual</p>
+                        <p class="text-sm font-mono text-glow-dark/80 mt-1">
+                            <span class="text-glow-500">MF</span> (Moral Foundations) × <span class="text-pink">MD</span> (Moral Disengagement) = <span class="font-bold text-glow-dark">Moral Acrobatics Index</span>
+                        </p>
+                        <p class="text-xs text-glow-dark/50 mt-1">Semakin tinggi skor pada suatu sel, semakin kuat hubungan antara fondasi moral tertentu dan mekanisme pelepasan moral yang digunakan.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- VIEW: THEORY (BARU — Landasan Teori MF & MD) -->
+            <!-- ========================================================= -->
+            <div id="view-theory" class="view-content hidden">
+                <div class="glass-strong rounded-3xl p-6 md:p-8 border border-white/50 shadow-xl shadow-glow-500/5 space-y-8">
+
+                    <!-- Header -->
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-glow-400 to-pink text-white flex items-center justify-center text-2xl shadow-lg shadow-glow-500/20 float-anim">
+                            <i class="fa-regular fa-book-open"></i>
+                        </div>
+                        <div>
+                            <h2 class="font-display font-extrabold text-2xl md:text-3xl text-glow-dark glow-text">Landasan Teoritis</h2>
+                            <p class="text-sm text-glow-dark/70">Moral Foundations (Haidt) × Moral Disengagement (Bandura)</p>
+                        </div>
+                    </div>
+
+                    <!-- Pengantar -->
+                    <div class="prose prose-sm text-glow-dark/80 leading-relaxed max-w-4xl">
+                        <p>
+                            Alat diagnostik ini dibangun di atas dua kerangka teoritis utama yang saling melengkapi untuk menjelaskan 
+                            <strong>bagaimana individu membuat keputusan moral</strong> dan <strong>bagaimana mereka melepaskan rasa bersalah</strong> 
+                            ketika melanggar norma yang sebenarnya mereka yakini.
+                        </p>
+                        <p class="mt-2">
+                            <strong>Moral Foundations Theory (Haidt, 2004)</strong> menjelaskan <em>apa</em> yang menjadi dasar pertimbangan moral seseorang — 
+                            mengapa satu orang menganggap sesuatu sebagai persoalan moral, sementara yang lain tidak.
+                            <br />
+                            <strong>Moral Disengagement (Bandura, 1991)</strong> menjelaskan <em>bagaimana</em> seseorang membenarkan perilaku yang melanggar 
+                            nilai-nilai moralnya — mekanisme kognitif yang "mematikan" sanksi diri agar pelanggaran terasa dapat diterima.
+                        </p>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="border-t border-white/30 pt-6"></div>
+
+                    <!-- ===== BAGIAN 1: MORAL FOUNDATIONS ===== -->
+                    <div>
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 rounded-xl bg-glow-500/20 text-glow-600 flex items-center justify-center text-lg">
+                                <i class="fa-regular fa-layer-group"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-display font-bold text-xl text-glow-dark">Moral Foundations Theory</h3>
+                                <p class="text-xs text-glow-dark/60">Jonathan Haidt · 2004 · 6 Fondasi Moral Universal</p>
+                            </div>
+                        </div>
+
+                        <p class="text-sm text-glow-dark/70 leading-relaxed mb-6">
+                            Haidt berargumen bahwa moralitas manusia dibangun di atas sejumlah <strong>fondasi intuitif</strong> yang bersifat universal — 
+                            seperti lidah yang memiliki reseptor rasa yang sama di semua budaya, namun setiap budaya mengolahnya menjadi "masakan moral" 
+                            yang berbeda. Berdasarkan penelitian lintas budaya, termasuk di Iran (Atari et al., 2020), terdapat <strong>6 fondasi</strong> 
+                            yang teridentifikasi:
+                        </p>
+
+                        <!-- 6 Foundations Cards -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- 1. Care/Harm -->
+                            <div class="foundation-card glass p-4 rounded-xl border border-white/40 card-hover">
+                                <div class="flex items-start gap-3">
+                                    <div class="foundation-icon mf"><i class="fa-regular fa-heart"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-glow-dark flex items-center gap-2">
+                                            Care / Harm
+                                            <span class="text-[8px] font-medium text-glow-500 uppercase tracking-wider">Individualizing</span>
+                                        </h4>
+                                        <p class="text-xs text-glow-dark/70 leading-relaxed mt-1">
+                                            Kepekaan terhadap penderitaan, kasih sayang, dan perlindungan terhadap yang rentan. 
+                                            Fondasi ini membuat kita merasa ngeri melihat kekerasan dan tergerak untuk menolong.
+                                        </p>
+                                        <div class="mt-2 flex flex-wrap gap-1">
+                                            <span class="text-[8px] bg-glow-200/30 text-glow-600 px-2 py-0.5 rounded-full">Empati</span>
+                                            <span class="text-[8px] bg-glow-200/30 text-glow-600 px-2 py-0.5 rounded-full">Kasih sayang</span>
+                                            <span class="text-[8px] bg-glow-200/30 text-glow-600 px-2 py-0.5 rounded-full">Anti-kekerasan</span>
+                                        </div>
+                                        <p class="text-[9px] text-glow-dark/40 mt-1 italic">"Apakah seseorang menderita secara fisik atau tidak"</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2. Fairness/Cheating -->
+                            <div class="foundation-card glass p-4 rounded-xl border border-white/40 card-hover">
+                                <div class="flex items-start gap-3">
+                                    <div class="foundation-icon mf"><i class="fa-regular fa-scale-balanced"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-glow-dark flex items-center gap-2">
+                                            Fairness / Cheating
+                                            <span class="text-[8px] font-medium text-glow-500 uppercase tracking-wider">Individualizing</span>
+                                        </h4>
+                                        <p class="text-xs text-glow-dark/70 leading-relaxed mt-1">
+                                            Kepekaan terhadap keadilan, hak, dan kebohongan. Fondasi ini membuat kita marah 
+                                            ketika seseorang diperlakukan tidak adil atau ketika ada yang "curang".
+                                        </p>
+                                        <div class="mt-2 flex flex-wrap gap-1">
+                                            <span class="text-[8px] bg-glow-200/30 text-glow-600 px-2 py-0.5 rounded-full">Keadilan</span>
+                                            <span class="text-[8px] bg-glow-200/30 text-glow-600 px-2 py-0.5 rounded-full">Hak</span>
+                                            <span class="text-[8px] bg-glow-200/30 text-glow-600 px-2 py-0.5 rounded-full">Proporsionalitas</span>
+                                        </div>
+                                        <p class="text-[9px] text-glow-dark/40 mt-1 italic">"Apakah beberapa orang diperlakukan secara berbeda dari yang lain"</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 3. Loyalty/Betrayal -->
+                            <div class="foundation-card glass p-4 rounded-xl border border-white/40 card-hover">
+                                <div class="flex items-start gap-3">
+                                    <div class="foundation-icon mf"><i class="fa-regular fa-flag"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-glow-dark flex items-center gap-2">
+                                            Loyalty / Betrayal
+                                            <span class="text-[8px] font-medium text-pink uppercase tracking-wider">Binding</span>
+                                        </h4>
+                                        <p class="text-xs text-glow-dark/70 leading-relaxed mt-1">
+                                            Kepekaan terhadap kesetiaan, pengkhianatan, dan solidaritas kelompok. Fondasi ini 
+                                            membuat kita bangga pada kelompok dan marah pada pengkhianat.
+                                        </p>
+                                        <div class="mt-2 flex flex-wrap gap-1">
+                                            <span class="text-[8px] bg-pink/20 text-pink px-2 py-0.5 rounded-full">Solidaritas</span>
+                                            <span class="text-[8px] bg-pink/20 text-pink px-2 py-0.5 rounded-full">Patriotisme</span>
+                                            <span class="text-[8px] bg-pink/20 text-pink px-2 py-0.5 rounded-full">Tim</span>
+                                        </div>
+                                        <p class="text-[9px] text-glow-dark/40 mt-1 italic">"Apakah seseorang mengkhianati kelompoknya atau tidak"</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 4. Authority/Subversion -->
+                            <div class="foundation-card glass p-4 rounded-xl border border-white/40 card-hover">
+                                <div class="flex items-start gap-3">
+                                    <div class="foundation-icon mf"><i class="fa-regular fa-crown"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-glow-dark flex items-center gap-2">
+                                            Authority / Subversion
+                                            <span class="text-[8px] font-medium text-pink uppercase tracking-wider">Binding</span>
+                                        </h4>
+                                        <p class="text-xs text-glow-dark/70 leading-relaxed mt-1">
+                                            Kepekaan terhadap hierarki, rasa hormat, dan ketaatan pada otoritas yang sah. 
+                                            Fondasi ini membuat kita menghormati orang tua, guru, dan pemimpin.
+                                        </p>
+                                        <div class="mt-2 flex flex-wrap gap-1">
+                                            <span class="text-[8px] bg-pink/20 text-pink px-2 py-0.5 rounded-full">Rasa hormat</span>
+                                            <span class="text-[8px] bg-pink/20 text-pink px-2 py-0.5 rounded-full">Tradisi</span>
+                                            <span class="text-[8px] bg-pink/20 text-pink px-2 py-0.5 rounded-full">Ketaatan</span>
+                                        </div>
+                                        <p class="text-[9px] text-glow-dark/40 mt-1 italic">"Apakah seseorang menunjukkan rasa hormat terhadap otoritas atau tidak"</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 5. Sanctity/Degradation -->
+                            <div class="foundation-card glass p-4 rounded-xl border border-white/40 card-hover">
+                                <div class="flex items-start gap-3">
+                                    <div class="foundation-icon mf"><i class="fa-regular fa-droplet"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-glow-dark flex items-center gap-2">
+                                            Sanctity / Degradation
+                                            <span class="text-[8px] font-medium text-pink uppercase tracking-wider">Binding</span>
+                                        </h4>
+                                        <p class="text-xs text-glow-dark/70 leading-relaxed mt-1">
+                                            Kepekaan terhadap kesucian, kemurnian, dan penghinaan terhadap hal-hal yang dianggap 
+                                            sakral atau menjijikkan.
+                                        </p>
+                                        <div class="mt-2 flex flex-wrap gap-1">
+                                            <span class="text-[8px] bg-pink/20 text-pink px-2 py-0.5 rounded-full">Kesucian</span>
+                                            <span class="text-[8px] bg-pink/20 text-pink px-2 py-0.5 rounded-full">Kemurnian</span>
+                                            <span class="text-[8px] bg-pink/20 text-pink px-2 py-0.5 rounded-full">Hidup sehat</span>
+                                        </div>
+                                        <p class="text-[9px] text-glow-dark/40 mt-1 italic">"Apakah seseorang melakukan sesuatu yang menjijikkan atau tidak"</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 6. Liberty/Oppression (tambahan) -->
+                            <div class="foundation-card glass p-4 rounded-xl border border-white/40 card-hover">
+                                <div class="flex items-start gap-3">
+                                    <div class="foundation-icon mf"><i class="fa-regular fa-hand-fist"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-glow-dark flex items-center gap-2">
+                                            Liberty / Oppression
+                                            <span class="text-[8px] font-medium text-glow-500 uppercase tracking-wider">(Tambahan)</span>
+                                        </h4>
+                                        <p class="text-xs text-glow-dark/70 leading-relaxed mt-1">
+                                            Kepekaan terhadap penindasan, dominasi, dan pembatasan kebebasan. Fondasi ini 
+                                            membuat kita melawan tirani dan membela hak-hak individu.
+                                        </p>
+                                        <div class="mt-2 flex flex-wrap gap-1">
+                                            <span class="text-[8px] bg-glow-200/30 text-glow-600 px-2 py-0.5 rounded-full">Kebebasan</span>
+                                            <span class="text-[8px] bg-glow-200/30 text-glow-600 px-2 py-0.5 rounded-full">Anti-tirani</span>
+                                            <span class="text-[8px] bg-glow-200/30 text-glow-600 px-2 py-0.5 rounded-full">Egalitarian</span>
+                                        </div>
+                                        <p class="text-[9px] text-glow-dark/40 mt-1 italic">"Penindasan terhadap yang lemah oleh yang kuat"</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Referensi MF -->
+                        <div class="mt-4 theory-quote">
+                            <p class="text-xs text-glow-dark/70">
+                                <strong>Sumber:</strong> Haidt, J. (2012). <em>The Righteous Mind: Why Good People Are Divided by Politics and Religion</em>. 
+                                New York: Vintage Books. — Lihat juga Atari, M., et al. (2020). "Foundations of morality in Iran." 
+                                <em>Evolution and Human Behavior</em>, 41(5), 367-384.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="border-t border-white/30 pt-6"></div>
+
+                    <!-- ===== BAGIAN 2: MORAL DISENGAGEMENT ===== -->
+                    <div>
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 rounded-xl bg-pink/20 text-pink flex items-center justify-center text-lg">
+                                <i class="fa-regular fa-power-off"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-display font-bold text-xl text-glow-dark">Moral Disengagement</h3>
+                                <p class="text-xs text-glow-dark/60">Albert Bandura · 1991 · 8 Mekanisme Pelepasan Moral</p>
+                            </div>
+                        </div>
+
+                        <p class="text-sm text-glow-dark/70 leading-relaxed mb-6">
+                            Bandura menjelaskan bahwa manusia tidak secara otomatis merasa bersalah ketika melakukan hal yang salah. 
+                            Sebaliknya, mereka menggunakan <strong>mekanisme kognitif</strong> untuk "melepaskan" diri dari sanksi internal 
+                            (rasa bersalah, malu) sehingga perilaku yang melanggar norma menjadi dapat diterima di mata mereka sendiri. 
+                            Ada <strong>8 mekanisme</strong> yang dikelompokkan dalam <strong>4 Locus</strong>:
+                        </p>
+
+                        <!-- 8 MD Mechanisms -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Locus Behavioral -->
+                            <div class="col-span-1 md:col-span-2">
+                                <div class="text-xs font-bold text-glow-mid uppercase tracking-wider mb-2 flex items-center gap-2">
+                                    <span class="w-1 h-4 bg-glow-400 rounded-full"></span>
+                                    Locus Behavioral — Membungkus Perbuatan
+                                </div>
+                            </div>
+
+                            <!-- MJ -->
+                            <div class="foundation-card md-card glass p-4 rounded-xl border border-white/40 card-hover">
+                                <div class="flex items-start gap-3">
+                                    <div class="foundation-icon md"><i class="fa-regular fa-circle-check"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-pink">Moral Justification</h4>
+                                        <p class="text-xs text-glow-dark/70 leading-relaxed mt-0.5">
+                                            Membungkus tindakan buruk sebagai tindakan mulia atau perlu demi tujuan yang lebih tinggi.
+                                        </p>
+                                        <p class="text-[9px] text-glow-dark/50 mt-1 italic">"Saya pakai AI tanpa sitasi karena harus lulus cepat demi membantu orang tua."</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- EL -->
+                            <div class="foundation-card md-card glass p-4 rounded-xl border border-white/40 card-hover">
+                                <div class="flex items-start gap-3">
+                                    <div class="foundation-icon md"><i class="fa-regular fa-pen-fancy"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-pink">Euphemistic Labeling</h4>
+                                        <p class="text-xs text-glow-dark/70 leading-relaxed mt-0.5">
+                                            Menggunakan bahasa halus untuk menyamarkan tindakan yang sebenarnya salah.
+                                        </p>
+                                        <p class="text-[9px] text-glow-dark/50 mt-1 italic">"Bukan plagiasi, ini 'optimalisasi teknologi digital'."</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- AC -->
+                            <div class="foundation-card md-card glass p-4 rounded-xl border border-white/40 card-hover">
+                                <div class="flex items-start gap-3">
+                                    <div class="foundation-icon md"><i class="fa-regular fa-arrow-right-arrow-left"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-pink">Advantageous Comparison</h4>
+                                        <p class="text-xs text-glow-dark/70 leading-relaxed mt-0.5">
+                                            Membandingkan kesalahan sendiri dengan pelanggaran yang lebih berat agar terlihat ringan.
+                                        </p>
+                                        <p class="text-[9px] text-glow-dark/50 mt-1 italic">"Saya cuma pakai AI, tidak seperti yang beli skripsi jadi."</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Locus Agency -->
+                            <div class="col-span-1 md:col-span-2 mt-2">
+                                <div class="text-xs font-bold text-glow-mid uppercase tracking-wider mb-2 flex items-center gap-2">
+                                    <span class="w-1 h-4 bg-glow-400 rounded-full"></span>
+                                    Locus Agency — Mengaburkan Tanggung Jawab
+                                </div>
+                            </div>
+
+                            <!-- DOR -->
+                            <div class="foundation-card md-card glass p-4 rounded-xl border border-white/40 card-hover">
+                                <div class="flex items-start gap-3">
+                                    <div class="foundation-icon md"><i class="fa-regular fa-person-arrow-from-device"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-pink">Displacement of Responsibility</h4>
+                                        <p class="text-xs text-glow-dark/70 leading-relaxed mt-0.5">
+                                            Melempar tanggung jawab kepada figur otoritas atau sistem yang dianggap memaksa.
+                                        </p>
+                                        <p class="text-[9px] text-glow-dark/50 mt-1 italic">"Dosen kasih tugas terlalu berat, saya terpaksa pakai AI."</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- DIF -->
+                            <div class="foundation-card md-card glass p-4 rounded-xl border border-white/40 card-hover">
+                                <div class="flex items-start gap-3">
+                                    <div class="foundation-icon md"><i class="fa-regular fa-people-group"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-pink">Diffusion of Responsibility</h4>
+                                        <p class="text-xs text-glow-dark/70 leading-relaxed mt-0.5">
+                                            Melarutkan tanggung jawab ke dalam kelompok atau massa agar rasa bersalah terbagi.
+                                        </p>
+                                        <p class="text-[9px] text-glow-dark/50 mt-1 italic">"Semua mahasiswa juga pakai AI, jadi tidak adil jika saya dihukum."</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Locus Outcome -->
+                            <div class="col-span-1 md:col-span-2 mt-2">
+                                <div class="text-xs font-bold text-glow-mid uppercase tracking-wider mb-2 flex items-center gap-2">
+                                    <span class="w-1 h-4 bg-glow-400 rounded-full"></span>
+                                    Locus Outcome — Meminimalkan Dampak
+                                </div>
+                            </div>
+
+                            <!-- DOC -->
+                            <div class="foundation-card md-card glass p-4 rounded-xl border border-white/40 card-hover col-span-1 md:col-span-2">
+                                <div class="flex items-start gap-3">
+                                    <div class="foundation-icon md"><i class="fa-regular fa-circle-minus"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-pink">Distortion of Consequences</h4>
+                                        <p class="text-xs text-glow-dark/70 leading-relaxed mt-0.5">
+                                            Mengabaikan atau meminimalkan dampak buruk dari perbuatan curang.
+                                        </p>
+                                        <p class="text-[9px] text-glow-dark/50 mt-1 italic">"Tidak ada yang dirugikan, semua orang senang dengan nilai yang aman."</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Locus Recipient -->
+                            <div class="col-span-1 md:col-span-2 mt-2">
+                                <div class="text-xs font-bold text-glow-mid uppercase tracking-wider mb-2 flex items-center gap-2">
+                                    <span class="w-1 h-4 bg-glow-400 rounded-full"></span>
+                                    Locus Recipient — Menyalahkan Korban
+                                </div>
+                            </div>
+
+                            <!-- DH -->
+                            <div class="foundation-card md-card glass p-4 rounded-xl border border-white/40 card-hover">
+                                <div class="flex items-start gap-3">
+                                    <div class="foundation-icon md"><i class="fa-regular fa-user-slash"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-pink">Dehumanization</h4>
+                                        <p class="text-xs text-glow-dark/70 leading-relaxed mt-0.5">
+                                            Melihat "pihak lain" bukan sebagai manusia yang dirugikan.
+                                        </p>
+                                        <p class="text-[9px] text-glow-dark/50 mt-1 italic">"Dosen hanya robot penilai yang tidak peduli proses."</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- AB -->
+                            <div class="foundation-card md-card glass p-4 rounded-xl border border-white/40 card-hover">
+                                <div class="flex items-start gap-3">
+                                    <div class="foundation-icon md"><i class="fa-regular fa-circle-exclamation"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-pink">Attribution of Blame</h4>
+                                        <p class="text-xs text-glow-dark/70 leading-relaxed mt-0.5">
+                                            Menyalahkan korban atau keadaan sebagai pemicu kecurangan.
+                                        </p>
+                                        <p class="text-[9px] text-glow-dark/50 mt-1 italic">"Dosen pelit nilai, wajar saya pakai AI biar dapet nilai bagus."</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Referensi MD -->
+                        <div class="mt-4 theory-quote md-quote">
+                            <p class="text-xs text-glow-dark/70">
+                                <strong>Sumber:</strong> Bandura, A. (1991). Social cognitive theory of moral thought and action. 
+                                In W. M. Kurtines & J. L. Gewirtz (Eds.), <em>Handbook of moral behavior and development</em> (Vol. 1, pp. 45-103). 
+                                Hillsdale, NJ: Lawrence Erlbaum.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="border-t border-white/30 pt-6"></div>
+
+                    <!-- ===== BAGIAN 3: KONEKSI MF × MD ===== -->
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-glow-400 to-pink text-white flex items-center justify-center text-lg shadow-md shadow-glow-500/20">
+                                <i class="fa-regular fa-bolt"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-display font-bold text-xl text-glow-dark">MF × MD: Akrobatik Moral</h3>
+                                <p class="text-xs text-glow-dark/60">Mengapa Fondasi Moral &amp; Pelepasan Moral Bekerja Bersama</p>
+                            </div>
+                        </div>
+
+                        <p class="text-sm text-glow-dark/70 leading-relaxed">
+                            <strong>Akrobatik moral</strong> terjadi ketika seseorang menggunakan mekanisme pelepasan moral (MD) untuk 
+                            "mengakrobati" fondasi moral (MF) mereka dalam konteks tertentu. Semakin tinggi skor pada suatu sel dalam heatmap, 
+                            semakin kuat hubungan antara fondasi moral tertentu dan mekanisme pelepasan moral yang digunakan — 
+                            artinya individu tersebut cenderung menggunakan mekanisme MD tersebut untuk membenarkan pelanggaran terhadap nilai MF-nya.
+                        </p>
+
+                        <div class="mt-4 glass p-4 rounded-xl border border-white/40">
+                            <p class="text-xs text-glow-dark/60 leading-relaxed">
+                                <strong>Contoh:</strong> Seorang mahasiswa dengan fondasi <span class="text-glow-mid font-semibold">Loyalty</span> yang tinggi 
+                                (sangat peduli pada kelompok) menggunakan mekanisme <span class="text-pink font-semibold">Diffusion of Responsibility</span> 
+                                ("semua teman juga pakai AI") untuk membenarkan plagiasi. 
+                                Ini adalah <span class="font-semibold">akrobatik moral</span> — nilai kesetiaan pada kelompok 
+                                "diakrobati" menjadi alasan untuk ikut-ikutan melanggar aturan.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- VIEW: CASES (sama seperti sebelumnya) -->
+            <!-- ========================================================= -->
+            <div id="view-cases" class="view-content hidden">
+                <div class="glass-strong rounded-3xl p-6 md:p-8 border border-white/50 shadow-xl shadow-glow-500/5">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-glow-400 to-glow-600 text-white flex items-center justify-center text-lg shadow-md shadow-glow-500/20">
+                            <i class="fa-regular fa-folder-open"></i>
+                        </div>
+                        <div>
+                            <h2 class="font-display font-bold text-xl md:text-2xl text-glow-dark">Pilih Skenario Kasus</h2>
+                            <p class="text-xs text-glow-dark/60">Setiap kasus mengilustrasikan dilema moral dalam konteks akademik digital</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="caseGrid">
+                        <!-- Diisi oleh JS -->
+                    </div>
+
+                    <div class="mt-6 p-4 glass rounded-xl border border-white/40 flex items-center justify-between flex-wrap gap-3">
+                        <div>
+                            <p class="text-xs font-medium text-glow-dark/60">Kasus terpilih:</p>
+                            <p id="selectedCaseDisplay" class="text-sm font-bold text-glow-dark">Belum ada kasus dipilih</p>
+                        </div>
+                        <button onclick="switchView('assessment')" id="btnGoToAssessment" class="btn-primary text-xs px-5 py-2.5 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                            Mulai Asesmen <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- VIEW: ASSESSMENT -->
+            <!-- ========================================================= -->
+            <div id="view-assessment" class="view-content hidden">
+                <div class="glass-strong rounded-3xl p-6 md:p-8 border border-white/50 shadow-xl shadow-glow-500/5">
+                    <div class="flex items-center justify-between flex-wrap gap-3 mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-glow-400 to-glow-600 text-white flex items-center justify-center text-lg shadow-md shadow-glow-500/20">
+                                <i class="fa-regular fa-clipboard"></i>
+                            </div>
+                            <div>
+                                <h2 class="font-display font-bold text-xl md:text-2xl text-glow-dark">Asesmen Kasus</h2>
+                                <p id="assessmentCaseLabel" class="text-xs text-glow-dark/60">Pilih kasus terlebih dahulu</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-medium text-glow-dark/50">Progress:</span>
+                            <span id="assessmentProgress" class="text-xs font-bold text-glow-500">0%</span>
+                        </div>
+                    </div>
+
+                    <div id="caseContextBox" class="glass p-4 rounded-xl border border-white/40 mb-6 hidden">
+                        <p class="text-xs font-bold text-glow-dark/60 uppercase tracking-wider">Kontek Kasus</p>
+                        <p id="caseContextText" class="text-sm text-glow-dark/80 mt-1 leading-relaxed"></p>
+                    </div>
+
+                    <!-- MF Questions -->
+                    <div class="mb-8">
+                        <h3 class="font-display font-bold text-base text-glow-dark mb-3 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-glow-400 shadow-lg shadow-glow-500/50"></span>
+                            Fondasi Moral (MF)
+                            <span class="text-xs font-normal text-glow-dark/50 ml-2">— seberapa relevan nilai-nilai ini dalam kasus ini?</span>
+                        </h3>
+                        <div id="mfQuestionsContainer" class="space-y-3">
+                            <!-- Diisi oleh JS -->
+                        </div>
+                    </div>
+
+                    <!-- MD Questions -->
+                    <div>
+                        <h3 class="font-display font-bold text-base text-glow-dark mb-3 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-pink shadow-lg shadow-pink/30"></span>
+                            Pelepasan Moral (MD)
+                            <span class="text-xs font-normal text-glow-dark/50 ml-2">— seberapa setuju dengan pernyataan ini?</span>
+                        </h3>
+                        <div id="mdQuestionsContainer" class="space-y-3">
+                            <!-- Diisi oleh JS -->
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-white/30">
+                        <button onclick="switchView('cases')" class="text-glow-mid hover:text-glow-dark text-sm font-medium flex items-center gap-1.5 transition">
+                            <i class="fa-solid fa-arrow-left text-xs"></i> Kembali ke Kasus
+                        </button>
+                        <button onclick="submitAssessment()" class="btn-primary px-6 py-2.5 flex items-center gap-2">
+                            <i class="fa-regular fa-paper-plane"></i> Lihat Heatmap 🔥
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- VIEW: HEATMAP -->
+            <!-- ========================================================= -->
+            <div id="view-heatmap" class="view-content hidden">
+                <div class="glass-strong rounded-3xl p-6 md:p-8 border border-white/50 shadow-xl shadow-glow-500/5">
+                    <div class="flex items-center justify-between flex-wrap gap-3 mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-red-700 text-white flex items-center justify-center text-lg shadow-lg shadow-red-500/30 fire-glow">
+                                <i class="fa-regular fa-table"></i>
+                            </div>
+                            <div>
+                                <h2 class="font-display font-bold text-xl md:text-2xl text-glow-dark">Heatmap Akrobatik Moral 🔥</h2>
+                                <p id="heatmapCaseLabel" class="text-xs text-glow-dark/60">Matriks 6 MF × 8 MD · Skala Merah Menyala</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-medium text-glow-dark/50">Intensitas:</span>
+                            <div class="flex items-center gap-1 text-[9px] font-bold">
+                                <span class="text-glow-dark/60">Rendah</span>
+                                <span class="legend-dot" style="background:#FEE2E2;"></span>
+                                <span class="legend-dot" style="background:#FCA5A5;"></span>
+                                <span class="legend-dot" style="background:#F87171;"></span>
+                                <span class="legend-dot" style="background:#EF4444;"></span>
+                                <span class="legend-dot" style="background:#DC2626; box-shadow:0 0 16px rgba(220,38,38,0.5);"></span>
+                                <span class="legend-dot" style="background:#991B1B; box-shadow:0 0 24px rgba(153,27,27,0.6);"></span>
+                                <span class="text-glow-dark/60">Tinggi</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm border-collapse" id="heatmapTable">
+                            <thead>
+                                <tr id="heatmapHeader">
+                                    <!-- Diisi oleh JS -->
+                                </tr>
+                            </thead>
+                            <tbody id="heatmapBody">
+                                <!-- Diisi oleh JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-6 p-4 glass rounded-xl border border-white/40">
+                        <p class="text-[10px] font-bold uppercase tracking-wider text-glow-dark/50">Interpretasi</p>
+                        <p class="text-xs text-glow-dark/70 mt-1 leading-relaxed">
+                            Setiap sel menunjukkan kekuatan hubungan antara fondasi moral (baris) dan mekanisme pelepasan moral (kolom).
+                            <span class="font-semibold text-red-600 glow-text">🔥 Warna lebih merah & menyala = hubungan lebih kuat</span> — artinya individu cenderung menggunakan mekanisme MD tersebut untuk "mengakrobati" fondasi MF-nya dalam konteks kasus ini.
+                        </p>
+                    </div>
+
+                    <div class="mt-4 flex flex-wrap gap-3">
+                        <button onclick="switchView('results')" class="btn-primary px-6 py-2.5 flex items-center gap-2">
+                            <i class="fa-regular fa-chart-scatter"></i> Lihat Diagnosis
+                        </button>
+                        <button onclick="resetAssessment()" class="btn-secondary px-5 py-2.5 flex items-center gap-2">
+                            <i class="fa-solid fa-rotate-left"></i> Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- VIEW: RESULTS -->
+            <!-- ========================================================= -->
+            <div id="view-results" class="view-content hidden">
+                <div class="glass-strong rounded-3xl p-6 md:p-8 border border-white/50 shadow-xl shadow-glow-500/5">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-yellow to-pink text-white flex items-center justify-center text-lg shadow-md shadow-yellow/20">
+                            <i class="fa-regular fa-chart-scatter"></i>
+                        </div>
+                        <div>
+                            <h2 class="font-display font-bold text-xl md:text-2xl text-glow-dark">Hasil Diagnosis</h2>
+                            <p id="resultsCaseLabel" class="text-xs text-glow-dark/60">Analisis multidisipliner</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6" id="scoreSummary">
+                        <!-- Diisi oleh JS -->
+                    </div>
+
+                    <div class="space-y-4" id="multiDisciplinaryDiagnosis">
+                        <!-- Diisi oleh JS -->
+                    </div>
+
+                    <div class="mt-6 flex flex-wrap gap-3 pt-4 border-t border-white/30">
+                        <button onclick="switchView('heatmap')" class="text-glow-mid hover:text-glow-dark text-sm font-medium flex items-center gap-1.5 transition">
+                            <i class="fa-solid fa-arrow-left text-xs"></i> Kembali ke Heatmap
+                        </button>
+                        <button onclick="switchView('cases')" class="btn-secondary px-4 py-2 flex items-center gap-2">
+                            <i class="fa-solid fa-rotate-left"></i> Kasus Baru
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="relative z-10 glass border-t border-white/30 py-4 px-6 text-center mt-8 flex-shrink-0">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5">
+                <div class="w-7 h-7 rounded-xl bg-gradient-to-br from-glow-400 to-glow-600 text-white flex items-center justify-center text-[10px] font-extrabold shadow-md shadow-glow-500/20">
+                    P
+                </div>
+                <div class="text-left">
+                    <p class="text-[9px] font-bold text-glow-dark">Psychosophia Behavioral Lab</p>
+                    <p class="text-[7px] text-glow-dark/50">Prodi Psikologi Islam · IAIN SAS Bangka Belitung</p>
+                </div>
+            </div>
+            <div class="text-[7px] text-glow-dark/40">
+                <p>© 2026 · Zona Abu-Abu Integritas Akademik v2.0</p>
+                <p class="mt-0.5">Haidt × Bandura Applied Diagnostic</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================================ -->
+    <!-- ADMIN MODAL -->
+    <!-- ============================================================ -->
+    <div id="adminModal" class="fixed inset-0 z-50 admin-overlay flex items-center justify-center hidden">
+        <div class="glass-strong rounded-3xl p-6 md:p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto shadow-2xl border border-white/40">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="font-display font-bold text-xl text-glow-dark flex items-center gap-2">
+                    <i class="fa-solid fa-lock text-glow-mid"></i> Admin Dashboard
+                </h2>
+                <button onclick="closeAdmin()" class="text-glow-dark/40 hover:text-glow-dark transition text-xl">
+                    <i class="fa-regular fa-circle-xmark"></i>
+                </button>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-xs font-bold text-glow-dark/60 uppercase tracking-wider mb-1">Masukkan Password</label>
+                <div class="flex gap-2">
+                    <input type="password" id="adminPassword" placeholder="••••••••" class="flex-1 p-2.5 glass rounded-xl outline-none focus:ring-2 focus:ring-glow-400 text-sm border border-white/40 text-glow-dark" />
+                    <button onclick="adminLogin()" class="btn-primary px-5 py-2.5 text-sm">Login</button>
+                </div>
+                <p id="adminError" class="text-xs text-red-500 mt-1 hidden">Password salah. Coba lagi.</p>
+            </div>
+
+            <div id="adminContent" class="hidden space-y-6">
+                <div class="glass p-3 rounded-xl text-xs text-glow-dark flex items-center gap-2 border border-glow-300/30">
+                    <i class="fa-regular fa-circle-check"></i> Akses diberikan. Selamat datang, Admin!
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="glass p-4 rounded-xl text-center border border-white/30">
+                        <p class="text-2xl font-black text-glow-dark" id="adminTotalResponses">0</p>
+                        <p class="text-[9px] text-glow-dark/50 uppercase tracking-wider">Total Responden</p>
+                    </div>
+                    <div class="glass p-4 rounded-xl text-center border border-white/30">
+                        <p class="text-2xl font-black text-glow-dark" id="adminAvgScore">0.0</p>
+                        <p class="text-[9px] text-glow-dark/50 uppercase tracking-wider">Rata-rata Skor</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="adminDownloadCSV()" class="flex-1 btn-primary py-2.5 flex items-center justify-center gap-2 text-sm">
+                        <i class="fa-solid fa-download"></i> Download CSV
+                    </button>
+                    <button onclick="adminResetAll()" class="flex-1 bg-red-100/40 text-red-600 font-bold py-2.5 rounded-xl hover:bg-red-200/40 transition flex items-center justify-center gap-2 text-sm border border-red-200/30">
+                        <i class="fa-solid fa-trash-can"></i> Reset Semua Data
+                    </button>
+                    <button onclick="adminViewCollectiveHeatmap()" class="flex-1 bg-glow-200/30 text-glow-600 font-bold py-2.5 rounded-xl hover:bg-glow-300/30 transition flex items-center justify-center gap-2 text-sm">
+                        <i class="fa-regular fa-table"></i> Heatmap Kolektif
+                    </button>
+                </div>
+
+                <div id="adminCollectiveHeatmap" class="hidden">
+                    <p class="text-xs font-bold text-glow-dark/60 uppercase tracking-wider mb-2">Heatmap Agregat (Semua Responden)</p>
+                    <div class="overflow-x-auto text-xs glass p-4 rounded-xl border border-white/30" id="adminHeatmapContainer">
+                        <!-- Diisi oleh JS -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 pt-4 border-t border-white/20 text-center text-[9px] text-glow-dark/40">
+                Psychosophia Lab · Admin Console v1.0
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SCRIPTS -->
+    <!-- ============================================================ -->
+    <script>
+        // ===== BACKGROUND CANVAS =====
+        (function initBackground() {
+            const canvas = document.getElementById('bg-canvas');
+            const ctx = canvas.getContext('2d');
+            let w, h;
+
+            function resize() {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            const dots = [];
+            const numDots = 120;
+            for (let i = 0; i < numDots; i++) {
+                dots.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    r: Math.random() * 2.5 + 1,
+                    dx: (Math.random() - 0.5) * 0.25,
+                    dy: (Math.random() - 0.5) * 0.25,
+                    opacity: Math.random() * 0.3 + 0.1,
+                });
+            }
+
+            const bigDots = [];
+            for (let i = 0; i < 25; i++) {
+                bigDots.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    r: Math.random() * 12 + 6,
+                    dx: (Math.random() - 0.5) * 0.08,
+                    dy: (Math.random() - 0.5) * 0.08,
+                    opacity: Math.random() * 0.08 + 0.02,
+                });
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, w, h);
+
+                bigDots.forEach(d => {
+                    ctx.beginPath();
+                    ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(90, 163, 240, ${d.opacity})`;
+                    ctx.fill();
+                    ctx.shadowColor = `rgba(26, 102, 179, ${d.opacity * 0.3})`;
+                    ctx.shadowBlur = 40;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                    d.x += d.dx;
+                    d.y += d.dy;
+                    if (d.x < 0 || d.x > w) d.dx *= -1;
+                    if (d.y < 0 || d.y > h) d.dy *= -1;
+                });
+
+                dots.forEach(d => {
+                    ctx.beginPath();
+                    ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(26, 102, 179, ${d.opacity})`;
+                    ctx.fill();
+                    ctx.shadowColor = `rgba(26, 102, 179, ${d.opacity * 0.2})`;
+                    ctx.shadowBlur = 8;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                    d.x += d.dx;
+                    d.y += d.dy;
+                    if (d.x < 0 || d.x > w) d.dx *= -1;
+                    if (d.y < 0 || d.y > h) d.dy *= -1;
+                });
+
+                ctx.strokeStyle = 'rgba(26, 102, 179, 0.04)';
+                ctx.lineWidth = 0.5;
+                for (let i = 0; i < dots.length; i++) {
+                    for (let j = i + 1; j < dots.length; j++) {
+                        const dx = dots[i].x - dots[j].x;
+                        const dy = dots[i].y - dots[j].y;
+                        const dist = dx * dx + dy * dy;
+                        if (dist < 8000) {
+                            ctx.beginPath();
+                            ctx.moveTo(dots[i].x, dots[i].y);
+                            ctx.lineTo(dots[j].x, dots[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(draw);
+            }
+            draw();
+        })();
+
+        // ===== DATA =====
+        const MF_DIMENSIONS = [
+            { id: 'harm', label: 'Harm / Care', short: 'Harm', color: '#FF6B9D' },
+            { id: 'fairness', label: 'Fairness / Cheating', short: 'Fairness', color: '#4A9FE8' },
+            { id: 'loyalty', label: 'Loyalty / Ingroup', short: 'Loyalty', color: '#FF6B6B' },
+            { id: 'authority', label: 'Authority / Respect', short: 'Authority', color: '#6FCF97' },
+            { id: 'purity', label: 'Purity / Sanctity', short: 'Purity', color: '#F2C94C' },
+            { id: 'individualizing', label: 'Individualizing (Harm+Fair)', short: 'Individ.', color: '#9D7BFF' }
+        ];
+
+        const MD_MECHANISMS = [
+            { id: 'mj', label: 'Moral Justification', short: 'Justification' },
+            { id: 'el', label: 'Euphemistic Labeling', short: 'Labeling' },
+            { id: 'ac', label: 'Advantageous Comparison', short: 'Comparison' },
+            { id: 'dor', label: 'Displacement of Responsibility', short: 'Displacement' },
+            { id: 'dif', label: 'Diffusion of Responsibility', short: 'Diffusion' },
+            { id: 'doc', label: 'Distortion of Consequences', short: 'Distortion' },
+            { id: 'dh', label: 'Dehumanization', short: 'Dehumanization' },
+            { id: 'ab', label: 'Attribution of Blame', short: 'Attribution' }
+        ];
+
+        const CASES = [{
+            id: 'case1',
+            title: 'Plagiasi AI Tanpa Atribusi',
+            icon: '🤖',
+            context: 'Seorang mahasiswa menyalin paragraf dari ChatGPT dan memasukkannya ke dalam tugas akhir tanpa mencantumkan sumber. Ia berpikir bahwa "ini bukan plagiasi karena AI bukan manusia".',
+            mfQuestions: {
+                harm: 'Seberapa pentingkah menjaga kejujuran agar tidak merugikan dosen dan sistem pendidikan?',
+                fairness: 'Seberapa pentingkah memberikan kredit yang adil kepada sumber informasi?',
+                loyalty: 'Seberapa pentingkah menjaga nama baik kampus dengan tidak melakukan kecurangan?',
+                authority: 'Seberapa pentingkah mematuhi aturan akademik yang telah ditetapkan?',
+                purity: 'Seberapa pentingkah menjaga kesucian proses akademik dari kontaminasi?',
+                individualizing: 'Seberapa pentingkah melindungi hak setiap orang atas karya intelektualnya?'
+            },
+            mdQuestions: {
+                mj: 'Menggunakan AI untuk menulis tugas adalah cara cerdas untuk menghasilkan karya berkualitas.',
+                el: 'Ini bukan plagiasi, ini "optimalisasi teknologi" dalam pengerjaan tugas.',
+                ac: 'Saya hanya pakai AI, tidak seperti mahasiswa lain yang membeli skripsi jadi.',
+                dor: 'Dosen memberikan tugas yang terlalu berat, saya terpaksa menggunakan AI.',
+                dif: 'Semua mahasiswa juga melakukan hal yang sama, jadi tidak adil jika saya dihukum.',
+                doc: 'Tidak mencantumkan sumber AI tidak akan merusak sistem pendidikan secara keseluruhan.',
+                dh: 'Dosen hanya peduli pada angka, bukan proses belajar yang sesungguhnya.',
+                ab: 'Dosen tidak mengajarkan cara menulis yang baik, jadi wajar saya cari jalan pintas.'
+            }
+        }, {
+            id: 'case2',
+            title: 'Mencontek via Grup WA',
+            icon: '📱',
+            context: 'Sekelompok mahasiswa berbagi jawaban ujian melalui grup WhatsApp. Mereka beralasan bahwa "kerja sama" ini adalah bentuk solidaritas angkatan.',
+            mfQuestions: {
+                harm: 'Seberapa pentingkah mencegah kerugian bagi mahasiswa yang belajar dengan jujur?',
+                fairness: 'Seberapa pentingkah perlakuan yang adil bagi semua peserta ujian?',
+                loyalty: 'Seberapa pentingkah menjaga solidaritas dengan teman satu angkatan?',
+                authority: 'Seberapa pentingkah menghormati aturan ujian yang ditetapkan dosen?',
+                purity: 'Seberapa pentingkah menjaga kemurnian proses evaluasi akademik?',
+                individualizing: 'Seberapa pentingkah melindungi hak setiap individu atas penilaian yang adil?'
+            },
+            mdQuestions: {
+                mj: 'Berbagi jawaban adalah bentuk solidaritas agar tidak ada teman yang tertinggal.',
+                el: 'Ini bukan mencontek, ini "diskusi kelompok terdistribusi" saat ujian.',
+                ac: 'Kami hanya mencocokkan jawaban, tidak seperti orang yang bawa contekan fisik.',
+                dor: 'Pengawas ujian tidak acuh, sistem yang memaksa kami untuk bersekutu.',
+                dif: 'Hampir satu kelas melakukannya, jadi kami semua bertanggung jawab bersama.',
+                doc: 'Tidak ada yang dirugikan, semua orang senang dengan nilai yang aman.',
+                dh: 'Komite akademik melihat kami hanya sebagai angka statistik, bukan manusia.',
+                ab: 'Soal ujian tidak pernah diajarkan di kelas, wajar jika kami saling membantu.'
+            }
+        }, {
+            id: 'case3',
+            title: 'Menggunakan AI untuk Parafrase',
+            icon: '🔄',
+            context: 'Seorang mahasiswa menggunakan AI untuk memparafrasekan artikel jurnal yang sudah ada, lalu mengakuinya sebagai hasil pemikiran sendiri tanpa menyebutkan sumber asli.',
+            mfQuestions: {
+                harm: 'Seberapa pentingkah menghindari kerugian bagi penulis asli yang karyanya digunakan?',
+                fairness: 'Seberapa pentingkah memberikan pengakuan yang adil kepada penulis asli?',
+                loyalty: 'Seberapa pentingkah menjaga kepercayaan dosen terhadap mahasiswa?',
+                authority: 'Seberapa pentingkah mematuhi kode etik akademik?',
+                purity: 'Seberapa pentingkah menjaga orisinalitas karya akademik?',
+                individualizing: 'Seberapa pentingkah melindungi hak cipta dan karya intelektual?'
+            },
+            mdQuestions: {
+                mj: 'Memparafrasekan dengan AI adalah cara efisien untuk memahami materi sulit.',
+                el: 'Ini bukan plagiasi, ini "restrukturisasi konten berbantuan digital".',
+                ac: 'Saya hanya parafrase, tidak seperti orang yang menyalin mentah-mentah.',
+                dor: 'Jurnal yang saya gunakan terlalu rumit, AI membantu saya memahaminya.',
+                dif: 'Banyak mahasiswa juga menggunakan AI untuk parafrase, ini sudah umum.',
+                doc: 'Parafrase AI tidak mengubah substansi, jadi tidak ada yang dirugikan.',
+                dh: 'Dosen tidak akan membaca tugas saya dengan teliti, mereka hanya lihat kata kunci.',
+                ab: 'Penulis jurnal sudah terkenal, mereka tidak akan rugi jika saya pakai karyanya.'
+            }
+        }, {
+            id: 'case4',
+            title: 'Menyembunyikan Penggunaan AI',
+            icon: '🙈',
+            context: 'Mahasiswa menggunakan AI untuk menulis sebagian besar tugasnya, tetapi tidak mencantumkan deklarasi penggunaan AI karena takut dinilai kurang kredibel.',
+            mfQuestions: {
+                harm: 'Seberapa pentingkah kejujuran dalam menyampaikan proses pengerjaan tugas?',
+                fairness: 'Seberapa pentingkah transparansi dalam menggunakan alat bantu?',
+                loyalty: 'Seberapa pentingkah menjaga kepercayaan dosen terhadap mahasiswa?',
+                authority: 'Seberapa pentingkah mematuhi aturan deklarasi sumber?',
+                purity: 'Seberapa pentingkah menjaga kemurnian karya akademik?',
+                individualizing: 'Seberapa pentingkah hak dosen untuk mengetahui proses pengerjaan?'
+            },
+            mdQuestions: {
+                mj: 'Menyembunyikan penggunaan AI adalah strategi untuk melindungi reputasi akademik.',
+                el: 'Ini bukan berbohong, ini "menjaga privasi metodologi pengerjaan".',
+                ac: 'Saya tidak sebodoh yang mengaku menggunakan AI dan mendapat nilai jelek.',
+                dor: 'Dosen tidak pernah menjelaskan cara mendeklarasikan AI dengan benar.',
+                dif: 'Semua orang juga menyembunyikan penggunaan AI, saya hanya mengikuti arus.',
+                doc: 'Menyembunyikan AI tidak akan merusak kualitas pendidikan secara signifikan.',
+                dh: 'Dosen hanya robot penilai yang tidak peduli proses pengerjaan.',
+                ab: 'Sistem hanya peduli pada output, bukan input, jadi saya menyesuaikan diri.'
+            }
+        }, {
+            id: 'case5',
+            title: 'Membeli Jasa Joki Tugas',
+            icon: '💸',
+            context: 'Mahasiswa membayar orang lain untuk mengerjakan tugasnya karena merasa tidak mampu menyelesaikan sendiri di tengah kesibukan organisasi.',
+            mfQuestions: {
+                harm: 'Seberapa pentingkah melindungi nilai-nilai kejujuran akademik dari kerusakan?',
+                fairness: 'Seberapa pentingkah keadilan bagi mahasiswa yang mengerjakan tugas sendiri?',
+                loyalty: 'Seberapa pentingkah menjaga kepercayaan orang tua dan dosen?',
+                authority: 'Seberapa pentingkah mematuhi aturan anti-plagiasi?',
+                purity: 'Seberapa pentingkah menjaga kesucian proses akademik dari praktik curang?',
+                individualizing: 'Seberapa pentingkah melindungi hak setiap orang atas reputasi akademik?'
+            },
+            mdQuestions: {
+                mj: 'Membeli joki adalah investasi untuk masa depan agar lulus tepat waktu.',
+                el: 'Ini bukan kecurangan, ini "outsourcing akademik" yang sah.',
+                ac: 'Saya hanya beli joki, tidak seperti yang mencontek di ujian akhir.',
+                dor: 'Organisasi memakan waktu saya, kampus tidak memberi kelonggaran.',
+                dif: 'Banyak anak organisasi juga menggunakan joki, ini sudah rahasia umum.',
+                doc: 'Sekali-sekali beli joki tidak akan merusak sistem pendidikan.',
+                dh: 'Dosen hanya melihat hasil akhir, mereka tidak peduli siapa yang mengerjakan.',
+                ab: 'Sistem pendidikan terlalu berorientasi tugas, wajar jika saya mencari solusi.'
+            }
+        }, {
+            id: 'case6',
+            title: 'Menggunakan Prompt Generator untuk Ide',
+            icon: '💡',
+            context: 'Mahasiswa menggunakan AI untuk menghasilkan ide dan kerangka tulisan, lalu mengembangkannya sendiri tanpa menyebutkan sumber ide dari AI.',
+            mfQuestions: {
+                harm: 'Seberapa pentingkah kejujuran tentang sumber ide dalam karya akademik?',
+                fairness: 'Seberapa pentingkah memberikan kredit kepada sumber ide?',
+                loyalty: 'Seberapa pentingkah menjaga kepercayaan dosen terhadap orisinalitas ide?',
+                authority: 'Seberapa pentingkah mematuhi etika akademik dalam penggunaan alat bantu?',
+                purity: 'Seberapa pentingkah menjaga kemurnian ide dalam karya akademik?',
+                individualizing: 'Seberapa pentingkah melindungi hak pencipta ide?'
+            },
+            mdQuestions: {
+                mj: 'Menggunakan AI untuk ide adalah cara cerdas untuk memulai proses kreatif.',
+                el: 'Ini bukan mencuri ide, ini "brainstorming berbantuan digital".',
+                ac: 'Saya hanya minta ide, tidak seperti orang yang minta AI menulis seluruh tugas.',
+                dor: 'Dosen tidak memberi panduan yang cukup untuk memulai tugas.',
+                dif: 'Semua mahasiswa juga menggunakan prompt generator, ini sudah umum.',
+                doc: 'Ide dari AI tidak memiliki hak cipta, jadi tidak ada yang dirugikan.',
+                dh: 'Dosen hanya menilai output, mereka tidak peduli dari mana ide berasal.',
+                ab: 'Sistem pendidikan terlalu menuntut kreativitas, wajar saya cari bantuan AI.'
+            }
+        }, {
+            id: 'case7',
+            title: 'Mengubah Sedikit Tulisan AI Agar Lolos Turnitin',
+            icon: '🎯',
+            context: 'Mahasiswa menggunakan AI untuk menulis tugas, kemudian mengubah beberapa kata agar lolos deteksi Turnitin, dan menganggapnya sebagai "strategi cerdas".',
+            mfQuestions: {
+                harm: 'Seberapa pentingkah menghindari kerugian bagi sistem pendidikan?',
+                fairness: 'Seberapa pentingkah perlakuan yang adil bagi mahasiswa yang menulis sendiri?',
+                loyalty: 'Seberapa pentingkah menjaga kepercayaan institusi?',
+                authority: 'Seberapa pentingkah mematuhi aturan anti-plagiasi?',
+                purity: 'Seberapa pentingkah menjaga kemurnian karya akademik?',
+                individualizing: 'Seberapa pentingkah melindungi reputasi akademik semua pihak?'
+            },
+            mdQuestions: {
+                mj: 'Mengubah kata-kata AI agar lolos Turnitin adalah taktik untuk bertahan.',
+                el: 'Ini bukan manipulasi, ini "optimasi konten untuk lolos verifikasi".',
+                ac: 'Saya hanya mengubah beberapa kata, tidak seperti yang menyalin mentah-mentah.',
+                dor: 'Turnitin terlalu sensitif, saya terpaksa melakukan ini agar tidak terkena sanksi.',
+                dif: 'Semua mahasiswa juga melakukan ini, ini sudah jadi strategi umum.',
+                doc: 'Mengubah sedikit kata tidak mengubah substansi, jadi tidak ada yang dirugikan.',
+                dh: 'Turnitin hanya mesin, tidak peduli dengan niat baik saya.',
+                ab: 'Sistem deteksi plagiasi terlalu kaku, wajar saya mencari celah.'
+            }
+        }, {
+            id: 'case8',
+            title: 'Menggunakan AI untuk Menerjemahkan Karya Orang Lain',
+            icon: '🌐',
+            context: 'Mahasiswa menggunakan AI untuk menerjemahkan karya asing, lalu mengakuinya sebagai hasil terjemahan sendiri tanpa menyebutkan alat yang digunakan.',
+            mfQuestions: {
+                harm: 'Seberapa pentingkah transparansi tentang alat yang digunakan dalam menerjemahkan?',
+                fairness: 'Seberapa pentingkah memberikan pengakuan yang adil kepada penulis asli?',
+                loyalty: 'Seberapa pentingkah menjaga kepercayaan dosen terhadap kemampuan bahasa?',
+                authority: 'Seberapa pentingkah mematuhi aturan tentang penggunaan alat bantu?',
+                purity: 'Seberapa pentingkah menjaga kemurnian karya terjemahan?',
+                individualizing: 'Seberapa pentingkah melindungi hak cipta penulis asli?'
+            },
+            mdQuestions: {
+                mj: 'Menggunakan AI untuk menerjemahkan adalah cara efisien mengakses pengetahuan global.',
+                el: 'Ini bukan plagiasi, ini "akses pengetahuan lintas bahasa berbantuan AI".',
+                ac: 'Saya hanya terjemahkan, tidak seperti yang mengklaim karya orang sebagai miliknya.',
+                dor: 'Materi berbahasa asing terlalu sulit, AI membantu saya memahaminya.',
+                dif: 'Banyak peneliti juga menggunakan alat terjemahan, ini sudah lazim.',
+                doc: 'Hasil terjemahan AI akurat, jadi tidak ada yang dirugikan.',
+                dh: 'Penulis asli tidak akan tahu atau peduli dengan terjemahan ini.',
+                ab: 'Saya tidak punya kemampuan bahasa yang cukup, wajar saya gunakan AI.'
+            }
+        }];
+
+        let state = {
+            selectedCase: null,
+            mfScores: {},
+            mdScores: {},
+            heatmapData: [],
+            results: null,
+            responses: [],
+            adminLoggedIn: false
+        };
+
+        // ===== NAVIGASI =====
+        function toggleSidebar() {
+            const s = document.getElementById('sidebar');
+            const b = document.getElementById('sidebar-backdrop');
+            s.classList.toggle('-translate-x-full');
+            b.classList.toggle('hidden');
+        }
+
+        function switchView(view) {
+            document.querySelectorAll('.view-content').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById('view-' + view);
+            if (target) target.classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const navBtn = document.getElementById('nav-' + view);
+            if (navBtn) navBtn.classList.add('active');
+
+            if (window.innerWidth < 1024) {
+                document.getElementById('sidebar').classList.add('-translate-x-full');
+                document.getElementById('sidebar-backdrop').classList.add('hidden');
+            }
+
+            if (view === 'cases') renderCases();
+            if (view === 'assessment') renderAssessment();
+            if (view === 'heatmap') renderHeatmap();
+            if (view === 'results') renderResults();
+        }
+
+        // ===== CASES =====
+        function renderCases() {
+            const grid = document.getElementById('caseGrid');
+            grid.innerHTML = '';
+            CASES.forEach((c) => {
+                const isSelected = state.selectedCase && state.selectedCase.id === c.id;
+                const card = document.createElement('div');
+                card.className =
+                    `p-4 rounded-2xl border-2 cursor-pointer transition-all card-hover ${isSelected ? 'border-glow-400 bg-glow-100/40 shadow-md shadow-glow-500/20' : 'border-white/40 hover:border-glow-300/60 glass'}`;
+                card.innerHTML = `
+                    <div class="text-3xl mb-1">${c.icon}</div>
+                    <h3 class="font-bold text-sm text-glow-dark">${c.title}</h3>
+                    <p class="text-[10px] text-glow-dark/60 mt-1 line-clamp-2">${c.context.substring(0, 80)}...</p>
+                    <div class="mt-2 flex items-center gap-2">
+                        <span class="text-[9px] font-medium ${isSelected ? 'text-glow-500' : 'text-glow-dark/40'}">
+                            ${isSelected ? '✓ Terpilih' : 'Pilih kasus'}
+                        </span>
+                    </div>
+                `;
+                card.onclick = () => selectCase(c.id);
+                grid.appendChild(card);
+            });
+        }
+
+        function selectCase(caseId) {
+            const c = CASES.find(ca => ca.id === caseId);
+            if (c) {
+                state.selectedCase = c;
+                document.getElementById('selectedCaseDisplay').textContent = c.icon + ' ' + c.title;
+                document.getElementById('btnGoToAssessment').disabled = false;
+                state.mfScores = {};
+                state.mdScores = {};
+                state.heatmapData = [];
+                state.results = null;
+                renderCases();
+                document.getElementById('assessmentCaseLabel').textContent = c.icon + ' ' + c.title;
+                document.getElementById('caseContextText').textContent = c.context;
+                document.getElementById('caseContextBox').classList.remove('hidden');
+                renderAssessment();
+            }
+        }
+
+        // ===== ASSESSMENT =====
+        function renderAssessment() {
+            if (!state.selectedCase) {
+                document.getElementById('assessmentCaseLabel').textContent = 'Pilih kasus terlebih dahulu';
+                document.getElementById('caseContextBox').classList.add('hidden');
+                return;
+            }
+            const c = state.selectedCase;
+            document.getElementById('assessmentCaseLabel').textContent = c.icon + ' ' + c.title;
+            document.getElementById('caseContextText').textContent = c.context;
+            document.getElementById('caseContextBox').classList.remove('hidden');
+
+            const mfContainer = document.getElementById('mfQuestionsContainer');
+            mfContainer.innerHTML = '';
+            MF_DIMENSIONS.forEach((mf, idx) => {
+                const q = c.mfQuestions[mf.id] || 'Seberapa pentingkah nilai ini dalam kasus ini?';
+                const val = state.mfScores[mf.id] || 2.5;
+                const container = document.createElement('div');
+                container.className = 'glass p-3 rounded-xl border border-white/40';
+                container.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="text-xs font-medium text-glow-dark/80 flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full" style="background:${mf.color}"></span>
+                            ${mf.label}
+                        </label>
+                        <span class="text-xs font-bold text-glow-500 range-value" id="mf-val-${mf.id}">${val.toFixed(1)}</span>
+                    </div>
+                    <p class="text-[10px] text-glow-dark/60 mb-1.5">${q}</p>
+                    <input type="range" min="0" max="5" step="0.1" value="${val}" 
+                           class="w-full accent-glow-400" 
+                           id="mf-slider-${mf.id}"
+                           oninput="updateMF('${mf.id}', this.value)" />
+                    <div class="flex justify-between text-[8px] text-glow-dark/40">
+                        <span>Tidak relevan</span>
+                        <span>Sangat relevan</span>
+                    </div>
+                `;
+                mfContainer.appendChild(container);
+                state.mfScores[mf.id] = val;
+            });
+
+            const mdContainer = document.getElementById('mdQuestionsContainer');
+            mdContainer.innerHTML = '';
+            MD_MECHANISMS.forEach((md, idx) => {
+                const q = c.mdQuestions[md.id] || 'Seberapa setuju dengan pernyataan ini?';
+                const val = state.mdScores[md.id] || 2.5;
+                const container = document.createElement('div');
+                container.className = 'glass p-3 rounded-xl border border-white/40';
+                container.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="text-xs font-medium text-glow-dark/80 flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-pink"></span>
+                            ${md.label}
+                        </label>
+                        <span class="text-xs font-bold text-pink range-value" id="md-val-${md.id}">${val.toFixed(1)}</span>
+                    </div>
+                    <p class="text-[10px] text-glow-dark/60 mb-1.5">${q}</p>
+                    <input type="range" min="0" max="5" step="0.1" value="${val}" 
+                           class="w-full accent-pink" 
+                           id="md-slider-${md.id}"
+                           oninput="updateMD('${md.id}', this.value)" />
+                    <div class="flex justify-between text-[8px] text-glow-dark/40">
+                        <span>Tidak setuju</span>
+                        <span>Sangat setuju</span>
+                    </div>
+                `;
+                mdContainer.appendChild(container);
+                state.mdScores[md.id] = val;
+            });
+            updateProgress();
+        }
+
+        function updateMF(id, val) {
+            state.mfScores[id] = parseFloat(val);
+            document.getElementById('mf-val-' + id).textContent = parseFloat(val).toFixed(1);
+            updateProgress();
+        }
+
+        function updateMD(id, val) {
+            state.mdScores[id] = parseFloat(val);
+            document.getElementById('md-val-' + id).textContent = parseFloat(val).toFixed(1);
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const total = MF_DIMENSIONS.length + MD_MECHANISMS.length;
+            let filled = 0;
+            MF_DIMENSIONS.forEach(m => { if (state.mfScores[m.id] !== undefined) filled++; });
+            MD_MECHANISMS.forEach(m => { if (state.mdScores[m.id] !== undefined) filled++; });
+            const pct = Math.round((filled / total) * 100);
+            document.getElementById('assessmentProgress').textContent = pct + '%';
+        }
+
+        // ===== SUBMIT =====
+        function submitAssessment() {
+            if (!state.selectedCase) {
+                alert('Pilih kasus terlebih dahulu!');
+                return;
+            }
+            const mfValues = MF_DIMENSIONS.map(m => state.mfScores[m.id] || 0);
+            const mdValues = MD_MECHANISMS.map(m => state.mdScores[m.id] || 0);
+
+            const heatmap = [];
+            MF_DIMENSIONS.forEach((mf, i) => {
+                const row = [];
+                MD_MECHANISMS.forEach((md, j) => {
+                    const score = (mfValues[i] * mdValues[j]) / 25 * 100;
+                    row.push(Math.min(100, Math.round(score)));
+                });
+                heatmap.push(row);
+            });
+            state.heatmapData = heatmap;
+
+            const response = {
+                caseId: state.selectedCase.id,
+                caseTitle: state.selectedCase.title,
+                timestamp: new Date().toISOString(),
+                mf: { ...state.mfScores },
+                md: { ...state.mdScores },
+                heatmap: heatmap
+            };
+            state.responses.push(response);
+            localStorage.setItem('moralAcrobaticsData', JSON.stringify({ responses: state.responses, heatmapData: state
+                    .heatmapData }));
+
+            generateResults();
+            switchView('heatmap');
+            renderHeatmap();
+            updateAdminStats();
+        }
+
+        // ===== HEATMAP =====
+        function renderHeatmap() {
+            if (!state.heatmapData || state.heatmapData.length === 0) {
+                document.getElementById('heatmapBody').innerHTML =
+                    '<tr><td colspan="9" class="p-8 text-center text-glow-dark/40">Belum ada data. Silakan isi asesmen terlebih dahulu.</td></tr>';
+                document.getElementById('heatmapHeader').innerHTML = '';
+                return;
+            }
+
+            const data = state.heatmapData;
+            const mfLabels = MF_DIMENSIONS.map(m => m.short);
+            const mdLabels = MD_MECHANISMS.map(m => m.short);
+
+            let headerHtml = '<th class="p-2 text-left text-[10px] font-bold text-glow-dark/50">MF \\ MD</th>';
+            mdLabels.forEach(label => {
+                headerHtml += `<th class="p-2 text-center text-[9px] font-bold text-glow-dark/50">${label}</th>`;
+            });
+            document.getElementById('heatmapHeader').innerHTML = headerHtml;
+
+            let bodyHtml = '';
+            data.forEach((row, i) => {
+                bodyHtml += `<tr>`;
+                bodyHtml +=
+                    `<td class="p-2 text-[10px] font-bold text-glow-dark/70 whitespace-nowrap">${mfLabels[i]}</td>`;
+                row.forEach((val, j) => {
+                    const intensity = val / 100;
+                    let r, g, b;
+                    if (intensity < 0.15) {
+                        const t = intensity / 0.15;
+                        r = 240 + 15 * t;
+                        g = 200 + 20 * t;
+                        b = 200 + 20 * t;
+                    } else if (intensity < 0.3) {
+                        const t = (intensity - 0.15) / 0.15;
+                        r = 255;
+                        g = 220 - 40 * t;
+                        b = 220 - 60 * t;
+                    } else if (intensity < 0.5) {
+                        const t = (intensity - 0.3) / 0.2;
+                        r = 255;
+                        g = 180 - 60 * t;
+                        b = 160 - 80 * t;
+                    } else if (intensity < 0.7) {
+                        const t = (intensity - 0.5) / 0.2;
+                        r = 255;
+                        g = 120 - 40 * t;
+                        b = 80 - 30 * t;
+                    } else if (intensity < 0.85) {
+                        const t = (intensity - 0.7) / 0.15;
+                        r = 255;
+                        g = 80 - 30 * t;
+                        b = 50 - 25 * t;
+                    } else {
+                        const t = Math.min(1, (intensity - 0.85) / 0.15);
+                        r = 255;
+                        g = 50 - 20 * t;
+                        b = 25 - 15 * t;
+                    }
+                    const bgColor = `rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`;
+                    const glowIntensity = intensity * 30 + 10;
+                    const glowColor = intensity > 0.3 ?
+                        `0 0 ${glowIntensity}px rgba(220, 38, 38, ${0.1 + 0.35 * intensity}), 0 0 ${glowIntensity * 2}px rgba(200, 0, 0, ${0.05 * intensity})` :
+                        'none';
+                    const textColor = intensity > 0.45 ? 'white' : 'text-glow-dark';
+                    bodyHtml += `
+                        <td class="p-2 text-center heatmap-cell" style="background:${bgColor}; box-shadow:${glowColor}; min-width:44px; min-height:44px; border:1px solid rgba(255,255,255,${0.05 + 0.1 * intensity});">
+                            <span class="text-xs font-bold ${textColor}">${val}</span>
+                            <div class="tooltip">${mfLabels[i]} × ${mdLabels[j]} · ${val}%</div>
+                        </td>
+                    `;
+                });
+                bodyHtml += `</tr>`;
+            });
+            document.getElementById('heatmapBody').innerHTML = bodyHtml;
+
+            if (state.selectedCase) {
+                document.getElementById('heatmapCaseLabel').textContent =
+                    state.selectedCase.icon + ' ' + state.selectedCase.title + ' · 6 MF × 8 MD · 🔥 Red Glowing Scale';
+            }
+        }
+
+        // ===== RESULTS =====
+        function generateResults() {
+            if (!state.heatmapData || state.heatmapData.length === 0) return;
+
+            const data = state.heatmapData;
+            const mfScores = MF_DIMENSIONS.map(m => state.mfScores[m.id] || 0);
+            const mdScores = MD_MECHANISMS.map(m => state.mdScores[m.id] || 0);
+
+            let maxVal = 0;
+            let maxMfIdx = 0,
+                maxMdIdx = 0;
+            data.forEach((row, i) => {
+                row.forEach((val, j) => {
+                    if (val > maxVal) {
+                        maxVal = val;
+                        maxMfIdx = i;
+                        maxMdIdx = j;
+                    }
+                });
+            });
+
+            const topMF = MF_DIMENSIONS[maxMfIdx];
+            const topMD = MD_MECHANISMS[maxMdIdx];
+
+            let maxMfVal = 0,
+                maxMfIdx2 = 0;
+            mfScores.forEach((v, i) => {
+                if (v > maxMfVal) { maxMfVal = v;
+                    maxMfIdx2 = i; }
+            });
+            const dominantMF = MF_DIMENSIONS[maxMfIdx2];
+
+            let maxMdVal = 0,
+                maxMdIdx2 = 0;
+            mdScores.forEach((v, i) => {
+                if (v > maxMdVal) { maxMdVal = v;
+                    maxMdIdx2 = i; }
+            });
+            const dominantMD = MD_MECHANISMS[maxMdIdx2];
+
+            state.results = {
+                topMF,
+                topMD,
+                dominantMF,
+                dominantMD,
+                maxVal,
+                mfScores,
+                mdScores,
+                heatmap: data
+            };
+        }
+
+        function renderResults() {
+            if (!state.results) {
+                document.getElementById('resultsCaseLabel').textContent = 'Belum ada diagnosis. Selesaikan asesmen terlebih dahulu.';
+                document.getElementById('scoreSummary').innerHTML =
+                    '<div class="col-span-4 text-center text-glow-dark/40 p-8">Silakan isi asesmen dan lihat heatmap terlebih dahulu.</div>';
+                document.getElementById('multiDisciplinaryDiagnosis').innerHTML = '';
+                return;
+            }
+
+            const r = state.results;
+            if (state.selectedCase) {
+                document.getElementById('resultsCaseLabel').textContent =
+                    state.selectedCase.icon + ' ' + state.selectedCase.title + ' · Analisis Multidisipliner';
+            }
+
+            const summaryHtml = `
+                <div class="glass p-3 rounded-xl border border-glow-300/30 text-center">
+                    <p class="text-[9px] text-glow-dark/50 uppercase tracking-wider">Fondasi Dominan</p>
+                    <p class="text-sm font-bold text-glow-500">${r.dominantMF.label}</p>
+                    <p class="text-[10px] text-glow-dark/50">skor ${r.mfScores[MF_DIMENSIONS.indexOf(r.dominantMF)].toFixed(1)}</p>
+                </div>
+                <div class="glass p-3 rounded-xl border border-pink/20 text-center">
+                    <p class="text-[9px] text-glow-dark/50 uppercase tracking-wider">MD Dominan</p>
+                    <p class="text-sm font-bold text-pink">${r.dominantMD.label}</p>
+                    <p class="text-[10px] text-glow-dark/50">skor ${r.mdScores[MD_MECHANISMS.indexOf(r.dominantMD)].toFixed(1)}</p>
+                </div>
+                <div class="glass p-3 rounded-xl border border-red-300/30 text-center" style="box-shadow:0 0 30px rgba(239,68,68,0.05);">
+                    <p class="text-[9px] text-glow-dark/50 uppercase tracking-wider">Sel Tertinggi 🔥</p>
+                    <p class="text-sm font-bold text-red-600 glow-text">${r.topMF.short} × ${r.topMD.short}</p>
+                    <p class="text-[10px] text-glow-dark/50">intensitas ${r.maxVal}%</p>
+                </div>
+                <div class="glass p-3 rounded-xl border border-glow-300/30 text-center">
+                    <p class="text-[9px] text-glow-dark/50 uppercase tracking-wider">Tingkat Akrobatik</p>
+                    <p class="text-sm font-bold ${r.maxVal > 70 ? 'text-red-600' : r.maxVal > 40 ? 'text-orange-400' : 'text-glow-500'}">${r.maxVal > 70 ? 'Tinggi' : r.maxVal > 40 ? 'Sedang' : 'Rendah'}</p>
+                    <p class="text-[10px] text-glow-dark/50">${r.maxVal}% intensitas</p>
+                </div>
+            `;
+            document.getElementById('scoreSummary').innerHTML = summaryHtml;
+
+            const disciplines = [{
+                name: '🧠 Psikologi Kognitif',
+                icon: 'brain',
+                desc: 'Fokus pada proses mental: bagaimana individu memproses informasi, membuat keputusan moral, dan menggunakan mekanisme kognitif untuk membenarkan perilaku.',
+                insight: `Dominasi ${r.dominantMF.label} dengan ${r.dominantMD.label} menunjukkan adanya konflik kognitif antara nilai moral dan perilaku aktual. Individu ini cenderung menggunakan skema pembenaran untuk mengurangi disonansi kognitif.`
+            }, {
+                name: '👥 Psikologi Sosial',
+                icon: 'users',
+                desc: 'Fokus pada pengaruh sosial, norma kelompok, dan dinamika identitas dalam membentuk perilaku moral.',
+                insight: `Skor ${r.dominantMD.label} yang tinggi menunjukkan adanya pengaruh kuat dari norma kelompok. Individu ini mungkin menyesuaikan perilakunya dengan ekspektasi sosial untuk mempertahankan penerimaan.`
+            }, {
+                name: '🏛️ Sosiologi',
+                icon: 'building-columns',
+                desc: 'Fokus pada struktur sosial, institusi, dan sistem nilai yang membentuk perilaku kolektif.',
+                insight: `Kasus ini merefleksikan bagaimana struktur akademik (aturan, sanksi, sistem penilaian) membentuk perilaku kecurangan. ${r.topMF.label} yang rendah menunjukkan kelemahan internalisasi norma.`
+            }, {
+                name: '🌍 Ekopolitik',
+                icon: 'globe',
+                desc: 'Fokus pada relasi kekuasaan, akses sumber daya, dan ketimpangan struktural dalam ekosistem.',
+                insight: `Penggunaan ${r.dominantMD.label} menunjukkan adanya relasi kekuasaan yang timpang — individu merasa sistem tidak adil sehingga menggunakan mekanisme pembenaran untuk "menyeimbangkan" ketimpangan.`
+            }, {
+                name: '🧬 Behavioral Science',
+                icon: 'dna',
+                desc: 'Fokus pada pola perilaku, kebiasaan, dan mekanisme reinforcement yang mempertahankan perilaku.',
+                insight: `Pola ${r.topMF.short} × ${r.topMD.short} yang kuat menunjukkan bahwa perilaku ini telah menjadi kebiasaan yang diperkuat oleh lingkungan (reward: nilai baik, punishment: sanksi sosial yang lemah).`
+            }];
+
+            let diagHtml = '';
+            disciplines.forEach(d => {
+                diagHtml += `
+                    <div class="glass p-4 rounded-xl border border-white/30">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-lg">${d.icon || '📌'}</span>
+                            <h4 class="font-display font-bold text-sm text-glow-dark">${d.name}</h4>
+                        </div>
+                        <p class="text-[10px] text-glow-dark/60 leading-relaxed">${d.desc}</p>
+                        <p class="text-xs text-glow-dark/80 mt-2 leading-relaxed border-l-2 border-glow-400 pl-3 glow-text">${d.insight}</p>
+                        <div class="mt-2 flex flex-wrap gap-1">
+                            ${r.maxVal > 60 ? '<span class="text-[8px] font-bold bg-red-100/40 text-red-600 px-2 py-0.5 rounded-full border border-red-300/30">🔥 Intervensi prioritas</span>' : ''}
+                            ${r.mfScores[MF_DIMENSIONS.indexOf(r.dominantMF)] > 4 ? '<span class="text-[8px] font-bold bg-glow-200/40 text-glow-600 px-2 py-0.5 rounded-full">Fondasi kuat</span>' : ''}
+                            ${r.mdScores[MD_MECHANISMS.indexOf(r.dominantMD)] > 4 ? '<span class="text-[8px] font-bold bg-pink/20 text-pink px-2 py-0.5 rounded-full">MD aktif</span>' : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('multiDisciplinaryDiagnosis').innerHTML = diagHtml;
+        }
+
+        // ===== ADMIN =====
+        const ADMIN_PASSWORD = 'psycho2024';
+
+        function openAdmin() {
+            document.getElementById('adminModal').classList.remove('hidden');
+            document.getElementById('adminPassword').value = '';
+            document.getElementById('adminError').classList.add('hidden');
+            document.getElementById('adminContent').classList.add('hidden');
+            document.getElementById('adminCollectiveHeatmap').classList.add('hidden');
+            document.getElementById('adminPassword').focus();
+        }
+
+        function closeAdmin() {
+            document.getElementById('adminModal').classList.add('hidden');
+        }
+
+        function adminLogin() {
+            const pwd = document.getElementById('adminPassword').value;
+            if (pwd === ADMIN_PASSWORD) {
+                state.adminLoggedIn = true;
+                document.getElementById('adminError').classList.add('hidden');
+                document.getElementById('adminContent').classList.remove('hidden');
+                updateAdminStats();
+            } else {
+                document.getElementById('adminError').classList.remove('hidden');
+            }
+        }
+
+        function updateAdminStats() {
+            document.getElementById('adminTotalResponses').textContent = state.responses.length;
+            let total = 0;
+            state.responses.forEach(r => {
+                const vals = r.heatmap ? r.heatmap.flat() : [];
+                vals.forEach(v => total += v);
+            });
+            const avg = state.responses.length > 0 ? (total / (state.responses.length * 6 * 8)).toFixed(1) : '0.0';
+            document.getElementById('adminAvgScore').textContent = avg;
+        }
+
+        function adminDownloadCSV() {
+            if (state.responses.length === 0) {
+                alert('Belum ada data untuk di-download.');
+                return;
+            }
+            let csv = 'No,Kasus,Timestamp,MF_Harm,MF_Fairness,MF_Loyalty,MF_Authority,MF_Purity,MF_Individualizing,';
+            csv += 'MD_Justification,MD_Labeling,MD_Comparison,MD_Displacement,MD_Diffusion,MD_Distortion,MD_Dehumanization,MD_Attribution\n';
+            state.responses.forEach((r, idx) => {
+                const mf = r.mf || {};
+                const md = r.md || {};
+                csv += `${idx+1},${r.caseTitle},${r.timestamp},`;
+                csv += `${(mf.harm||0).toFixed(1)},${(mf.fairness||0).toFixed(1)},${(mf.loyalty||0).toFixed(1)},`;
+                csv += `${(mf.authority||0).toFixed(1)},${(mf.purity||0).toFixed(1)},${(mf.individualizing||0).toFixed(1)},`;
+                csv += `${(md.mj||0).toFixed(1)},${(md.el||0).toFixed(1)},${(md.ac||0).toFixed(1)},`;
+                csv += `${(md.dor||0).toFixed(1)},${(md.dif||0).toFixed(1)},${(md.doc||0).toFixed(1)},`;
+                csv += `${(md.dh||0).toFixed(1)},${(md.ab||0).toFixed(1)}\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'moral_acrobatics_data.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function adminResetAll() {
+            if (!confirm('Yakin ingin mereset semua data? Tindakan ini tidak dapat dibatalkan.')) return;
+            state.responses = [];
+            state.heatmapData = [];
+            state.mfScores = {};
+            state.mdScores = {};
+            state.results = null;
+            localStorage.removeItem('moralAcrobaticsData');
+            updateAdminStats();
+            document.getElementById('adminCollectiveHeatmap').classList.add('hidden');
+            alert('Semua data telah direset.');
+            switchView('cases');
+        }
+
+        function adminViewCollectiveHeatmap() {
+            const container = document.getElementById('adminCollectiveHeatmap');
+            container.classList.toggle('hidden');
+
+            if (!container.classList.contains('hidden')) {
+                if (state.responses.length === 0) {
+                    document.getElementById('adminHeatmapContainer').innerHTML =
+                        '<p class="text-center text-glow-dark/40 p-4">Belum ada data untuk ditampilkan.</p>';
+                    return;
+                }
+
+                const agg = Array.from({ length: 6 }, () => Array(8).fill(0));
+                let count = 0;
+                state.responses.forEach(r => {
+                    if (r.heatmap && r.heatmap.length === 6) {
+                        r.heatmap.forEach((row, i) => {
+                            row.forEach((val, j) => {
+                                agg[i][j] += val;
+                            });
+                        });
+                        count++;
+                    }
+                });
+
+                if (count === 0) {
+                    document.getElementById('adminHeatmapContainer').innerHTML =
+                        '<p class="text-center text-glow-dark/40 p-4">Data heatmap tidak tersedia.</p>';
+                    return;
+                }
+
+                const avg = agg.map(row => row.map(v => Math.round(v / count)));
+
+                let html =
+                    '<table class="w-full text-xs border-collapse"><thead><tr><th class="p-1 text-left">MF \\ MD</th>';
+                MD_MECHANISMS.forEach(m => {
+                    html += `<th class="p-1 text-center font-bold text-glow-dark/50">${m.short}</th>`;
+                });
+                html += '</tr></thead><tbody>';
+                MF_DIMENSIONS.forEach((mf, i) => {
+                    html += `<tr><td class="p-1 font-bold text-glow-dark/70 text-[9px]">${mf.short}</td>`;
+                    avg[i].forEach((val, j) => {
+                        const intensity = val / 100;
+                        let r, g, b;
+                        if (intensity < 0.15) {
+                            const t = intensity / 0.15;
+                            r = 240 + 15 * t;
+                            g = 200 + 20 * t;
+                            b = 200 + 20 * t;
+                        } else if (intensity < 0.3) {
+                            const t = (intensity - 0.15) / 0.15;
+                            r = 255;
+                            g = 220 - 40 * t;
+                            b = 220 - 60 * t;
+                        } else if (intensity < 0.5) {
+                            const t = (intensity - 0.3) / 0.2;
+                            r = 255;
+                            g = 180 - 60 * t;
+                            b = 160 - 80 * t;
+                        } else if (intensity < 0.7) {
+                            const t = (intensity - 0.5) / 0.2;
+                            r = 255;
+                            g = 120 - 40 * t;
+                            b = 80 - 30 * t;
+                        } else if (intensity < 0.85) {
+                            const t = (intensity - 0.7) / 0.15;
+                            r = 255;
+                            g = 80 - 30 * t;
+                            b = 50 - 25 * t;
+                        } else {
+                            const t = Math.min(1, (intensity - 0.85) / 0.15);
+                            r = 255;
+                            g = 50 - 20 * t;
+                            b = 25 - 15 * t;
+                        }
+                        const bg = `rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`;
+                        const textColor = intensity > 0.45 ? 'white' : '#073566';
+                        html +=
+                            `<td class="p-1 text-center rounded" style="background:${bg}; min-width:32px; color:${textColor};">${val}</td>`;
+                    });
+                    html += '</tr>';
+                });
+                html += '</tbody></table>';
+                html +=
+                    `<p class="text-[8px] text-glow-dark/40 mt-2 text-center">Rata-rata dari ${count} responden</p>`;
+                document.getElementById('adminHeatmapContainer').innerHTML = html;
+            }
+        }
+
+        document.getElementById('adminPassword').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') adminLogin();
+        });
+
+        // ===== RESET & INIT =====
+        function resetAssessment() {
+            state.mfScores = {};
+            state.mdScores = {};
+            state.heatmapData = [];
+            state.results = null;
+            if (state.selectedCase) {
+                renderAssessment();
+            }
+            switchView('cases');
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (!document.getElementById('adminModal').classList.contains('hidden')) {
+                    closeAdmin();
+                }
+            }
+        });
+
+        document.getElementById('adminModal').addEventListener('click', function(e) {
+            if (e.target === this) closeAdmin();
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCases();
+            const saved = localStorage.getItem('moralAcrobaticsData');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    state.responses = parsed.responses || [];
+                    state.heatmapData = parsed.heatmapData || [];
+                } catch (e) {}
+            }
+            updateAdminStats();
+            switchView('info');
+            console.log('🔥 Zona Abu-Abu Integritas Akademik v2.0 — Light Blue Glowing Theme loaded');
+            console.log('📚 Psychosophia Behavioral Lab · IAIN SAS Bangka Belitung');
+            console.log('🙏 Terima kasih Konsorsium Metode Penelitian Kuantitatif Angkatan 2024 & Prodi Psikologi Islam!');
+        });
+    </script>
+
+</body>
+</html>

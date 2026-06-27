@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Tes Klasifikasi Kata – Studi Kognitif</title>
+    <style>
+        /* ----- RESET & GLOBAL ----- */
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+        body {
+            font-family: 'Segoe UI', 'Nunito', system-ui, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 12px;
+            transition: background 0.5s, color 0.3s;
+        }
+        /* ----- TEMA GLOWING DEWASA & CERIA ANAK ----- */
+        body.mode-dewasa {
+            background: linear-gradient(135deg, #0b1120 0%, #1a2332 100%);
+            color: #e2e8f0;
+        }
+        body.mode-dewasa .container {
+            background: rgba(20, 30, 50, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(100, 180, 255, 0.2);
+            box-shadow: 0 0 60px rgba(59, 130, 246, 0.15), inset 0 0 60px rgba(59, 130, 246, 0.05);
+        }
+        body.mode-dewasa .top-admin-bar {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+        }
+        body.mode-dewasa #demo-section {
+            background: rgba(30, 50, 80, 0.5);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(100, 180, 255, 0.15);
+        }
+        body.mode-dewasa #stimulus-area {
+            background: rgba(20, 35, 60, 0.5);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(100, 180, 255, 0.1);
+        }
+        body.mode-dewasa .resp-btn.left-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+            color: white;
+        }
+        body.mode-dewasa .resp-btn.right-btn {
+            background: linear-gradient(135deg, #f43f5e, #e11d48);
+            box-shadow: 0 0 30px rgba(244, 63, 94, 0.4);
+            color: white;
+        }
+        body.mode-dewasa #stimulus-word {
+            background: linear-gradient(135deg, #93c5fd, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px rgba(147, 197, 253, 0.3);
+        }
+        body.mode-dewasa .action-btn:not(:disabled) {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.3);
+        }
+        body.mode-dewasa .label-left { color: #34d399; }
+        body.mode-dewasa .label-right { color: #fb7185; }
+
+        /* Mode Anak – responsif & tidak terlalu besar */
+        body.mode-anak {
+            background: linear-gradient(135deg, #fde8cd 0%, #fdf6e3 50%, #ffdde1 100%);
+        }
+        body.mode-anak .container {
+            background: rgba(255, 248, 240, 0.92);
+            border: 3px solid #ffb882;
+            border-radius: 40px;
+        }
+        body.mode-anak .top-admin-bar {
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            border-radius: 40px 40px 0 0;
+        }
+        body.mode-anak .top-admin-bar .brand { color: #2d1b00; }
+        body.mode-anak .top-admin-bar .brand small { color: #5a3a0a; }
+        body.mode-anak .admin-login-btn {
+            background: #ffb300; color: #1f0e00; border: 1px solid #ffe082;
+        }
+        body.mode-anak #demo-section {
+            background: #fff8ee;
+            border: 2px dashed #ffa94d;
+        }
+        body.mode-anak #stimulus-area {
+            background: #fffbf5;
+            border: 3px solid #ffb882;
+        }
+        /* Tombol anak lebih kecil agar muat di HP */
+        body.mode-anak .resp-btn {
+            padding: 12px 20px !important;
+            font-size: 18px !important;
+            min-width: 90px !important;
+            border-radius: 60px !important;
+        }
+        body.mode-anak .resp-btn.left-btn {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+            box-shadow: 0 6px 0 #006b61;
+        }
+        body.mode-anak .resp-btn.right-btn {
+            background: linear-gradient(135deg, #fd79a8, #e17055);
+            color: white;
+            box-shadow: 0 6px 0 #a53f2e;
+        }
+        body.mode-anak #stimulus-word {
+            font-size: 56px !important;
+            background: linear-gradient(135deg, #f7971e, #ffd200, #f5576c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: bounce 1.5s infinite alternate;
+        }
+        @keyframes bounce {
+            from { transform: scale(0.95); }
+            to { transform: scale(1.05); }
+        }
+        body.mode-anak .action-btn:not(:disabled) {
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            color: #2d1b00;
+            box-shadow: 0 8px 24px rgba(247, 151, 30, 0.5);
+        }
+        body.mode-anak .label-left { background: #00b894; color: white; padding: 4px 16px; border-radius: 40px; }
+        body.mode-anak .label-right { background: #fd79a8; color: white; padding: 4px 16px; border-radius: 40px; }
+        body.mode-anak .labels-row { gap: 8px; flex-wrap: wrap; justify-content: center; }
+
+        /* ----- CONTAINER ----- */
+        .container {
+            max-width: 960px;
+            width: 100%;
+            border-radius: 40px;
+            padding: 0 20px 30px;
+            margin: 6px 0;
+            transition: all 0.4s;
+        }
+
+        /* ----- TOP ADMIN BAR ----- */
+        .top-admin-bar {
+            margin: 0 -20px 16px -20px;
+            padding: 10px 20px;
+            border-radius: 40px 40px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .top-admin-bar .brand {
+            font-weight: 800; font-size: 18px; letter-spacing: 0.3px;
+        }
+        .top-admin-bar .brand small {
+            font-weight: 400; font-size: 12px; margin-left: 8px; opacity: 0.8;
+        }
+        .admin-login-btn {
+            padding: 6px 18px; border-radius: 40px; cursor: pointer;
+            font-weight: 700; font-size: 13px; border: none; transition: 0.2s;
+        }
+        .admin-login-btn:hover { transform: scale(1.04); }
+        .admin-login-btn.logged-in { background: #2ecc71; color: #0a2a1a; }
+
+        /* ----- JUDUL NETRAL ----- */
+        h1 {
+            font-size: 28px; text-align:center; margin-top: 2px; letter-spacing:-0.3px;
+        }
+        body.mode-dewasa h1 { color: #f0f4ff; }
+        body.mode-anak h1 { color: #2d1b00; }
+        .subtitle {
+            text-align:center; font-size:15px; margin-bottom:14px;
+            border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;
+        }
+        body.mode-dewasa .subtitle { color: #94a3b8; }
+        body.mode-anak .subtitle { color: #5a3a0a; border-color: #ffd7a5; }
+
+        /* ----- ADMIN MODAL (TAB) ----- */
+        #adminModal {
+            display: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            justify-content: center; align-items: center;
+            z-index: 999; padding: 12px;
+        }
+        #adminModal .modal-box {
+            background: #0f172a; color: #e2e8f0;
+            padding: 24px; border-radius: 32px;
+            max-width: 780px; width: 100%; max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            border: 1px solid rgba(100,180,255,0.15);
+        }
+        #adminModal .modal-box h2 { color: #f0f4ff; margin-bottom: 4px; display: flex; gap: 10px; align-items: center; }
+        #adminModal .sub-text { color: #94a3b8; font-size: 14px; margin-bottom: 16px; border-bottom: 1px solid #1e293b; padding-bottom: 12px; }
+        .admin-tabs {
+            display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px;
+            border-bottom: 1px solid #1e293b; padding-bottom: 8px;
+        }
+        .admin-tabs button {
+            background: transparent; border: none; color: #94a3b8;
+            padding: 8px 18px; border-radius: 40px; font-weight: 700; font-size: 14px;
+            cursor: pointer; transition: 0.2s;
+        }
+        .admin-tabs button:hover { background: rgba(255,255,255,0.05); color: #f0f4ff; }
+        .admin-tabs button.active { background: #1e293b; color: #f0f4ff; }
+        .admin-tab-content {
+            display: none; padding: 4px 0;
+            font-size: 15px; line-height: 1.6; color: #cbd5e1;
+        }
+        .admin-tab-content.active { display: block; }
+        .admin-tab-content h3 { color: #f0f4ff; margin: 14px 0 8px; }
+        .admin-tab-content pre {
+            background: #0a0f1a; padding: 14px; border-radius: 16px;
+            border: 1px solid #1e293b; overflow-x: auto; font-size: 13px;
+            color: #a5b4c7;
+        }
+        .admin-tab-content .badge {
+            background: #1e293b; padding: 2px 12px; border-radius: 40px;
+            font-size: 12px; color: #94a3b8;
+        }
+        .admin-btn-group { display: flex; flex-direction: column; gap: 10px; margin: 12px 0; }
+        .admin-btn-group button {
+            padding: 12px 18px; border: none; border-radius: 16px;
+            font-weight: 700; font-size: 15px; cursor: pointer;
+            text-align: left; display: flex; align-items: center; gap: 12px;
+            transition: 0.15s; background: #1e293b; color: #f0f4ff;
+        }
+        .admin-btn-group button:hover { background: #2a3a54; transform: translateX(4px); }
+        .admin-btn-group button.danger { color: #f87171; background: #2d1a1a; }
+        .admin-btn-group button.danger:hover { background: #3d1f1f; }
+        .admin-btn-group .close-modal {
+            background: #1e293b; color: #94a3b8; justify-content: center;
+            margin-top: 10px;
+        }
+        .admin-btn-group .close-modal:hover { background: #2a3a54; transform: none; }
+        .badge-count { background: #3b82f6; color: white; padding: 2px 14px; border-radius: 40px; font-size: 14px; margin-left: auto; }
+
+        /* ----- DEMOGRAFI (responsif) ----- */
+        #demo-section {
+            padding: 16px 18px; border-radius: 24px; margin-bottom: 16px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px;
+            transition: 0.3s;
+        }
+        #demo-section h3 { grid-column: 1 / -1; font-size: 18px; margin-bottom: 2px; }
+        .demo-group { display: flex; flex-direction: column; gap: 3px; }
+        .demo-group label { font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 4px; }
+        .demo-group label .required { color: #dc2626; font-size: 16px; }
+        .demo-group input, .demo-group select {
+            padding: 10px 14px; border: 2px solid #334155; border-radius: 14px;
+            font-size: 15px; background: #1e293b; color: #f0f4ff; transition: 0.2s;
+        }
+        body.mode-anak .demo-group input, body.mode-anak .demo-group select {
+            background: white; color: #1a1a2e; border-color: #d1d9e6;
+        }
+        .demo-group input:focus, .demo-group select:focus {
+            border-color: #3b82f6; outline: none; box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+        }
+        .demo-group input.invalid, .demo-group select.invalid {
+            border-color: #dc2626; background-color: rgba(220,38,38,0.1);
+        }
+        .demo-group .error-msg {
+            color: #f87171; font-size: 12px; min-height: 16px; font-weight: 600;
+        }
+        .demo-full { grid-column: 1 / -1; }
+
+        /* ----- STIMULUS AREA ----- */
+        #stimulus-area {
+            border-radius: 28px; padding: 18px 14px 14px;
+            min-height: 340px;
+            display: flex; flex-direction: column; align-items: center;
+            position: relative;
+            transition: 0.3s;
+        }
+        #block-header {
+            font-size: 15px; font-weight: 700; padding: 6px 20px; border-radius: 40px;
+            background: rgba(59,130,246,0.15); color: #93c5fd;
+            margin-bottom: 4px;
+        }
+        body.mode-anak #block-header {
+            background: rgba(255,165,0,0.2); color: #b85e00;
+        }
+        #stimulus-word {
+            font-size: 56px; font-weight: 900; padding: 12px 0; min-height: 80px;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.2s;
+        }
+        #error-feedback { color: #f87171; font-weight: 700; font-size: 20px; min-height: 30px; }
+        .progress-bar { width: 100%; height: 6px; background: #1e293b; border-radius: 40px; margin: 4px 0 8px; overflow: hidden; }
+        body.mode-anak .progress-bar { background: #e2e8f0; }
+        .progress-fill { height: 100%; border-radius: 40px; transition: width 0.3s; width: 0%; }
+        body.mode-dewasa .progress-fill { background: linear-gradient(90deg, #3b82f6, #a78bfa); }
+        body.mode-anak .progress-fill { background: linear-gradient(90deg, #f7971e, #ffd200, #f5576c); }
+
+        .labels-row {
+            display: flex; justify-content: space-between; width: 100%;
+            padding: 4px 8px 0; font-weight: 700; font-size: 18px;
+            border-top: 2px dashed #334155; margin-top: 6px; padding-top: 10px;
+        }
+        body.mode-anak .labels-row { border-color: #ffd7a5; }
+
+        .response-row {
+            display: flex; justify-content: center; gap: 16px;
+            margin: 10px 0 4px; flex-wrap: wrap;
+        }
+        .resp-btn {
+            padding: 14px 24px; border-radius: 60px; border: none;
+            font-size: 19px; font-weight: 800; cursor: pointer;
+            transition: 0.1s; min-width: 100px;
+            position: relative; top: 0;
+            touch-action: manipulation;
+        }
+        .resp-btn:active { transform: scale(0.94); top: 2px; box-shadow: 0 2px 0 #00000033 !important; }
+        .key-hint { font-size: 12px; font-weight: 400; opacity: 0.7; display: block; }
+
+        .action-btn {
+            border: none; padding: 14px 40px; border-radius: 60px; font-size: 18px;
+            font-weight: 700; cursor: pointer; transition: 0.2s; margin: 4px 0;
+            color: white;
+        }
+        .action-btn:hover:not(:disabled) { transform: translateY(-2px); }
+        .action-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+        .action-btn.secondary { background: #475569; box-shadow: none; }
+        .action-btn.secondary:hover:not(:disabled) { background: #334155; }
+
+        /* INSTRUKSI OVERLAY */
+        #instruction-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);
+            border-radius: 28px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 24px; z-index: 10; text-align: center;
+        }
+        #instruction-overlay.hidden { display: none; }
+        #instruction-overlay h2 { color: #f0f4ff; font-size: 24px; margin-bottom: 10px; }
+        #instruction-overlay p { color: #cbd5e1; font-size: 18px; max-width: 500px; line-height: 1.6; }
+        body.mode-anak #instruction-overlay { background: rgba(255,248,240,0.95); }
+        body.mode-anak #instruction-overlay h2 { color: #2d1b00; }
+        body.mode-anak #instruction-overlay p { color: #3d2b1a; }
+
+        /* HASIL */
+        #result-box { border-radius: 24px; padding: 16px 20px; margin-top: 10px; border-left: 6px solid #3b82f6; }
+        body.mode-dewasa #result-box { background: rgba(30,50,80,0.5); backdrop-filter: blur(4px); }
+        body.mode-anak #result-box { background: #fff1e0; border-left-color: #f7971e; }
+        .result-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #334155; }
+        .result-row:last-child { border: none; }
+        .d-score-big { font-size: 24px; font-weight: 800; }
+
+        /* RESPONSIF */
+        @media (max-width: 600px) {
+            .container { padding: 0 10px 20px; }
+            .top-admin-bar { margin: 0 -10px 12px -10px; padding: 8px 12px; border-radius: 0; }
+            #demo-section { grid-template-columns: 1fr; padding: 12px; }
+            #stimulus-word { font-size: 40px !important; min-height: 60px; }
+            .resp-btn { padding: 10px 14px !important; font-size: 16px !important; min-width: 70px !important; }
+            .labels-row { font-size: 15px; flex-wrap: wrap; gap: 4px; justify-content: center; }
+            body.mode-anak .resp-btn { padding: 10px 14px !important; font-size: 16px !important; min-width: 70px !important; }
+            #adminModal .modal-box { padding: 16px; }
+            .admin-tabs button { font-size: 12px; padding: 4px 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ADMIN MODAL -->
+<div id="adminModal">
+    <div class="modal-box">
+        <h2>🔐 Panel Admin & Modul Riset</h2>
+        <div class="sub-text">Kelola data, baca teori, prosedur, validasi, dan skrip analisis.</div>
+
+        <!-- TAB NAVIGASI -->
+        <div class="admin-tabs">
+            <button class="active" data-tab="tab-teori">📖 Teori</button>
+            <button data-tab="tab-prosedur">📋 Prosedur</button>
+            <button data-tab="tab-validasi">📊 Validasi</button>
+            <button data-tab="tab-r">📈 Skrip R</button>
+            <button data-tab="tab-instruksi">🧑‍🏫 Instruksi</button>
+            <button data-tab="tab-data">💾 Data</button>
+        </div>
+
+        <!-- KONTEN TAB -->
+        <div id="tab-teori" class="admin-tab-content active">
+            <h3>Landasan Teori IAT</h3>
+            <p><strong>Implicit Association Test</strong> (Greenwald, McGhee, & Schwartz, 1998) mengukur kekuatan asosiasi otomatis antara konsep (misal, gender) dan atribut (misal, karier/keluarga).</p>
+            <p>Skor <strong>D</strong> (Greenwald et al., 2003) dihitung dari perbedaan rata-rata RT pada blok gabungan, dibagi standar deviasi gabungan.</p>
+            <p>Interpretasi: D positif = asosiasi <em>Laki-laki↔Karier, Perempuan↔Keluarga</em>; negatif = sebaliknya.</p>
+            <p><span class="badge">Referensi</span> Greenwald, A. G., Nosek, B. A., & Banaji, M. R. (2003). Understanding and using the Implicit Association Test: I. An improved scoring algorithm. <em>JPSP, 85</em>(2), 197–216.</p>
+        </div>
+
+        <div id="tab-prosedur" class="admin-tab-content">
+            <h3>Prosedur Eksperimen (7 Blok)</h3>
+            <ul style="padding-left:20px; margin:8px 0;">
+                <li><strong>Blok 1</strong> – Klasifikasi Gender (Latihan): Kiri = Laki-laki, Kanan = Perempuan</li>
+                <li><strong>Blok 2</strong> – Klasifikasi Atribut (Latihan): Kiri = Karier, Kanan = Keluarga</li>
+                <li><strong>Blok 3</strong> – Gabungan 1 (Latihan): Kiri = Laki-laki+Karier, Kanan = Perempuan+Keluarga</li>
+                <li><strong>Blok 4</strong> – Gabungan 1 (TES): data diambil</li>
+                <li><strong>Blok 5</strong> – Klasifikasi Gender Terbalik (Latihan): Kiri = Perempuan, Kanan = Laki-laki</li>
+                <li><strong>Blok 6</strong> – Gabungan 2 (Latihan): Kiri = Perempuan+Karier, Kanan = Laki-laki+Keluarga</li>
+                <li><strong>Blok 7</strong> – Gabungan 2 (TES): data diambil</li>
+            </ul>
+            <p>Setiap blok diawali instruksi. Partisipan merespons dengan tombol <kbd>E</kbd> (kiri) atau <kbd>I</kbd> (kanan).</p>
+        </div>
+
+        <div id="tab-validasi" class="admin-tab-content">
+            <h3>Uji Validitas & Reliabilitas</h3>
+            <p><strong>Validitas Konstruk</strong>: Korelasikan skor D dengan skala eksplisit (misal, Ambivalent Sexism). Prediksi r = 0.20–0.40.</p>
+            <p><strong>Validitas Diskriminan</strong>: Bandingkan kelompok yang secara teoretis berbeda (misal, STEM vs Humaniora) dengan uji-t.</p>
+            <p><strong>Reliabilitas Split-Half</strong>: Bagi trial Blok 4 dan 7 menjadi ganjil/genap, hitung D parsial, korelasikan, gunakan Spearman-Brown. Target r > 0.70.</p>
+            <p><strong>Stabilitas Test-retest</strong>: Ulangi setelah 2 minggu, korelasi > 0.60.</p>
+        </div>
+
+        <div id="tab-r" class="admin-tab-content">
+            <h3>Skrip Analisis Data dengan R</h3>
+            <p>Salin dan jalankan skrip berikut di RStudio untuk membersihkan data, menghitung D-score, dan uji hipotesis.</p>
+            <pre>
+# ================================================================
+# SKRIP ANALISIS DATA IAT – GREENWALD ET AL. (2003) PROTOCOL
+# ================================================================
+
+# 1. SETUP & BACA DATA
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+# Ganti nama file sesuai dengan file CSV yang Anda unduh
+# Contoh: "AllData_1782223168009.csv"
+data_raw <- read.csv("AllData_1782223168009.csv", header = TRUE, stringsAsFactors = FALSE)
+
+# 2. EKSTRAK DEMOGRAFI (ambil unik per partisipan)
+demografi <- data_raw %>%
+  group_by(ParticipantID) %>%
+  summarise(
+    Name = first(Name),
+    Age = first(Age),
+    Gender = first(Gender),
+    Education = first(Education),
+    Mode = first(Mode),
+    DScore_export = first(DScore),  # D dari aplikasi (sebagai pembanding)
+    .groups = "drop"
+  )
+
+cat("=== DEMOGRAFI PARTISIPAN ===\n")
+print(demografi)
+
+# 3. FILTER RT (hanya RT antara 300 - 10000 ms)
+data_valid <- data_raw %>%
+  filter(RT_ms >= 300 & RT_ms <= 10000)
+
+cat("\n--- FILTER RT ---\n")
+cat("Total trial awal :", nrow(data_raw), "\n")
+cat("Total trial valid :", nrow(data_valid), "\n")
+
+# 4. FUNGSI HITUNG D-SCORE PER PARTISIPAN (dengan penalti error)
+# Rumus: (Mean Block7 - Mean Block4) / Pooled_SD
+# Penalti error: trial error diganti dengan mean blok + 600ms
+compute_IAT_D <- function(df_participant) {
+  
+  # Pisahkan blok 4 dan 7
+  b4 <- df_participant %>% filter(Block == 4)
+  b7 <- df_participant %>% filter(Block == 7)
+  
+  # Jika salah satu blok kosong, return NA
+  if (nrow(b4) == 0 || nrow(b7) == 0) return(NA)
+  
+  # Hitung mean awal untuk penalti error (hanya data valid)
+  mean_b4 <- mean(b4$RT_ms, na.rm = TRUE)
+  mean_b7 <- mean(b7$RT_ms, na.rm = TRUE)
+  
+  # Terapkan penalti error (IsError == 1)
+  b4_adj <- b4 %>%
+    mutate(RT_adj = ifelse(IsError == 1, mean_b4 + 600, RT_ms))
+  
+  b7_adj <- b7 %>%
+    mutate(RT_adj = ifelse(IsError == 1, mean_b7 + 600, RT_ms))
+  
+  # Hitung mean akhir
+  mean_final_b4 <- mean(b4_adj$RT_adj, na.rm = TRUE)
+  mean_final_b7 <- mean(b7_adj$RT_adj, na.rm = TRUE)
+  
+  # Hitung standar deviasi masing-masing blok
+  sd_b4 <- sd(b4_adj$RT_adj, na.rm = TRUE)
+  sd_b7 <- sd(b7_adj$RT_adj, na.rm = TRUE)
+  
+  # Jika SD = 0 atau NA, return NA
+  if (is.na(sd_b4) || is.na(sd_b7) || sd_b4 == 0 || sd_b7 == 0) return(NA)
+  
+  # Pooled SD (gabungan)
+  pooled_sd <- sqrt((sd_b4^2 + sd_b7^2) / 2)
+  
+  # Skor D
+  D <- (mean_final_b7 - mean_final_b4) / pooled_sd
+  return(D)
+}
+
+# 5. HITUNG D-SCORE UNTUK SEMUA PARTISIPAN
+participant_ids <- unique(data_valid$ParticipantID)
+hasil_D <- data.frame()
+
+for (pid in participant_ids) {
+  df_p <- data_valid %>% filter(ParticipantID == pid)
+  d_score <- compute_IAT_D(df_p)
+  if (!is.na(d_score)) {
+    hasil_D <- rbind(hasil_D, data.frame(ParticipantID = pid, D_score = d_score))
+  }
+}
+
+# Gabungkan dengan demografi
+final_data <- merge(hasil_D, demografi, by = "ParticipantID")
+
+cat("\n=== SKOR D PER PARTISIPAN ===\n")
+print(final_data[, c("ParticipantID", "Name", "Age", "Gender", "D_score", "DScore_export")])
+
+# 6. STATISTIK DESKRIPTIF
+cat("\n--- DESKRIPTIF SKOR D ---\n")
+summary(final_data$D_score)
+cat("Standar Deviasi :", sd(final_data$D_score, na.rm = TRUE), "\n")
+
+# 7. UJI HIPOTESIS (t-test berdasarkan Gender)
+cat("\n--- UJI-T INDEPENDEN (Laki-laki vs Perempuan) ---\n")
+if (length(unique(final_data$Gender)) >= 2) {
+  print(t.test(D_score ~ Gender, data = final_data))
+} else {
+  cat("Hanya ada satu kelompok gender, uji-t tidak dapat dilakukan.\n")
+}
+
+# 8. KORELASI DENGAN USIA
+cat("\n--- KORELASI DENGAN USIA (Pearson) ---\n")
+print(cor.test(final_data$Age, final_data$D_score, method = "pearson"))
+
+# 9. RELIABILITAS SPLIT-HALF (GANJIL-GENAP)
+cat("\n--- RELIABILITAS SPLIT-HALF (GANJIL vs GENAP) ---\n")
+# Fungsi untuk menghitung D parsial dari subset trial (ganjil/genap)
+compute_D_parsial <- function(df_p, parity) {
+  # parity: "odd" atau "even"
+  df_sub <- df_p %>%
+    filter(Block %in% c(4,7)) %>%
+    mutate(TrialParity = ifelse(Trial %% 2 == 1, "odd", "even")) %>%
+    filter(TrialParity == parity)
+  
+  if (nrow(df_sub) < 4) return(NA)
+  
+  b4 <- df_sub %>% filter(Block == 4)
+  b7 <- df_sub %>% filter(Block == 7)
+  if (nrow(b4) < 2 || nrow(b7) < 2) return(NA)
+  
+  mean_b4 <- mean(b4$RT_ms, na.rm = TRUE)
+  mean_b7 <- mean(b7$RT_ms, na.rm = TRUE)
+  sd_b4 <- sd(b4$RT_ms, na.rm = TRUE)
+  sd_b7 <- sd(b7$RT_ms, na.rm = TRUE)
+  if (is.na(sd_b4) || is.na(sd_b7) || sd_b4 == 0 || sd_b7 == 0) return(NA)
+  
+  pooled <- sqrt((sd_b4^2 + sd_b7^2) / 2)
+  return((mean_b7 - mean_b4) / pooled)
+}
+
+# Kumpulkan D parsial untuk setiap partisipan
+split_half_df <- data.frame()
+for (pid in participant_ids) {
+  df_p <- data_valid %>% filter(ParticipantID == pid)
+  d_odd <- compute_D_parsial(df_p, "odd")
+  d_even <- compute_D_parsial(df_p, "even")
+  if (!is.na(d_odd) && !is.na(d_even)) {
+    split_half_df <- rbind(split_half_df, 
+                           data.frame(ParticipantID = pid, D_odd = d_odd, D_even = d_even))
+  }
+}
+
+if (nrow(split_half_df) >= 2) {
+  korelasi_split <- cor(split_half_df$D_odd, split_half_df$D_even, use = "complete.obs")
+  cat("Korelasi Pearson (ganjil vs genap) :", round(korelasi_split, 4), "\n")
+  # Koreksi Spearman-Brown
+  sb_reliability <- (2 * korelasi_split) / (1 + korelasi_split)
+  cat("Reliabilitas Spearman-Brown       :", round(sb_reliability, 4), "\n")
+  if (sb_reliability > 0.70) {
+    cat("✅ Reliabilitas baik ( > 0.70 )\n")
+  } else {
+    cat("⚠️ Reliabilitas perlu ditingkatkan\n")
+  }
+} else {
+  cat("⚠️ Data tidak cukup untuk split-half.\n")
+}
+
+# 10. VISUALISASI BOXPLOT
+cat("\n--- VISUALISASI BOXPLOT ---\n")
+p <- ggplot(final_data, aes(x = Gender, y = D_score, fill = Gender)) +
+  geom_boxplot(alpha = 0.7, outlier.size = 3) +
+  geom_jitter(width = 0.2, alpha = 0.5, size = 2) +
+  theme_minimal(base_size = 14) +
+  labs(title = "Distribusi Skor D IAT Berdasarkan Gender",
+       subtitle = paste("n =", nrow(final_data), "partisipan"),
+       y = "Skor D (Greenwald et al., 2003)",
+       x = "Jenis Kelamin Partisipan") +
+  theme(legend.position = "none",
+        plot.title = element_text(face = "bold", hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+print(p)
+
+cat("\n✅ Analisis selesai.\n")
+            </pre>
+        </div>
+
+        <div id="tab-instruksi" class="admin-tab-content">
+            <h3>Instruksi untuk Asisten & Responden</h3>
+            <p><strong>Untuk Asisten Peneliti:</strong></p>
+            <ul style="padding-left:20px;">
+                <li>Pastikan partisipan nyaman dan tidak terganggu.</li>
+                <li>Bacakan instruksi sesuai mode (Dewasa/Anak) – teks sudah tersedia di layar.</li>
+                <li>Ingatkan untuk merespons secepat dan setepat mungkin.</li>
+                <li>Jangan beri tahu tujuan sebenarnya (bias gender) – judul netral.</li>
+            </ul>
+            <p><strong>Untuk Responden (Dewasa):</strong> “Anda akan melihat kata-kata di tengah layar. Klasifikasikan dengan menekan tombol kiri (E) atau kanan (I) sesuai label di bawah. Kerjakan secepat mungkin.”</p>
+            <p><strong>Untuk Responden (Anak):</strong> “Ayo main game! Tekan tombol hijau untuk kata yang cocok dengan kiri, atau tombol merah untuk kanan. Jangan terlalu lama berpikir, yang penting cepat dan benar!”</p>
+        </div>
+
+        <div id="tab-data" class="admin-tab-content">
+            <h3>Ekspor & Kelola Data</h3>
+            <div class="admin-btn-group">
+                <button onclick="exportCurrentCSV()">📥 Unduh Data Partisipan Ini</button>
+                <button onclick="exportAllCSV()">📦 Unduh Semua Data (LocalStorage) <span class="badge-count" id="totalPartBadge">0</span></button>
+                <button class="danger" onclick="clearAllData()">🗑️ Hapus Semua Data Tersimpan</button>
+                <button onclick="resetExperiment()">🔄 Reset Aplikasi</button>
+                <button class="close-modal" onclick="closeAdminModal()">✖️ Tutup Panel</button>
+            </div>
+            <p style="margin-top:12px; font-size:13px; color:#94a3b8;">Data tersimpan di browser (LocalStorage). Password admin: <code style="background:#1e293b;padding:2px 8px;border-radius:12px;">admin123</code></p>
+        </div>
+    </div>
+</div>
+
+<!-- ========== MAIN APP ========== -->
+<div class="container">
+    <!-- TOP BAR -->
+    <div class="top-admin-bar">
+        <span class="brand">🧠 Riset Kognitif <small>v2.0</small></span>
+        <button class="admin-login-btn" id="adminLoginBtn" onclick="adminLogin()">🔐 Admin</button>
+    </div>
+
+    <h1>🧩 Tes Klasifikasi Kata</h1>
+    <p class="subtitle">Studi tentang Kecepatan Respon Kognitif</p>
+    <p class="subtitle">Psychosophia Behavioral Lab, Prodi Psikologi Islam, IAIN SAS Bangka Belitung</p>
+    <!-- PILIH MODE -->
+    <div style="display:flex; justify-content:center; gap:12px; margin:0 0 12px 0; flex-wrap:wrap;">
+        <button class="mode-btn active" data-mode="dewasa" onclick="setMode('dewasa')" style="padding:8px 22px; border-radius:60px; border:2px solid #334155; background:#1e293b; color:#f0f4ff; font-weight:700; cursor:pointer; transition:0.2s;">🧑 Dewasa</button>
+        <button class="mode-btn" data-mode="anak" onclick="setMode('anak')" style="padding:8px 22px; border-radius:60px; border:2px solid #334155; background:#1e293b; color:#f0f4ff; font-weight:700; cursor:pointer; transition:0.2s;">🧒 Anak</button>
+    </div>
+
+    <!-- DEMOGRAFI -->
+    <div id="demo-section">
+        <h3>📋 Data Diri <span style="font-weight:400;font-size:13px;opacity:0.7;">(wajib diisi *)</span></h3>
+        <div class="demo-group">
+            <label>Nama / Inisial <span style="opacity:0.5;font-weight:400;">(opsional)</span></label>
+            <input type="text" id="d_name" placeholder="Misal: RA">
+            <div class="error-msg"></div>
+        </div>
+        <div class="demo-group">
+            <label>Usia (tahun) <span class="required">*</span></label>
+            <input type="number" id="d_age" placeholder="25" min="5" max="99">
+            <div class="error-msg" id="age-error"></div>
+        </div>
+        <div class="demo-group">
+            <label>Jenis Kelamin <span class="required">*</span></label>
+            <select id="d_gender"><option value="">Pilih</option><option value="L">Laki-laki</option><option value="P">Perempuan</option></select>
+            <div class="error-msg" id="gender-error"></div>
+        </div>
+        <div class="demo-group">
+            <label id="edu_label">Pendidikan / Kelas <span class="required">*</span></label>
+            <select id="d_edu"><option value="">Pilih</option><option value="SD">SD</option><option value="SMP">SMP</option><option value="SMA">SMA</option><option value="D3">D3</option><option value="S1">S1</option><option value="S2">S2</option><option value="S3">S3</option></select>
+            <div class="error-msg" id="edu-error"></div>
+        </div>
+        <div class="demo-group demo-full" style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:4px;">
+            <span style="font-weight:700; font-size:13px;">Status:</span>
+            <span id="demo-status" style="color:#f87171; font-weight:600;">⚠️ Lengkapi data yang wajib (ditandai *)</span>
+        </div>
+    </div>
+
+    <!-- EKSPERIMEN -->
+    <div id="stimulus-area">
+        <div id="instruction-overlay" class="hidden">
+            <h2 id="inst_title">📢 Instruksi</h2>
+            <p id="inst_text">Klik tombol di bawah untuk memulai.</p>
+            <button class="action-btn" id="inst_btn" onclick="closeInstruction()">✅ Mengerti, Lanjutkan</button>
+        </div>
+
+        <div id="block-header">🏁 Siap memulai</div>
+        <div id="stimulus-word">👋</div>
+        <div id="error-feedback"></div>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+
+        <div class="labels-row">
+            <span class="label-left" id="label-left">◀ Kiri</span>
+            <span class="label-right" id="label-right">Kanan ▶</span>
+        </div>
+
+        <div class="response-row">
+            <button class="resp-btn left-btn" id="leftBtn" onclick="respond('left')">
+                <span id="keyLeftHint">E</span> <span class="key-hint">(kiri)</span>
+            </button>
+            <button class="resp-btn right-btn" id="rightBtn" onclick="respond('right')">
+                <span id="keyRightHint">I</span> <span class="key-hint">(kanan)</span>
+            </button>
+        </div>
+
+        <button class="action-btn" id="actionBtn" onclick="handleAction()" disabled>▶ Mulai Eksperimen</button>
+        <button class="action-btn secondary" id="resetBtn" onclick="resetExperiment()" style="display:none;">↺ Ulangi</button>
+    </div>
+
+    <!-- HASIL -->
+    <div id="result-box" style="display:none;"></div>
+</div>
+
+<script>
+// ============================================================
+//  KONFIGURASI
+// ============================================================
+const ADMIN_PASSWORD = 'admin123';
+const STIMULUS = {
+    dewasa: {
+        male:   ['Ayah','Pria','Laki-laki','Anak Laki-laki','Suami'],
+        female: ['Ibu','Wanita','Perempuan','Anak Perempuan','Istri'],
+        career: ['Kantor','Gaji','Profesi','Bisnis','Karir'],
+        family: ['Rumah','Anak','Pasangan','Orang Tua','Merawat']
+    },
+    anak: {
+        male:   ['Ayah','Pria','Laki-laki','Kakak Laki'],
+        female: ['Ibu','Wanita','Perempuan','Kakak Per'],
+        career: ['Sekolah','Belajar','Nilai','Tugas','Guru'],
+        family: ['Rumah','Bermain','Saudara','Hewan','Makan']
+    }
+};
+
+// ============================================================
+//  STATE
+// ============================================================
+let state = {
+    mode: 'dewasa',
+    phase: 'idle',
+    block: 0,
+    trialIndex: 0,
+    blockTrials: [],
+    currentStimulus: null,
+    trialStartTime: 0,
+    isWaiting: false,
+    totalTrialsDone: 0,
+    demographics: { name:'', age:'', gender:'', edu:'', mode:'' },
+    results: { block3: { rt:[], errors:0 }, block4: { rt:[], errors:0 }, block6: { rt:[], errors:0 }, block7: { rt:[], errors:0 } },
+    trialLog: [],
+    blockSizes: [20,20,20,40,20,20,40],
+    isInstructionShowing: false,
+    currentDScore: 0
+};
+
+// ============================================================
+//  SET MODE & TEMA
+// ============================================================
+function setMode(mode) {
+    if (state.phase === 'running' && !confirm('Ganti mode akan mereset. Lanjutkan?')) return;
+    state.mode = mode;
+    document.body.className = mode === 'dewasa' ? 'mode-dewasa' : 'mode-anak';
+    // Toggle active mode buttons
+    document.querySelectorAll('.mode-btn').forEach(b => {
+        const isActive = b.dataset.mode === mode;
+        b.style.borderColor = isActive ? '#3b82f6' : '#334155';
+        b.style.background = isActive ? '#1e3a5f' : '#1e293b';
+        b.style.color = isActive ? '#f0f4ff' : '#94a3b8';
+    });
+    // Update pendidikan
+    document.getElementById('edu_label').textContent = mode === 'anak' ? 'Kelas (SD/MI) *' : 'Pendidikan Terakhir *';
+    const sel = document.getElementById('d_edu');
+    if (mode === 'anak') {
+        sel.innerHTML = '<option value="">Pilih</option><option value="3">Kelas 3</option><option value="4">Kelas 4</option><option value="5">Kelas 5</option><option value="6">Kelas 6</option>';
+    } else {
+        sel.innerHTML = '<option value="">Pilih</option><option value="SD">SD</option><option value="SMP">SMP</option><option value="SMA">SMA</option><option value="D3">D3</option><option value="S1">S1</option><option value="S2">S2</option><option value="S3">S3</option>';
+    }
+    resetExperiment();
+}
+
+// ============================================================
+//  VALIDASI VISUAL (tanpa alert)
+// ============================================================
+function validateForm() {
+    const age = document.getElementById('d_age').value.trim();
+    const gender = document.getElementById('d_gender').value;
+    const edu = document.getElementById('d_edu').value;
+
+    let isValid = true;
+    // Usia
+    const ageInput = document.getElementById('d_age');
+    const ageErr = document.getElementById('age-error');
+    if (!age || parseInt(age) < 5 || parseInt(age) > 99) {
+        ageInput.classList.add('invalid');
+        ageErr.textContent = '❌ Masukkan usia 5-99 tahun.';
+        isValid = false;
+    } else {
+        ageInput.classList.remove('invalid');
+        ageErr.textContent = '';
+    }
+    // Gender
+    const genInput = document.getElementById('d_gender');
+    const genErr = document.getElementById('gender-error');
+    if (!gender) {
+        genInput.classList.add('invalid');
+        genErr.textContent = '❌ Pilih jenis kelamin.';
+        isValid = false;
+    } else {
+        genInput.classList.remove('invalid');
+        genErr.textContent = '';
+    }
+    // Edu
+    const eduInput = document.getElementById('d_edu');
+    const eduErr = document.getElementById('edu-error');
+    if (!edu) {
+        eduInput.classList.add('invalid');
+        eduErr.textContent = '❌ Pilih pendidikan/kelas.';
+        isValid = false;
+    } else {
+        eduInput.classList.remove('invalid');
+        eduErr.textContent = '';
+    }
+
+    const statusEl = document.getElementById('demo-status');
+    const btn = document.getElementById('actionBtn');
+    if (isValid) {
+        statusEl.textContent = '✅ Data lengkap. Silakan mulai!';
+        statusEl.style.color = '#34d399';
+        btn.disabled = false;
+    } else {
+        statusEl.textContent = '⚠️ Lengkapi data yang wajib (ditandai *)';
+        statusEl.style.color = '#f87171';
+        btn.disabled = true;
+    }
+    return isValid;
+}
+['d_name','d_age','d_gender','d_edu'].forEach(id => {
+    document.getElementById(id).addEventListener('input', validateForm);
+    document.getElementById(id).addEventListener('change', validateForm);
+});
+
+function getDemographics() {
+    if (!validateForm()) return null;
+    return {
+        name: document.getElementById('d_name').value.trim() || 'Anonim',
+        age: parseInt(document.getElementById('d_age').value),
+        gender: document.getElementById('d_gender').value,
+        edu: document.getElementById('d_edu').value,
+        mode: state.mode
+    };
+}
+
+// ============================================================
+//  ADMIN LOGIC
+// ============================================================
+function adminLogin() {
+    if (sessionStorage.getItem('admin_logged_in') === 'true') {
+        openAdminModal(); return;
+    }
+    const pwd = prompt('🔑 Masukkan password admin:');
+    if (pwd === ADMIN_PASSWORD) {
+        sessionStorage.setItem('admin_logged_in', 'true');
+        document.getElementById('adminLoginBtn').classList.add('logged-in');
+        document.getElementById('adminLoginBtn').textContent = '🔓 Admin';
+        openAdminModal();
+    } else if (pwd !== null) alert('❌ Password salah!');
+}
+function openAdminModal() {
+    document.getElementById('adminModal').style.display = 'flex';
+    updateBadgeCount();
+}
+function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
+
+// Tab switching
+document.querySelectorAll('.admin-tabs button').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.admin-tabs button').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const tabId = this.dataset.tab;
+        document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+    });
+});
+
+// ============================================================
+//  DATA EXPORT & STORAGE
+// ============================================================
+function updateBadgeCount() {
+    const data = JSON.parse(localStorage.getItem('iat_participants')) || [];
+    document.getElementById('totalPartBadge').textContent = data.length;
+}
+function downloadCSV(csv, filename) {
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+function exportCurrentCSV() {
+    if (state.trialLog.length === 0) { alert('⚠️ Belum ada data.'); return; }
+    const demo = state.demographics;
+    let csv = '\uFEFF';
+    csv += `#Demografi,${demo.name},${demo.age},${demo.gender},${demo.edu},${demo.mode},DScore,${state.currentDScore.toFixed(4)}\n`;
+    csv += `Block,Trial,Word,Category,CorrectSide,Response,RT_ms,IsError\n`;
+    state.trialLog.forEach(t => {
+        csv += `${t.block},${t.trialNum},${t.word},${t.category},${t.correctSide},${t.response},${t.rt},${t.isError?1:0}\n`;
+    });
+    downloadCSV(csv, `Data_${demo.name}_${Date.now()}.csv`);
+}
+function exportAllCSV() {
+    const all = JSON.parse(localStorage.getItem('iat_participants')) || [];
+    if (all.length === 0) { alert('⚠️ Belum ada data.'); return; }
+    let csv = '\uFEFF';
+    csv += `ParticipantID,Timestamp,Name,Age,Gender,Education,Mode,DScore,Block,Trial,Word,Category,CorrectSide,Response,RT_ms,IsError\n`;
+    all.forEach(p => {
+        const d = p.demographics || {};
+        const base = `${p.id},${p.timestamp},${d.name||''},${d.age||''},${d.gender||''},${d.edu||''},${d.mode||''},${(p.dScore||0).toFixed(4)}`;
+        if (p.trialLog && p.trialLog.length > 0) {
+            p.trialLog.forEach(t => {
+                csv += `${base},${t.block},${t.trialNum},${t.word},${t.category},${t.correctSide},${t.response},${t.rt},${t.isError?1:0}\n`;
+            });
+        } else { csv += `${base},-,-,-,-,-,-,-,-\n`; }
+    });
+    downloadCSV(csv, `AllData_${Date.now()}.csv`);
+    alert(`✅ ${all.length} partisipan diekspor.`);
+}
+function clearAllData() {
+    if (!confirm('⚠️ Hapus SEMUA data?')) return;
+    localStorage.removeItem('iat_participants');
+    updateBadgeCount();
+    alert('🗑️ Data terhapus.');
+}
+function saveToLocalStorage(demo, dScore, log) {
+    const participant = { id: Date.now(), timestamp: new Date().toISOString(), demographics: demo, dScore, trialLog: log };
+    let all = JSON.parse(localStorage.getItem('iat_participants')) || [];
+    all.push(participant);
+    localStorage.setItem('iat_participants', JSON.stringify(all));
+    updateBadgeCount();
+}
+
+// ============================================================
+//  EKSPERIMEN CORE
+// ============================================================
+function shuffle(arr) { for (let i=arr.length-1; i>0; i--) { const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+function getStim() { return STIMULUS[state.mode]; }
+
+function resetExperiment() {
+    state.phase = 'idle'; state.block = 0; state.trialIndex = 0; state.totalTrialsDone = 0;
+    state.trialLog = []; state.isWaiting = false;
+    state.results = { block3: { rt:[], errors:0 }, block4: { rt:[], errors:0 }, block6: { rt:[], errors:0 }, block7: { rt:[], errors:0 } };
+    document.getElementById('result-box').style.display = 'none';
+    document.getElementById('actionBtn').style.display = 'inline-block';
+    document.getElementById('actionBtn').disabled = true;
+    document.getElementById('actionBtn').textContent = '▶ Mulai Eksperimen';
+    document.getElementById('resetBtn').style.display = 'none';
+    document.getElementById('stimulus-word').textContent = '👋';
+    document.getElementById('block-header').textContent = '🏁 Siap memulai';
+    document.getElementById('error-feedback').textContent = '';
+    document.getElementById('progress-fill').style.width = '0%';
+    document.getElementById('label-left').textContent = '◀ Kiri';
+    document.getElementById('label-right').textContent = 'Kanan ▶';
+    document.getElementById('instruction-overlay').classList.add('hidden');
+    validateForm();
+}
+
+// INSTRUKSI
+function showInstruction(blockNum) {
+    state.isInstructionShowing = true;
+    const overlay = document.getElementById('instruction-overlay');
+    overlay.classList.remove('hidden');
+    const isChild = state.mode === 'anak';
+    const base = isChild ? '🧸 Ayo main!' : '📋 Instruksi';
+    const instructions = {
+        0: { title: `${base} - Klasifikasi Kata`, text: isChild ? 'KIRI untuk AYAH/LAKI, KANAN untuk IBU/PEREMPUAN.' : 'Blok 1: Kiri = Laki-laki, Kanan = Perempuan.' },
+        1: { title: `${base} - Klasifikasi Atribut`, text: isChild ? 'KIRI = KARIER (sekolah), KANAN = KELUARGA (rumah).' : 'Blok 2: Kiri = Karier, Kanan = Keluarga.' },
+        2: { title: `${base} - Gabungan`, text: isChild ? 'KIRI: LAKI+KARIER, KANAN: PEREMPUAN+KELUARGA.' : 'Blok 3: Latihan. Kiri = Laki+Karier, Kanan = Perempuan+Keluarga.' },
+        3: { title: `${base} - Bagian Tes`, text: isChild ? 'TES! Sama seperti tadi. Fokus!' : 'Blok 4: TES. Data diambil. Kerjakan secepat mungkin!' },
+        4: { title: `${base} ⚠️ Perhatikan!`, text: isChild ? 'Aturan berubah! KIRI untuk PEREMPUAN, KANAN untuk LAKI-LAKI.' : 'Blok 5: GENDER DIBALIK. Kiri = Perempuan, Kanan = Laki-laki.' },
+        5: { title: `${base} - Gabungan Baru`, text: isChild ? 'KIRI: PEREMPUAN+KARIER, KANAN: LAKI-LAKI+KELUARGA.' : 'Blok 6: Latihan. Kiri = Perempuan+Karier, Kanan = Laki-laki+Keluarga.' },
+        6: { title: `${base} - Tes Terakhir`, text: isChild ? 'TES terakhir! Semangat!' : 'Blok 7: TES akhir. Data diambil.' }
+    };
+    const inst = instructions[blockNum] || instructions[0];
+    document.getElementById('inst_title').textContent = inst.title;
+    document.getElementById('inst_text').innerHTML = inst.text;
+}
+function closeInstruction() {
+    document.getElementById('instruction-overlay').classList.add('hidden');
+    state.isInstructionShowing = false;
+    if (state.phase === 'running') showBlockContent(state.block);
+}
+
+function buildBlockTrials(blockNum) {
+    const stim = getStim(); let pool = [];
+    if (blockNum===0) { stim.male.forEach(w=>pool.push({word:w,side:'left',cat:'male'})); stim.female.forEach(w=>pool.push({word:w,side:'right',cat:'female'})); }
+    else if (blockNum===1) { stim.career.forEach(w=>pool.push({word:w,side:'left',cat:'career'})); stim.family.forEach(w=>pool.push({word:w,side:'right',cat:'family'})); }
+    else if (blockNum===2||blockNum===3) { stim.male.forEach(w=>pool.push({word:w,side:'left',cat:'male'})); stim.career.forEach(w=>pool.push({word:w,side:'left',cat:'career'})); stim.female.forEach(w=>pool.push({word:w,side:'right',cat:'female'})); stim.family.forEach(w=>pool.push({word:w,side:'right',cat:'family'})); }
+    else if (blockNum===4) { stim.female.forEach(w=>pool.push({word:w,side:'left',cat:'female'})); stim.male.forEach(w=>pool.push({word:w,side:'right',cat:'male'})); }
+    else if (blockNum===5||blockNum===6) { stim.female.forEach(w=>pool.push({word:w,side:'left',cat:'female'})); stim.career.forEach(w=>pool.push({word:w,side:'left',cat:'career'})); stim.male.forEach(w=>pool.push({word:w,side:'right',cat:'male'})); stim.family.forEach(w=>pool.push({word:w,side:'right',cat:'family'})); }
+    const target = state.blockSizes[blockNum];
+    let trials = shuffle(pool);
+    while(trials.length < target) trials = trials.concat(shuffle(pool));
+    return shuffle(trials).slice(0, target);
+}
+function showBlock(blockNum) { showInstruction(blockNum); }
+function showBlockContent(blockNum) {
+    const labels = [
+        {left:'Laki-laki',right:'Perempuan'},{left:'Karier',right:'Keluarga'},
+        {left:'Laki-laki/Karier',right:'Perempuan/Keluarga'},{left:'Laki-laki/Karier',right:'Perempuan/Keluarga'},
+        {left:'Perempuan',right:'Laki-laki'},{left:'Perempuan/Karier',right:'Laki-laki/Keluarga'},
+        {left:'Perempuan/Karier',right:'Laki-laki/Keluarga'}
+    ];
+    document.getElementById('block-header').textContent = `Blok ${blockNum+1}`;
+    document.getElementById('label-left').textContent = '◀ ' + labels[blockNum].left;
+    document.getElementById('label-right').textContent = labels[blockNum].right + ' ▶';
+    state.blockTrials = buildBlockTrials(blockNum);
+    state.trialIndex = 0;
+    showTrial();
+}
+function showTrial() {
+    if (state.trialIndex >= state.blockTrials.length) { finishBlock(); return; }
+    const trial = state.blockTrials[state.trialIndex];
+    state.currentStimulus = trial;
+    document.getElementById('stimulus-word').textContent = trial.word;
+    document.getElementById('error-feedback').textContent = '';
+    const total = state.blockSizes.reduce((a,b)=>a+b,0);
+    document.getElementById('progress-fill').style.width = Math.min(100, (state.totalTrialsDone/total)*100) + '%';
+    state.isWaiting = true;
+    state.trialStartTime = Date.now();
+}
+
+// RESPON
+function respond(side) {
+    if (!state.isWaiting || state.phase !== 'running') return;
+    if (!state.currentStimulus) return;
+    const rt = Date.now() - state.trialStartTime;
+    const correct = (side === state.currentStimulus.side);
+    const blockNum = state.block;
+    state.trialLog.push({
+        block: blockNum+1,
+        trialNum: state.trialIndex+1,
+        word: state.currentStimulus.word,
+        category: state.currentStimulus.cat,
+        correctSide: state.currentStimulus.side,
+        response: side,
+        rt: rt,
+        isError: !correct
+    });
+    const isTest = (blockNum === 3 || blockNum === 4 || blockNum === 6 || blockNum === 7);
+    if (isTest) {
+        const key = 'block' + (blockNum+1);
+        if (state.results[key]) {
+            if (!correct) state.results[key].errors++;
+            state.results[key].rt.push(rt);
+        }
+    }
+    document.getElementById('error-feedback').textContent = correct ? '' : '✖️ Salah! Perhatikan label.';
+    state.totalTrialsDone++;
+    state.isWaiting = false;
+    state.trialIndex++;
+    setTimeout(() => showTrial(), correct ? 200 : 500);
+}
+function finishBlock() {
+    state.block++;
+    if (state.block >= 7) { finishExperiment(); return; }
+    showBlock(state.block);
+}
+
+function finishExperiment() {
+    state.phase = 'done';
+    document.getElementById('stimulus-word').textContent = '✅ Selesai!';
+    document.getElementById('block-header').textContent = '🏁 Selesai';
+    document.getElementById('actionBtn').style.display = 'none';
+    document.getElementById('resetBtn').style.display = 'inline-block';
+
+    const b3=state.results.block3, b4=state.results.block4, b6=state.results.block6, b7=state.results.block7;
+    const c1 = b3.rt.concat(b4.rt).filter(r => r>=300 && r<=10000);
+    const c2 = b6.rt.concat(b7.rt).filter(r => r>=300 && r<=10000);
+    let D=0, mean1=0, mean2=0, pooledSD=1, interpretasi='Data tidak cukup';
+    if (c1.length>0 && c2.length>0) {
+        mean1 = c1.reduce((a,b)=>a+b,0)/c1.length;
+        mean2 = c2.reduce((a,b)=>a+b,0)/c2.length;
+        const sd1 = Math.sqrt(c1.reduce((a,b)=>a+(b-mean1)**2,0)/c1.length);
+        const sd2 = Math.sqrt(c2.reduce((a,b)=>a+(b-mean2)**2,0)/c2.length);
+        pooledSD = Math.sqrt((sd1**2 + sd2**2)/2);
+        D = (mean2 - mean1) / pooledSD;
+        if (D > 0.65) interpretasi = 'Asosiasi kuat: Laki↔Karier, Perempuan↔Keluarga';
+        else if (D > 0.35) interpretasi = 'Asosiasi sedang';
+        else if (D > 0.15) interpretasi = 'Asosiasi ringan';
+        else if (D > -0.15) interpretasi = 'Netral';
+        else if (D > -0.35) interpretasi = 'Asosiasi ringan terbalik';
+        else if (D > -0.65) interpretasi = 'Asosiasi sedang terbalik';
+        else interpretasi = 'Asosiasi kuat terbalik';
+    }
+    state.currentDScore = D;
+    const demo = state.demographics;
+    saveToLocalStorage(demo, D, state.trialLog);
+
+    const totalErr = b3.errors+b4.errors+b6.errors+b7.errors;
+    const totalTrials = c1.length + c2.length;
+    document.getElementById('result-box').style.display = 'block';
+    document.getElementById('result-box').innerHTML = `
+        <h3>📊 Hasil Akhir</h3>
+        <div class="result-row"><span>Rata-rata Gabungan 1</span><strong>${Math.round(mean1)} ms</strong></div>
+        <div class="result-row"><span>Rata-rata Gabungan 2</span><strong>${Math.round(mean2)} ms</strong></div>
+        <div class="result-row"><span>Skor D</span><span class="d-score-big">${D.toFixed(3)}</span></div>
+        <div class="result-row"><span>Error</span><strong>${totalErr} dari ${totalTrials}</strong></div>
+        <div style="padding:12px;background:rgba(59,130,246,0.1);border-radius:16px;font-weight:700;text-align:center;font-size:18px;margin:10px 0;">🧐 ${interpretasi}</div>
+        <p style="font-size:13px;opacity:0.7;text-align:center;">Terima kasih! Data tersimpan. Gunakan panel Admin untuk ekspor.</p>
+    `;
+}
+
+function handleAction() {
+    if (state.phase === 'done') { resetExperiment(); return; }
+    const demo = getDemographics();
+    if (!demo) return;
+    state.demographics = demo;
+    state.phase = 'running';
+    state.block = 0; state.trialIndex=0; state.totalTrialsDone=0;
+    state.trialLog = [];
+    state.results = { block3:{rt:[],errors:0}, block4:{rt:[],errors:0}, block6:{rt:[],errors:0}, block7:{rt:[],errors:0} };
+    document.getElementById('actionBtn').disabled = true;
+    document.getElementById('actionBtn').textContent = '⏳ Berjalan...';
+    document.getElementById('resetBtn').style.display = 'none';
+    document.getElementById('result-box').style.display = 'none';
+    showBlock(0);
+    setTimeout(() => { document.getElementById('actionBtn').disabled = false; }, 300);
+}
+
+// KEYBOARD
+document.addEventListener('keydown', (e) => {
+    const key = e.key.toLowerCase();
+    if (key === 'e') { e.preventDefault(); respond('left'); }
+    else if (key === 'i') { e.preventDefault(); respond('right'); }
+});
+
+// ============================================================
+//  INIT
+// ============================================================
+setMode('dewasa');
+resetExperiment();
+updateBadgeCount();
+</script>
+</body>
+</html>

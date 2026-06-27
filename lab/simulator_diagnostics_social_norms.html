@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Norms Diagnostics Tool · Psychosophia Behavioral Lab</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Lexend', 'sans-serif'],
+                    },
+                    colors: {
+                        diagnostic: {
+                            bg: '#FAF8F5',
+                            dark: '#1E1B18',
+                            indigo: '#5B63B7',
+                            coral: '#E76F51',
+                            sage: '#8FA882',
+                            plum: '#4A2840',
+                            card: '#FFFFFF',
+                            border: '#EADBC8',
+                            gold: '#D4A373',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF8F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D8C3A5;
+            border-radius: 10px;
+        }
+        .fade-in {
+            animation: fadeIn 0.4s ease;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(6px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .ring-glow {
+            box-shadow: 0 0 40px rgba(91, 99, 183, 0.08);
+        }
+        .drive-link:hover .drive-icon {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="bg-diagnostic-bg text-diagnostic-dark font-sans min-h-screen flex flex-col selection:bg-diagnostic-indigo selection:text-white">
+
+    <!-- ===== HEADER dengan Logo Psychosophia ===== -->
+    <header class="bg-white/90 backdrop-blur-md border-b border-diagnostic-border sticky top-0 z-40 px-6 py-3 flex flex-wrap items-center justify-between gap-3 transition-all">
+        <div class="flex items-center gap-3">
+            <!-- Logo Psychosophia -->
+            <div class="flex items-center gap-2">
+                <img src="psychosophia-logo.png" alt="Psychosophia Behavioral Lab" class="h-10 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                <div class="hidden items-center justify-center bg-diagnostic-indigo text-white w-9 h-9 rounded-xl font-display font-extrabold text-sm shadow-md shadow-diagnostic-indigo/20">
+                    P
+                </div>
+                <div class="hidden md:block">
+                    <h1 class="font-display font-bold text-base leading-tight text-diagnostic-dark">Norms in Gender &amp; Power</h1>
+                    <p class="text-[10px] text-diagnostic-indigo font-medium">Bicchieri Applied Diagnostic Hub</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-3">
+            <span class="hidden sm:inline-flex items-center gap-1.5 bg-diagnostic-coral/10 px-3 py-1.5 rounded-full border border-diagnostic-coral/20 text-[11px] font-bold text-diagnostic-coral">
+                <span class="w-2 h-2 rounded-full bg-diagnostic-coral animate-pulse"></span>
+                Edisi KDRT &amp; Bullying
+            </span>
+            <button onclick="toggleSidebar()" class="lg:hidden bg-diagnostic-indigo/10 text-diagnostic-indigo p-2 rounded-xl hover:bg-diagnostic-indigo/20 transition">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ===== MAIN LAYOUT ===== -->
+    <div class="flex-grow flex flex-col lg:flex-row max-w-[1600px] w-full mx-auto relative">
+        
+        <!-- SIDEBAR -->
+        <aside id="sidebar" class="fixed lg:sticky top-[61px] left-0 bottom-0 w-[300px] bg-white border-r border-diagnostic-border p-5 flex flex-col justify-between overflow-y-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-30 lg:z-10 h-[calc(100vh-61px)] shadow-xl lg:shadow-none">
+            <div class="space-y-5">
+                <!-- Logo kecil di sidebar -->
+                <div class="flex items-center gap-2 pb-3 border-b border-diagnostic-border">
+                    <img src="psychosophia-logo.png" alt="Psychosophia" class="h-8 w-auto object-contain" onerror="this.style.display='none'">
+                    <span class="text-[10px] font-bold text-diagnostic-dark/60 uppercase tracking-wider">Psychosophia Behavioral Lab</span>
+                </div>
+
+                <div>
+                    <h3 class="text-[10px] font-extrabold uppercase tracking-wider text-diagnostic-indigo mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-square-poll-horizontal"></i> Modul Analisis
+                    </h3>
+                    <div class="space-y-1">
+                        <button onclick="scrollToSection('intro-area')" class="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition bg-diagnostic-indigo/5 text-diagnostic-indigo border-l-4 border-diagnostic-indigo">
+                            <i class="fa-solid fa-circle-info w-4"></i> Pengantar Teori
+                        </button>
+                        <button onclick="scrollToSection('diagnostic-engine')" class="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition text-diagnostic-dark/70 hover:bg-diagnostic-indigo/5 hover:text-diagnostic-indigo border-l-4 border-transparent">
+                            <i class="fa-solid fa-calculator w-4"></i> Diagnostik 6 Dimensi
+                        </button>
+                        <button onclick="scrollToSection('pluralistic-sim')" class="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition text-diagnostic-dark/70 hover:bg-diagnostic-indigo/5 hover:text-diagnostic-indigo border-l-4 border-transparent">
+                            <i class="fa-solid fa-chart-pie w-4"></i> Simulasi PI
+                        </button>
+                        <button onclick="scrollToSection('group-map')" class="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition text-diagnostic-dark/70 hover:bg-diagnostic-indigo/5 hover:text-diagnostic-indigo border-l-4 border-transparent">
+                            <i class="fa-solid fa-users-viewfinder w-4"></i> Peta Lingkaran Rujukan
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Teori singkat di sidebar -->
+                <div class="bg-diagnostic-bg border border-diagnostic-border p-4 rounded-2xl">
+                    <h4 class="font-display font-bold text-xs text-diagnostic-dark mb-1">📖 Rujukan Utama</h4>
+                    <p class="text-[10px] text-diagnostic-dark/70 leading-relaxed">
+                        Bicchieri, C. (2017). <em>Norms in the Wild</em>. Oxford UP.<br>
+                        <span class="text-[9px] text-diagnostic-indigo">DOI: 10.1093/oso/9780190622046.001.0001</span>
+                    </p>
+                    <a href="https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2022.784908/full" target="_blank" class="mt-2 block text-center bg-diagnostic-dark text-white text-[10px] font-bold py-1.5 rounded-lg hover:bg-diagnostic-indigo transition">
+                        Baca Paper Gratis <i class="fa-solid fa-arrow-up-right-from-square ml-1"></i>
+                    </a>
+                    <!-- Link Google Drive Folder -->
+                    <a href="https://drive.google.com/drive/u/3/folders/1uGAqkZS0EryQkYOKhnXFYm1EBt40N1DV" target="_blank" class="mt-2 block text-center bg-diagnostic-indigo/10 text-diagnostic-indigo text-[10px] font-bold py-1.5 rounded-lg hover:bg-diagnostic-indigo/20 transition border border-diagnostic-indigo/15">
+                        <i class="fa-brands fa-google-drive mr-1"></i> Buku Bicchieri (Drive)
+                    </a>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-diagnostic-border text-center text-[9px] text-diagnostic-dark/40 font-medium">
+                Psychosophia Behavioral Lab &bull; IAIN SAS Babel
+            </div>
+        </aside>
+
+        <!-- BACKDROP MOBILE -->
+        <div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-diagnostic-dark/30 backdrop-blur-sm z-20 hidden lg:hidden"></div>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="flex-grow p-4 sm:p-6 md:p-8 lg:p-10 space-y-12 max-w-full overflow-x-hidden">
+
+            <!-- SECTION 0: LANDASAN TEORI (BARU) -->
+            <section id="intro-area" class="bg-white rounded-3xl border border-diagnostic-border p-6 md:p-10 shadow-lg relative overflow-hidden fade-in">
+                <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-diagnostic-indigo/5 blur-[80px] pointer-events-none"></div>
+                <div class="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-diagnostic-coral/5 blur-[80px] pointer-events-none"></div>
+
+                <div class="relative z-10 max-w-4xl space-y-4">
+                    <div class="flex flex-wrap items-center gap-3">
+                        <span class="bg-diagnostic-indigo/10 text-diagnostic-indigo text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider border border-diagnostic-indigo/15">
+                            <i class="fa-regular fa-file-lines mr-1"></i> Kerangka Teoritis
+                        </span>
+                        <span class="text-[10px] text-diagnostic-dark/50 font-medium">Cristina Bicchieri (2017, 2022)</span>
+                    </div>
+
+                    <h2 class="font-display font-extrabold text-3xl md:text-5xl text-diagnostic-dark leading-tight">
+                        Mengapa KDRT &amp; Perundungan <br class="hidden sm:block">Mengunci Kepatuhan Korban?
+                    </h2>
+
+                    <div class="prose prose-sm md:prose-base text-diagnostic-dark/80 leading-relaxed space-y-4">
+                        <p>
+                            Menurut <strong>Cristina Bicchieri</strong>, perilaku berbahaya dalam relasi kekuasaan—seperti menyembunyikan kekerasan dalam rumah tangga atau mendiamkan perundungan—seringkali bertahan <strong>bukan karena individu secara moral setuju</strong>, melainkan karena adanya <strong>ekspektasi sosial yang menjebak</strong> (Bicchieri, 2017, <em>Norms in the Wild</em>; Bicchieri &amp; Dimant, 2022, <em>Frontiers in Psychology</em>).
+                        </p>
+                        <p>
+                            Ketika seorang istri korban KDRT memilih diam, atau seorang siswa korban perundungan tidak melapor, mereka sering kali terkunci di dalam:
+                        </p>
+                        <ul class="list-disc pl-6 space-y-1">
+                            <li><strong>Ekspektasi Empiris (<em>Empirical Expectation</em>)</strong> – <em>"Semua orang juga memaklumi tindakan suami/kelompok."</em></li>
+                            <li><strong>Ekspektasi Normatif (<em>Normative Expectation</em>)</strong> – <em>"Mertua/kawan sebaya akan memojokkan saya jika saya bersuara."</em></li>
+                        </ul>
+                        <p>
+                            Alat diagnostik ini membantu mengidentifikasi tipe aturan sosial mana yang sedang membelenggu lingkungan sosial Anda, berdasarkan <strong>Diagram Eliminasi Bicchieri</strong> yang membedakan antara <em>Norma Sosial</em>, <em>Konvensi</em>, dan <em>Kebiasaan Personal</em>.
+                        </p>
+                        
+                        <!-- REFERENSI & LINK DRIVE -->
+                        <div class="bg-diagnostic-bg border border-diagnostic-border p-4 rounded-xl mt-4">
+                            <p class="text-xs text-diagnostic-dark/60 font-mono mb-1">📌 Referensi Inti:</p>
+                            <p class="text-[11px] text-diagnostic-dark/70">
+                                Bicchieri, C. (2017). <em>Norms in the Wild: How to Diagnose, Measure, and Change Social Norms</em>. Oxford University Press.<br>
+                                Bicchieri, C., &amp; Dimant, E. (2022). Norms, beliefs, and social change. <em>Frontiers in Psychology</em>, 13, 784908. 
+                                <a href="https://doi.org/10.3389/fpsyg.2022.784908" target="_blank" class="text-diagnostic-indigo hover:underline">DOI: 10.3389/fpsyg.2022.784908</a>
+                            </p>
+                            
+                            <!-- Google Drive Folder Link -->
+                            <div class="mt-3 pt-3 border-t border-diagnostic-border">
+                                <p class="text-xs text-diagnostic-dark/60 font-mono mb-1.5">📂 Bahan Bacaan Lengkap (Folder Drive):</p>
+                                <a href="https://drive.google.com/drive/u/3/folders/1uGAqkZS0EryQkYOKhnXFYm1EBt40N1DV" target="_blank" class="drive-link inline-flex items-center gap-2 bg-white border border-diagnostic-indigo/20 hover:border-diagnostic-indigo/50 rounded-lg px-4 py-2 text-xs font-semibold text-diagnostic-indigo transition-all shadow-sm hover:shadow-md">
+                                    <i class="fa-brands fa-google-drive text-base drive-icon transition-transform"></i>
+                                    <span>Bicchieri — Buku &amp; Materi</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-60"></i>
+                                </a>
+                                <p class="text-[10px] text-diagnostic-dark/40 mt-1.5">
+                                    Berisi: <em>The Grammar of Society</em> (2006) · <em>Norms in the Wild</em> (2016)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: DIAGNOSTIC ENGINE -->
+            <section id="diagnostic-engine" class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start fade-in">
+                
+                <!-- Input Panel -->
+                <div class="bg-white border border-diagnostic-border rounded-3xl p-6 md:p-8 shadow-lg xl:col-span-7 space-y-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="text-xs font-bold text-diagnostic-indigo uppercase tracking-widest"><i class="fa-solid fa-gears"></i> Mesin Diagnostik</span>
+                            <h3 class="font-display font-extrabold text-2xl text-diagnostic-dark mt-1">Sistem Evaluasi 6 Dimensi Bicchieri</h3>
+                        </div>
+                        <button onclick="resetEngine()" class="text-xs text-diagnostic-coral hover:underline font-bold"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+                    </div>
+
+                    <!-- Case Selector -->
+                    <div class="bg-diagnostic-bg border border-diagnostic-border p-4 rounded-2xl">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-diagnostic-dark/80 mb-2">1. Pilih Jenis Relasi Kekuasaan:</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button id="case-kdrt" onclick="selectCase('kdrt')" class="flex items-center justify-center gap-2 p-3 rounded-xl border-2 border-diagnostic-indigo bg-diagnostic-indigo/10 text-diagnostic-dark font-bold text-xs transition">
+                                <i class="fa-solid fa-house-chimney-crack"></i> KDRT
+                            </button>
+                            <button id="case-bully" onclick="selectCase('bully')" class="flex items-center justify-center gap-2 p-3 rounded-xl border-2 border-transparent bg-white text-diagnostic-dark/60 font-bold text-xs transition hover:bg-slate-50 border-slate-200">
+                                <i class="fa-solid fa-mask"></i> Bullying
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Questions -->
+                    <div class="space-y-4">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-diagnostic-indigo border-b border-diagnostic-border pb-1"><i class="fa-solid fa-clipboard-question"></i> Evaluasi Dimensi Kognitif:</h4>
+                        
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold text-diagnostic-dark">Q1. Preferensi Kondisional</label>
+                            <p id="q1-desc" class="text-[11px] text-diagnostic-dark/70">"Apakah pelaku/korban tetap melakukan tindakan tersebut sekiranya dia pindah ke lingkungan lain yang tidak menuntut aturan itu?"</p>
+                            <div class="flex flex-wrap gap-4">
+                                <label class="flex items-center gap-2 text-xs font-medium cursor-pointer"><input type="radio" name="diag-q1" value="no" class="accent-diagnostic-indigo"> Kondisional</label>
+                                <label class="flex items-center gap-2 text-xs font-medium cursor-pointer"><input type="radio" name="diag-q1" value="yes" class="accent-diagnostic-indigo"> Inkondisional</label>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold text-diagnostic-dark">Q2. Ekspektasi Empiris (EE)</label>
+                            <p id="q2-desc" class="text-[11px] text-diagnostic-dark/70">"Apakah subjek percaya bahwa mayoritas anggota kelompok rujukannya juga melakukan atau mendiamkan tindakan serupa?"</p>
+                            <div class="flex flex-wrap gap-4">
+                                <label class="flex items-center gap-2 text-xs font-medium cursor-pointer"><input type="radio" name="diag-q2" value="yes" class="accent-diagnostic-indigo"> Ya</label>
+                                <label class="flex items-center gap-2 text-xs font-medium cursor-pointer"><input type="radio" name="diag-q2" value="no" class="accent-diagnostic-indigo"> Tidak</label>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold text-diagnostic-dark">Q3. Ekspektasi Normatif (NE)</label>
+                            <p id="q3-desc" class="text-[11px] text-diagnostic-dark/70">"Apakah subjek merasa bahwa kelompok rujukan penting menuntut/mengharuskan dia berperilaku demikian?"</p>
+                            <div class="flex flex-wrap gap-4">
+                                <label class="flex items-center gap-2 text-xs font-medium cursor-pointer"><input type="radio" name="diag-q3" value="yes" class="accent-diagnostic-indigo"> Ya</label>
+                                <label class="flex items-center gap-2 text-xs font-medium cursor-pointer"><input type="radio" name="diag-q3" value="no" class="accent-diagnostic-indigo"> Tidak</label>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold text-diagnostic-dark">Q4. Antisipasi Sanksi Sosial</label>
+                            <p id="q4-desc" class="text-[11px] text-diagnostic-dark/70">"Apakah subjek mengantisipasi adanya hukuman informal, dikucilkan, atau disalahkan jika memilih bersuara/tidak patuh?"</p>
+                            <div class="flex flex-wrap gap-4">
+                                <label class="flex items-center gap-2 text-xs font-medium cursor-pointer"><input type="radio" name="diag-q4" value="yes" class="accent-diagnostic-indigo"> Ya</label>
+                                <label class="flex items-center gap-2 text-xs font-medium cursor-pointer"><input type="radio" name="diag-q4" value="no" class="accent-diagnostic-indigo"> Tidak</label>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold text-diagnostic-dark">Q5. Opini Privat vs Kepatuhan Publik</label>
+                            <p id="q5-desc" class="text-[11px] text-diagnostic-dark/70">"Apakah secara pribadi batiniah subjek sebenarnya membenci tindakan ini, namun tetap mematuhinya karena salah mengira orang lain menyukainya?"</p>
+                            <div class="flex flex-wrap gap-4">
+                                <label class="flex items-center gap-2 text-xs font-medium cursor-pointer"><input type="radio" name="diag-q5" value="yes" class="accent-diagnostic-indigo"> Ya (PI)</label>
+                                <label class="flex items-center gap-2 text-xs font-medium cursor-pointer"><input type="radio" name="diag-q5" value="no" class="accent-diagnostic-indigo"> Tidak</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="runDiagnostic()" class="w-full bg-diagnostic-indigo hover:bg-diagnostic-dark text-white font-bold py-3.5 px-4 rounded-xl transition duration-300 shadow-md shadow-diagnostic-indigo/15">
+                        Jalankan Diagnosis <i class="fa-solid fa-stethoscope ml-1"></i>
+                    </button>
+                </div>
+
+                <!-- Output Panel -->
+                <div class="bg-diagnostic-dark text-white border border-diagnostic-dark rounded-3xl p-6 md:p-8 shadow-xl xl:col-span-5 h-full flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute -top-32 -right-32 w-64 h-64 rounded-full bg-diagnostic-coral/10 blur-3xl pointer-events-none"></div>
+                    
+                    <div class="space-y-6 relative z-10">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-lg bg-diagnostic-coral text-white flex items-center justify-center font-bold text-sm">
+                                <i class="fa-solid fa-microscope text-xs"></i>
+                            </div>
+                            <h4 class="font-display font-bold text-sm tracking-wider text-diagnostic-border uppercase">Hasil Diagnosis</h4>
+                        </div>
+
+                        <div id="output-placeholder" class="py-12 text-center text-gray-400 space-y-3">
+                            <div class="text-4xl"><i class="fa-solid fa-hourglass-start animate-pulse"></i></div>
+                            <p class="text-xs">Lengkapi form di sebelah kiri untuk melihat hasil analisis kognitif mendalam.</p>
+                        </div>
+
+                        <div id="diag-results" class="hidden space-y-5">
+                            <div>
+                                <span class="text-[9px] font-black uppercase bg-diagnostic-coral/20 text-diagnostic-coral px-2.5 py-1 rounded-md tracking-widest border border-diagnostic-coral/15" id="res-classification-badge">
+                                    Social Norm
+                                </span>
+                                <h3 class="font-display font-extrabold text-2xl text-white mt-3" id="res-classification-title">Kepatuhan Berbasis Tekanan</h3>
+                            </div>
+
+                            <div class="space-y-3 border-t border-gray-700 pt-4">
+                                <p id="res-analysis-text" class="text-xs text-gray-300 leading-relaxed">
+                                    Pesan diagnosis akan muncul di sini.
+                                </p>
+                            </div>
+
+                            <div class="bg-gray-800/50 border border-gray-700 p-4 rounded-2xl space-y-2">
+                                <h5 class="text-xs font-bold text-diagnostic-coral uppercase tracking-wider flex items-center gap-1.5">
+                                    <i class="fa-solid fa-triangle-exclamation"></i> Risiko Intervensi Hukum:
+                                </h5>
+                                <p id="res-risk-text" class="text-[11px] text-gray-400 leading-relaxed">
+                                    Mengapa regulasi formal sering tumpul di hadapan ketakutan kultural lokal.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-gray-800 text-center relative z-10 flex items-center justify-center gap-2">
+                        <img src="psychosophia-logo.png" alt="Psychosophia" class="h-5 w-auto object-contain opacity-60" onerror="this.style.display='none'">
+                        <span class="text-[9px] text-gray-500 font-bold uppercase tracking-widest">Psychosophia Behavioral Lab</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: PLURALISTIC IGNORANCE SIMULATOR -->
+            <section id="pluralistic-sim" class="bg-white border border-diagnostic-border rounded-3xl p-6 md:p-10 shadow-lg space-y-8 relative overflow-hidden fade-in">
+                <div class="max-w-2xl">
+                    <span class="bg-diagnostic-coral/10 text-diagnostic-coral text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider border border-diagnostic-coral/15">
+                        <i class="fa-regular fa-lightbulb mr-1"></i> Simulator Kesenjangan Kognitif
+                    </span>
+                    <h3 class="font-display font-extrabold text-2xl md:text-3xl text-diagnostic-dark mt-3">The Pluralistic Ignorance Gap</h3>
+                    <p class="text-xs md:text-sm text-diagnostic-dark/70 mt-2">Dinamika ketika ketidaksetujuan batin yang tersebar luas tertutupi oleh kepatuhan luar yang terlihat kompak karena semua orang takut menjadi penentang sendirian.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-diagnostic-bg border border-diagnostic-border p-6 rounded-3xl">
+                    <div class="space-y-4">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-diagnostic-dark">Geser untuk Mensimulasikan:</h4>
+                        
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-bold">
+                                <span>Privat tidak setuju dengan KDRT/Bullying:</span>
+                                <span id="val-private" class="text-diagnostic-indigo text-sm font-extrabold">80%</span>
+                            </div>
+                            <input type="range" id="slider-private" min="10" max="100" value="80" oninput="updatePiSim()" class="w-full accent-diagnostic-indigo cursor-pointer">
+                        </div>
+
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-bold">
+                                <span>Persepsi bahwa "orang lain" setuju tindakan buruk:</span>
+                                <span id="val-perceived" class="text-diagnostic-coral text-sm font-extrabold">85%</span>
+                            </div>
+                            <input type="range" id="slider-perceived" min="10" max="100" value="85" oninput="updatePiSim()" class="w-full accent-diagnostic-coral cursor-pointer">
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-diagnostic-dark text-center">Akibat Kesenjangan:</h4>
+                        <div class="grid grid-cols-2 gap-4 text-center">
+                            <div class="bg-white p-4 rounded-2xl border border-diagnostic-border shadow-sm">
+                                <span class="text-[10px] text-diagnostic-dark/50 uppercase font-black tracking-wider">Kepatuhan Publik:</span>
+                                <span id="badge-public-compliance" class="block text-2xl font-black text-rose-500 mt-1">90% Diam</span>
+                            </div>
+                            <div id="gap-status-box" class="bg-white p-4 rounded-2xl border border-rose-200 shadow-sm transition-all">
+                                <span class="text-[10px] text-diagnostic-dark/50 uppercase font-black tracking-wider">Status PI:</span>
+                                <span id="badge-pi-status" class="block text-2xl font-black text-rose-600 mt-1">Sangat Bahaya</span>
+                            </div>
+                        </div>
+                        <p id="pi-scenario-analysis" class="text-[11px] text-diagnostic-dark/70 leading-relaxed text-center italic">
+                            Semakin besar jurang, semakin kuat lingkaran setan yang mengunci korban di dalam kebungkamannya.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: REFERENCE GROUP MAP -->
+            <section id="group-map" class="bg-white border border-diagnostic-border rounded-3xl p-6 md:p-10 shadow-lg space-y-8 fade-in">
+                <div class="max-w-2xl">
+                    <span class="bg-diagnostic-sage/10 text-diagnostic-sage text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider border border-diagnostic-sage/15">
+                        <i class="fa-regular fa-circle-dot mr-1"></i> Lingkaran Rujukan Interaktif
+                    </span>
+                    <h3 class="font-display font-extrabold text-2xl md:text-3xl text-diagnostic-dark mt-3">Metamorfosis Lingkaran Rujukan</h3>
+                    <p class="text-xs md:text-sm text-diagnostic-dark/70 mt-2">Bicchieri menekankan bahwa perilaku buruk hanya dapat dihentikan jika kita menyasar <strong>Reference Group</strong> yang tepat. Nyalakan sanksi positif pada setiap lingkaran untuk merubah kecenderungan korban melapor.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    
+                    <div class="lg:col-span-5 space-y-3.5 bg-diagnostic-bg p-6 rounded-3xl border border-diagnostic-border">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-diagnostic-dark mb-2"><i class="fa-solid fa-sliders"></i> Toggle Dukungan:</h4>
+                        
+                        <div class="flex items-center justify-between bg-white p-3 rounded-2xl border border-diagnostic-border">
+                            <div>
+                                <h5 class="text-xs font-bold text-diagnostic-dark">1. Peer / Keluarga Dekat</h5>
+                                <p class="text-[10px] text-diagnostic-dark/60">Teman sebaya atau orang tua</p>
+                            </div>
+                            <input type="checkbox" id="toggle-group-1" onchange="updateGroupCircles()" class="w-5 h-5 accent-diagnostic-sage cursor-pointer">
+                        </div>
+
+                        <div class="flex items-center justify-between bg-white p-3 rounded-2xl border border-diagnostic-border">
+                            <div>
+                                <h5 class="text-xs font-bold text-diagnostic-dark">2. Lingkungan Sosial / Tetangga</h5>
+                                <p class="text-[10px] text-diagnostic-dark/60">Guru, pengurus, tetangga</p>
+                            </div>
+                            <input type="checkbox" id="toggle-group-2" onchange="updateGroupCircles()" class="w-5 h-5 accent-diagnostic-sage cursor-pointer" checked>
+                        </div>
+
+                        <div class="flex items-center justify-between bg-white p-3 rounded-2xl border border-diagnostic-border">
+                            <div>
+                                <h5 class="text-xs font-bold text-diagnostic-dark">3. Otoritas / Tokoh Masyarakat</h5>
+                                <p class="text-[10px] text-diagnostic-dark/60">Polisi, Kiai, Kepala Sekolah</p>
+                            </div>
+                            <input type="checkbox" id="toggle-group-3" onchange="updateGroupCircles()" class="w-5 h-5 accent-diagnostic-sage cursor-pointer">
+                        </div>
+                    </div>
+
+                    <!-- Circle Visual -->
+                    <div class="lg:col-span-7 flex flex-col items-center justify-center p-6 bg-slate-50 border border-slate-200 rounded-3xl relative min-h-[300px]">
+                        
+                        <div class="relative w-64 h-64 rounded-full border-2 border-slate-200 flex items-center justify-center transition-all duration-300 ring-glow" id="ring-outer">
+                            <span class="absolute top-1 text-[8px] font-black text-slate-400 uppercase tracking-widest">Otoritas</span>
+                            
+                            <div class="relative w-48 h-48 rounded-full border-2 border-slate-200 flex items-center justify-center transition-all duration-300" id="ring-middle">
+                                <span class="absolute top-1 text-[8px] font-black text-slate-400 uppercase tracking-widest">Sosial</span>
+                                
+                                <div class="relative w-32 h-32 rounded-full border-2 border-slate-200 flex items-center justify-center transition-all duration-300" id="ring-inner">
+                                    <span class="absolute top-1 text-[8px] font-black text-slate-400 uppercase tracking-widest">Peers</span>
+                                    
+                                    <div class="w-16 h-16 rounded-full bg-diagnostic-dark text-white flex flex-col items-center justify-center shadow-lg transition-all duration-300" id="center-actor">
+                                        <i class="fa-solid fa-person-circle-exclamation text-xl" id="center-actor-icon"></i>
+                                        <span class="text-[8px] font-black uppercase mt-1" id="center-actor-label">Korban</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 text-center max-w-sm">
+                            <h4 class="text-xs font-bold text-diagnostic-dark" id="ring-narrative-title">Dukungan Parsial</h4>
+                            <p class="text-[11px] text-diagnostic-dark/70 mt-1" id="ring-narrative-desc">Korban masih enggan melapor karena lingkaran terdekatnya belum memberikan jaminan perlindungan penuh.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="bg-white border-t border-diagnostic-border py-8 px-6 text-center mt-8">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <img src="psychosophia-logo.png" alt="Psychosophia Behavioral Lab" class="h-10 w-auto object-contain" onerror="this.style.display='none'">
+                <div class="text-left">
+                    <p class="text-xs font-bold text-diagnostic-dark">Psychosophia Behavioral Lab</p>
+                    <p class="text-[10px] text-diagnostic-dark/50">Program Studi Psikologi Islam · IAIN SAS Bangka Belitung</p>
+                </div>
+            </div>
+            <div class="text-[10px] text-diagnostic-dark/40">
+                <p>© 2026 · Bicchieri Applied Diagnostic Hub</p>
+                <p class="mt-0.5">Dikembangkan untuk riset &amp; intervensi sosial</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        // ---- STATE ----
+        let currentCase = "kdrt";
+
+        const caseDefinitions = {
+            kdrt: {
+                q1: '"Apakah korban tetap menyembunyikan kekerasan tersebut apabila dia pindah ke komunitas baru yang menuntut penyelesaian terbuka?"',
+                q2: '"Apakah korban percaya bahwa mayoritas istri di kompleks ini juga memilih diam dan memaklumi pemukulan?"',
+                q3: '"Apakah korban merasa bahwa keluarga besar menuntut dia harus bersabar dan diam agar tidak dicap nusyuz?"',
+                q4: '"Apakah korban mengantisipasi sanksi moral seperti dicap pembawa sial atau diceraikan jika melapor?"',
+                q5: '"Apakah secara privat batiniah korban menderita, namun bersandiwara seolah rukun karena mengira semua istri lain melakukan hal yang sama?"'
+            },
+            bully: {
+                q1: '"Apakah pelaku/bystander tetap diam atau merundung jika berada di sekolah lain yang memiliki sistem pengawasan ketat?"',
+                q2: '"Apakah pelaku/bystander percaya bahwa sebagian besar anak di gengnya menganggap tindakan merundung tersebut keren?"',
+                q3: '"Apakah pelaku/bystander merasa bahwa teman satu geng menuntut dia harus ikut merundung agar dianggap setia?"',
+                q4: '"Apakah bystander takut diejek banci, pengecut, atau dicap cepu oleh teman-temannya jika melapor?"',
+                q5: '"Apakah mayoritas siswa secara pribadi kasihan dengan korban, namun memilih ikut menertawakan karena takut dibilang tidak kompak?"'
+            }
+        };
+
+        // ---- UI FUNCTIONS ----
+        function selectCase(caseType) {
+            currentCase = caseType;
+            const btnKdrt = document.getElementById('case-kdrt');
+            const btnBully = document.getElementById('case-bully');
+
+            if (caseType === "kdrt") {
+                btnKdrt.className = "flex items-center justify-center gap-2 p-3 rounded-xl border-2 border-diagnostic-indigo bg-diagnostic-indigo/10 text-diagnostic-dark font-bold text-xs transition";
+                btnBully.className = "flex items-center justify-center gap-2 p-3 rounded-xl border-2 border-transparent bg-white text-diagnostic-dark/60 font-bold text-xs transition hover:bg-slate-50 border-slate-200";
+            } else {
+                btnBully.className = "flex items-center justify-center gap-2 p-3 rounded-xl border-2 border-diagnostic-indigo bg-diagnostic-indigo/10 text-diagnostic-dark font-bold text-xs transition";
+                btnKdrt.className = "flex items-center justify-center gap-2 p-3 rounded-xl border-2 border-transparent text-xs font-bold bg-white transition hover:bg-diagnostic-indigo/5 hover:text-diagnostic-indigo";
+            }
+
+            document.getElementById('q1-desc').textContent = caseDefinitions[caseType].q1;
+            document.getElementById('q2-desc').textContent = caseDefinitions[caseType].q2;
+            document.getElementById('q3-desc').textContent = caseDefinitions[caseType].q3;
+            document.getElementById('q4-desc').textContent = caseDefinitions[caseType].q4;
+            document.getElementById('q5-desc').textContent = caseDefinitions[caseType].q5;
+
+            resetEngine();
+        }
+
+        function resetEngine() {
+            document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+            document.getElementById('output-placeholder').classList.remove('hidden');
+            document.getElementById('diag-results').classList.add('hidden');
+        }
+
+        function runDiagnostic() {
+            const q1 = document.querySelector('input[name="diag-q1"]:checked');
+            const q2 = document.querySelector('input[name="diag-q2"]:checked');
+            const q3 = document.querySelector('input[name="diag-q3"]:checked');
+            const q4 = document.querySelector('input[name="diag-q4"]:checked');
+            const q5 = document.querySelector('input[name="diag-q5"]:checked');
+
+            if (!q1 || !q2 || !q3 || !q4 || !q5) {
+                showToast("Lengkapi semua jawaban di sebelah kiri terlebih dahulu.");
+                return;
+            }
+
+            const v1 = q1.value, v2 = q2.value, v3 = q3.value, v4 = q4.value, v5 = q5.value;
+
+            document.getElementById('output-placeholder').classList.add('hidden');
+            document.getElementById('diag-results').classList.remove('hidden');
+
+            const badge = document.getElementById('res-classification-badge');
+            const title = document.getElementById('res-classification-title');
+            const analysis = document.getElementById('res-analysis-text');
+            const risk = document.getElementById('res-risk-text');
+
+            if (v1 === "yes") {
+                badge.textContent = "Personal Rule / Moral Absolute";
+                badge.className = "text-[9px] font-black uppercase bg-emerald-500/20 text-emerald-400 px-2.5 py-1 rounded-md tracking-widest border border-emerald-500/15";
+                title.textContent = "Aturan Moral / Keyakinan Internal";
+                analysis.innerHTML = "Subjek bertindak berdasarkan <strong>Aturan Moral Absolut</strong> yang sudah berakar sebagai identitas internal. Tindakannya tidak bergantung pada lingkungan sekitar.";
+                risk.innerHTML = "<strong>Kegagalan Intervensi:</strong> Edukasi eksternal tidak akan mempan jika subjek menganggap ini ujian moral privat. Diperlukan pendekatan nilai personal berbasis dialog reflektif.";
+            } else {
+                if (v2 === "yes" && v3 === "yes" && v4 === "yes") {
+                    badge.textContent = "Social Norm (Norma Sosial Sejati)";
+                    badge.className = "text-[9px] font-black uppercase bg-rose-500/20 text-rose-400 px-2.5 py-1 rounded-md tracking-widest border border-rose-500/15";
+                    if (v5 === "yes") {
+                        title.textContent = "Norma Sosial Tidak Populer (PI)";
+                        analysis.innerHTML = "Kasus ini merupakan <strong>Norma Sosial Tidak Populer yang didukung Pluralistic Ignorance</strong>. Secara pribadi banyak pihak tidak setuju, namun semua bersandiwara diam, sehingga korban yakin semua orang memaklumi tindakan tersebut.";
+                        risk.innerHTML = "<strong>Resiko Aturan Tertulis:</strong> Hukum baru tidak akan efektif selama ketakutan sanksi informal (dikucilkan, dicap pengkhianat) lebih kuat daripada ancaman hukum formal.";
+                    } else {
+                        title.textContent = "Norma Sosial Populer";
+                        analysis.innerHTML = "Kasus ini disokong oleh <strong>Norma Sosial Populer</strong>. Mayoritas kelompok sepakat bahwa tindakan tersebut adalah hal yang layak dan wajar dilakukan.";
+                        risk.innerHTML = "<strong>Resiko Aturan Tertulis:</strong> Regulasi formal akan dianggap sebagai penindasan karena komunitas merasa tindakan tersebut adalah bagian dari kearifan lokal yang sah.";
+                    }
+                } else if (v2 === "yes" && v3 === "no") {
+                    badge.textContent = "Descriptive Norm / Convention";
+                    badge.className = "text-[9px] font-black uppercase bg-amber-500/20 text-amber-400 px-2.5 py-1 rounded-md tracking-widest border border-amber-500/15";
+                    title.textContent = "Konvensi / Kebiasaan Koordinasi";
+                    analysis.innerHTML = "Ini murni <strong>Konvensi Deskriptif</strong>—tindakan dilakukan semata-mata karena melihat semua orang melakukannya, tanpa sanksi sosial berat jika tidak patuh.";
+                    risk.innerHTML = "<strong>Resiko Aturan Tertulis:</strong> Konvensi ini relatif mudah diubah. Cukup tawarkan alternatif perilaku baru yang lebih menguntungkan secara fungsional.";
+                } else {
+                    badge.textContent = "Custom / Kebiasaan Personal";
+                    badge.className = "text-[9px] font-black uppercase bg-slate-500/20 text-slate-400 px-2.5 py-1 rounded-md tracking-widest border border-slate-500/15";
+                    title.textContent = "Custom Tanpa Ikatan Sosial";
+                    analysis.innerHTML = "Tindakan ini murni kebiasaan personal individu tanpa ikatan sanksi atau ketergantungan pada kelompok rujukan.";
+                    risk.innerHTML = "<strong>Resiko Aturan Tertulis:</strong> Intervensi dapat diselesaikan melalui pendekatan bimbingan konseling personal, tanpa intervensi sosial massal.";
+                }
+            }
+        }
+
+        // ---- PLURALISTIC IGNORANCE SIM ----
+        function updatePiSim() {
+            const privateDisapproval = parseInt(document.getElementById('slider-private').value);
+            const perceivedApproval = parseInt(document.getElementById('slider-perceived').value);
+
+            document.getElementById('val-private').textContent = privateDisapproval + "%";
+            document.getElementById('val-perceived').textContent = perceivedApproval + "%";
+
+            const publicCompliance = Math.round(100 - (privateDisapproval * (100 - perceivedApproval) / 1000));
+            document.getElementById('badge-public-compliance').textContent = publicCompliance + "% Diam";
+
+            const gap = Math.abs(publicCompliance - (100 - privateDisapproval));
+            const statusBadge = document.getElementById('badge-pi-status');
+            const statusBox = document.getElementById('gap-status-box');
+            const analysisText = document.getElementById('pi-scenario-analysis');
+
+            if (gap > 45) {
+                statusBadge.textContent = "Sangat Bahaya";
+                statusBadge.className = "block text-2xl font-black text-rose-600 mt-1";
+                statusBox.className = "bg-white p-4 rounded-2xl border border-rose-300 shadow-sm transition-all";
+                analysisText.innerHTML = "<strong>Jurang Pluralistic Ignorance yang Sangat Lebar!</strong> Meskipun mayoritas secara pribadi menolak, kebungkaman massa tetap bertahan karena ketakutan bayangan penilaian kelompok yang salah.";
+            } else if (gap > 20) {
+                statusBadge.textContent = "Waspada / Transisi";
+                statusBadge.className = "block text-2xl font-black text-amber-600 mt-1";
+                statusBox.className = "bg-white p-4 rounded-2xl border border-amber-300 shadow-sm transition-all";
+                analysisText.innerHTML = "<strong>Massa Mulai Goyah:</strong> Beberapa individu sudah mulai membocorkan ketidaksetujuannya. Tipping point hampir tercapai jika ada trendsetter yang berani bersuara.";
+            } else {
+                statusBadge.textContent = "Stabil";
+                statusBadge.className = "block text-2xl font-black text-emerald-600 mt-1";
+                statusBox.className = "bg-white p-4 rounded-2xl border border-emerald-300 shadow-sm transition-all";
+                analysisText.innerHTML = "<strong>Ekuilibrium Terbuka:</strong> Kebiasaan publik sejalan dengan isi kepala privat masyarakat. Perubahan hanya bisa dilakukan dengan memberikan bukti kegunaan fungsional baru.";
+            }
+        }
+
+        // ---- REFERENCE GROUP CIRCLES ----
+        function updateGroupCircles() {
+            const g1 = document.getElementById('toggle-group-1').checked;
+            const g2 = document.getElementById('toggle-group-2').checked;
+            const g3 = document.getElementById('toggle-group-3').checked;
+
+            const r1 = document.getElementById('ring-inner');
+            const r2 = document.getElementById('ring-middle');
+            const r3 = document.getElementById('ring-outer');
+            const actor = document.getElementById('center-actor');
+            const icon = document.getElementById('center-actor-icon');
+            const label = document.getElementById('center-actor-label');
+            const title = document.getElementById('ring-narrative-title');
+            const desc = document.getElementById('ring-narrative-desc');
+
+            r1.className = "relative w-32 h-32 rounded-full border-2 flex items-center justify-center transition-all duration-300 border-slate-200";
+            r2.className = "relative w-48 h-48 rounded-full border-2 flex items-center justify-center transition-all duration-300 border-slate-200";
+            r3.className = "relative w-64 h-64 rounded-full border-2 flex items-center justify-center transition-all duration-300 border-slate-200";
+
+            let score = 0;
+            if (g1) { r1.classList.add('border-emerald-400', 'bg-emerald-500/5'); score++; }
+            if (g2) { r2.classList.add('border-emerald-400', 'bg-emerald-500/5'); score++; }
+            if (g3) { r3.classList.add('border-emerald-400', 'bg-emerald-500/5'); score++; }
+
+            actor.className = "w-16 h-16 rounded-full flex flex-col items-center justify-center shadow-lg transition-all duration-500";
+
+            if (score === 3) {
+                actor.classList.add('bg-emerald-500', 'text-white');
+                icon.className = "fa-solid fa-bullhorn text-2xl animate-bounce";
+                label.textContent = "Berani";
+                title.textContent = "Lingkaran Aman Terpenuhi! 🎉";
+                desc.textContent = "Ketika seluruh lapisan sanksi berubah mendukung pelaporan, maka trauma ketakutan kognitif hancur seketika.";
+            } else if (score === 2) {
+                actor.classList.add('bg-amber-500', 'text-white');
+                icon.className = "fa-solid fa-comments text-xl";
+                label.textContent = "Ragu";
+                title.textContent = "Dukungan Parsial";
+                desc.textContent = "Korban memiliki niat melapor, namun masih mengkhawatirkan celah sanksi di lingkaran terdekat.";
+            } else if (score === 1) {
+                actor.classList.add('bg-rose-500', 'text-white');
+                icon.className = "fa-solid fa-person-circle-exclamation text-xl";
+                label.textContent = "Terisolasi";
+                title.textContent = "Kebungkaman Berlanjut";
+                desc.textContent = "Hanya satu pilar yang menyala. Tekanan kolektif mayoritas memaksa korban untuk tetap terkunci.";
+            } else {
+                actor.classList.add('bg-slate-900', 'text-slate-400');
+                icon.className = "fa-solid fa-lock text-xl";
+                label.textContent = "Bungkam";
+                title.textContent = "Ekuilibrium Penindasan";
+                desc.textContent = "Tidak ada satu pun lingkaran rujukan yang menawarkan perlindungan untuk mendobrak kepatuhan pada norma buruk.";
+            }
+        }
+
+        // ---- HELPERS ----
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebar-backdrop');
+            sidebar.classList.toggle('-translate-x-full');
+            backdrop.classList.toggle('hidden');
+        }
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+            if (window.innerWidth < 1024) {
+                document.getElementById('sidebar').classList.add('-translate-x-full');
+                document.getElementById('sidebar-backdrop').classList.add('hidden');
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.createElement('div');
+            toast.className = "fixed bottom-5 left-1/2 -translate-x-1/2 bg-diagnostic-dark text-white text-xs font-semibold px-5 py-3 rounded-xl shadow-2xl z-50 transition-all transform translate-y-10 opacity-0 max-w-sm flex items-center gap-3 border border-diagnostic-coral/20";
+            toast.innerHTML = `<i class="fa-solid fa-circle-exclamation text-diagnostic-coral"></i> <span>${msg}</span>`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-y-10', 'opacity-0'), 50);
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => toast.remove(), 400);
+            }, 3500);
+        }
+
+        // ---- INIT ----
+        window.onload = function() {
+            selectCase('kdrt');
+            updatePiSim();
+            updateGroupCircles();
+        };
+    </script>
+
+</body>
+</html>
